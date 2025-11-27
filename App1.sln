@@ -1,0 +1,53 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 18
+VisualStudioVersion = 18.0.11217.181
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Auth", "Auth", "{826B3477-8BD0-4715-B3BA-821BF1113E79}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".SolutionItems", ".SolutionItems", "{B7F2546D-7AC9-405D-9043-D39BD8032151}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{A07AFEA5-386A-4286-B960-DC9475FD9A68}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Portal", "Portal", "{84D12866-2843-4BB8-B395-EFF0E168D3AC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App1", "App1", "{718AD2BB-D895-4914-A1CE-6B977357BD37}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{3C23280D-6DEB-4B0C-9BFC-287D265DBC3B}"
+	ProjectSection(SolutionItems) = preProject
+		Scripts\RunAngular.bat = Scripts\RunAngular.bat
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portal.Server", "Portal\Portal.Server\Portal.Server.csproj", "{E022F856-5890-1687-37E5-3DB16BD764D3}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "Angular", "UI\Angular\Angular.esproj", "{461DB199-5ACB-B2E8-49BB-9DEBBAC9BB61}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E022F856-5890-1687-37E5-3DB16BD764D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E022F856-5890-1687-37E5-3DB16BD764D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E022F856-5890-1687-37E5-3DB16BD764D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E022F856-5890-1687-37E5-3DB16BD764D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{461DB199-5ACB-B2E8-49BB-9DEBBAC9BB61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{461DB199-5ACB-B2E8-49BB-9DEBBAC9BB61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{461DB199-5ACB-B2E8-49BB-9DEBBAC9BB61}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{461DB199-5ACB-B2E8-49BB-9DEBBAC9BB61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{461DB199-5ACB-B2E8-49BB-9DEBBAC9BB61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{461DB199-5ACB-B2E8-49BB-9DEBBAC9BB61}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3C23280D-6DEB-4B0C-9BFC-287D265DBC3B} = {B7F2546D-7AC9-405D-9043-D39BD8032151}
+		{E022F856-5890-1687-37E5-3DB16BD764D3} = {84D12866-2843-4BB8-B395-EFF0E168D3AC}
+		{461DB199-5ACB-B2E8-49BB-9DEBBAC9BB61} = {A07AFEA5-386A-4286-B960-DC9475FD9A68}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BD95AC6A-7177-42CE-AB6C-8BFF7958FDC2}
+	EndGlobalSection
+EndGlobal

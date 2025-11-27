@@ -1,0 +1,87 @@
+﻿@page "/"
+@namespace BlazorBffAzureAD.Pages
+@using System.Net;
+@using NetEscapades.AspNetCore.SecurityHeaders;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, NetEscapades.AspNetCore.SecurityHeaders.TagHelpers
+@inject IHostEnvironment hostEnvironment
+@inject IConfiguration config
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery antiForgery
+@{
+    Layout = null;
+
+    var source = "";
+    if (hostEnvironment.IsDevelopment())
+    {
+        var httpClient = new HttpClient();
+        source = await httpClient.GetStringAsync($"{config["UiDevServerUrl"]}/");
+        
+        // Fix Vite HMR WebSocket to connect directly to port 4201 instead of through BFF proxy
+        source = source.Replace("ws://localhost:5001", "ws://localhost:4201");
+        source = source.Replace("wss://localhost:5001", "wss://localhost:4201");
+        
+        // Inject script to override Vite HMR connection before Vite client loads
+        var hmrOverride = """
+<script nonce="{NONCE_PLACEHOLDER}">
+  // Override Vite HMR WebSocket connection to point directly to Vite dev server
+  if (window.location.port === '5001') {
+    // Store original WebSocket
+    const OriginalWebSocket = window.WebSocket;
+    
+    // Override WebSocket constructor
+    window.WebSocket = function(url, protocols) {
+      // If WebSocket is trying to connect to port 5001, redirect to 4201
+      if (typeof url === 'string' && url.includes('localhost:5001')) {
+        url = url.replace('localhost:5001', 'localhost:4201');
+        console.log('[BFF] Redirecting HMR WebSocket to:', url);
+      }
+      return new OriginalWebSocket(url, protocols);
+    };
+    
+    // Copy static properties
+    Object.setPrototypeOf(window.WebSocket, OriginalWebSocket);
+    window.WebSocket.prototype = OriginalWebSocket.prototype;
+  }
+</script>
+""";
+        
+        // Insert the override script right after <head> tag
+        source = source.Replace("<head>", "<head>" + hmrOverride);
+    }
+    else
+    {
+        source = System.IO.File.ReadAllText($"{System.IO.Directory.GetCurrentDirectory()}{@"/wwwroot/index.html"}");
+    }
+
+    var nonce = HttpContext.GetNonce();
+
+    // The nonce is passed to the client through the HTML to avoid sync issues between tabs
+    source = source.Replace("**PLACEHOLDER_NONCE_SERVER**", nonce);
+    source = source.Replace("{NONCE_PLACEHOLDER}", nonce);
+
+    if (hostEnvironment.IsDevelopment())
+    {
+        // do nothing in development, Angular > 18.1.0 adds the nonce automatically
+        var viteScriptToUpdate = """<script type="module" src="/@vite/client"></script>""";
+        source = source.Replace(viteScriptToUpdate, $"""<script type="module" src="/@vite/client" nonce="{nonce}"></script>""");
+    }
+
+    // link rel="stylesheet"
+    var nonceLinkStyle = $"<link nonce=\"{nonce}\" rel=\"stylesheet";
+    source = source.Replace("<link rel=\"stylesheet", nonceLinkStyle);
+
+    var xsrf = antiForgery.GetAndStoreTokens(HttpContext);
+    var requestToken = xsrf.RequestToken;
+
+    // The antiforgery system creates __Host-X-XSRF-TOKEN cookie (HttpOnly, not accessible to JS)
+    // We need to create a separate non-HttpOnly cookie so the Angular interceptor can read the token
+    Response.Cookies.Append("X-XSRF-TOKEN", requestToken ?? "", new CookieOptions() 
+    { 
+        HttpOnly = false,  // MUST be false so JavaScript can read it
+        IsEssential = true, 
+        Secure = true, 
+        SameSite = SameSiteMode.Strict 
+    });
+}
+
+@Html.Raw(source)
