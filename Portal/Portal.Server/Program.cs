@@ -1,8 +1,7 @@
-﻿using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
-using App1.Api.Extensions;
-using App1.Shared.Extensions;
-using Auth.Api.Extensions;
-using Auth.Shared.Extensions;
+﻿using Auth.Api.Extensions;
+using Dyvenix.App1.Api.Extensions;
+using Dyvenix.App1.Shared.Extensions;
+using Dyvenix.Auth.Shared.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

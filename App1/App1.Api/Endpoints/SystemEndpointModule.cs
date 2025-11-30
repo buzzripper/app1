@@ -1,4 +1,5 @@
-using App1.Shared.Interfaces;
+using Dyvenix.App1.Shared.Interfaces;
+using Dyvenix.System.Apis.Endpoints;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -8,17 +9,25 @@ namespace App1.Api.Endpoints;
 
 public class SystemEndpointModule : IEndpointModule
 {
-    public void MapEndpoints(IEndpointRouteBuilder app)
-    {
-        var group = app.MapGroup("/api/app1/system").WithTags("System");
-        
-        group.MapGet("/check-health", CheckHealth).WithName("SystemGetHealth").AllowAnonymous();
-    }
+	public void MapEndpoints(IEndpointRouteBuilder app)
+	{
+		var group = app.MapGroup("/system").WithTags("System");
 
-    [AllowAnonymous]
-    private static async Task<IResult> CheckHealth(ISystemService systemService)
-    {
-        var health = await systemService.CheckHealth();
-        return Results.Ok(health);
-    }
+		group.MapGet("/alive", Alive).WithName("SystemAlive").AllowAnonymous();
+		group.MapGet("/health", Health).WithName("SystemHealth").AllowAnonymous();
+	}
+
+	[AllowAnonymous]
+	private static async Task<IResult> Alive(IApp1SystemService systemService)
+	{
+		var health = await systemService.Alive();
+		return Results.Ok(health);
+	}
+
+	[AllowAnonymous]
+	private static async Task<IResult> Health(IApp1SystemService systemService)
+	{
+		var health = await systemService.Health();
+		return Results.Ok(health);
+	}
 }

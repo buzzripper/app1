@@ -1,23 +1,33 @@
+using Dyvenix.App1.Shared.DTOs;
+using Dyvenix.App1.Shared.Interfaces;
 using System.Net.Http.Json;
-using App1.Shared.DTOs;
-using App1.Shared.Interfaces;
 
-namespace App1.Shared.Proxies;
+namespace Dyvenix.App1.Shared.Proxies;
 
-public class SystemServiceHttpClient : ISystemService
+public class SystemServiceHttpClient : IApp1SystemService
 {
-    private readonly HttpClient _httpClient;
+	public const string cUrlPathRoot = "/system";
 
-    public SystemServiceHttpClient(HttpClient httpClient)
-    {
-        _httpClient = httpClient;
-    }
+	private readonly HttpClient _httpClient;
 
-    public async Task<HealthStatus> CheckHealth()
-    {
-        var response = await _httpClient.GetAsync("/api/app1/health");
-        response.EnsureSuccessStatusCode();
-        return await response.Content.ReadFromJsonAsync<HealthStatus>() 
-            ?? throw new InvalidOperationException("Failed to deserialize health status");
-    }
+	public SystemServiceHttpClient(HttpClient httpClient)
+	{
+		_httpClient = httpClient;
+	}
+
+	public async Task<string> Alive()
+	{
+		var response = await _httpClient.GetAsync($"{cUrlPathRoot}/alive");
+		response.EnsureSuccessStatusCode();
+		return await response.Content.ReadFromJsonAsync<string>()
+			?? throw new InvalidOperationException("Failed to deserialize alive status");
+	}
+
+	public async Task<App1HealthStatus> Health()
+	{
+		var response = await _httpClient.GetAsync($"{cUrlPathRoot}/health");
+		response.EnsureSuccessStatusCode();
+		return await response.Content.ReadFromJsonAsync<App1HealthStatus>()
+			?? throw new InvalidOperationException("Failed to deserialize health status");
+	}
 }
