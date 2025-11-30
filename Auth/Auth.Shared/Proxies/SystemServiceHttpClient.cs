@@ -15,9 +15,17 @@ public class SystemServiceHttpClient : ISystemService
 
     public async Task<HealthStatus> CheckHealth()
     {
-        var response = await _httpClient.GetAsync("/api/auth/health");
+        var response = await _httpClient.GetAsync("/api/auth/system/check-health");
         response.EnsureSuccessStatusCode();
         return await response.Content.ReadFromJsonAsync<HealthStatus>() 
             ?? throw new InvalidOperationException("Failed to deserialize health status");
+    }
+
+    public async Task<string> GetName()
+    {
+        var response = await _httpClient.GetAsync("/api/auth/system/get-name");
+        response.EnsureSuccessStatusCode();
+        return await response.Content.ReadFromJsonAsync<string>() 
+            ?? throw new InvalidOperationException("Failed to deserialize get-name");
     }
 }

@@ -1,29 +1,14 @@
 ﻿{
 	"$schema": "https://json.schemastore.org/launchsettings.json",
 	"profiles": {
-		"http": {
-			"commandName": "Project",
-			"dotnetRunMessages": true,
-			"launchBrowser": false,
-			"applicationUrl": "http://localhost:5268",
-			"environmentVariables": {
-				"ASPNETCORE_ENVIRONMENT": "Development"
-			}
-		},
-		"https": {
+		"Auth.Server": {
 			"commandName": "Project",
 			"dotnetRunMessages": true,
 			"launchBrowser": false,
 			"applicationUrl": "https://localhost:7174;http://localhost:5268",
 			"environmentVariables": {
-				"ASPNETCORE_ENVIRONMENT": "Development",
-				"OTEL_EXPORTER_OTLP_ENDPOINT": "https://logs-prod-036.grafana.net/otlp",
-				"OTEL_EXPORTER_OTLP_PROTOCOL": "http/protobuf",
-				"OTEL_EXPORTER_OTLP_HEADERS": "authorization=Basic MTQxMTczMDpnbGNfZXlKdklqb2lNVFl3TXpjME9TSXNJbTRpT2lKa1pXWmhkV3gwSWl3aWF5STZJalUxUVRBMFNVd3pOakJ2TUhaTlJrSTNTbGRaYVhaRk9TSXNJbTBpT25zaWNpSTZJbkJ5YjJRdGRYTXRaV0Z6ZEMwd0luMTk=",
-				"OTEL_SERVICE_NAME": "App1.Api",
-				"OTEL_RESOURCE_ATTRIBUTES": "deployment.environment=dev"
+				"ASPNETCORE_ENVIRONMENT": "Development"
 			}
-
 		}
 	}
 }
