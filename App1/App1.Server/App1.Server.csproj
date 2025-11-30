@@ -2,7 +2,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\App1.Api\App1.Api.csproj" />
-    <ProjectReference Include="..\..\AppHost\App1.ServiceDefaults\App1.ServiceDefaults.csproj" />
   </ItemGroup>
 
   <ItemGroup>
