@@ -1,4 +1,4 @@
-﻿namespace BffMicrosoftEntraID.Server;
+﻿namespace Dyvenix.App1.Portal.Server.Cae;
 
 /// <summary>
 /// Consts used for the defined AuthContext. The AuthContext can be created using MS Graph.
@@ -6,7 +6,7 @@
 /// </summary>
 public static class AuthContextId
 {
-    public const string C1 = "c1";
-    public const string C2 = "c2";
-    public const string C3 = "c3";
+	public const string C1 = "c1";
+	public const string C2 = "c2";
+	public const string C3 = "c3";
 }
