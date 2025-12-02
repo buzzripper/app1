@@ -1,6 +1,6 @@
 ﻿@page "/"
-@namespace BlazorBffAzureAD.Pages
-@using System.Net;
+@namespace Dyvenix.App1.Portal.Server.Pages
+@* @using System.Net; *@
 @using NetEscapades.AspNetCore.SecurityHeaders;
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @addTagHelper *, NetEscapades.AspNetCore.SecurityHeaders.TagHelpers
@@ -50,7 +50,9 @@
     }
     else
     {
-        source = System.IO.File.ReadAllText($"{System.IO.Directory.GetCurrentDirectory()}{@"/wwwroot/index.html"}");
+        // source = global::System.IO.File.ReadAllText($"{global::System.IO.Directory.GetCurrentDirectory()}{@"/wwwroot/index.html"}");
+		var currDir = global::System.IO.Directory.GetCurrentDirectory();
+        source = global::System.IO.File.ReadAllText($"{currDir}/wwwroot/index.html");
     }
 
     var nonce = HttpContext.GetNonce();

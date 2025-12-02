@@ -1,18 +1,16 @@
-using Auth.Api.Endpoints;
-using Auth.Api.Services;
+using Dyvenix.Auth.Api.Services;
 using Dyvenix.Auth.Shared.Interfaces;
-using Dyvenix.System.Apis.Endpoints;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Scalar.AspNetCore;
 
-namespace Auth.Api.Extensions;
+namespace Dyvenix.Auth.Api.Extensions;
 
 public static class AuthServiceExtensions
 {
 	/// <summary>
-	/// Registers Auth API services and endpoints.
+	/// Registers Auth API services and controllers.
 	/// Call this when hosting Auth services (standalone or in-process).
 	/// </summary>
 	public static IServiceCollection AddAuthApiServices(this IServiceCollection services)
@@ -20,29 +18,13 @@ public static class AuthServiceExtensions
 		// Register business logic services
 		services.AddScoped<IAuthSystemService, SystemService>();
 
-		// Register endpoint modules
-		services.AddSingleton<IEndpointModule, SystemEndpointModule>();
+		// Add Controllers
+		services.AddControllers();
 
 		// Add OpenAPI support
 		services.AddOpenApi();
 
 		return services;
-	}
-
-	/// <summary>
-	/// Maps Auth endpoints to the application.
-	/// Call this when hosting Auth services (standalone or in-process).
-	/// </summary>
-	public static IEndpointRouteBuilder MapAuthEndpoints(this IEndpointRouteBuilder app)
-	{
-		var endpoints = app.ServiceProvider.GetServices<IEndpointModule>();
-
-		foreach (var endpoint in endpoints)
-		{
-			endpoint.MapEndpoints(app);
-		}
-
-		return app;
 	}
 
 	/// <summary>

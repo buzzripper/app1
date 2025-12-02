@@ -3,7 +3,7 @@ using Dyvenix.Auth.Shared.DTOs;
 using Dyvenix.Auth.Shared.Interfaces;
 using Microsoft.Extensions.Logging;
 
-namespace Auth.Api.Services;
+namespace Dyvenix.Auth.Api.Services;
 
 public class SystemService : IAuthSystemService
 {
@@ -17,7 +17,7 @@ public class SystemService : IAuthSystemService
 	public Task<string> Alive()
 	{
 		_logger.LogInformation("Service name requested");
-		return Task.FromResult(Constants.ServiceId);
+		return Task.FromResult(AuthConstants.ServiceId);
 	}
 
 	public Task<AuthHealthStatus> Health()

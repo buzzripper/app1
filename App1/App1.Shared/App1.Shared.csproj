@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <AssemblyName>Dyvenix.$(MSBuildProjectName)</AssemblyName>
     <RootNamespace>Dyvenix.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <Configurations>Debug;Release;Dbg-Ext</Configurations>
   </PropertyGroup>
 
   <ItemGroup>

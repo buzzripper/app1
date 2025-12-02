@@ -1,9 +1,8 @@
-﻿using Auth.Api.Extensions;
-using Dyvenix.App1.Api.Extensions;
-using Dyvenix.App1.Portal.Server;
+﻿using Dyvenix.App1.Portal.Server;
 using Dyvenix.App1.Portal.Server.Services;
 using Dyvenix.App1.Shared.Extensions;
 using Dyvenix.Auth.Shared.Extensions;
+using Yarp.ReverseProxy.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -75,26 +74,28 @@ services.AddRazorPages().AddMvcOptions(options =>
 	//options.Filters.Add(new AuthorizeFilter(policy));
 }).AddMicrosoftIdentityUI();
 
-services.AddReverseProxy()
-		.LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
+// Configure YARP with dynamic config based on compile-time defines
+services.AddSingleton<IProxyConfigProvider, DynamicProxyConfigProvider>();
+services.AddReverseProxy();
 
 // ===== Configure In-Process Service Hosting =====
 bool hostApp1InProcess = configuration.GetValue<bool>("ServiceClients:App1:InProcess", true);
 bool hostAuthInProcess = configuration.GetValue<bool>("ServiceClients:Auth:InProcess", true);
 
-if (hostApp1InProcess)
-{
-	services.AddApp1ApiServices();
-}
-
-if (hostAuthInProcess)
-{
-	services.AddAuthApiServices();
-}
-
 // Register service clients (proxies)
 services.AddApp1Client(configuration);
 services.AddAuthClient(configuration);
+
+builder.Services.AddApiVersioning(options =>
+{
+    options.DefaultApiVersion = new Asp.Versioning.ApiVersion(1, 0);
+    options.AssumeDefaultVersionWhenUnspecified = true;
+    options.ReportApiVersions = true;
+}).AddApiExplorer(options =>
+{
+    options.GroupNameFormat = "'v'VVV";
+    options.SubstituteApiVersionInUrl = true;
+});
 
 var app = builder.Build();
 
@@ -123,17 +124,6 @@ app.UseAuthorization();
 app.MapRazorPages();
 app.MapControllers();
 app.MapNotFound("/api/{**segment}");
-
-// ===== Map In-Process Service Endpoints =====
-if (hostApp1InProcess)
-{
-	app.MapApp1Endpoints();
-}
-
-if (hostAuthInProcess)
-{
-	app.MapAuthEndpoints();
-}
 
 if (app.Environment.IsDevelopment())
 {

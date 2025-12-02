@@ -1,4 +1,4 @@
-﻿namespace Dyvenix.App1.Portal.Pages;
+﻿namespace Dyvenix.App1.Portal.Server.Pages;
 
 [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 public class ErrorModel : PageModel

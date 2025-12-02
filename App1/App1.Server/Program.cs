@@ -36,6 +36,18 @@ builder.Services.AddAuthorization();
 // Register App1 API services
 builder.Services.AddApp1ApiServices();
 
+// Configure API versioning
+builder.Services.AddApiVersioning(options =>
+{
+	options.DefaultApiVersion = new Asp.Versioning.ApiVersion(1, 0);
+	options.AssumeDefaultVersionWhenUnspecified = true;
+	options.ReportApiVersions = true;
+}).AddApiExplorer(options =>
+{
+	options.GroupNameFormat = "'v'VVV";
+	options.SubstituteApiVersionInUrl = true;
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline
@@ -44,8 +56,7 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Map App1 endpoints
-app.MapApp1Endpoints();
+app.MapControllers();
 
 // Enable Scalar API documentation in development
 if (app.Environment.IsDevelopment())
