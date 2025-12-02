@@ -1,17 +1,33 @@
-using App1.Shared.DTOs;
-using App1.Shared.Interfaces;
+using Dyvenix.App1.Shared;
+using Dyvenix.App1.Shared.DTOs;
+using Dyvenix.App1.Shared.Interfaces;
+using Microsoft.Extensions.Logging;
 
-namespace App1.Api.Services;
+namespace Dyvenix.App1.Api.Services;
 
-public class SystemService : ISystemService
+public class SystemService : IApp1SystemService
 {
-    public Task<HealthStatus> CheckHealth()
-    {
-        return Task.FromResult(new HealthStatus
-        {
-            IsHealthy = true,
-            Message = "App1 service is healthy",
-            Timestamp = DateTime.UtcNow
-        });
-    }
+	private readonly ILogger<SystemService> _logger;
+
+	public SystemService(ILogger<SystemService> logger)
+	{
+		_logger = logger;
+	}
+
+	public Task<string> Alive()
+	{
+		_logger.LogInformation("Service name requested");
+		return Task.FromResult($"{App1Constants.ServiceId} is alive.");
+
+	}
+
+	public Task<App1HealthStatus> Health()
+	{
+		return Task.FromResult(new App1HealthStatus
+		{
+			IsHealthy = true,
+			Message = "App1 service is healthy",
+			Timestamp = DateTime.UtcNow
+		});
+	}
 }

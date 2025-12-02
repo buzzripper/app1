@@ -1,4 +1,4 @@
-﻿namespace BffMicrosoftEntraID.Server;
+﻿namespace Dyvenix.App1.Portal.Server.Cae;
 
 /// <summary>
 /// This exception class is used to pass HTTP CAE unauthorized responses from a Httpclient and 
@@ -7,25 +7,25 @@
 /// </summary>
 public class WebApiMsalUiRequiredException : Exception
 {
-    private readonly HttpResponseMessage _httpResponseMessage;
+	private readonly HttpResponseMessage _httpResponseMessage;
 
-    public WebApiMsalUiRequiredException(string message, HttpResponseMessage httpResponseMessage) : base(message)
-    {
-        _httpResponseMessage = httpResponseMessage;
-    }
+	public WebApiMsalUiRequiredException(string message, HttpResponseMessage httpResponseMessage) : base(message)
+	{
+		_httpResponseMessage = httpResponseMessage;
+	}
 
-    public HttpStatusCode StatusCode
-    {
-        get { return _httpResponseMessage.StatusCode; }
-    }
+	public HttpStatusCode StatusCode
+	{
+		get { return _httpResponseMessage.StatusCode; }
+	}
 
-    public HttpResponseHeaders Headers
-    {
-        get { return _httpResponseMessage.Headers; }
-    }
+	public HttpResponseHeaders Headers
+	{
+		get { return _httpResponseMessage.Headers; }
+	}
 
-    public HttpResponseMessage HttpResponseMessage
-    {
-        get { return _httpResponseMessage; }
-    }
+	public HttpResponseMessage HttpResponseMessage
+	{
+		get { return _httpResponseMessage; }
+	}
 }

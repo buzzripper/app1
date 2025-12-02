@@ -4,6 +4,9 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <AssemblyName>Dyvenix.$(MSBuildProjectName)</AssemblyName>
+    <RootNamespace>Dyvenix.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <Configurations>Debug;Release;Dbg-Ext</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,12 +14,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Asp.Versioning.Mvc" Version="8.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.0" />
     <PackageReference Include="Scalar.AspNetCore" Version="1.2.52" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\System\System.Apis\System.Apis.csproj" />
+    <ProjectReference Include="..\..\System\System.Shared\System.Shared.csproj" />
     <ProjectReference Include="..\App1.Shared\App1.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Endpoints\" />
   </ItemGroup>
 
 </Project>

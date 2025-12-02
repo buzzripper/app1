@@ -1,14 +1,20 @@
-﻿using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
-using App1.Api.Extensions;
-using App1.Shared.Extensions;
-using Auth.Api.Extensions;
-using Auth.Shared.Extensions;
+﻿#if AUTH_INPROCESS
+using Dyvenix.Auth.Api.Extensions;
+#endif
+#if APP1_INPROCESS
+using Dyvenix.App1.Api.Extensions;
+#endif
+using Dyvenix.App1.Portal.Server;
+using Dyvenix.App1.Portal.Server.Services;
+using Dyvenix.App1.Shared.Extensions;
+using Dyvenix.Auth.Shared.Extensions;
+using Yarp.ReverseProxy.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.WebHost.ConfigureKestrel(serverOptions =>
 {
-    serverOptions.AddServerHeader = false;
+	serverOptions.AddServerHeader = false;
 });
 
 builder.Services.AddOpenApi();
@@ -17,24 +23,24 @@ var services = builder.Services;
 var configuration = builder.Configuration;
 
 services.AddSecurityHeaderPolicies()
-    .SetPolicySelector(ctx =>
-    {
-        if (ctx.HttpContext.Request.Path.StartsWithSegments("/api"))
-        {
-            return ApiSecurityHeadersDefinitions.GetHeaderPolicyCollection(builder.Environment.IsDevelopment());
-        }
+	.SetPolicySelector(ctx =>
+	{
+		if (ctx.HttpContext.Request.Path.StartsWithSegments("/api"))
+		{
+			return ApiSecurityHeadersDefinitions.GetHeaderPolicyCollection(builder.Environment.IsDevelopment());
+		}
 
-        return SecurityHeadersDefinitions.GetHeaderPolicyCollection(
-          builder.Environment.IsDevelopment(),
-          configuration["MicrosoftEntraID:Instance"]);
-    });
+		return SecurityHeadersDefinitions.GetHeaderPolicyCollection(
+		  builder.Environment.IsDevelopment(),
+		  configuration["MicrosoftEntraID:Instance"]);
+	});
 
 services.AddAntiforgery(options =>
 {
-    options.HeaderName = "X-XSRF-TOKEN";
-    options.Cookie.Name = "__Host-X-XSRF-TOKEN";
-    options.Cookie.SameSite = SameSiteMode.Strict;
-    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+	options.HeaderName = "X-XSRF-TOKEN";
+	options.Cookie.Name = "__Host-X-XSRF-TOKEN";
+	options.Cookie.SameSite = SameSiteMode.Strict;
+	options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
 });
 
 services.AddHttpClient();
@@ -44,13 +50,13 @@ var scopes = configuration.GetValue<string>("DownstreamApi:Scopes");
 string[] initialScopes = scopes?.Split(' ') ?? Array.Empty<string>();
 
 services.AddMicrosoftIdentityWebAppAuthentication(configuration, "MicrosoftEntraID")
-    .EnableTokenAcquisitionToCallDownstreamApi(initialScopes)
-    .AddInMemoryTokenCaches();
+	.EnableTokenAcquisitionToCallDownstreamApi(initialScopes)
+	.AddInMemoryTokenCaches();
 
 // Configure OpenID Connect to save tokens (including id_token) for logout
 services.Configure<OpenIdConnectOptions>(OpenIdConnectDefaults.AuthenticationScheme, options =>
 {
-    options.SaveTokens = true; // Required for id_token_hint in logout
+	options.SaveTokens = true; // Required for id_token_hint in logout
 });
 
 // If using downstream APIs and in memory cache, you need to reset the cookie session if the cache is missing
@@ -59,55 +65,68 @@ services.Configure<OpenIdConnectOptions>(OpenIdConnectDefaults.AuthenticationSch
 // The check is only for single scopes
 if (initialScopes.Length > 0)
 {
-    services.Configure<CookieAuthenticationOptions>(CookieAuthenticationDefaults.AuthenticationScheme,
-        options => options.Events = new RejectSessionCookieWhenAccountNotInCacheEvents(initialScopes));
+	services.Configure<CookieAuthenticationOptions>(CookieAuthenticationDefaults.AuthenticationScheme,
+		options => options.Events = new RejectSessionCookieWhenAccountNotInCacheEvents(initialScopes));
 }
 
 services.AddControllersWithViews(options =>
-    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()));
+	options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()));
 
 services.AddRazorPages().AddMvcOptions(options =>
 {
-    //var policy = new AuthorizationPolicyBuilder()
-    //    .RequireAuthenticatedUser()
-    //    .Build();
-    //options.Filters.Add(new AuthorizeFilter(policy));
+	//var policy = new AuthorizationPolicyBuilder()
+	//    .RequireAuthenticatedUser()
+	//    .Build();
+	//options.Filters.Add(new AuthorizeFilter(policy));
 }).AddMicrosoftIdentityUI();
 
-services.AddReverseProxy()
-        .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
+#if AUTH_INPROCESS
+	var authInProcess = true;
+	services.AddAuthApiServices();
+#else
+	var authInProcess = false;
+#endif
 
-// ===== Configure In-Process Service Hosting =====
-bool hostApp1InProcess = configuration.GetValue<bool>("ServiceClients:App1:InProcess", true);
-bool hostAuthInProcess = configuration.GetValue<bool>("ServiceClients:Auth:InProcess", true);
+#if APP1_INPROCESS
+	var app1InProcess = true;
+	services.AddApp1ApiServices();
+#else
+	var app1InProcess = false;
+#endif
 
-if (hostApp1InProcess)
-{
-    services.AddApp1ApiServices();
-}
-
-if (hostAuthInProcess)
-{
-    services.AddAuthApiServices();
-}
+// Configure YARP with dynamic config based on compile-time defines
+services.AddSingleton<IProxyConfigProvider>(
+	new DynamicProxyConfigProvider(configuration, authInProcess, app1InProcess));
+services.AddReverseProxy();
 
 // Register service clients (proxies)
-services.AddApp1Client(configuration);
-services.AddAuthClient(configuration);
+services.AddAuthClients(configuration, authInProcess);
+services.AddApp1Client(configuration, app1InProcess);
+
+builder.Services.AddApiVersioning(options =>
+{
+    options.DefaultApiVersion = new Asp.Versioning.ApiVersion(1, 0);
+    options.AssumeDefaultVersionWhenUnspecified = true;
+    options.ReportApiVersions = true;
+}).AddApiExplorer(options =>
+{
+    options.GroupNameFormat = "'v'VVV";
+    options.SubstituteApiVersionInUrl = true;
+});
 
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    IdentityModelEventSource.ShowPII = true;
+	IdentityModelEventSource.ShowPII = true;
 
-    app.UseDeveloperExceptionPage();
-    app.UseWebAssemblyDebugging();
-    app.MapOpenApi();
+	app.UseDeveloperExceptionPage();
+	app.UseWebAssemblyDebugging();
+	app.MapOpenApi();
 }
 else
 {
-    app.UseExceptionHandler("/Error");
+	app.UseExceptionHandler("/Error");
 }
 
 app.UseSecurityHeaders();
@@ -119,30 +138,24 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+// Map specific endpoints first (highest priority)
 app.MapRazorPages();
 app.MapControllers();
 app.MapNotFound("/api/{**segment}");
 
-// ===== Map In-Process Service Endpoints =====
-if (hostApp1InProcess)
-{
-    app.MapApp1Endpoints();
-}
-
-if (hostAuthInProcess)
-{
-    app.MapAuthEndpoints();
-}
-
+// Map YARP reverse proxy for UI dev server (only in development)
 if (app.Environment.IsDevelopment())
 {
-    var uiDevServer = app.Configuration.GetValue<string>("UiDevServerUrl");
-    if (!string.IsNullOrEmpty(uiDevServer))
-    {
-        app.MapReverseProxy();
-    }
+	var uiDevServer = app.Configuration.GetValue<string>("UiDevServerUrl");
+	if (!string.IsNullOrEmpty(uiDevServer))
+	{
+		// YARP routes should be mapped before the fallback
+		// They have specific paths that will match before the fallback
+		app.MapReverseProxy();
+	}
 }
 
+// Fallback must be LAST - catches everything that didn't match above
 app.MapFallbackToPage("/_Host");
 
 app.Run();

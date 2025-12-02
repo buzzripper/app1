@@ -1,35 +1,34 @@
-using App1.Shared.Interfaces;
-using App1.Shared.Proxies;
+using Dyvenix.App1.Shared.Interfaces;
+using Dyvenix.App1.Shared.Proxies;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace App1.Shared.Extensions;
+namespace Dyvenix.App1.Shared.Extensions;
 
 public static class App1ClientExtensions
 {
-    public static IServiceCollection AddApp1Client(this IServiceCollection services,IConfiguration configuration)
-    {
-        var serviceConfig = configuration.GetSection("ServiceClients:App1");
-        bool inProcess = serviceConfig.GetValue<bool>("InProcess", false);
-        
-        if (!inProcess)
-        {
-            // HTTP: Use HTTP client proxy
-            string? baseUrl = serviceConfig.GetValue<string>("Url");
-            if (string.IsNullOrEmpty(baseUrl))
-            {
-                throw new InvalidOperationException(
-                    "ServiceClients:App1:Url is required when InProcess is false");
-            }
-            
-            services.AddHttpClient<ISystemService, SystemServiceHttpClient>(client =>
-            {
-                client.BaseAddress = new Uri(baseUrl);
-            });
-        }
-        // Note: For in-process mode, the consumer must register ISystemService implementation
-        // by calling AddApp1ApiServices() from App1.Api before calling AddApp1Client()
-        
-        return services;
-    }
+	public static IServiceCollection AddApp1Client(this IServiceCollection services, IConfiguration configuration, bool inProcess)
+	{
+		var serviceConfig = configuration.GetSection("ServiceClients:App1");
+
+		if (!inProcess)
+		{
+			// HTTP: Use HTTP client proxy
+			string? baseUrl = serviceConfig.GetValue<string>("Url");
+			if (string.IsNullOrEmpty(baseUrl))
+			{
+				throw new InvalidOperationException(
+					"ServiceClients:App1:Url is required when InProcess is false");
+			}
+
+			services.AddHttpClient<IApp1SystemService, SystemServiceHttpClient>(client =>
+			{
+				client.BaseAddress = new Uri(baseUrl);
+			});
+		}
+		// Note: For in-process mode, the consumer must register ISystemService implementation
+		// by calling AddApp1ApiServices() from App1.Api before calling AddApp1Client()
+
+		return services;
+	}
 }
