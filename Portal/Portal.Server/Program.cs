@@ -1,4 +1,10 @@
-﻿using Dyvenix.App1.Portal.Server;
+﻿#if AUTH_INPROCESS
+using Dyvenix.Auth.Api.Extensions;
+#endif
+#if APP1_INPROCESS
+using Dyvenix.App1.Api.Extensions;
+#endif
+using Dyvenix.App1.Portal.Server;
 using Dyvenix.App1.Portal.Server.Services;
 using Dyvenix.App1.Shared.Extensions;
 using Dyvenix.Auth.Shared.Extensions;
@@ -74,17 +80,28 @@ services.AddRazorPages().AddMvcOptions(options =>
 	//options.Filters.Add(new AuthorizeFilter(policy));
 }).AddMicrosoftIdentityUI();
 
+#if AUTH_INPROCESS
+	var authInProcess = true;
+	services.AddAuthApiServices();
+#else
+	var authInProcess = false;
+#endif
+
+#if APP1_INPROCESS
+	var app1InProcess = true;
+	services.AddApp1ApiServices();
+#else
+	var app1InProcess = false;
+#endif
+
 // Configure YARP with dynamic config based on compile-time defines
-services.AddSingleton<IProxyConfigProvider, DynamicProxyConfigProvider>();
+services.AddSingleton<IProxyConfigProvider>(
+	new DynamicProxyConfigProvider(configuration, authInProcess, app1InProcess));
 services.AddReverseProxy();
 
-// ===== Configure In-Process Service Hosting =====
-bool hostApp1InProcess = configuration.GetValue<bool>("ServiceClients:App1:InProcess", true);
-bool hostAuthInProcess = configuration.GetValue<bool>("ServiceClients:Auth:InProcess", true);
-
 // Register service clients (proxies)
-services.AddApp1Client(configuration);
-services.AddAuthClient(configuration);
+services.AddAuthClients(configuration, authInProcess);
+services.AddApp1Client(configuration, app1InProcess);
 
 builder.Services.AddApiVersioning(options =>
 {
@@ -121,19 +138,24 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+// Map specific endpoints first (highest priority)
 app.MapRazorPages();
 app.MapControllers();
 app.MapNotFound("/api/{**segment}");
 
+// Map YARP reverse proxy for UI dev server (only in development)
 if (app.Environment.IsDevelopment())
 {
 	var uiDevServer = app.Configuration.GetValue<string>("UiDevServerUrl");
 	if (!string.IsNullOrEmpty(uiDevServer))
 	{
+		// YARP routes should be mapped before the fallback
+		// They have specific paths that will match before the fallback
 		app.MapReverseProxy();
 	}
 }
 
+// Fallback must be LAST - catches everything that didn't match above
 app.MapFallbackToPage("/_Host");
 
 app.Run();

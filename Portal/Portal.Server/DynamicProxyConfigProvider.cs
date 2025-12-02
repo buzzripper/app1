@@ -7,10 +7,14 @@ public class DynamicProxyConfigProvider : IProxyConfigProvider
 {
 	private readonly IConfiguration _configuration;
 	private volatile DynamicProxyConfig _config;
+	private readonly bool _authInProcess;
+	private readonly bool _app1InProcess;
 
-	public DynamicProxyConfigProvider(IConfiguration configuration)
+	public DynamicProxyConfigProvider(IConfiguration configuration, bool authInProcess, bool app1InProcess)
 	{
 		_configuration = configuration;
+		_authInProcess = authInProcess;
+		_app1InProcess = app1InProcess;
 		_config = new DynamicProxyConfig(LoadRoutes(), LoadClusters());
 	}
 
@@ -19,7 +23,7 @@ public class DynamicProxyConfigProvider : IProxyConfigProvider
 	private IReadOnlyList<RouteConfig> LoadRoutes()
 	{
 		var routes = new List<RouteConfig>();
-		
+
 		// Load all routes from appsettings.json
 		var configRoutes = _configuration.GetSection("ReverseProxy:Routes")
 			.GetChildren()
@@ -30,33 +34,54 @@ public class DynamicProxyConfigProvider : IProxyConfigProvider
 			var routeId = routeSection.Key;
 
 			// Skip auth-api route if Auth is running in-process
-#if !AUTH_EXT
-			if (routeId == "auth-api")
+			if (routeId == "auth-api" && _authInProcess)
 			{
 				Console.WriteLine($"[YARP] Skipping route '{routeId}' - Auth running in-process");
 				continue;
 			}
-#endif
 
 			// Skip app1-api route if App1 is running in-process
-#if !APP1_EXT
-			if (routeId == "app1-api")
+			if (routeId == "app1-api" && _app1InProcess)
 			{
 				Console.WriteLine($"[YARP] Skipping route '{routeId}' - App1 running in-process");
 				continue;
 			}
-#endif
 
 			Console.WriteLine($"[YARP] Loading route '{routeId}'");
+
+			var routeMatch = new RouteMatch
+			{
+				Path = routeSection["Match:Path"]
+			};
+
+			// Add query parameters if they exist
+			var queryParams = routeSection.GetSection("Match:QueryParameters").GetChildren().ToList();
+			if (queryParams.Any())
+			{
+				var queryParamList = new List<RouteQueryParameter>();
+				foreach (var qp in queryParams)
+				{
+					var name = qp["Name"];
+					var mode = qp["Mode"];
+					if (!string.IsNullOrEmpty(name))
+					{
+						queryParamList.Add(new RouteQueryParameter
+						{
+							Name = name,
+							Mode = Enum.TryParse<QueryParameterMatchMode>(mode, out var parsedMode)
+								? parsedMode
+								: QueryParameterMatchMode.Exists
+						});
+					}
+				}
+				routeMatch = routeMatch with { QueryParameters = queryParamList };
+			}
 
 			var route = new RouteConfig
 			{
 				RouteId = routeId,
 				ClusterId = routeSection["ClusterId"],
-				Match = new RouteMatch
-				{
-					Path = routeSection["Match:Path"]
-				}
+				Match = routeMatch
 			};
 
 			// Add transforms if they exist
@@ -83,7 +108,7 @@ public class DynamicProxyConfigProvider : IProxyConfigProvider
 	private IReadOnlyList<ClusterConfig> LoadClusters()
 	{
 		var clusters = new List<ClusterConfig>();
-		
+
 		// Load all clusters from appsettings.json
 		var configClusters = _configuration.GetSection("ReverseProxy:Clusters")
 			.GetChildren()
@@ -94,20 +119,16 @@ public class DynamicProxyConfigProvider : IProxyConfigProvider
 			var clusterId = clusterSection.Key;
 
 			// Skip auth-cluster if Auth is running in-process
-#if !AUTH_EXT
-			if (clusterId == "auth-cluster")
+			if (clusterId == "auth-cluster" && _authInProcess)
 				continue;
-#endif
 
 			// Skip app1-cluster if App1 is running in-process
-#if !APP1_EXT
-			if (clusterId == "app1-cluster")
+			if (clusterId == "app1-cluster" && _app1InProcess)
 				continue;
-#endif
 
 			var destinations = new Dictionary<string, DestinationConfig>();
 			var destinationsSection = clusterSection.GetSection("Destinations").GetChildren();
-			
+
 			foreach (var destSection in destinationsSection)
 			{
 				destinations[destSection.Key] = new DestinationConfig
@@ -128,14 +149,14 @@ public class DynamicProxyConfigProvider : IProxyConfigProvider
 			{
 				var sslProtocols = httpClientSection.GetSection("SslProtocols")
 					.Get<string[]>();
-				
+
 				if (sslProtocols?.Any() == true)
 				{
 					// Combine SSL protocols using bitwise OR
 					var combinedProtocols = sslProtocols
 						.Select(p => Enum.Parse<global::System.Security.Authentication.SslProtocols>(p))
 						.Aggregate((a, b) => a | b);
-					
+
 					cluster = cluster with
 					{
 						HttpClient = new HttpClientConfig

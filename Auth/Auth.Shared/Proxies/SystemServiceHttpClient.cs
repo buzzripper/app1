@@ -6,7 +6,7 @@ namespace Dyvenix.Auth.Shared.Proxies;
 
 public class SystemServiceHttpClient : IAuthSystemService
 {
-	public const string cUrlPathRoot = "/system";
+	public const string cUrlPathRoot = "api/auth/v1/system";
 
 	private readonly HttpClient _httpClient;
 
@@ -19,8 +19,7 @@ public class SystemServiceHttpClient : IAuthSystemService
 	{
 		var response = await _httpClient.GetAsync($"{cUrlPathRoot}/alive");
 		response.EnsureSuccessStatusCode();
-		return await response.Content.ReadFromJsonAsync<string>()
-			?? throw new InvalidOperationException("Failed to deserialize alive status");
+		return await response.Content.ReadAsStringAsync();
 	}
 
 	public async Task<AuthHealthStatus> Health()

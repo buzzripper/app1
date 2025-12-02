@@ -11,13 +11,11 @@
 	</PropertyGroup>
 
 	<!-- Define constants for external service mode -->
-	<!-- To run with external Auth and App1 services, define AUTH_EXT and/or APP1_EXT -->
-	<!-- Example: dotnet build -p:DefineConstants="AUTH_EXT;APP1_EXT" -->
 	<PropertyGroup>
 		<!-- Default: In-process mode (no constants defined) -->
 		<!-- Uncomment the lines below to run in external mode -->
-		<!-- <DefineConstants>$(DefineConstants);AUTH_EXT</DefineConstants> -->
-		<!-- <DefineConstants>$(DefineConstants);APP1_EXT</DefineConstants> -->
+		 <DefineConstants>$(DefineConstants);AUTH_INPROCESS</DefineConstants> 
+		 <DefineConstants>$(DefineConstants);APP1_INPROCESS</DefineConstants> 
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -35,10 +33,10 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-		<ProjectReference Include="..\..\Auth\Auth.Api\Auth.Api.csproj" Condition="!$(DefineConstants.Contains('AUTH_EXT'))" />
+		<ProjectReference Include="..\..\Auth\Auth.Api\Auth.Api.csproj" Condition="$(DefineConstants.Contains('AUTH_INPROCESS'))" />
 		<ProjectReference Include="..\..\Auth\Auth.Shared\Auth.Shared.csproj" />
 
-		<ProjectReference Include="..\..\App1\App1.Api\App1.Api.csproj" Condition="!$(DefineConstants.Contains('APP1_EXT'))" />
+		<ProjectReference Include="..\..\App1\App1.Api\App1.Api.csproj" Condition="$(DefineConstants.Contains('APP1_INPROCESS'))" />
 		<ProjectReference Include="..\..\App1\App1.Shared\App1.Shared.csproj" />
 	</ItemGroup>
 

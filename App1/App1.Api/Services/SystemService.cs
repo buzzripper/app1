@@ -17,7 +17,8 @@ public class SystemService : IApp1SystemService
 	public Task<string> Alive()
 	{
 		_logger.LogInformation("Service name requested");
-		return Task.FromResult(App1Constants.ServiceId);
+		return Task.FromResult($"{App1Constants.ServiceId} is alive.");
+
 	}
 
 	public Task<App1HealthStatus> Health()

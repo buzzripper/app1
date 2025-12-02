@@ -7,7 +7,7 @@ env:
 
 on:
   push:
-    branches: ["deploy"]
+    # branches: ["deploy"]
   workflow_dispatch:
 
 permissions:

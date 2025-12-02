@@ -17,7 +17,7 @@ public class SystemService : IAuthSystemService
 	public Task<string> Alive()
 	{
 		_logger.LogInformation("Service name requested");
-		return Task.FromResult(AuthConstants.ServiceId);
+		return Task.FromResult($"{AuthConstants.ServiceId} is alive.");
 	}
 
 	public Task<AuthHealthStatus> Health()

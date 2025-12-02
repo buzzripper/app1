@@ -7,10 +7,9 @@ namespace Dyvenix.App1.Shared.Extensions;
 
 public static class App1ClientExtensions
 {
-	public static IServiceCollection AddApp1Client(this IServiceCollection services, IConfiguration configuration)
+	public static IServiceCollection AddApp1Client(this IServiceCollection services, IConfiguration configuration, bool inProcess)
 	{
 		var serviceConfig = configuration.GetSection("ServiceClients:App1");
-		bool inProcess = serviceConfig.GetValue<bool>("InProcess", false);
 
 		if (!inProcess)
 		{

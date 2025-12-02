@@ -18,11 +18,11 @@ public static class AuthServiceExtensions
 		// Register business logic services
 		services.AddScoped<IAuthSystemService, SystemService>();
 
-		// Add Controllers
-		services.AddControllers();
+		//// Add Controllers
+		//services.AddControllers();	
 
-		// Add OpenAPI support
-		services.AddOpenApi();
+		//// Add OpenAPI support
+		//services.AddOpenApi();
 
 		return services;
 	}

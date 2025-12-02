@@ -7,10 +7,9 @@ namespace Dyvenix.Auth.Shared.Extensions;
 
 public static class AuthClientExtensions
 {
-	public static IServiceCollection AddAuthClient(this IServiceCollection services, IConfiguration configuration)
+	public static IServiceCollection AddAuthClients(this IServiceCollection services, IConfiguration configuration, bool inProcess)
 	{
 		var serviceConfig = configuration.GetSection("ServiceClients:Auth");
-		bool inProcess = serviceConfig.GetValue<bool>("InProcess", false);
 
 		if (!inProcess)
 		{
@@ -27,6 +26,7 @@ public static class AuthClientExtensions
 				client.BaseAddress = new Uri(baseUrl);
 			});
 		}
+
 		// Note: For in-process mode, the consumer must register ISystemService implementation
 		// by calling AddAuthApiServices() from Auth.Api before calling AddAuthClient()
 
