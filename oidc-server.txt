@@ -1,0 +1,311 @@
+2025-12-02 20:41:38.948 -05:00 [INF] User profile is available. Using 'C:\Users\asmit\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-12-02 20:41:39.034 -05:00 [INF] Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+2025-12-02 20:41:39.039 -05:00 [INF] Quartz Scheduler created
+2025-12-02 20:41:39.039 -05:00 [INF] JobFactory set to: Quartz.Simpl.MicrosoftDependencyInjectionJobFactory
+2025-12-02 20:41:39.039 -05:00 [INF] RAMJobStore initialized.
+2025-12-02 20:41:39.040 -05:00 [INF] Quartz Scheduler 3.14.0.0 - 'QuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+2025-12-02 20:41:39.040 -05:00 [INF] Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+2025-12-02 20:41:39.040 -05:00 [INF] Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+2025-12-02 20:41:39.046 -05:00 [INF] Adding 1 jobs, 1 triggers.
+2025-12-02 20:41:39.047 -05:00 [INF] Adding job: OpenIddict/Quartz.NET integration.OpenIddict job
+2025-12-02 20:41:39.758 -05:00 [INF] Executed DbCommand (16ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-12-02 20:41:39.784 -05:00 [INF] Executed DbCommand (15ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+IF EXISTS
+    (SELECT *
+     FROM [sys].[objects] o
+     WHERE [o].[type] = 'U'
+     AND [o].[is_ms_shipped] = 0
+     AND NOT EXISTS (SELECT *
+         FROM [sys].[extended_properties] AS [ep]
+         WHERE [ep].[major_id] = [o].[object_id]
+             AND [ep].[minor_id] = 0
+             AND [ep].[class] = 1
+             AND [ep].[name] = N'microsoft_database_tools_support'
+    )
+)
+SELECT 1 ELSE SELECT 0
+2025-12-02 20:41:40.000 -05:00 [INF] Executed DbCommand (26ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-12-02 20:41:40.039 -05:00 [INF] Executed DbCommand (0ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-12-02 20:41:40.064 -05:00 [INF] Executed DbCommand (1ms) [Parameters=[@__identifier_0='?' (Size = 100)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [o].[Id], [o].[ApplicationType], [o].[ClientId], [o].[ClientSecret], [o].[ClientType], [o].[ConcurrencyToken], [o].[ConsentType], [o].[DisplayName], [o].[DisplayNames], [o].[JsonWebKeySet], [o].[Permissions], [o].[PostLogoutRedirectUris], [o].[Properties], [o].[RedirectUris], [o].[Requirements], [o].[Settings]
+FROM [OpenIddictApplications] AS [o]
+WHERE [o].[ClientId] = @__identifier_0
+2025-12-02 20:41:40.096 -05:00 [INF] Executed DbCommand (0ms) [Parameters=[@__identifier_0='?' (Size = 100)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [o].[Id], [o].[ApplicationType], [o].[ClientId], [o].[ClientSecret], [o].[ClientType], [o].[ConcurrencyToken], [o].[ConsentType], [o].[DisplayName], [o].[DisplayNames], [o].[JsonWebKeySet], [o].[Permissions], [o].[PostLogoutRedirectUris], [o].[Properties], [o].[RedirectUris], [o].[Requirements], [o].[Settings]
+FROM [OpenIddictApplications] AS [o]
+WHERE [o].[ClientId] = @__identifier_0
+2025-12-02 20:41:40.098 -05:00 [INF] Executed DbCommand (0ms) [Parameters=[@__identifier_0='?' (Size = 100)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [o].[Id], [o].[ApplicationType], [o].[ClientId], [o].[ClientSecret], [o].[ClientType], [o].[ConcurrencyToken], [o].[ConsentType], [o].[DisplayName], [o].[DisplayNames], [o].[JsonWebKeySet], [o].[Permissions], [o].[PostLogoutRedirectUris], [o].[Properties], [o].[RedirectUris], [o].[Requirements], [o].[Settings]
+FROM [OpenIddictApplications] AS [o]
+WHERE [o].[ClientId] = @__identifier_0
+2025-12-02 20:41:40.100 -05:00 [INF] Executed DbCommand (0ms) [Parameters=[@__identifier_0='?' (Size = 100)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [o].[Id], [o].[ApplicationType], [o].[ClientId], [o].[ClientSecret], [o].[ClientType], [o].[ConcurrencyToken], [o].[ConsentType], [o].[DisplayName], [o].[DisplayNames], [o].[JsonWebKeySet], [o].[Permissions], [o].[PostLogoutRedirectUris], [o].[Properties], [o].[RedirectUris], [o].[Requirements], [o].[Settings]
+FROM [OpenIddictApplications] AS [o]
+WHERE [o].[ClientId] = @__identifier_0
+2025-12-02 20:41:40.113 -05:00 [INF] Executed DbCommand (0ms) [Parameters=[@__name_0='?' (Size = 200)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [o].[Id], [o].[ConcurrencyToken], [o].[Description], [o].[Descriptions], [o].[DisplayName], [o].[DisplayNames], [o].[Name], [o].[Properties], [o].[Resources]
+FROM [OpenIddictScopes] AS [o]
+WHERE [o].[Name] = @__name_0
+2025-12-02 20:41:40.557 -05:00 [INF] Now listening on: https://localhost:44395
+2025-12-02 20:41:40.558 -05:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-12-02 20:41:40.558 -05:00 [INF] Hosting environment: Development
+2025-12-02 20:41:40.558 -05:00 [INF] Content root path: D:\Code\buzzripper\app1\OpeniddictServer
+2025-12-02 20:41:40.560 -05:00 [INF] Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+2025-12-02 20:41:45.522 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/ - null null
+2025-12-02 20:41:45.655 -05:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2025-12-02 20:41:45.659 -05:00 [INF] Executing endpoint 'OpeniddictServer.Controllers.HomeController.Index (OpeniddictServer)'
+2025-12-02 20:41:45.664 -05:00 [INF] Route matched with {action = "Index", controller = "Home", page = "", area = ""}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller OpeniddictServer.Controllers.HomeController (OpeniddictServer).
+2025-12-02 20:41:45.682 -05:00 [INF] Executing ViewResult, running view Index.
+2025-12-02 20:41:45.774 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/ - null null
+2025-12-02 20:41:45.776 -05:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2025-12-02 20:41:45.776 -05:00 [INF] Executing endpoint 'OpeniddictServer.Controllers.HomeController.Index (OpeniddictServer)'
+2025-12-02 20:41:45.777 -05:00 [INF] Route matched with {action = "Index", controller = "Home", page = "", area = ""}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller OpeniddictServer.Controllers.HomeController (OpeniddictServer).
+2025-12-02 20:41:45.777 -05:00 [INF] Executing ViewResult, running view Index.
+2025-12-02 20:41:45.808 -05:00 [INF] Executed ViewResult - view Index executed in 28.837ms.
+2025-12-02 20:41:45.808 -05:00 [INF] Executed ViewResult - view Index executed in 139.0657ms.
+2025-12-02 20:41:45.811 -05:00 [INF] Executed action OpeniddictServer.Controllers.HomeController.Index (OpeniddictServer) in 146.3793ms
+2025-12-02 20:41:45.811 -05:00 [INF] Executed action OpeniddictServer.Controllers.HomeController.Index (OpeniddictServer) in 33.6799ms
+2025-12-02 20:41:45.811 -05:00 [INF] Executed endpoint 'OpeniddictServer.Controllers.HomeController.Index (OpeniddictServer)'
+2025-12-02 20:41:45.811 -05:00 [INF] Executed endpoint 'OpeniddictServer.Controllers.HomeController.Index (OpeniddictServer)'
+2025-12-02 20:41:45.817 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/ - 200 null text/html; charset=utf-8 300.3726ms
+2025-12-02 20:41:45.817 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/ - 200 null text/html; charset=utf-8 42.5979ms
+2025-12-02 20:41:45.826 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/.well-known/appspecific/com.chrome.devtools.json - null null
+2025-12-02 20:41:45.832 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/css/site.css - null null
+2025-12-02 20:41:45.832 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/lib/bootstrap/dist/css/bootstrap.min.css - null null
+2025-12-02 20:41:45.833 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/OpeniddictServer.styles.css?v=RSTmrnygyC9khcGvQI3KqRwrb1DgWjucbnfTyzfdSyU - null null
+2025-12-02 20:41:45.833 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/lib/jquery/dist/jquery.min.js - null null
+2025-12-02 20:41:45.833 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/lib/bootstrap/dist/js/bootstrap.bundle.min.js - null null
+2025-12-02 20:41:45.843 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/js/site.js?v=hRQyftXiu1lLX2P9Ly9xa4gHJgLeR1uGN5qegUobtGo - null null
+2025-12-02 20:41:45.879 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/_framework/aspnetcore-browser-refresh.js - null null
+2025-12-02 20:41:45.890 -05:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2025-12-02 20:41:45.927 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/.well-known/appspecific/com.chrome.devtools.json - 404 0 null 98.4713ms
+2025-12-02 20:41:45.965 -05:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:44395/.well-known/appspecific/com.chrome.devtools.json, Response status code: 404
+2025-12-02 20:41:45.969 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 90.2192ms
+2025-12-02 20:41:45.969 -05:00 [INF] Sending file. Request path: '/js/site.js'. Physical path: 'D:\Code\buzzripper\app1\OpeniddictServer\wwwroot\js\site.js'
+2025-12-02 20:41:45.969 -05:00 [INF] Sending file. Request path: '/css/site.css'. Physical path: 'D:\Code\buzzripper\app1\OpeniddictServer\wwwroot\css\site.css'
+2025-12-02 20:41:45.969 -05:00 [INF] Sending file. Request path: '/OpeniddictServer.styles.css'. Physical path: 'D:\Code\buzzripper\app1\OpeniddictServer\obj\Debug\net9.0\scopedcss\bundle\OpeniddictServer.styles.css'
+2025-12-02 20:41:45.971 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/js/site.js?v=hRQyftXiu1lLX2P9Ly9xa4gHJgLeR1uGN5qegUobtGo - 200 231 text/javascript 128.1905ms
+2025-12-02 20:41:45.972 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/css/site.css - 200 667 text/css 139.1826ms
+2025-12-02 20:41:45.972 -05:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/js/bootstrap.bundle.min.js'. Physical path: 'D:\Code\buzzripper\app1\OpeniddictServer\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js'
+2025-12-02 20:41:45.972 -05:00 [INF] Sending file. Request path: '/lib/jquery/dist/jquery.min.js'. Physical path: 'D:\Code\buzzripper\app1\OpeniddictServer\wwwroot\lib\jquery\dist\jquery.min.js'
+2025-12-02 20:41:45.972 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/OpeniddictServer.styles.css?v=RSTmrnygyC9khcGvQI3KqRwrb1DgWjucbnfTyzfdSyU - 200 1109 text/css 139.5136ms
+2025-12-02 20:41:45.973 -05:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/css/bootstrap.min.css'. Physical path: 'D:\Code\buzzripper\app1\OpeniddictServer\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css'
+2025-12-02 20:41:45.974 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/lib/bootstrap/dist/js/bootstrap.bundle.min.js - 200 80727 text/javascript 140.7185ms
+2025-12-02 20:41:45.974 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/lib/jquery/dist/jquery.min.js - 200 87535 text/javascript 141.6198ms
+2025-12-02 20:41:45.975 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/lib/bootstrap/dist/css/bootstrap.min.css - 200 232808 text/css 143.1239ms
+2025-12-02 20:41:46.030 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/lib/bootstrap/dist/css/bootstrap.min.css.map - null null
+2025-12-02 20:41:46.033 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map - null null
+2025-12-02 20:41:46.036 -05:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/css/bootstrap.min.css.map'. Physical path: 'D:\Code\buzzripper\app1\OpeniddictServer\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map'
+2025-12-02 20:41:46.037 -05:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map'. Physical path: 'D:\Code\buzzripper\app1\OpeniddictServer\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map'
+2025-12-02 20:41:46.037 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/lib/bootstrap/dist/css/bootstrap.min.css.map - 200 589892 text/plain 6.945ms
+2025-12-02 20:41:46.037 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map - 200 332090 text/plain 4.2101ms
+2025-12-02 20:41:50.422 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/Identity/Account/Login - null null
+2025-12-02 20:41:50.436 -05:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2025-12-02 20:41:50.436 -05:00 [INF] Executing endpoint '/Account/Login'
+2025-12-02 20:41:50.449 -05:00 [INF] Route matched with {page = "/Account/Login", area = "Identity", action = "", controller = ""}. Executing page /Account/Login
+2025-12-02 20:41:50.467 -05:00 [INF] Executing handler method OpeniddictServer.Areas.Identity.Pages.Account.LoginModel.OnGetAsync - ModelState is "Valid"
+2025-12-02 20:41:50.472 -05:00 [INF] AuthenticationScheme: Identity.External signed out.
+2025-12-02 20:41:50.473 -05:00 [INF] Executed handler method OnGetAsync, returned result .
+2025-12-02 20:41:50.475 -05:00 [INF] Executing an implicit handler method - ModelState is "Valid"
+2025-12-02 20:41:50.476 -05:00 [INF] Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+2025-12-02 20:41:50.512 -05:00 [INF] Executed page /Account/Login in 62.8487ms
+2025-12-02 20:41:50.513 -05:00 [INF] Executed endpoint '/Account/Login'
+2025-12-02 20:41:50.514 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/Identity/Account/Login - 200 null text/html; charset=utf-8 91.3935ms
+2025-12-02 20:41:50.525 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/.well-known/appspecific/com.chrome.devtools.json - null null
+2025-12-02 20:41:50.526 -05:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2025-12-02 20:41:50.527 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/.well-known/appspecific/com.chrome.devtools.json - 404 0 null 1.8036ms
+2025-12-02 20:41:50.527 -05:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:44395/.well-known/appspecific/com.chrome.devtools.json, Response status code: 404
+2025-12-02 20:41:50.531 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/lib/bootstrap/dist/css/bootstrap.min.css - null null
+2025-12-02 20:41:50.531 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/css/site.css - null null
+2025-12-02 20:41:50.531 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/OpeniddictServer.styles.css?v=RSTmrnygyC9khcGvQI3KqRwrb1DgWjucbnfTyzfdSyU - null null
+2025-12-02 20:41:50.532 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/lib/jquery/dist/jquery.min.js - null null
+2025-12-02 20:41:50.532 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/lib/bootstrap/dist/js/bootstrap.bundle.min.js - null null
+2025-12-02 20:41:50.532 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/js/site.js?v=hRQyftXiu1lLX2P9Ly9xa4gHJgLeR1uGN5qegUobtGo - null null
+2025-12-02 20:41:50.532 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/lib/jquery-validation/dist/jquery.validate.min.js - null null
+2025-12-02 20:41:50.532 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js - null null
+2025-12-02 20:41:50.532 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/_framework/aspnetcore-browser-refresh.js - null null
+2025-12-02 20:41:50.533 -05:00 [INF] Sending file. Request path: '/css/site.css'. Physical path: 'D:\Code\buzzripper\app1\OpeniddictServer\wwwroot\css\site.css'
+2025-12-02 20:41:50.533 -05:00 [INF] Sending file. Request path: '/OpeniddictServer.styles.css'. Physical path: 'D:\Code\buzzripper\app1\OpeniddictServer\obj\Debug\net9.0\scopedcss\bundle\OpeniddictServer.styles.css'
+2025-12-02 20:41:50.534 -05:00 [INF] Sending file. Request path: '/lib/jquery/dist/jquery.min.js'. Physical path: 'D:\Code\buzzripper\app1\OpeniddictServer\wwwroot\lib\jquery\dist\jquery.min.js'
+2025-12-02 20:41:50.534 -05:00 [INF] Sending file. Request path: '/js/site.js'. Physical path: 'D:\Code\buzzripper\app1\OpeniddictServer\wwwroot\js\site.js'
+2025-12-02 20:41:50.534 -05:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/js/bootstrap.bundle.min.js'. Physical path: 'D:\Code\buzzripper\app1\OpeniddictServer\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js'
+2025-12-02 20:41:50.534 -05:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/css/bootstrap.min.css'. Physical path: 'D:\Code\buzzripper\app1\OpeniddictServer\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css'
+2025-12-02 20:41:50.535 -05:00 [INF] Sending file. Request path: '/lib/jquery-validation/dist/jquery.validate.min.js'. Physical path: 'D:\Code\buzzripper\app1\OpeniddictServer\wwwroot\lib\jquery-validation\dist\jquery.validate.min.js'
+2025-12-02 20:41:50.535 -05:00 [INF] Sending file. Request path: '/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js'. Physical path: 'D:\Code\buzzripper\app1\OpeniddictServer\wwwroot\lib\jquery-validation-unobtrusive\dist\jquery.validate.unobtrusive.min.js'
+2025-12-02 20:41:50.535 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 3.4975ms
+2025-12-02 20:41:50.539 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/css/site.css - 200 667 text/css 7.3616ms
+2025-12-02 20:41:50.539 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/OpeniddictServer.styles.css?v=RSTmrnygyC9khcGvQI3KqRwrb1DgWjucbnfTyzfdSyU - 200 1109 text/css 7.6522ms
+2025-12-02 20:41:50.539 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/lib/jquery/dist/jquery.min.js - 200 87535 text/javascript 7.4667ms
+2025-12-02 20:41:50.539 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/js/site.js?v=hRQyftXiu1lLX2P9Ly9xa4gHJgLeR1uGN5qegUobtGo - 200 231 text/javascript 7.6198ms
+2025-12-02 20:41:50.540 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/lib/bootstrap/dist/js/bootstrap.bundle.min.js - 200 80727 text/javascript 8.1789ms
+2025-12-02 20:41:50.541 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/lib/bootstrap/dist/css/bootstrap.min.css - 200 232808 text/css 9.453ms
+2025-12-02 20:41:50.541 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/lib/jquery-validation/dist/jquery.validate.min.js - 200 25311 text/javascript 9.1137ms
+2025-12-02 20:41:50.541 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js - 200 5831 text/javascript 9.2694ms
+2025-12-02 20:41:50.596 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/lib/bootstrap/dist/css/bootstrap.min.css.map - null null
+2025-12-02 20:41:50.600 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map - null null
+2025-12-02 20:41:50.601 -05:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/css/bootstrap.min.css.map'. Physical path: 'D:\Code\buzzripper\app1\OpeniddictServer\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map'
+2025-12-02 20:41:50.602 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/lib/bootstrap/dist/css/bootstrap.min.css.map - 200 589892 text/plain 6.5541ms
+2025-12-02 20:41:50.604 -05:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map'. Physical path: 'D:\Code\buzzripper\app1\OpeniddictServer\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map'
+2025-12-02 20:41:50.604 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map - 200 332090 text/plain 4.7426ms
+2025-12-02 20:41:51.861 -05:00 [INF] Request starting HTTP/2 POST https://localhost:44395/Identity/Account/Login - application/x-www-form-urlencoded 262
+2025-12-02 20:41:51.868 -05:00 [INF] CORS policy execution failed.
+2025-12-02 20:41:51.869 -05:00 [INF] Request origin https://localhost:44395 does not have permission to access the resource.
+2025-12-02 20:41:51.870 -05:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2025-12-02 20:41:51.871 -05:00 [INF] Executing endpoint '/Account/Login'
+2025-12-02 20:41:51.871 -05:00 [INF] Route matched with {page = "/Account/Login", area = "Identity", action = "", controller = ""}. Executing page /Account/Login
+2025-12-02 20:41:51.884 -05:00 [INF] Executing handler method OpeniddictServer.Areas.Identity.Pages.Account.LoginModel.OnPostAsync - ModelState is "Valid"
+2025-12-02 20:41:51.897 -05:00 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[Email], [a].[EmailConfirmed], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedUserName] = @__normalizedUserName_0
+2025-12-02 20:41:51.997 -05:00 [INF] Executed DbCommand (1ms) [Parameters=[@__user_Id_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a].[Id], [a].[ClaimType], [a].[ClaimValue], [a].[UserId]
+FROM [AspNetUserClaims] AS [a]
+WHERE [a].[UserId] = @__user_Id_0
+2025-12-02 20:41:52.023 -05:00 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a0].[Name]
+FROM [AspNetUserRoles] AS [a]
+INNER JOIN [AspNetRoles] AS [a0] ON [a].[RoleId] = [a0].[Id]
+WHERE [a].[UserId] = @__userId_0
+2025-12-02 20:41:52.025 -05:00 [INF] Executed DbCommand (0ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-12-02 20:41:52.030 -05:00 [INF] Executed DbCommand (0ms) [Parameters=[@__role_Id_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a].[ClaimType], [a].[ClaimValue]
+FROM [AspNetRoleClaims] AS [a]
+WHERE [a].[RoleId] = @__role_Id_0
+2025-12-02 20:41:52.032 -05:00 [INF] Executed DbCommand (0ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-12-02 20:41:52.033 -05:00 [INF] Executed DbCommand (0ms) [Parameters=[@__role_Id_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a].[ClaimType], [a].[ClaimValue]
+FROM [AspNetRoleClaims] AS [a]
+WHERE [a].[RoleId] = @__role_Id_0
+2025-12-02 20:41:52.037 -05:00 [INF] AuthenticationScheme: Identity.Application signed in.
+2025-12-02 20:41:52.038 -05:00 [INF] User logged in.
+2025-12-02 20:41:52.039 -05:00 [INF] Executed handler method OnPostAsync, returned result Microsoft.AspNetCore.Mvc.LocalRedirectResult.
+2025-12-02 20:41:52.040 -05:00 [INF] Executing LocalRedirectResult, redirecting to /.
+2025-12-02 20:41:52.041 -05:00 [INF] Executed page /Account/Login in 169.8903ms
+2025-12-02 20:41:52.041 -05:00 [INF] Executed endpoint '/Account/Login'
+2025-12-02 20:41:52.044 -05:00 [INF] Request finished HTTP/2 POST https://localhost:44395/Identity/Account/Login - 302 null null 182.8244ms
+2025-12-02 20:41:52.045 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/ - null null
+2025-12-02 20:41:52.050 -05:00 [INF] Executing endpoint 'OpeniddictServer.Controllers.HomeController.Index (OpeniddictServer)'
+2025-12-02 20:41:52.050 -05:00 [INF] Route matched with {action = "Index", controller = "Home", page = "", area = ""}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller OpeniddictServer.Controllers.HomeController (OpeniddictServer).
+2025-12-02 20:41:52.050 -05:00 [INF] Executing ViewResult, running view Index.
+2025-12-02 20:41:52.053 -05:00 [INF] Executed ViewResult - view Index executed in 3.196ms.
+2025-12-02 20:41:52.054 -05:00 [INF] Executed action OpeniddictServer.Controllers.HomeController.Index (OpeniddictServer) in 3.554ms
+2025-12-02 20:41:52.054 -05:00 [INF] Executed endpoint 'OpeniddictServer.Controllers.HomeController.Index (OpeniddictServer)'
+2025-12-02 20:41:52.054 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/ - 200 null text/html; charset=utf-8 9.3524ms
+2025-12-02 20:41:52.071 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/.well-known/appspecific/com.chrome.devtools.json - null null
+2025-12-02 20:41:52.072 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/.well-known/appspecific/com.chrome.devtools.json - 404 0 null 1.3399ms
+2025-12-02 20:41:52.073 -05:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:44395/.well-known/appspecific/com.chrome.devtools.json, Response status code: 404
+2025-12-02 20:41:52.076 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/OpeniddictServer.styles.css?v=RSTmrnygyC9khcGvQI3KqRwrb1DgWjucbnfTyzfdSyU - null null
+2025-12-02 20:41:52.076 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/css/site.css - null null
+2025-12-02 20:41:52.077 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/lib/jquery/dist/jquery.min.js - null null
+2025-12-02 20:41:52.076 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/lib/bootstrap/dist/css/bootstrap.min.css - null null
+2025-12-02 20:41:52.077 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/lib/bootstrap/dist/js/bootstrap.bundle.min.js - null null
+2025-12-02 20:41:52.077 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/js/site.js?v=hRQyftXiu1lLX2P9Ly9xa4gHJgLeR1uGN5qegUobtGo - null null
+2025-12-02 20:41:52.077 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/_framework/aspnetcore-browser-refresh.js - null null
+2025-12-02 20:41:52.078 -05:00 [INF] Sending file. Request path: '/OpeniddictServer.styles.css'. Physical path: 'D:\Code\buzzripper\app1\OpeniddictServer\obj\Debug\net9.0\scopedcss\bundle\OpeniddictServer.styles.css'
+2025-12-02 20:41:52.078 -05:00 [INF] Sending file. Request path: '/css/site.css'. Physical path: 'D:\Code\buzzripper\app1\OpeniddictServer\wwwroot\css\site.css'
+2025-12-02 20:41:52.078 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/OpeniddictServer.styles.css?v=RSTmrnygyC9khcGvQI3KqRwrb1DgWjucbnfTyzfdSyU - 200 1109 text/css 1.9858ms
+2025-12-02 20:41:52.079 -05:00 [INF] Sending file. Request path: '/lib/jquery/dist/jquery.min.js'. Physical path: 'D:\Code\buzzripper\app1\OpeniddictServer\wwwroot\lib\jquery\dist\jquery.min.js'
+2025-12-02 20:41:52.080 -05:00 [INF] Sending file. Request path: '/js/site.js'. Physical path: 'D:\Code\buzzripper\app1\OpeniddictServer\wwwroot\js\site.js'
+2025-12-02 20:41:52.080 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 3.2267ms
+2025-12-02 20:41:52.080 -05:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/js/bootstrap.bundle.min.js'. Physical path: 'D:\Code\buzzripper\app1\OpeniddictServer\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js'
+2025-12-02 20:41:52.080 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/css/site.css - 200 667 text/css 3.7953ms
+2025-12-02 20:41:52.081 -05:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/css/bootstrap.min.css'. Physical path: 'D:\Code\buzzripper\app1\OpeniddictServer\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css'
+2025-12-02 20:41:52.081 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/lib/jquery/dist/jquery.min.js - 200 87535 text/javascript 4.2806ms
+2025-12-02 20:41:52.081 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/js/site.js?v=hRQyftXiu1lLX2P9Ly9xa4gHJgLeR1uGN5qegUobtGo - 200 231 text/javascript 4.3111ms
+2025-12-02 20:41:52.081 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/lib/bootstrap/dist/js/bootstrap.bundle.min.js - 200 80727 text/javascript 4.7725ms
+2025-12-02 20:41:52.082 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/lib/bootstrap/dist/css/bootstrap.min.css - 200 232808 text/css 6.0533ms
+2025-12-02 20:41:52.138 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/lib/bootstrap/dist/css/bootstrap.min.css.map - null null
+2025-12-02 20:41:52.140 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map - null null
+2025-12-02 20:41:52.143 -05:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/css/bootstrap.min.css.map'. Physical path: 'D:\Code\buzzripper\app1\OpeniddictServer\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map'
+2025-12-02 20:41:52.143 -05:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map'. Physical path: 'D:\Code\buzzripper\app1\OpeniddictServer\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map'
+2025-12-02 20:41:52.143 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/lib/bootstrap/dist/css/bootstrap.min.css.map - 200 589892 text/plain 5.2964ms
+2025-12-02 20:41:52.144 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map - 200 332090 text/plain 3.1797ms
+2025-12-02 20:41:55.215 -05:00 [INF] Request starting HTTP/2 POST https://localhost:44395/Identity/Account/Logout?returnUrl=%2F - application/x-www-form-urlencoded 225
+2025-12-02 20:41:55.218 -05:00 [INF] CORS policy execution failed.
+2025-12-02 20:41:55.218 -05:00 [INF] Request origin https://localhost:44395 does not have permission to access the resource.
+2025-12-02 20:41:55.222 -05:00 [INF] Executing endpoint '/Account/Logout'
+2025-12-02 20:41:55.224 -05:00 [INF] Route matched with {page = "/Account/Logout", area = "Identity", action = "", controller = ""}. Executing page /Account/Logout
+2025-12-02 20:41:55.228 -05:00 [INF] Executing handler method Microsoft.AspNetCore.Identity.UI.V5.Pages.Account.Internal.LogoutModel.OnPost - ModelState is "Valid"
+2025-12-02 20:41:55.230 -05:00 [INF] AuthenticationScheme: Identity.Application signed out.
+2025-12-02 20:41:55.230 -05:00 [INF] AuthenticationScheme: Identity.External signed out.
+2025-12-02 20:41:55.231 -05:00 [INF] AuthenticationScheme: Identity.TwoFactorUserId signed out.
+2025-12-02 20:41:55.231 -05:00 [INF] User logged out.
+2025-12-02 20:41:55.231 -05:00 [INF] Executed handler method OnPost, returned result Microsoft.AspNetCore.Mvc.LocalRedirectResult.
+2025-12-02 20:41:55.231 -05:00 [INF] Executing LocalRedirectResult, redirecting to /.
+2025-12-02 20:41:55.232 -05:00 [INF] Executed page /Account/Logout in 7.2073ms
+2025-12-02 20:41:55.232 -05:00 [INF] Executed endpoint '/Account/Logout'
+2025-12-02 20:41:55.232 -05:00 [INF] Request finished HTTP/2 POST https://localhost:44395/Identity/Account/Logout?returnUrl=%2F - 302 null null 17.0001ms
+2025-12-02 20:41:55.234 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/ - null null
+2025-12-02 20:41:55.235 -05:00 [INF] Executing endpoint 'OpeniddictServer.Controllers.HomeController.Index (OpeniddictServer)'
+2025-12-02 20:41:55.235 -05:00 [INF] Route matched with {action = "Index", controller = "Home", page = "", area = ""}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller OpeniddictServer.Controllers.HomeController (OpeniddictServer).
+2025-12-02 20:41:55.236 -05:00 [INF] Executing ViewResult, running view Index.
+2025-12-02 20:41:55.237 -05:00 [INF] Executed ViewResult - view Index executed in 1.0419ms.
+2025-12-02 20:41:55.237 -05:00 [INF] Executed action OpeniddictServer.Controllers.HomeController.Index (OpeniddictServer) in 1.2003ms
+2025-12-02 20:41:55.237 -05:00 [INF] Executed endpoint 'OpeniddictServer.Controllers.HomeController.Index (OpeniddictServer)'
+2025-12-02 20:41:55.237 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/ - 200 null text/html; charset=utf-8 3.1133ms
+2025-12-02 20:41:55.251 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/.well-known/appspecific/com.chrome.devtools.json - null null
+2025-12-02 20:41:55.252 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/.well-known/appspecific/com.chrome.devtools.json - 404 0 null 1.1373ms
+2025-12-02 20:41:55.253 -05:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:44395/.well-known/appspecific/com.chrome.devtools.json, Response status code: 404
+2025-12-02 20:41:55.255 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/lib/bootstrap/dist/css/bootstrap.min.css - null null
+2025-12-02 20:41:55.255 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/OpeniddictServer.styles.css?v=RSTmrnygyC9khcGvQI3KqRwrb1DgWjucbnfTyzfdSyU - null null
+2025-12-02 20:41:55.255 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/css/site.css - null null
+2025-12-02 20:41:55.255 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/lib/jquery/dist/jquery.min.js - null null
+2025-12-02 20:41:55.255 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/_framework/aspnetcore-browser-refresh.js - null null
+2025-12-02 20:41:55.255 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/lib/bootstrap/dist/js/bootstrap.bundle.min.js - null null
+2025-12-02 20:41:55.255 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/js/site.js?v=hRQyftXiu1lLX2P9Ly9xa4gHJgLeR1uGN5qegUobtGo - null null
+2025-12-02 20:41:55.257 -05:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/css/bootstrap.min.css'. Physical path: 'D:\Code\buzzripper\app1\OpeniddictServer\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css'
+2025-12-02 20:41:55.259 -05:00 [INF] Sending file. Request path: '/css/site.css'. Physical path: 'D:\Code\buzzripper\app1\OpeniddictServer\wwwroot\css\site.css'
+2025-12-02 20:41:55.259 -05:00 [INF] Sending file. Request path: '/OpeniddictServer.styles.css'. Physical path: 'D:\Code\buzzripper\app1\OpeniddictServer\obj\Debug\net9.0\scopedcss\bundle\OpeniddictServer.styles.css'
+2025-12-02 20:41:55.259 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 3.8386ms
+2025-12-02 20:41:55.259 -05:00 [INF] Sending file. Request path: '/lib/jquery/dist/jquery.min.js'. Physical path: 'D:\Code\buzzripper\app1\OpeniddictServer\wwwroot\lib\jquery\dist\jquery.min.js'
+2025-12-02 20:41:55.260 -05:00 [INF] Sending file. Request path: '/js/site.js'. Physical path: 'D:\Code\buzzripper\app1\OpeniddictServer\wwwroot\js\site.js'
+2025-12-02 20:41:55.260 -05:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/js/bootstrap.bundle.min.js'. Physical path: 'D:\Code\buzzripper\app1\OpeniddictServer\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js'
+2025-12-02 20:41:55.260 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/lib/bootstrap/dist/css/bootstrap.min.css - 200 232808 text/css 4.8934ms
+2025-12-02 20:41:55.260 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/css/site.css - 200 667 text/css 4.9419ms
+2025-12-02 20:41:55.261 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/OpeniddictServer.styles.css?v=RSTmrnygyC9khcGvQI3KqRwrb1DgWjucbnfTyzfdSyU - 200 1109 text/css 5.485ms
+2025-12-02 20:41:55.261 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/lib/jquery/dist/jquery.min.js - 200 87535 text/javascript 5.8677ms
+2025-12-02 20:41:55.262 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/js/site.js?v=hRQyftXiu1lLX2P9Ly9xa4gHJgLeR1uGN5qegUobtGo - 200 231 text/javascript 6.1636ms
+2025-12-02 20:41:55.262 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/lib/bootstrap/dist/js/bootstrap.bundle.min.js - 200 80727 text/javascript 6.2979ms
+2025-12-02 20:41:55.333 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map - null null
+2025-12-02 20:41:55.336 -05:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map'. Physical path: 'D:\Code\buzzripper\app1\OpeniddictServer\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map'
+2025-12-02 20:41:55.337 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map - 200 332090 text/plain 3.9273ms
+2025-12-02 20:41:55.349 -05:00 [INF] Request starting HTTP/2 GET https://localhost:44395/lib/bootstrap/dist/css/bootstrap.min.css.map - null null
+2025-12-02 20:41:55.353 -05:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/css/bootstrap.min.css.map'. Physical path: 'D:\Code\buzzripper\app1\OpeniddictServer\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map'
+2025-12-02 20:41:55.353 -05:00 [INF] Request finished HTTP/2 GET https://localhost:44395/lib/bootstrap/dist/css/bootstrap.min.css.map - 200 589892 text/plain 4.1091ms
+2025-12-02 20:49:39.192 -05:00 [INF] Executed DbCommand (4ms) [Parameters=[@__p_1='?' (DbType = Int32), @__date_0='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+DELETE FROM [o]
+FROM [OpenIddictTokens] AS [o]
+WHERE [o].[Id] IN (
+    SELECT TOP(@__p_1) [o0].[Id]
+    FROM [OpenIddictTokens] AS [o0]
+    LEFT JOIN [OpenIddictAuthorizations] AS [o1] ON [o0].[AuthorizationId] = [o1].[Id]
+    WHERE [o0].[CreationDate] < @__date_0 AND ((([o0].[Status] <> N'inactive' OR [o0].[Status] IS NULL) AND ([o0].[Status] <> N'valid' OR [o0].[Status] IS NULL)) OR ([o1].[Id] IS NOT NULL AND ([o1].[Status] <> N'valid' OR [o1].[Status] IS NULL)) OR [o0].[ExpirationDate] < GETUTCDATE())
+    ORDER BY [o0].[Id]
+)
+2025-12-02 20:49:39.207 -05:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_1='?' (DbType = Int32), @__date_0='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+DELETE FROM [o]
+FROM [OpenIddictAuthorizations] AS [o]
+WHERE [o].[Id] IN (
+    SELECT TOP(@__p_1) [o0].[Id]
+    FROM [OpenIddictAuthorizations] AS [o0]
+    WHERE [o0].[CreationDate] < @__date_0 AND ([o0].[Status] <> N'valid' OR [o0].[Status] IS NULL OR [o0].[Type] = N'ad-hoc') AND NOT EXISTS (
+        SELECT 1
+        FROM [OpenIddictTokens] AS [o1]
+        WHERE [o0].[Id] = [o1].[AuthorizationId])
+    ORDER BY [o0].[Id]
+)
