@@ -9,6 +9,7 @@ using Dyvenix.App1.Portal.Server.Services;
 using Dyvenix.App1.Shared.Extensions;
 using Dyvenix.Auth.Shared.Extensions;
 using Yarp.ReverseProxy.Configuration;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,7 +33,7 @@ services.AddSecurityHeaderPolicies()
 
 		return SecurityHeadersDefinitions.GetHeaderPolicyCollection(
 		  builder.Environment.IsDevelopment(),
-		  configuration["MicrosoftEntraID:Instance"]);
+		  configuration["OpenIddict:Authority"]);
 	});
 
 services.AddAntiforgery(options =>
@@ -46,28 +47,43 @@ services.AddAntiforgery(options =>
 services.AddHttpClient();
 services.AddOptions();
 
-var scopes = configuration.GetValue<string>("DownstreamApi:Scopes");
-string[] initialScopes = scopes?.Split(' ') ?? Array.Empty<string>();
-
-services.AddMicrosoftIdentityWebAppAuthentication(configuration, "MicrosoftEntraID")
-	.EnableTokenAcquisitionToCallDownstreamApi(initialScopes)
-	.AddInMemoryTokenCaches();
-
-// Configure OpenID Connect to save tokens (including id_token) for logout
-services.Configure<OpenIdConnectOptions>(OpenIdConnectDefaults.AuthenticationScheme, options =>
+// Configure OpenID Connect authentication with OpeniddictServer
+services.AddAuthentication(options =>
 {
-	options.SaveTokens = true; // Required for id_token_hint in logout
+	options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+	options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+})
+.AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+{
+	options.Cookie.Name = "__Host-portal-auth";
+	options.Cookie.SameSite = SameSiteMode.Strict;
+	options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+})
+.AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
+{
+	options.Authority = configuration["OpenIddict:Authority"];
+	options.ClientId = configuration["OpenIddict:ClientId"];
+	options.ClientSecret = configuration["OpenIddict:ClientSecret"];
+	options.ResponseType = OpenIdConnectResponseType.Code;
+	options.ResponseMode = OpenIdConnectResponseMode.Query;
+	
+	options.Scope.Clear();
+	options.Scope.Add("openid");
+	options.Scope.Add("profile");
+	options.Scope.Add("email");
+	options.Scope.Add("offline_access");
+	options.Scope.Add("dataEventRecords");
+	
+	options.SaveTokens = true;
+	options.GetClaimsFromUserInfoEndpoint = true;
+	options.RequireHttpsMetadata = true;
+	
+	options.TokenValidationParameters = new TokenValidationParameters
+	{
+		NameClaimType = "name",
+		RoleClaimType = "role"
+	};
 });
-
-// If using downstream APIs and in memory cache, you need to reset the cookie session if the cache is missing
-// If you use persistent cache, you do not require this.
-// You can also return the 403 with the required scopes, this needs special handling for ajax calls
-// The check is only for single scopes
-if (initialScopes.Length > 0)
-{
-	services.Configure<CookieAuthenticationOptions>(CookieAuthenticationDefaults.AuthenticationScheme,
-		options => options.Events = new RejectSessionCookieWhenAccountNotInCacheEvents(initialScopes));
-}
 
 services.AddControllersWithViews(options =>
 	options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()));
@@ -78,7 +94,7 @@ services.AddRazorPages().AddMvcOptions(options =>
 	//    .RequireAuthenticatedUser()
 	//    .Build();
 	//options.Filters.Add(new AuthorizeFilter(policy));
-}).AddMicrosoftIdentityUI();
+});
 
 #if AUTH_INPROCESS
 	var authInProcess = true;

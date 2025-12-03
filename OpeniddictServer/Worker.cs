@@ -44,6 +44,48 @@ namespace OpeniddictServer
             {
                 var manager = provider.GetRequiredService<IOpenIddictApplicationManager>();
 
+                // Portal.Server BFF client
+                if (await manager.FindByClientIdAsync("portalclient") is null)
+                {
+                    await manager.CreateAsync(new OpenIddictApplicationDescriptor
+                    {
+                        ClientId = "portalclient",
+                        ClientSecret = "portal-secret-change-in-production",
+                        ConsentType = ConsentTypes.Explicit,
+                        DisplayName = "Portal Server BFF",
+                        PostLogoutRedirectUris =
+                        {
+                            new Uri("https://localhost:5001/signout-callback-oidc"),
+                            new Uri("https://localhost:5001/")
+                        },
+                        RedirectUris =
+                        {
+                            new Uri("https://localhost:5001/signin-oidc"),
+                            new Uri("https://localhost:5001/")
+                        },
+                        Permissions =
+                        {
+                            Permissions.Endpoints.Authorization,
+                            Permissions.Endpoints.EndSession,
+                            Permissions.Endpoints.Token,
+                            Permissions.Endpoints.Revocation,
+                            Permissions.Endpoints.Introspection,
+                            Permissions.GrantTypes.AuthorizationCode,
+                            Permissions.GrantTypes.RefreshToken,
+                            Permissions.ResponseTypes.Code,
+                            Permissions.Scopes.Email,
+                            Permissions.Scopes.Profile,
+                            Permissions.Scopes.Roles,
+                            Permissions.Prefixes.Scope + "dataEventRecords",
+                            Permissions.Prefixes.Scope + "offline_access"
+                        },
+                        Requirements =
+                        {
+                            Requirements.Features.ProofKeyForCodeExchange
+                        }
+                    });
+                }
+
                 // Angular UI client
                 if (await manager.FindByClientIdAsync("angularclient") is null)
                 {
