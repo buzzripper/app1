@@ -1,0 +1,16 @@
+@page
+@model OpeniddictServer.Areas.Identity.Pages.Account.ExternalLoginModel
+@{
+    ViewData["Title"] = "External Login";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">
+        @Model.ErrorMessage
+    </div>
+}
+
+<p>Processing external login...</p>

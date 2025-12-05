@@ -148,6 +148,42 @@ public class Startup
 				options.Scope.Add("email");
 				options.TokenValidationParameters.NameClaimType = "name";
 				options.TokenValidationParameters.RoleClaimType = "role";
+				options.Prompt = "none";
+			})
+			.AddOpenIdConnect("EntraID", options =>
+			{
+				options.SignInScheme = IdentityConstants.ExternalScheme;
+				options.Authority = $"{Configuration["AzureAd:Instance"]}{Configuration["AzureAd:TenantId"]}/v2.0";
+				options.ClientId = Configuration["AzureAd:ClientId"];
+				options.ClientSecret = Configuration["AzureAd:ClientSecret"];
+				options.ResponseType = OpenIdConnectResponseType.Code;
+				options.CallbackPath = "/signin-oidc";
+				options.SaveTokens = true;
+				options.Scope.Add("openid");
+				options.Scope.Add("profile");
+				options.Scope.Add("email");
+				options.TokenValidationParameters = new TokenValidationParameters
+				{
+					NameClaimType = "name",
+					RoleClaimType = "roles",
+					ValidateIssuer = true
+				};
+				options.Events = new OpenIdConnectEvents
+				{
+					OnRemoteFailure = context =>
+					{
+						context.Response.Redirect("/Identity/Account/Login");
+						context.HandleResponse();
+						return Task.CompletedTask;
+					},
+					OnTicketReceived = context =>
+					{
+						// After successful authentication, redirect to ExternalLogin callback
+						context.ReturnUri = "/Identity/Account/ExternalLogin?handler=Callback&returnUrl=" + 
+							Uri.EscapeDataString(context.Properties.Items[".redirect"] ?? "/");
+						return Task.CompletedTask;
+					}
+				};
 			});
 
 		services.AddOpenIddict()

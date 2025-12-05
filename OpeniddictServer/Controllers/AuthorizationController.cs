@@ -69,12 +69,12 @@ public class AuthorizationController : Controller
 
             var redirectUri = Request.PathBase + Request.Path + QueryString.Create(parameters);
 
-            return Challenge(
-                authenticationSchemes: IdentityConstants.ApplicationScheme,
-                properties: new AuthenticationProperties
-                {
-                    RedirectUri = redirectUri
-                });
+            //return Challenge(
+            //    authenticationSchemes: IdentityConstants.ApplicationScheme,
+            //    properties: new AuthenticationProperties
+            //    {
+            //        RedirectUri = redirectUri
+            //    });
 
             //return Challenge(
             //    authenticationSchemes: "Auth0",
@@ -82,12 +82,49 @@ public class AuthorizationController : Controller
             //    {
             //        RedirectUri = redirectUri
             //    });
+
+            return Challenge(
+                authenticationSchemes: "EntraID",
+                properties: new AuthenticationProperties
+                {
+                    RedirectUri = redirectUri
+                });
         }
 
         // Retrieve the user principal stored in the authentication cookie.
         // If a max_age parameter was provided, ensure that the cookie is not too old.
         // If the user principal can't be extracted or the cookie is too old, redirect the user to the login page.
+        
+        // Try to authenticate with the local application scheme first
         var result = await HttpContext.AuthenticateAsync(IdentityConstants.ApplicationScheme);
+        
+        // If local auth failed, try external scheme (for users coming back from external IdP)
+        if (result == null || !result.Succeeded)
+        {
+            result = await HttpContext.AuthenticateAsync(IdentityConstants.ExternalScheme);
+            
+            // If we have an external authentication, convert it to a local one
+            if (result != null && result.Succeeded)
+            {
+                var info = await _signInManager.GetExternalLoginInfoAsync();
+                if (info != null)
+                {
+                    var externalResult = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
+                    
+                    if (externalResult.Succeeded)
+                    {
+                        // Refresh the result with the local authentication
+                        result = await HttpContext.AuthenticateAsync(IdentityConstants.ApplicationScheme);
+                    }
+                    else
+                    {
+                        // User doesn't exist, need to handle this
+                        result = null;
+                    }
+                }
+            }
+        }
+        
         if (result == null || !result.Succeeded || (request.MaxAge != null && result.Properties?.IssuedUtc != null &&
             DateTimeOffset.UtcNow - result.Properties.IssuedUtc > TimeSpan.FromSeconds(request.MaxAge.Value)))
         {
@@ -106,12 +143,12 @@ public class AuthorizationController : Controller
 
             var redirectUri = Request.PathBase + Request.Path + QueryString.Create(Request.HasFormContentType ? Request.Form.ToList() : Request.Query.ToList());
 
-            return Challenge(
-                authenticationSchemes: IdentityConstants.ApplicationScheme,
-                properties: new AuthenticationProperties
-                {
-                    RedirectUri = redirectUri
-                });
+            //return Challenge(
+            //    authenticationSchemes: IdentityConstants.ApplicationScheme,
+            //    properties: new AuthenticationProperties
+            //    {
+            //        RedirectUri = redirectUri
+            //    });
 
             //return Challenge(
             //    authenticationSchemes: "Auth0",
@@ -119,7 +156,14 @@ public class AuthorizationController : Controller
             //    {
             //        RedirectUri = redirectUri
             //    });
-            }
+
+            return Challenge(
+                authenticationSchemes: "EntraID",
+                properties: new AuthenticationProperties
+                {
+                    RedirectUri = redirectUri
+                });
+        }
 
         // Retrieve the profile of the logged in user.
         var user = await _userManager.GetUserAsync(result.Principal) ??
