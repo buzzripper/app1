@@ -1,4 +1,6 @@
+using Dyvenix.Auth.Shared;
 using Dyvenix.Auth.Shared.Interfaces;
+using Dyvenix.System.Shared.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -11,22 +13,21 @@ namespace Dyvenix.Auth.Api.Controllers;
 [Route("api/auth/[controller]")] // Fallback route without version
 public class SystemController : ControllerBase
 {
-	private readonly IAuthSystemService _systemService;
+	private readonly ISystemService _systemService;
 
-	public SystemController(IAuthSystemService systemService)
+	public SystemController(ISystemService systemService)
 	{
 		_systemService = systemService;
 	}
 
-	[HttpGet("alive")]
+	[HttpGet("[action]")]
 	[AllowAnonymous]
-	public async Task<ActionResult<object>> Alive()
+	public async Task<ActionResult<object>> Ping()
 	{
-		var health = await _systemService.Alive();
-		return Ok(health);
+		return Ok(new PingResult(AuthConstants.ModuleId, ControllerContext.ActionDescriptor.ControllerName));
 	}
 
-	[HttpGet("health")]
+	[HttpGet("[action]")]
 	[AllowAnonymous]
 	public async Task<ActionResult<object>> Health()
 	{

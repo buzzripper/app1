@@ -1,5 +1,8 @@
 ﻿using Dyvenix.Auth.Api.DTOs.EntraId;
 using Dyvenix.Auth.Api.Services;
+using Dyvenix.Auth.Shared;
+using Dyvenix.System.Shared.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -8,7 +11,9 @@ using System.Threading.Tasks;
 namespace Dyvenix.Auth.Api.Controllers;
 
 [ApiController]
-[Route("api/token")]
+[Asp.Versioning.ApiVersion("1.0")]
+[Route("api/auth/v{version:apiVersion}/[controller]")]
+[Route("api/auth/[controller]")] // Fallback route without version
 public class TokenEnrichmentController : ControllerBase
 {
 	private readonly ITokenEnrichmentService _tokenEnrichmentService;
@@ -18,6 +23,13 @@ public class TokenEnrichmentController : ControllerBase
 	{
 		_tokenEnrichmentService = enrichmentService;
 		_logger = logger;
+	}
+
+	[HttpGet("[action]")]
+	[AllowAnonymous]
+	public async Task<ActionResult<object>> Ping()
+	{
+		return Ok(new PingResult(AuthConstants.ModuleId, ControllerContext.ActionDescriptor.ControllerName));
 	}
 
 	[HttpPost("[action]")]
