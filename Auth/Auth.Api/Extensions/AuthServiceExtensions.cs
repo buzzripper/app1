@@ -13,16 +13,20 @@ public static class AuthServiceExtensions
 	/// Registers Auth API services and controllers.
 	/// Call this when hosting Auth services (standalone or in-process).
 	/// </summary>
-	public static IServiceCollection AddAuthApiServices(this IServiceCollection services)
+	public static IServiceCollection AddAuthApiServices(this IServiceCollection services, bool isInProcess)
 	{
 		// Register business logic services
 		services.AddScoped<IAuthSystemService, SystemService>();
+		services.AddScoped<ITokenEnrichmentService, TokenEnrichmentService>();
+		
+		if (!isInProcess)
+		{
+			// Add Controllers
+			services.AddControllers();
 
-		//// Add Controllers
-		//services.AddControllers();	
-
-		//// Add OpenAPI support
-		//services.AddOpenApi();
+			// Add OpenAPI support
+			services.AddOpenApi();
+		}
 
 		return services;
 	}

@@ -1,6 +1,7 @@
 using Dyvenix.Auth.Shared.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Dyvenix.Auth.Api.Controllers;
 
