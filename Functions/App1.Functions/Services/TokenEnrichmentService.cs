@@ -17,14 +17,7 @@ public class TokenEnrichmentService : ITokenEnrichmentService
             ODataType = "microsoft.graph.tokenIssuanceStart.provideClaimsForToken",
             Claims =
             {
-                // Example custom claims you want in the token
-                ["DateOfBirth"] = "12/23/1964",
-                ["permissions"] = new[] { "ar_read", "ar_write", "ap_read" },
-                ["perm"] = "app1.admin",
-                ["perm"] = "auth.none",
-                ["perm"] = "foo.bar",
-                ["ApiVersion"] = "v1",
-                ["CorrelationId"] = "8FF630AC-5AEC-4145-B532-B6CC55CBFB43"
+                ["perm"] = new[] { "app1.admin", "auth.none", "portal.read" }
             }
         };
 
