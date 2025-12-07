@@ -18,7 +18,7 @@ public class TokenEnrichmentService : ITokenEnrichmentService
             Claims =
             {
                 // Example custom claims you want in the token
-                ["DateOfBirth"] = "12/23/1963",
+                ["DateOfBirth"] = "12/23/1964",
                 ["permissions"] = new[] { "ar_read", "ar_write", "ap_read" },
                 ["perm"] = "app1.admin",
                 ["perm"] = "auth.none",
