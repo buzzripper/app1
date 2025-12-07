@@ -18,7 +18,7 @@ public static class AuthServiceExtensions
 		// Register business logic services
 		services.AddScoped<ISystemService, SystemService>();
 		services.AddScoped<ITokenEnrichmentService, TokenEnrichmentService>();
-
+		
 		if (!isInProcess)
 		{
 			// Add Controllers

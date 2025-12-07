@@ -1,5 +1,7 @@
+using Dyvenix.Auth.Shared;
 using Dyvenix.Auth.Shared.DTOs;
 using Dyvenix.Auth.Shared.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
