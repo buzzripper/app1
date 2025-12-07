@@ -13,22 +13,26 @@ public static class AuthServiceExtensions
 	/// Registers Auth API services and controllers.
 	/// Call this when hosting Auth services (standalone or in-process).
 	/// </summary>
-	public static IServiceCollection AddAuthApiServices(this IServiceCollection services)
+	public static IServiceCollection AddAuthApiServices(this IServiceCollection services, bool isInProcess)
 	{
 		// Register business logic services
-		services.AddScoped<IAuthSystemService, SystemService>();
+		services.AddScoped<ISystemService, SystemService>();
+		services.AddScoped<ITokenEnrichmentService, TokenEnrichmentService>();
+		
+		if (!isInProcess)
+		{
+			// Add Controllers
+			services.AddControllers();
 
-		//// Add Controllers
-		//services.AddControllers();	
-
-		//// Add OpenAPI support
-		//services.AddOpenApi();
+			// Add OpenAPI support
+			services.AddOpenApi();
+		}
 
 		return services;
 	}
 
 	/// <summary>
-	/// Maps Scalar API documentation UI for Auth endpoints.
+	/// Maps OpenAPI and Scalar API documentation endpoints for Auth API.
 	/// Call this in development or when you want to expose API documentation.
 	/// </summary>
 	public static IEndpointRouteBuilder MapAuthApiDocumentation(this IEndpointRouteBuilder app)
@@ -38,8 +42,7 @@ public static class AuthServiceExtensions
 		{
 			options
 				.WithTitle("Auth API")
-				.WithTheme(ScalarTheme.Purple)
-				.WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient);
+				.WithTheme(ScalarTheme.DeepSpace);
 		});
 
 		return app;

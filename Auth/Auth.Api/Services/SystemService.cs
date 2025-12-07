@@ -1,11 +1,14 @@
 using Dyvenix.Auth.Shared;
 using Dyvenix.Auth.Shared.DTOs;
 using Dyvenix.Auth.Shared.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Threading.Tasks;
 
 namespace Dyvenix.Auth.Api.Services;
 
-public class SystemService : IAuthSystemService
+public class SystemService : ISystemService
 {
 	private readonly ILogger<SystemService> _logger;
 
@@ -14,11 +17,10 @@ public class SystemService : IAuthSystemService
 		_logger = logger;
 	}
 
-	public Task<string> Alive()
-	{
-		_logger.LogInformation("Service name requested");
-		return Task.FromResult($"{AuthConstants.ServiceId} is alive.");
-	}
+	//public Task<string> Ping()
+	//{
+	//	return Task.FromResult($"{this.GetType().Name} ({DateTime.UtcNow:yyyy-MM-dd HH:mm:ss} UTC)");
+	//}
 
 	public Task<AuthHealthStatus> Health()
 	{

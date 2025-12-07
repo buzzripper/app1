@@ -2,8 +2,8 @@ using Dyvenix.Auth.Shared.DTOs;
 
 namespace Dyvenix.Auth.Shared.Interfaces;
 
-public interface IAuthSystemService
+public interface ISystemService
 {
-	Task<string> Alive();
+	//Task<string> Ping();
 	Task<AuthHealthStatus> Health();
 }

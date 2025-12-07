@@ -4,7 +4,7 @@ using System.Net.Http.Json;
 
 namespace Dyvenix.Auth.Shared.Proxies;
 
-public class SystemServiceHttpClient : IAuthSystemService
+public class SystemServiceHttpClient : ISystemService
 {
 	public const string cUrlPathRoot = "api/auth/v1/system";
 
@@ -15,7 +15,7 @@ public class SystemServiceHttpClient : IAuthSystemService
 		_httpClient = httpClient;
 	}
 
-	public async Task<string> Alive()
+	public async Task<string> Ping()
 	{
 		var response = await _httpClient.GetAsync($"{cUrlPathRoot}/alive");
 		response.EnsureSuccessStatusCode();
