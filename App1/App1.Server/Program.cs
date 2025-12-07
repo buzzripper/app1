@@ -56,13 +56,13 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers();
-
-// Enable Scalar API documentation in development
+// Enable API documentation in development
 if (app.Environment.IsDevelopment())
 {
 	app.MapApp1ApiDocumentation();
 }
+
+app.MapControllers();
 
 app.MapDefaultEndpoints();
 

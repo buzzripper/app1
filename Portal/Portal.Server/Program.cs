@@ -82,7 +82,7 @@ services.AddRazorPages().AddMvcOptions(options =>
 
 #if AUTH_INPROCESS
 	var authInProcess = true;
-	services.AddAuthApiServices();
+	services.AddAuthApiServices(isInProcess: true);
 #else
 	var authInProcess = false;
 #endif

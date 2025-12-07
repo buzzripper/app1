@@ -51,7 +51,7 @@ public static class App1ServiceExtensions
 	}
 
 	/// <summary>
-	/// Maps Scalar API documentation UI for App1 endpoints.
+	/// Maps OpenAPI and Scalar API documentation endpoints for App1 API.
 	/// Call this in development or when you want to expose API documentation.
 	/// </summary>
 	public static IEndpointRouteBuilder MapApp1ApiDocumentation(this IEndpointRouteBuilder app)
@@ -61,8 +61,7 @@ public static class App1ServiceExtensions
 		{
 			options
 				.WithTitle("App1 API")
-				.WithTheme(ScalarTheme.Purple)
-				.WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient);
+				.WithTheme(ScalarTheme.DeepSpace);
 		});
 
 		return app;
