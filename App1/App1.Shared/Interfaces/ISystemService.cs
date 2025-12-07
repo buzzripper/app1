@@ -2,8 +2,7 @@ using Dyvenix.App1.Shared.DTOs;
 
 namespace Dyvenix.App1.Shared.Interfaces;
 
-public interface IApp1SystemService
+public interface ISystemService
 {
-	Task<string> Alive();
 	Task<App1HealthStatus> Health();
 }

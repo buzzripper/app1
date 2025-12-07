@@ -1,4 +1,6 @@
+using Dyvenix.App1.Shared;
 using Dyvenix.App1.Shared.Interfaces;
+using Dyvenix.System.Shared.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,19 +12,18 @@ namespace Dyvenix.App1.Api.Controllers;
 [Route("api/app1/[controller]")] // Fallback route without version
 public class SystemController : ControllerBase
 {
-	private readonly IApp1SystemService _systemService;
+	private readonly ISystemService _systemService;
 
-	public SystemController(IApp1SystemService systemService)
+	public SystemController(ISystemService systemService)
 	{
 		_systemService = systemService;
 	}
 
 	[HttpGet("alive")]
 	[AllowAnonymous]
-	public async Task<ActionResult<object>> Alive()
+	public async Task<ActionResult<object>> Ping()
 	{
-		var health = await _systemService.Alive();
-		return Ok(health);
+		return Ok(new PingResult(App1Constants.ModuleId, ControllerContext.ActionDescriptor.ControllerName));
 	}
 
 	[HttpGet("health")]
