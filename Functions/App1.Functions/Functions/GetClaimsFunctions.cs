@@ -64,7 +64,7 @@ public class GetClaimsFunctions
             return new BadRequestObjectResult(new
             {
                 error = "processing_error",
-                error_description = "Failed to retrieve custom claims"
+                error_description = $"{ex.GetType().Name}: {ex.Message}"
             });
         }
     }

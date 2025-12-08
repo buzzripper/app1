@@ -1,7 +1,7 @@
 ﻿{
 	"$schema": "https://json.schemastore.org/launchsettings.json",
 	"profiles": {
-		"App1.Server": {
+		"App.Server": {
 			"commandName": "Project",
 			"dotnetRunMessages": true,
 			"launchBrowser": false,

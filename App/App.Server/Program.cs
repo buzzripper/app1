@@ -1,4 +1,4 @@
-using Dyvenix.App1.Api.Extensions;
+using Dyvenix.App.Api.Extensions;
 using Dyvenix.System.Apis;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -34,7 +34,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthorization();
 
 // Register App1 API services
-builder.Services.AddApp1ApiServices();
+builder.Services.AddAppApiServices();
 
 // Configure API versioning
 builder.Services.AddApiVersioning(options =>
@@ -59,7 +59,7 @@ app.UseAuthorization();
 // Enable API documentation in development
 if (app.Environment.IsDevelopment())
 {
-	app.MapApp1ApiDocumentation();
+	app.MapAppApiDocumentation();
 }
 
 app.MapControllers();

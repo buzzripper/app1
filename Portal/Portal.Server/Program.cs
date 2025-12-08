@@ -1,14 +1,15 @@
 ﻿#if AUTH_INPROCESS
 using Dyvenix.Auth.Api.Extensions;
 #endif
-#if APP1_INPROCESS
-using Dyvenix.App1.Api.Extensions;
+#if APP_INPROCESS
+using Dyvenix.App.Api.Extensions;
 #endif
 using Dyvenix.App1.Portal.Server;
+using Dyvenix.App1.Portal.Server.Interfaces;
 using Dyvenix.App1.Portal.Server.Services;
-using Dyvenix.App1.Shared.Extensions;
-using Dyvenix.Auth.Shared.Extensions;
 using Yarp.ReverseProxy.Configuration;
+using Dyvenix.App.Shared.Extensions;
+using Dyvenix.Auth.Shared.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,6 +44,7 @@ services.AddAntiforgery(options =>
 	options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
 });
 
+services.AddScoped<ISystemService, SystemService>();
 services.AddHttpClient();
 services.AddOptions();
 
@@ -87,9 +89,9 @@ services.AddRazorPages().AddMvcOptions(options =>
 	var authInProcess = false;
 #endif
 
-#if APP1_INPROCESS
+#if APP_INPROCESS
 	var app1InProcess = true;
-	services.AddApp1ApiServices();
+	services.AddAppApiServices();
 #else
 	var app1InProcess = false;
 #endif
@@ -105,13 +107,13 @@ services.AddApp1Client(configuration, app1InProcess);
 
 builder.Services.AddApiVersioning(options =>
 {
-    options.DefaultApiVersion = new Asp.Versioning.ApiVersion(1, 0);
-    options.AssumeDefaultVersionWhenUnspecified = true;
-    options.ReportApiVersions = true;
+	options.DefaultApiVersion = new Asp.Versioning.ApiVersion(1, 0);
+	options.AssumeDefaultVersionWhenUnspecified = true;
+	options.ReportApiVersions = true;
 }).AddApiExplorer(options =>
 {
-    options.GroupNameFormat = "'v'VVV";
-    options.SubstituteApiVersionInUrl = true;
+	options.GroupNameFormat = "'v'VVV";
+	options.SubstituteApiVersionInUrl = true;
 });
 
 var app = builder.Build();
