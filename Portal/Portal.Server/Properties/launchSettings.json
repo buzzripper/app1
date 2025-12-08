@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "Portal.Server": {
+    "Kestrel": {
       "commandName": "Project",
       "launchBrowser": false,
       "environmentVariables": {

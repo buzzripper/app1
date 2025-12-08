@@ -12,9 +12,9 @@ namespace Dyvenix.App.Api.Controllers;
 [Route("api/app/[controller]")] // Fallback route without version
 public class SystemController : ControllerBase
 {
-	private readonly ISystemService _systemService;
+	private readonly IAppSystemService _systemService;
 
-	public SystemController(ISystemService systemService)
+	public SystemController(IAppSystemService systemService)
 	{
 		_systemService = systemService;
 	}

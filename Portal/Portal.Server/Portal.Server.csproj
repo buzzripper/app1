@@ -14,8 +14,8 @@
 	<PropertyGroup>
 		<!-- Default: In-process mode (no constants defined) -->
 		<!-- Uncomment the lines below to run in external mode -->
-		 <DefineConstants>$(DefineConstants);AUTH_INPROCESS</DefineConstants> 
-		 <DefineConstants>$(DefineConstants);APP_INPROCESS</DefineConstants> 
+		 <!--<DefineConstants>$(DefineConstants);AUTH_INPROCESS</DefineConstants>--> 
+		 <!--<DefineConstants>$(DefineConstants);APP_INPROCESS</DefineConstants>--> 
 	</PropertyGroup>
 
 	<ItemGroup>

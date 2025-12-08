@@ -15,9 +15,9 @@ namespace Dyvenix.Auth.Api.Controllers;
 [Route("api/auth/[controller]")] // Fallback route without version
 public class SystemController : ControllerBase
 {
-	private readonly ISystemService _systemService;
+	private readonly IAuthSystemService _systemService;
 
-	public SystemController(ISystemService systemService)
+	public SystemController(IAuthSystemService systemService)
 	{
 		_systemService = systemService;
 	}
