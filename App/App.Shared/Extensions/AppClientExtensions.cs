@@ -1,11 +1,11 @@
-using Dyvenix.App1.Shared.Interfaces;
-using Dyvenix.App1.Shared.Proxies;
+using Dyvenix.App.Shared.Interfaces;
+using Dyvenix.App.Shared.Proxies;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Dyvenix.App1.Shared.Extensions;
+namespace Dyvenix.App.Shared.Extensions;
 
-public static class App1ClientExtensions
+public static class AppClientExtensions
 {
 	public static IServiceCollection AddApp1Client(this IServiceCollection services, IConfiguration configuration, bool inProcess)
 	{

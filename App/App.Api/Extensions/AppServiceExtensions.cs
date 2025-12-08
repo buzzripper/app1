@@ -1,19 +1,19 @@
-using Dyvenix.App1.Api.Services;
-using Dyvenix.App1.Shared.Interfaces;
+using Dyvenix.App.Api.Services;
+using Dyvenix.App.Shared.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Scalar.AspNetCore;
 
-namespace Dyvenix.App1.Api.Extensions;
+namespace Dyvenix.App.Api.Extensions;
 
-public static class App1ServiceExtensions
+public static class AppServiceExtensions
 {
 	/// <summary>
-	/// Registers App1 API services and controllers.
-	/// Call this when hosting App1 services (standalone or in-process).
+	/// Registers App API services and controllers.
+	/// Call this when hosting App services (standalone or in-process).
 	/// </summary>
-	public static IServiceCollection AddApp1ApiServices(this IServiceCollection services)
+	public static IServiceCollection AddAppApiServices(this IServiceCollection services)
 	{
 		// Register business logic services
 		services.AddScoped<ISystemService, SystemService>();
@@ -28,12 +28,12 @@ public static class App1ServiceExtensions
 	}
 
 	/// <summary>
-	/// Maps App1 controllers to the application with optional path prefix.
-	/// Call this when hosting App1 services (standalone or in-process).
+	/// Maps App controllers to the application with optional path prefix.
+	/// Call this when hosting App services (standalone or in-process).
 	/// </summary>
 	/// <param name="app">The endpoint route builder</param>
-	/// <param name="pathPrefix">Optional path prefix (e.g., "/api/app1"). Use empty string for no prefix.</param>
-	public static IEndpointRouteBuilder MapApp1Endpoints(this IEndpointRouteBuilder app, string pathPrefix = "")
+	/// <param name="pathPrefix">Optional path prefix (e.g., "/api/app"). Use empty string for no prefix.</param>
+	public static IEndpointRouteBuilder MapAppEndpoints(this IEndpointRouteBuilder app, string pathPrefix = "")
 	{
 		if (string.IsNullOrEmpty(pathPrefix))
 		{
@@ -51,16 +51,16 @@ public static class App1ServiceExtensions
 	}
 
 	/// <summary>
-	/// Maps OpenAPI and Scalar API documentation endpoints for App1 API.
+	/// Maps OpenAPI and Scalar API documentation endpoints for App API.
 	/// Call this in development or when you want to expose API documentation.
 	/// </summary>
-	public static IEndpointRouteBuilder MapApp1ApiDocumentation(this IEndpointRouteBuilder app)
+	public static IEndpointRouteBuilder MapAppApiDocumentation(this IEndpointRouteBuilder app)
 	{
 		app.MapOpenApi();
 		app.MapScalarApiReference(options =>
 		{
 			options
-				.WithTitle("App1 API")
+				.WithTitle("App API")
 				.WithTheme(ScalarTheme.DeepSpace);
 		});
 

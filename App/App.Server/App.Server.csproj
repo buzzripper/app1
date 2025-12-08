@@ -2,7 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\System\System.Apis\System.Apis.csproj" />
-    <ProjectReference Include="..\App1.Api\App1.Api.csproj" />
+    <ProjectReference Include="..\App.Api\App.Api.csproj" />
   </ItemGroup>
 
   <ItemGroup>

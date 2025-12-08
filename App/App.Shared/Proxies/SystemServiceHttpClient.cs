@@ -1,8 +1,8 @@
-using Dyvenix.App1.Shared.DTOs;
-using Dyvenix.App1.Shared.Interfaces;
+using Dyvenix.App.Shared.DTOs;
+using Dyvenix.App.Shared.Interfaces;
 using System.Net.Http.Json;
 
-namespace Dyvenix.App1.Shared.Proxies;
+namespace Dyvenix.App.Shared.Proxies;
 
 public class SystemServiceHttpClient : ISystemService
 {
@@ -22,11 +22,11 @@ public class SystemServiceHttpClient : ISystemService
 		return await response.Content.ReadAsStringAsync();
 	}
 
-	public async Task<App1HealthStatus> Health()
+	public async Task<AppHealthStatus> Health()
 	{
 		var response = await _httpClient.GetAsync($"{cUrlPathRoot}/health");
 		response.EnsureSuccessStatusCode();
-		return await response.Content.ReadFromJsonAsync<App1HealthStatus>()
+		return await response.Content.ReadFromJsonAsync<AppHealthStatus>()
 			?? throw new InvalidOperationException("Failed to deserialize health status");
 	}
 }

@@ -14,8 +14,8 @@
 	<PropertyGroup>
 		<!-- Default: In-process mode (no constants defined) -->
 		<!-- Uncomment the lines below to run in external mode -->
-		 <!--<DefineConstants>$(DefineConstants);AUTH_INPROCESS</DefineConstants>--> 
-		 <!--<DefineConstants>$(DefineConstants);APP1_INPROCESS</DefineConstants>--> 
+		 <DefineConstants>$(DefineConstants);AUTH_INPROCESS</DefineConstants> 
+		 <DefineConstants>$(DefineConstants);APP_INPROCESS</DefineConstants> 
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -33,11 +33,11 @@
 	</ItemGroup>
 	
 	<ItemGroup>
+		<ProjectReference Include="..\..\App\App.Shared\App.Shared.csproj" />
 		<ProjectReference Include="..\..\Auth\Auth.Api\Auth.Api.csproj" Condition="$(DefineConstants.Contains('AUTH_INPROCESS'))" />
 		<ProjectReference Include="..\..\Auth\Auth.Shared\Auth.Shared.csproj" />
 
-		<ProjectReference Include="..\..\App1\App1.Api\App1.Api.csproj" Condition="$(DefineConstants.Contains('APP1_INPROCESS'))" />
-		<ProjectReference Include="..\..\App1\App1.Shared\App1.Shared.csproj" />
+		<ProjectReference Include="..\..\App\App.Api\App.Api.csproj" Condition="$(DefineConstants.Contains('APP_INPROCESS'))" />
 	</ItemGroup>
 
 </Project>
