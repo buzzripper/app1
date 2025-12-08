@@ -10,8 +10,13 @@ using Dyvenix.App1.Portal.Server.Services;
 using Yarp.ReverseProxy.Configuration;
 using Dyvenix.App.Shared.Extensions;
 using Dyvenix.Auth.Shared.Extensions;
+using Dyvenix.System.Apis;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Add OpenTelemetry support
+builder.ConfigureOpenTelemetry();
+builder.AddDefaultHealthChecks();
 
 builder.WebHost.ConfigureKestrel(serverOptions =>
 {
@@ -144,6 +149,9 @@ app.UseAuthorization();
 app.MapRazorPages();
 app.MapControllers();
 app.MapNotFound("/api/{**segment}");
+
+// Map health check endpoints (in development only)
+app.MapDefaultEndpoints();
 
 // Map YARP reverse proxy for UI dev server (only in development)
 if (app.Environment.IsDevelopment())

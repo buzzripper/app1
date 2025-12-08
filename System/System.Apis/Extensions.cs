@@ -54,50 +54,46 @@ public static class Extensions
 			logging.AddOtlpExporter();
 		});
 
-		//builder.Services.AddOpenTelemetry()
-		//	.WithMetrics(metrics =>
-		//	{
-		//		metrics.AddAspNetCoreInstrumentation();
-		//		metrics.AddHttpClientInstrumentation();
-		//		metrics.AddRuntimeInstrumentation();
-		//		metrics.AddOtlpExporter();
-		//	})
-		//	.WithTracing(tracing =>
-		//	{
-		//		tracing.AddSource(builder.Environment.ApplicationName)
-		//			.AddAspNetCoreInstrumentation(tracing =>
-		//				// Exclude health check requests from tracing
-		//				tracing.Filter = context =>
-		//					!context.Request.Path.StartsWithSegments(HealthEndpointPath)
-		//					&& !context.Request.Path.StartsWithSegments(AlivenessEndpointPath)
-		//			)
-		//			.AddHttpClientInstrumentation()
-		//			.AddOtlpExporter();
-		//	});
+		builder.Services.AddOpenTelemetry()
+			.WithMetrics(metrics =>
+			{
+				metrics.AddAspNetCoreInstrumentation();
+				metrics.AddHttpClientInstrumentation();
+				metrics.AddRuntimeInstrumentation();
+				metrics.AddOtlpExporter();
+			})
+			.WithTracing(tracing =>
+			{
+				tracing.AddSource(builder.Environment.ApplicationName)
+					.AddAspNetCoreInstrumentation(options =>
+						// Exclude health check requests from tracing
+						options.Filter = context =>
+							!context.Request.Path.StartsWithSegments(HealthEndpointPath)
+							&& !context.Request.Path.StartsWithSegments(AlivenessEndpointPath)
+					)
+					.AddHttpClientInstrumentation()
+					.AddOtlpExporter();
+			});
 
-		//builder.AddOpenTelemetryExporters();
+		builder.AddOpenTelemetryExporters();
 
 		return builder;
 	}
 
-	//private static TBuilder AddOpenTelemetryExporters<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
-	//{
-	//	var useOtlpExporter = !string.IsNullOrWhiteSpace(builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"]);
+	private static TBuilder AddOpenTelemetryExporters<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
+	{
+		// OTLP exporter is already configured via AddOtlpExporter() calls in ConfigureOpenTelemetry
+		// This method is kept for future extensibility (e.g., Azure Monitor)
+		
+		// Uncomment the following lines to enable the Azure Monitor exporter (requires the Azure.Monitor.OpenTelemetry.AspNetCore package)
+		//if (!string.IsNullOrEmpty(builder.Configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"]))
+		//{
+		//    builder.Services.AddOpenTelemetry()
+		//       .UseAzureMonitor();
+		//}
 
-	//	if (useOtlpExporter)
-	//	{
-	//		builder.Services.AddOpenTelemetry().UseOtlpExporter();
-	//	}
-
-	//	// Uncomment the following lines to enable the Azure Monitor exporter (requires the Azure.Monitor.OpenTelemetry.AspNetCore package)
-	//	//if (!string.IsNullOrEmpty(builder.Configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"]))
-	//	//{
-	//	//    builder.Services.AddOpenTelemetry()
-	//	//       .UseAzureMonitor();
-	//	//}
-
-	//	return builder;
-	//}
+		return builder;
+	}
 
 	public static TBuilder AddDefaultHealthChecks<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
 	{
