@@ -83,7 +83,8 @@ public static class Extensions
 	private static TBuilder AddOpenTelemetryExporters<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
 	{
 		// OTLP exporter is already configured via AddOtlpExporter() calls in ConfigureOpenTelemetry
-		// This method is kept for future extensibility (e.g., Azure Monitor)
+		// This method is intentionally empty but kept as a placeholder for future extensibility
+		// (e.g., Azure Monitor or other observability backends)
 		
 		// Uncomment the following lines to enable the Azure Monitor exporter (requires the Azure.Monitor.OpenTelemetry.AspNetCore package)
 		//if (!string.IsNullOrEmpty(builder.Configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"]))
