@@ -1,15 +1,15 @@
 ﻿#if AUTH_INPROCESS
 using Dyvenix.Auth.Api.Extensions;
 #endif
-#if APP1_INPROCESS
-using Dyvenix.App1.Api.Extensions;
+#if APP_INPROCESS
+using Dyvenix.App.Api.Extensions;
 #endif
 using Dyvenix.App1.Portal.Server;
-using Dyvenix.App1.Portal.Server.Services;
-using Dyvenix.App1.Shared.Extensions;
-using Dyvenix.Auth.Shared.Extensions;
-using Yarp.ReverseProxy.Configuration;
 using Dyvenix.App1.Portal.Server.Interfaces;
+using Dyvenix.App1.Portal.Server.Services;
+using Yarp.ReverseProxy.Configuration;
+using Dyvenix.App.Shared.Extensions;
+using Dyvenix.Auth.Shared.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -83,15 +83,15 @@ services.AddRazorPages().AddMvcOptions(options =>
 }).AddMicrosoftIdentityUI();
 
 #if AUTH_INPROCESS
-var authInProcess = true;
-services.AddAuthApiServices(isInProcess: true);
+	var authInProcess = true;
+	services.AddAuthApiServices(isInProcess: true);
 #else
 	var authInProcess = false;
 #endif
 
-#if APP1_INPROCESS
-var app1InProcess = true;
-services.AddApp1ApiServices();
+#if APP_INPROCESS
+	var app1InProcess = true;
+	services.AddAppApiServices();
 #else
 	var app1InProcess = false;
 #endif
