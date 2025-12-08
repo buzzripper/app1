@@ -21,7 +21,7 @@ public static class AuthClientExtensions
 					"ServiceClients:Auth:Url is required when InProcess is false");
 			}
 
-			services.AddHttpClient<ISystemService, SystemServiceHttpClient>(client =>
+			services.AddHttpClient<IAuthSystemService, SystemServiceHttpClient>(client =>
 			{
 				client.BaseAddress = new Uri(baseUrl);
 			});

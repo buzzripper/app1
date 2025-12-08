@@ -21,7 +21,7 @@ public static class AppClientExtensions
 					"ServiceClients:App1:Url is required when InProcess is false");
 			}
 
-			services.AddHttpClient<ISystemService, SystemServiceHttpClient>(client =>
+			services.AddHttpClient<IAppSystemService, SystemServiceHttpClient>(client =>
 			{
 				client.BaseAddress = new Uri(baseUrl);
 			});

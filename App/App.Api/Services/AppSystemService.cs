@@ -5,11 +5,11 @@ using Microsoft.Extensions.Logging;
 
 namespace Dyvenix.App.Api.Services;
 
-public class SystemService : ISystemService
+public class AppSystemService : IAppSystemService
 {
-	private readonly ILogger<SystemService> _logger;
+	private readonly ILogger<AppSystemService> _logger;
 
-	public SystemService(ILogger<SystemService> logger)
+	public AppSystemService(ILogger<AppSystemService> logger)
 	{
 		_logger = logger;
 	}

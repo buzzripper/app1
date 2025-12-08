@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Dyvenix.Auth.Api.Services;
 
-public class SystemService : ISystemService
+public class AuthSystemService : IAuthSystemService
 {
-	private readonly ILogger<SystemService> _logger;
+	private readonly ILogger<AuthSystemService> _logger;
 
-	public SystemService(ILogger<SystemService> logger)
+	public AuthSystemService(ILogger<AuthSystemService> logger)
 	{
 		_logger = logger;
 	}

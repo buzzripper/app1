@@ -2,15 +2,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\System\System.Apis\System.Apis.csproj" />
+    <ProjectReference Include="..\..\System\System.Servers\System.Servers.csproj" />
     <ProjectReference Include="..\Auth.Api\Auth.Api.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Asp.Versioning.Mvc" Version="8.1.0" />
-    <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="10.0.0" />
-    <PackageReference Include="Microsoft.Extensions.ServiceDiscovery" Version="10.0.0" />
   </ItemGroup>
 
   <PropertyGroup>
