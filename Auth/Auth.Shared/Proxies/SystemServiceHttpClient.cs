@@ -4,7 +4,7 @@ using System.Net.Http.Json;
 
 namespace Dyvenix.Auth.Shared.Proxies;
 
-public class SystemServiceHttpClient : ISystemService
+public class SystemServiceHttpClient : IAuthSystemService
 {
 	public const string cUrlPathRoot = "api/auth/v1/system";
 

@@ -16,7 +16,7 @@ public static class AuthServiceExtensions
 	public static IServiceCollection AddAuthApiServices(this IServiceCollection services, bool isInProcess)
 	{
 		// Register business logic services
-		services.AddScoped<ISystemService, SystemService>();
+		services.AddScoped<IAuthSystemService, AuthSystemService>();
 		
 		if (!isInProcess)
 		{
