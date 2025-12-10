@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
@@ -46,12 +48,40 @@ public static class Extensions
 
 	public static TBuilder ConfigureOpenTelemetry<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
 	{
+		var loggingConfig = builder.Configuration.GetSection("Logging:File");
+		var useFileLogging = loggingConfig.GetValue<bool>("Enabled");
+		var logFilePath = loggingConfig.GetValue<string>("Path") ?? "logs/app.log";
+
+		// Configure file logging if enabled (for local development)
+		if (useFileLogging)
+		{
+			// Ensure log directory exists
+			var logDir = Path.GetDirectoryName(logFilePath);
+			if (!string.IsNullOrEmpty(logDir))
+				Directory.CreateDirectory(logDir);
+
+			// Add custom file logger with simple format
+			builder.Logging.AddProvider(new FileLoggerProvider(logFilePath));
+		}
+
+		// Configure console logging with custom formatter in Development (optional fallback)
+		if (builder.Environment.IsDevelopment() && !useFileLogging)
+		{
+			builder.Logging.AddConsoleFormatter<SimpleLogFormatter, SimpleLogFormatterOptions>();
+			builder.Logging.AddConsole(options => options.FormatterName = SimpleLogFormatter.FormatterName);
+		}
+
 		builder.Logging.AddOpenTelemetry(logging =>
 		{
 			logging.IncludeFormattedMessage = true;
 			logging.IncludeScopes = true;
-			// Export logs to OTLP (Grafana Cloud)
-			logging.AddOtlpExporter();
+
+			// Export logs to OTLP (Grafana Cloud) - only when configured
+			var otlpEndpoint = builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"];
+			if (!string.IsNullOrEmpty(otlpEndpoint))
+			{
+				logging.AddOtlpExporter();
+			}
 		});
 
 		builder.Services.AddOpenTelemetry()
@@ -60,7 +90,12 @@ public static class Extensions
 				metrics.AddAspNetCoreInstrumentation();
 				metrics.AddHttpClientInstrumentation();
 				metrics.AddRuntimeInstrumentation();
-				metrics.AddOtlpExporter();
+				
+				var otlpEndpoint = builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"];
+				if (!string.IsNullOrEmpty(otlpEndpoint))
+				{
+					metrics.AddOtlpExporter();
+				}
 			})
 			.WithTracing(tracing =>
 			{
@@ -71,8 +106,13 @@ public static class Extensions
 							!context.Request.Path.StartsWithSegments(HealthEndpointPath)
 							&& !context.Request.Path.StartsWithSegments(AlivenessEndpointPath)
 					)
-					.AddHttpClientInstrumentation()
-					.AddOtlpExporter();
+					.AddHttpClientInstrumentation();
+				
+				var otlpEndpoint = builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"];
+				if (!string.IsNullOrEmpty(otlpEndpoint))
+				{
+					tracing.AddOtlpExporter();
+				}
 			});
 
 		builder.AddOpenTelemetryExporters();
