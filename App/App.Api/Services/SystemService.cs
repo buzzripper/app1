@@ -16,6 +16,8 @@ public class SystemService : ISystemService
 
 	public Task<AppHealthStatus> Health()
 	{
+		_logger.LogInformation("+++++++++++++++++++++   APP HEALTH  ++++++++++++++++++++++++");
+
 		return Task.FromResult(new AppHealthStatus
 		{
 			IsHealthy = true,
