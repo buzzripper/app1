@@ -1,61 +1,22 @@
 using Dyvenix.Auth.Api.Extensions;
 using Dyvenix.System.Apis;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
+using Dyvenix.System.Servers;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add Aspire service defaults (telemetry, health checks, etc.)
+// Add service defaults (telemetry, health checks, resilience)
 builder.AddServiceDefaults();
 
 // Add services to the container
 builder.Services.AddControllers();
-
-// Configure JWT Authentication
-var jwtSettings = builder.Configuration.GetSection("JwtSettings");
-var secretKey = jwtSettings["SecretKey"] ?? throw new InvalidOperationException("JWT SecretKey is required");
-
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-	.AddJwtBearer(options =>
-	{
-		options.TokenValidationParameters = new TokenValidationParameters
-		{
-			ValidateIssuer = true,
-			ValidateAudience = true,
-			ValidateLifetime = true,
-			ValidateIssuerSigningKey = true,
-			ValidIssuer = jwtSettings["Issuer"],
-			ValidAudience = jwtSettings["Audience"],
-			IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
-		};
-	});
-
-// Authorization policies
-builder.Services.AddAuthorization();
-
-// Register Auth API services
+builder.Services.AddStandardJwtAuthentication(builder.Configuration);
 builder.Services.AddAuthApiServices(false);
-
-// Configure API versioning
-builder.Services.AddApiVersioning(options =>
-{
-	options.DefaultApiVersion = new Asp.Versioning.ApiVersion(1, 0);
-	options.AssumeDefaultVersionWhenUnspecified = true;
-	options.ReportApiVersions = true;
-}).AddApiExplorer(options =>
-{
-	options.GroupNameFormat = "'v'VVV";
-	options.SubstituteApiVersionInUrl = true;
-});
+builder.Services.AddStandardApiVersioning();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline
-app.UseHttpsRedirection();
-
-app.UseAuthentication();
-app.UseAuthorization();
+app.UseStandardApiPipeline();
 
 // Enable API documentation in development
 if (app.Environment.IsDevelopment())
@@ -63,8 +24,7 @@ if (app.Environment.IsDevelopment())
 	app.MapAuthApiDocumentation();
 }
 
-app.MapControllers();
-
+app.MapStandardApiEndpoints();
 app.MapDefaultEndpoints();
 
 app.Run();

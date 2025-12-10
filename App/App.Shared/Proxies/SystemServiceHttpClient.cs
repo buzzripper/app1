@@ -4,7 +4,7 @@ using System.Net.Http.Json;
 
 namespace Dyvenix.App.Shared.Proxies;
 
-public class SystemServiceHttpClient : ISystemService
+public class SystemServiceHttpClient : IAppSystemService
 {
 	public const string cUrlPathRoot = "api/app1/v1/system";
 

@@ -12,40 +12,36 @@ using OpenTelemetry.Trace;
 
 namespace Dyvenix.System.Apis;
 
-// Adds common Aspire services: service discovery, resilience, health checks, and OpenTelemetry.
-// This project should be referenced by each service project in your solution.
-// To learn more about using this project, see https://aka.ms/dotnet/aspire/service-defaults
+/// <summary>
+/// Common extensions for resilience, health checks, and OpenTelemetry.
+/// This project should be referenced by each service project in your solution.
+/// </summary>
 public static class Extensions
 {
 	private const string HealthEndpointPath = "/health";
 	private const string AlivenessEndpointPath = "/alive";
 
+	/// <summary>
+	/// Adds service defaults including OpenTelemetry, health checks, and HTTP client resilience.
+	/// </summary>
 	public static TBuilder AddServiceDefaults<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
 	{
 		builder.ConfigureOpenTelemetry();
 
 		builder.AddDefaultHealthChecks();
 
-		builder.Services.AddServiceDiscovery();
-
 		builder.Services.ConfigureHttpClientDefaults(http =>
 		{
 			// Turn on resilience by default
 			http.AddStandardResilienceHandler();
-
-			// Turn on service discovery by default
-			http.AddServiceDiscovery();
 		});
-
-		// Uncomment the following to restrict the allowed schemes for service discovery.
-		// builder.Services.Configure<ServiceDiscoveryOptions>(options =>
-		// {
-		//     options.AllowedSchemes = ["https"];
-		// });
 
 		return builder;
 	}
 
+	/// <summary>
+	/// Configures OpenTelemetry for logging with OTLP export.
+	/// </summary>
 	public static TBuilder ConfigureOpenTelemetry<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
 	{
 		var loggingConfig = builder.Configuration.GetSection("Logging:File");
@@ -84,57 +80,50 @@ public static class Extensions
 			}
 		});
 
-		builder.Services.AddOpenTelemetry()
-			.WithMetrics(metrics =>
-			{
-				metrics.AddAspNetCoreInstrumentation();
-				metrics.AddHttpClientInstrumentation();
-				metrics.AddRuntimeInstrumentation();
-				
-				var otlpEndpoint = builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"];
-				if (!string.IsNullOrEmpty(otlpEndpoint))
-				{
-					metrics.AddOtlpExporter();
-				}
-			})
-			.WithTracing(tracing =>
-			{
-				tracing.AddSource(builder.Environment.ApplicationName)
-					.AddAspNetCoreInstrumentation(tracingOptions =>
-						// Exclude health check requests from tracing
-						tracingOptions.Filter = context =>
-							!context.Request.Path.StartsWithSegments(HealthEndpointPath)
-							&& !context.Request.Path.StartsWithSegments(AlivenessEndpointPath)
-					)
-					.AddHttpClientInstrumentation();
-				
-				var otlpEndpoint = builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"];
-				if (!string.IsNullOrEmpty(otlpEndpoint))
-				{
-					tracing.AddOtlpExporter();
-				}
-			});
+		//builder.Services.AddOpenTelemetry()
+		//	.WithMetrics(metrics =>
+		//	{
+		//		metrics.AddAspNetCoreInstrumentation();
+		//		metrics.AddHttpClientInstrumentation();
+		//		metrics.AddRuntimeInstrumentation();
+		//		metrics.AddOtlpExporter();
+		//	})
+		//	.WithTracing(tracing =>
+		//	{
+		//		tracing.AddSource(builder.Environment.ApplicationName)
+		//			.AddAspNetCoreInstrumentation(tracing =>
+		//				// Exclude health check requests from tracing
+		//				tracing.Filter = context =>
+		//					!context.Request.Path.StartsWithSegments(HealthEndpointPath)
+		//					&& !context.Request.Path.StartsWithSegments(AlivenessEndpointPath)
+		//			)
+		//			.AddHttpClientInstrumentation()
+		//			.AddOtlpExporter();
+		//	});
 
-		builder.AddOpenTelemetryExporters();
+		//builder.AddOpenTelemetryExporters();
 
 		return builder;
 	}
 
-	private static TBuilder AddOpenTelemetryExporters<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
-	{
-		// OTLP exporter is already configured via AddOtlpExporter() calls in ConfigureOpenTelemetry
-		// This method is intentionally empty but kept as a placeholder for future extensibility
-		// (e.g., Azure Monitor or other observability backends)
-		
-		// Uncomment the following lines to enable the Azure Monitor exporter (requires the Azure.Monitor.OpenTelemetry.AspNetCore package)
-		//if (!string.IsNullOrEmpty(builder.Configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"]))
-		//{
-		//    builder.Services.AddOpenTelemetry()
-		//       .UseAzureMonitor();
-		//}
+	//private static TBuilder AddOpenTelemetryExporters<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
+	//{
+	//	var useOtlpExporter = !string.IsNullOrWhiteSpace(builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"]);
 
-		return builder;
-	}
+	//	if (useOtlpExporter)
+	//	{
+	//		builder.Services.AddOpenTelemetry().UseOtlpExporter();
+	//	}
+
+	//	// Uncomment the following lines to enable the Azure Monitor exporter (requires the Azure.Monitor.OpenTelemetry.AspNetCore package)
+	//	//if (!string.IsNullOrEmpty(builder.Configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"]))
+	//	//{
+	//	//    builder.Services.AddOpenTelemetry()
+	//	//       .UseAzureMonitor();
+	//	//}
+
+	//	return builder;
+	//}
 
 	public static TBuilder AddDefaultHealthChecks<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
 	{
@@ -145,6 +134,9 @@ public static class Extensions
 		return builder;
 	}
 
+	/// <summary>
+	/// Maps health check endpoints for readiness and liveness probes (development only).
+	/// </summary>
 	public static WebApplication MapDefaultEndpoints(this WebApplication app)
 	{
 		// Adding health checks endpoints to applications in non-development environments has security implications.

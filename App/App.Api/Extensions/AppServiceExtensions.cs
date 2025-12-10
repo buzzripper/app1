@@ -16,7 +16,7 @@ public static class AppServiceExtensions
 	public static IServiceCollection AddAppApiServices(this IServiceCollection services)
 	{
 		// Register business logic services
-		services.AddScoped<ISystemService, SystemService>();
+		services.AddScoped<IAppSystemService, AppSystemService>();
 
 		// Add Controllers
 		services.AddControllers();
