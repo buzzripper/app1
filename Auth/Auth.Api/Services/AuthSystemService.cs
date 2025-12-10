@@ -18,6 +18,8 @@ public class AuthSystemService : IAuthSystemService
 
 	public Task<AuthHealthStatus> Health()
 	{
+		_logger.LogInformation("+++++++++++++++++++++   AUTH HEALTH  ++++++++++++++++++++++++");
+
 		return Task.FromResult(new AuthHealthStatus
 		{
 			IsHealthy = true,
