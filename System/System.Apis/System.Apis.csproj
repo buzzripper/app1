@@ -22,4 +22,8 @@
     <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.13.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\System.Shared\System.Shared.csproj" />
+  </ItemGroup>
+
 </Project>
