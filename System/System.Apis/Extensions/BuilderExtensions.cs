@@ -10,6 +10,10 @@ using Microsoft.Extensions.Logging.Console;
 using OpenTelemetry.Exporter;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Resources;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace Dyvenix.System.Apis.Extensions;
 
@@ -155,29 +159,5 @@ public static class BuilderExtensions
 		}
 
 		return app;
-	}
-
-	/// <summary>
-	/// Adds controllers with the global exception filter.
-	/// </summary>
-	public static IServiceCollection AddControllersWithExceptionHandling(this IServiceCollection services)
-	{
-		services.AddControllers(options =>
-		{
-			options.Filters.Add<GlobalExceptionFilter>();
-		});
-
-		return services;
-	}
-
-	/// <summary>
-	/// Adds controllers with views and the global exception filter.
-	/// </summary>
-	public static IMvcBuilder AddControllersWithViewsAndExceptionHandling(this IServiceCollection services)
-	{
-		return services.AddControllersWithViews(options =>
-		{
-			options.Filters.Add<GlobalExceptionFilter>();
-		});
 	}
 }

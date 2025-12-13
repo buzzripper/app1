@@ -1,16 +1,15 @@
-using Dyvenix.Auth.Shared;
+using Dyvenix.App.Api.Filters;
+using Dyvenix.Auth.Api.Services;
 using Dyvenix.Auth.Shared.Interfaces;
 using Dyvenix.System.Shared.DTOs;
-using Dyvenix.System.Shared.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualBasic;
-using System;
 using System.Threading.Tasks;
 
 namespace Dyvenix.Auth.Api.Controllers;
 
 [ApiController]
+[ServiceFilter(typeof(AuthExceptionFilter<AuthSystemService>))]
 [Asp.Versioning.ApiVersion("1.0")] // Fully qualified to avoid ambiguity
 [Route("api/auth/v{version:apiVersion}/[controller]")]
 [Route("api/auth/[controller]")] // Fallback route without version

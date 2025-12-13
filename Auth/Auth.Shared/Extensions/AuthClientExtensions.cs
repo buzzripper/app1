@@ -27,9 +27,6 @@ public static class AuthClientExtensions
 			});
 		}
 
-		// Note: For in-process mode, the consumer must register ISystemService implementation
-		// by calling AddAuthApiServices() from Auth.Api before calling AddAuthClient()
-
 		return services;
 	}
 }

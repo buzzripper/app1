@@ -8,9 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
 
 // Add services to the container
-builder.Services.AddControllersWithExceptionHandling();
+builder.Services.AddControllers();
 builder.Services.AddStandardJwtAuthentication(builder.Configuration);
-builder.Services.AddAppApiServices();
+builder.Services.AddAppApiServices(false);
 builder.Services.AddStandardApiVersioning();
 
 var app = builder.Build();

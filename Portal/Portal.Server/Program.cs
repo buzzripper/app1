@@ -1,8 +1,10 @@
 ﻿#if AUTH_INPROCESS
 using Dyvenix.Auth.Api.Extensions;
+using Dyvenix.Auth.Api.Services;
 #endif
 #if APP_INPROCESS
 using Dyvenix.App.Api.Extensions;
+using Dyvenix.App.Api.Services;
 #endif
 using Dyvenix.App1.Portal.Server;
 using Dyvenix.App1.Portal.Server.Interfaces;
@@ -11,6 +13,8 @@ using Yarp.ReverseProxy.Configuration;
 using Dyvenix.App.Shared.Extensions;
 using Dyvenix.Auth.Shared.Extensions;
 using Dyvenix.System.Apis.Extensions;
+using Dyvenix.App1.Portal.Server.Logging;
+using Dyvenix.App1.Portal.Server.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,7 +53,9 @@ services.AddAntiforgery(options =>
 	options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
 });
 
-services.AddScoped<ISystemService, SystemService>();
+services.AddScoped<IPortalSystemService, PortalSystemService>();
+services.AddScoped<PortalExceptionFilter<PortalSystemService>>();
+
 services.AddHttpClient();
 services.AddOptions();
 
@@ -76,16 +82,13 @@ if (initialScopes.Length > 0)
 		options => options.Events = new RejectSessionCookieWhenAccountNotInCacheEvents(initialScopes));
 }
 
-services.AddControllersWithViewsAndExceptionHandling()
-	.AddMvcOptions(options => options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()));
+services.AddControllersWithViews();
 
 services.AddRazorPages().AddMvcOptions(options =>
 {
-	//var policy = new AuthorizationPolicyBuilder()
-	//    .RequireAuthenticatedUser()
-	//    .Build();
-	//options.Filters.Add(new AuthorizeFilter(policy));
 }).AddMicrosoftIdentityUI();
+
+services.AddTransient<IPortalModuleLogger>(sp => new PortalModuleLogger(sp.GetRequiredService<ILoggerFactory>()));
 
 #if AUTH_INPROCESS
 	var authInProcess = true;
@@ -96,7 +99,7 @@ services.AddRazorPages().AddMvcOptions(options =>
 
 #if APP_INPROCESS
 	var appInProcess = true;
-	services.AddAppApiServices();
+	services.AddAppApiServices(isInProcess: true);
 #else
 	var appInProcess = false;
 #endif

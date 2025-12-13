@@ -1,17 +1,15 @@
-using Dyvenix.App.Shared;
+using Dyvenix.App.Api.Logging;
 using Dyvenix.App.Shared.DTOs;
 using Dyvenix.App.Shared.Interfaces;
-using Dyvenix.System.Apis.Extensions;
 using Dyvenix.System.Shared.Exceptions;
-using Microsoft.Extensions.Logging;
 
 namespace Dyvenix.App.Api.Services;
 
 public class AppSystemService : IAppSystemService
 {
-	private readonly ILogger<AppSystemService> _logger;
+	private readonly IAppModuleLogger _logger;
 
-	public AppSystemService(ILogger<AppSystemService> logger)
+	public AppSystemService(IAppModuleLogger logger)
 	{
 		_logger = logger;
 	}
@@ -29,3 +27,4 @@ public class AppSystemService : IAppSystemService
 		});
 	}
 }
+

@@ -1,9 +1,7 @@
-using Dyvenix.Auth.Shared;
+using Dyvenix.App.Api.Logging;
 using Dyvenix.Auth.Shared.DTOs;
 using Dyvenix.Auth.Shared.Interfaces;
-using Dyvenix.System.Apis.Extensions;
 using Dyvenix.System.Shared.Exceptions;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
@@ -11,9 +9,9 @@ namespace Dyvenix.Auth.Api.Services;
 
 public class AuthSystemService : IAuthSystemService
 {
-	private readonly ILogger<AuthSystemService> _logger;
+	private readonly IAuthModuleLogger _logger;
 
-	public AuthSystemService(ILogger<AuthSystemService> logger)
+	public AuthSystemService(IAuthModuleLogger logger)
 	{
 		_logger = logger;
 	}

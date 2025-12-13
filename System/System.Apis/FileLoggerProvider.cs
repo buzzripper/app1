@@ -1,23 +1,26 @@
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading;
 
 namespace Dyvenix.System.Apis;
 
-public sealed class FileLoggerProvider(string filePath, string serviceName) : ILoggerProvider
+public sealed class FileLoggerProvider(string filePath, string defaultServiceName) : ILoggerProvider
 {
 	private readonly string _filePath = filePath;
-	private readonly string _serviceName = serviceName;
+	private readonly string _defaultServiceName = defaultServiceName;
 	private readonly object _lock = new();
 
-	public ILogger CreateLogger(string categoryName) => new FileLogger(categoryName, _filePath, _serviceName, _lock);
+	public ILogger CreateLogger(string categoryName) => new FileLogger(_filePath, _defaultServiceName, _lock);
 
 	public void Dispose() { }
 }
 
-internal sealed class FileLogger(string categoryName, string filePath, string serviceName, object fileLock) : ILogger
+internal sealed class FileLogger(string filePath, string defaultServiceName, object fileLock) : ILogger
 {
-	private readonly string _categoryName = categoryName;
 	private readonly string _filePath = filePath;
-	private readonly string _serviceName = serviceName;
+	private readonly string _defaultServiceName = defaultServiceName;
 	private readonly object _fileLock = fileLock;
 
 	private static readonly AsyncLocal<Dictionary<string, object>?> _currentScope = new();
@@ -50,8 +53,9 @@ internal sealed class FileLogger(string categoryName, string filePath, string se
 
 		var sourceClass = _currentScope.Value?.GetValueOrDefault("sourceClass")?.ToString() ?? "";
 		var sourceMethod = _currentScope.Value?.GetValueOrDefault("sourceMethod")?.ToString() ?? "";
+		var serviceName = _currentScope.Value?.GetValueOrDefault("module")?.ToString() ?? _defaultServiceName;
 
-		var logLine = $"{DateTime.Now:HH:mm:ss.fff}\t{GetLogLevelAbbreviation(logLevel)}\t{_serviceName}\t{sourceClass}\t{sourceMethod}\t{message}";
+		var logLine = $"{DateTime.Now:HH:mm:ss.fff}\t{GetLogLevelAbbreviation(logLevel)}\t{serviceName}\t{sourceClass}\t{sourceMethod}\t{message}";
 
 		lock (_fileLock)
 		{

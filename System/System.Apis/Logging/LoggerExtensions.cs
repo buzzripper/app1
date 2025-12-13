@@ -1,7 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Runtime.CompilerServices;
 
-namespace Dyvenix.System.Apis.Extensions;
+namespace Dyvenix.System.Apis.Logging;
 
 public static class LoggerExtensions
 {
