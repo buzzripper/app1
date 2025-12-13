@@ -14,6 +14,8 @@ public class SystemService : ISystemService
 
 	public Task<PortalHealthStatus> Health()
 	{
+		_logger.LogInformation("PORTAL HEALTH");
+
 		return Task.FromResult(new PortalHealthStatus
 		{
 			IsHealthy = true,

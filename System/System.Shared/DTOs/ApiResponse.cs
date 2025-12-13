@@ -3,22 +3,48 @@ namespace Dyvenix.System.Shared.DTOs;
 
 public class ApiResponse
 {
+	#region Static
+
+	public static ApiResponse Succeed(string correlationId = null)
+	{
+		return new ApiResponse
+		{
+			Success = true,
+			ErrorCode = 0,
+			CorrelationId = correlationId,
+			Message = "Success"
+		};
+	}
+
+	public static ApiResponse Fail(int errorCode, string message)
+	{
+		return new ApiResponse
+		{
+			Success = false,
+			ErrorCode = errorCode,
+			Message = message
+		};
+	}
+
+	#endregion
+
 	#region Ctors / Init
 
 	public ApiResponse()
 	{
-		StatusCode = 0;
+		Success = true;
+		ErrorCode = 0;
 		Message = "Success";
 	}
 
-	public ApiResponse(string message)
+	public ApiResponse(string message) : this()
 	{
 		Message = message;
 	}
 
 	public ApiResponse(int statusCode, string message)
 	{
-		StatusCode = statusCode;
+		ErrorCode = statusCode;
 		Message = message;
 	}
 
@@ -30,7 +56,7 @@ public class ApiResponse
 
 	public ApiResponse(int statusCode, string message, string correlationId)
 	{
-		StatusCode = statusCode;
+		ErrorCode = statusCode;
 		Message = message;
 		CorrelationId = correlationId;
 	}
@@ -39,18 +65,44 @@ public class ApiResponse
 
 	#region Properties
 
-	public int StatusCode { get; set; }
+	public bool Success { get; set; }
+	public int ErrorCode { get; set; }
 	public string Message { get; set; }
 	public string CorrelationId { get; set; }
 
 	#endregion
 }
 
-public class ApiResponse<T>
+public class ApiResponse<T> : ApiResponse
 {
+	#region Static
+
+	new public static ApiResponse<T> Succeed(string correlationId = null)
+	{
+		return new ApiResponse<T>
+		{
+			Success = true,
+			ErrorCode = 0,
+			CorrelationId = correlationId,
+			Message = "Success"
+		};
+	}
+
+	new public static ApiResponse<T> Fail(int errorCode, string message)
+	{
+		return new ApiResponse<T>
+		{
+			Success = false,
+			ErrorCode = errorCode,
+			Message = message
+		};
+	}
+
+	#endregion
+
 	public ApiResponse()
 	{
-		StatusCode = 0;
+		ErrorCode = 0;
 		Message = "Success";
 	}
 
@@ -59,9 +111,9 @@ public class ApiResponse<T>
 		Message = message;
 	}
 
-	public ApiResponse(int statusCode, string message)
+	public ApiResponse(int errorCode, string message)
 	{
-		StatusCode = statusCode;
+		ErrorCode = errorCode;
 		Message = message;
 	}
 
@@ -71,18 +123,15 @@ public class ApiResponse<T>
 		CorrelationId = correlationId;
 	}
 
-	public ApiResponse(int statusCode, string message, string correlationId)
+	public ApiResponse(int errorCode, string message, string correlationId)
 	{
-		StatusCode = statusCode;
+		ErrorCode = errorCode;
 		Message = message;
 		CorrelationId = correlationId;
 	}
 
 	#region Properties
 
-	public int StatusCode { get; set; }
-	public string Message { get; set; }
-	public string CorrelationId { get; set; }
 	public T Data { get; set; }
 
 	#endregion

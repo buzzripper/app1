@@ -18,7 +18,17 @@ internal sealed class FileLogger(string categoryName, string filePath, object fi
 	private readonly string _filePath = filePath;
 	private readonly object _fileLock = fileLock;
 
-	public IDisposable? BeginScope<TState>(TState state) where TState : notnull => null;
+	private static readonly AsyncLocal<Dictionary<string, object>?> _currentScope = new();
+
+	public IDisposable? BeginScope<TState>(TState state) where TState : notnull
+	{
+		if (state is Dictionary<string, object> dict)
+		{
+			_currentScope.Value = dict;
+			return new ScopeDisposable();
+		}
+		return null;
+	}
 
 	public bool IsEnabled(LogLevel logLevel) => logLevel != LogLevel.None;
 
@@ -36,8 +46,11 @@ internal sealed class FileLogger(string categoryName, string filePath, object fi
 		if (string.IsNullOrEmpty(message))
 			return;
 
-		var (module, className) = ParseCategory(_categoryName);
-		var logLine = $"{DateTime.Now:HH:mm:ss.fff}\t{GetLogLevelAbbreviation(logLevel)}\t{module}\t{className}\t{message}";
+		var module = ParseModule(_categoryName);
+		var sourceClass = _currentScope.Value?.GetValueOrDefault("sourceClass")?.ToString() ?? "";
+		var sourceMethod = _currentScope.Value?.GetValueOrDefault("sourceMethod")?.ToString() ?? "";
+
+		var logLine = $"{DateTime.Now:HH:mm:ss.fff}\t{GetLogLevelAbbreviation(logLevel)}\t{module}\t{sourceClass}\t{sourceMethod}\t{message}";
 
 		lock (_fileLock)
 		{
@@ -61,22 +74,23 @@ internal sealed class FileLogger(string categoryName, string filePath, object fi
 		_ => "???"
 	};
 
-	private static (string Module, string ClassName) ParseCategory(string category)
+	private static string ParseModule(string category)
 	{
 		var parts = category.Split('.');
-
-		var module = "System";
-		var className = parts.Length > 0 ? parts[^1] : category;
 
 		for (var i = 0; i < parts.Length; i++)
 		{
 			if (parts[i] is "Auth" or "App" or "Portal" or "System")
 			{
-				module = parts[i];
-				break;
+				return parts[i];
 			}
 		}
 
-		return (module, className);
+		return "System";
+	}
+
+	private class ScopeDisposable : IDisposable
+	{
+		public void Dispose() => _currentScope.Value = null;
 	}
 }

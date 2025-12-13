@@ -10,7 +10,7 @@ using Dyvenix.App1.Portal.Server.Services;
 using Yarp.ReverseProxy.Configuration;
 using Dyvenix.App.Shared.Extensions;
 using Dyvenix.Auth.Shared.Extensions;
-using Dyvenix.System.Apis;
+using Dyvenix.System.Apis.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -76,8 +76,8 @@ if (initialScopes.Length > 0)
 		options => options.Events = new RejectSessionCookieWhenAccountNotInCacheEvents(initialScopes));
 }
 
-services.AddControllersWithViews(options =>
-	options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()));
+services.AddControllersWithViewsAndExceptionHandling()
+	.AddMvcOptions(options => options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()));
 
 services.AddRazorPages().AddMvcOptions(options =>
 {
