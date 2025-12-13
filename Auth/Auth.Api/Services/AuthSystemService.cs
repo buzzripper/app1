@@ -1,6 +1,8 @@
 using Dyvenix.Auth.Shared;
 using Dyvenix.Auth.Shared.DTOs;
 using Dyvenix.Auth.Shared.Interfaces;
+using Dyvenix.System.Apis.Extensions;
+using Dyvenix.System.Shared.Exceptions;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
@@ -18,7 +20,8 @@ public class AuthSystemService : IAuthSystemService
 
 	public Task<AuthHealthStatus> Health()
 	{
-		_logger.LogInformation("+++++++++++++++++++++   AUTH HEALTH  ++++++++++++++++++++++++");
+		_logger.Info("AUTH HEALTH");
+		throw new ValidationException("Test exception from AuthSystemService.Health");
 
 		return Task.FromResult(new AuthHealthStatus
 		{

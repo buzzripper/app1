@@ -8,13 +8,13 @@ public class DynamicProxyConfigProvider : IProxyConfigProvider
 	private readonly IConfiguration _configuration;
 	private volatile DynamicProxyConfig _config;
 	private readonly bool _authInProcess;
-	private readonly bool _app1InProcess;
+	private readonly bool _appInProcess;
 
-	public DynamicProxyConfigProvider(IConfiguration configuration, bool authInProcess, bool app1InProcess)
+	public DynamicProxyConfigProvider(IConfiguration configuration, bool authInProcess, bool appInProcess)
 	{
 		_configuration = configuration;
 		_authInProcess = authInProcess;
-		_app1InProcess = app1InProcess;
+		_appInProcess = appInProcess;
 		_config = new DynamicProxyConfig(LoadRoutes(), LoadClusters());
 	}
 
@@ -40,10 +40,10 @@ public class DynamicProxyConfigProvider : IProxyConfigProvider
 				continue;
 			}
 
-			// Skip app1-api route if App1 is running in-process
-			if (routeId == "app1-api" && _app1InProcess)
+			// Skip app-api route if App is running in-process
+			if (routeId == "app-api" && _appInProcess)
 			{
-				Console.WriteLine($"[YARP] Skipping route '{routeId}' - App1 running in-process");
+				Console.WriteLine($"[YARP] Skipping route '{routeId}' - App running in-process");
 				continue;
 			}
 
@@ -122,8 +122,8 @@ public class DynamicProxyConfigProvider : IProxyConfigProvider
 			if (clusterId == "auth-cluster" && _authInProcess)
 				continue;
 
-			// Skip app1-cluster if App1 is running in-process
-			if (clusterId == "app1-cluster" && _app1InProcess)
+			// Skip app-cluster if App is running in-process
+			if (clusterId == "app-cluster" && _appInProcess)
 				continue;
 
 			var destinations = new Dictionary<string, DestinationConfig>();

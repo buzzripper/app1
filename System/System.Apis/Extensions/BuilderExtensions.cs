@@ -45,6 +45,9 @@ public static class BuilderExtensions
 	/// </summary>
 	public static TBuilder ConfigureOpenTelemetry<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
 	{
+		// Get OTEL configuration from appsettings
+		var serviceName = builder.Configuration["OTEL_SERVICE_NAME"] ?? builder.Environment.ApplicationName;
+
 		var loggingConfig = builder.Configuration.GetSection("Logging:File");
 		var useFileLogging = loggingConfig.GetValue<bool>("Enabled");
 		var logFilePath = loggingConfig.GetValue<string>("Path") ?? "logs/app.log";
@@ -58,7 +61,7 @@ public static class BuilderExtensions
 				Directory.CreateDirectory(logDir);
 
 			// Add custom file logger with simple format
-			builder.Logging.AddProvider(new FileLoggerProvider(logFilePath));
+			builder.Logging.AddProvider(new FileLoggerProvider(logFilePath, serviceName));
 		}
 
 		// Configure console logging with custom formatter in Development (optional fallback)
@@ -68,11 +71,10 @@ public static class BuilderExtensions
 			builder.Logging.AddConsole(options => options.FormatterName = SimpleLogFormatter.FormatterName);
 		}
 
-		// Get OTEL configuration from appsettings
+		// Get remaining OTEL configuration
 		var otlpEndpoint = builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"];
 		var otlpHeaders = builder.Configuration["OTEL_EXPORTER_OTLP_HEADERS"];
 		var otlpProtocol = builder.Configuration["OTEL_EXPORTER_OTLP_PROTOCOL"];
-		var serviceName = builder.Configuration["OTEL_SERVICE_NAME"] ?? builder.Environment.ApplicationName;
 		var resourceAttributes = builder.Configuration["OTEL_RESOURCE_ATTRIBUTES"];
 
 		builder.Logging.AddOpenTelemetry(logging =>

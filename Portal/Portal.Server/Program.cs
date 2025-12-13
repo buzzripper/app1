@@ -95,20 +95,20 @@ services.AddRazorPages().AddMvcOptions(options =>
 #endif
 
 #if APP_INPROCESS
-	var app1InProcess = true;
+	var appInProcess = true;
 	services.AddAppApiServices();
 #else
-	var app1InProcess = false;
+	var appInProcess = false;
 #endif
 
 // Configure YARP with dynamic config based on compile-time defines
 services.AddSingleton<IProxyConfigProvider>(
-	new DynamicProxyConfigProvider(configuration, authInProcess, app1InProcess));
+	new DynamicProxyConfigProvider(configuration, authInProcess, appInProcess));
 services.AddReverseProxy();
 
 // Register service clients (proxies)
 services.AddAuthClients(configuration, authInProcess);
-services.AddApp1Client(configuration, app1InProcess);
+services.AddApp1Client(configuration, appInProcess);
 
 builder.Services.AddApiVersioning(options =>
 {

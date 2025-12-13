@@ -1,5 +1,6 @@
 using Dyvenix.App1.Portal.Server.DTOs;
 using Dyvenix.App1.Portal.Server.Interfaces;
+using Dyvenix.System.Apis.Extensions;
 
 namespace Dyvenix.App1.Portal.Server.Services;
 
@@ -14,7 +15,7 @@ public class SystemService : ISystemService
 
 	public Task<PortalHealthStatus> Health()
 	{
-		_logger.LogInformation("PORTAL HEALTH");
+		_logger.Info("PORTAL HEALTH");
 
 		return Task.FromResult(new PortalHealthStatus
 		{

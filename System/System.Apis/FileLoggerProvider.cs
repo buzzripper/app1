@@ -2,20 +2,22 @@ using Microsoft.Extensions.Logging;
 
 namespace Dyvenix.System.Apis;
 
-public sealed class FileLoggerProvider(string filePath) : ILoggerProvider
+public sealed class FileLoggerProvider(string filePath, string serviceName) : ILoggerProvider
 {
 	private readonly string _filePath = filePath;
+	private readonly string _serviceName = serviceName;
 	private readonly object _lock = new();
 
-	public ILogger CreateLogger(string categoryName) => new FileLogger(categoryName, _filePath, _lock);
+	public ILogger CreateLogger(string categoryName) => new FileLogger(categoryName, _filePath, _serviceName, _lock);
 
 	public void Dispose() { }
 }
 
-internal sealed class FileLogger(string categoryName, string filePath, object fileLock) : ILogger
+internal sealed class FileLogger(string categoryName, string filePath, string serviceName, object fileLock) : ILogger
 {
 	private readonly string _categoryName = categoryName;
 	private readonly string _filePath = filePath;
+	private readonly string _serviceName = serviceName;
 	private readonly object _fileLock = fileLock;
 
 	private static readonly AsyncLocal<Dictionary<string, object>?> _currentScope = new();
@@ -46,11 +48,10 @@ internal sealed class FileLogger(string categoryName, string filePath, object fi
 		if (string.IsNullOrEmpty(message))
 			return;
 
-		var module = ParseModule(_categoryName);
 		var sourceClass = _currentScope.Value?.GetValueOrDefault("sourceClass")?.ToString() ?? "";
 		var sourceMethod = _currentScope.Value?.GetValueOrDefault("sourceMethod")?.ToString() ?? "";
 
-		var logLine = $"{DateTime.Now:HH:mm:ss.fff}\t{GetLogLevelAbbreviation(logLevel)}\t{module}\t{sourceClass}\t{sourceMethod}\t{message}";
+		var logLine = $"{DateTime.Now:HH:mm:ss.fff}\t{GetLogLevelAbbreviation(logLevel)}\t{_serviceName}\t{sourceClass}\t{sourceMethod}\t{message}";
 
 		lock (_fileLock)
 		{
@@ -73,21 +74,6 @@ internal sealed class FileLogger(string categoryName, string filePath, object fi
 		LogLevel.Critical => "CRT",
 		_ => "???"
 	};
-
-	private static string ParseModule(string category)
-	{
-		var parts = category.Split('.');
-
-		for (var i = 0; i < parts.Length; i++)
-		{
-			if (parts[i] is "Auth" or "App" or "Portal" or "System")
-			{
-				return parts[i];
-			}
-		}
-
-		return "System";
-	}
 
 	private class ScopeDisposable : IDisposable
 	{
