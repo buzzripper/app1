@@ -2,6 +2,7 @@ using Dyvenix.App.Shared;
 using Dyvenix.App.Shared.DTOs;
 using Dyvenix.App.Shared.Interfaces;
 using Dyvenix.System.Shared.DTOs;
+using Dyvenix.System.Shared.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -32,6 +33,7 @@ public class SystemController : ControllerBase
 	[AllowAnonymous]
 	public async Task<IActionResult> Health()
 	{
+		//throw new ValidationException("Controller ex!!!!!!!!!");
 		//return Ok(await CallServiceAsync(_systemService.Health));
 		var healthStatus = await _systemService.Health();
 
