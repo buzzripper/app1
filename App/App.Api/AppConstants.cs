@@ -1,4 +1,5 @@
-﻿namespace Dyvenix.App.Shared
+﻿
+namespace Dyvenix.App.Api
 {
 	public class AppConstants
 	{

@@ -26,8 +26,6 @@ public static class AppClientExtensions
 				client.BaseAddress = new Uri(baseUrl);
 			});
 		}
-		// Note: For in-process mode, the consumer must register ISystemService implementation
-		// by calling AddApp1ApiServices() from App1.Api before calling AddApp1Client()
 
 		return services;
 	}

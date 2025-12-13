@@ -1,3 +1,5 @@
+using System;
+
 namespace Dyvenix.System.Shared.DTOs;
 
 public class PingResult

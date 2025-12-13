@@ -1,24 +1,39 @@
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading;
 
 namespace Dyvenix.System.Apis;
 
-public sealed class FileLoggerProvider(string filePath) : ILoggerProvider
+public sealed class FileLoggerProvider(string filePath, string defaultServiceName) : ILoggerProvider
 {
 	private readonly string _filePath = filePath;
+	private readonly string _defaultServiceName = defaultServiceName;
 	private readonly object _lock = new();
 
-	public ILogger CreateLogger(string categoryName) => new FileLogger(categoryName, _filePath, _lock);
+	public ILogger CreateLogger(string categoryName) => new FileLogger(_filePath, _defaultServiceName, _lock);
 
 	public void Dispose() { }
 }
 
-internal sealed class FileLogger(string categoryName, string filePath, object fileLock) : ILogger
+internal sealed class FileLogger(string filePath, string defaultServiceName, object fileLock) : ILogger
 {
-	private readonly string _categoryName = categoryName;
 	private readonly string _filePath = filePath;
+	private readonly string _defaultServiceName = defaultServiceName;
 	private readonly object _fileLock = fileLock;
 
-	public IDisposable? BeginScope<TState>(TState state) where TState : notnull => null;
+	private static readonly AsyncLocal<Dictionary<string, object>?> _currentScope = new();
+
+	public IDisposable? BeginScope<TState>(TState state) where TState : notnull
+	{
+		if (state is Dictionary<string, object> dict)
+		{
+			_currentScope.Value = dict;
+			return new ScopeDisposable();
+		}
+		return null;
+	}
 
 	public bool IsEnabled(LogLevel logLevel) => logLevel != LogLevel.None;
 
@@ -36,8 +51,11 @@ internal sealed class FileLogger(string categoryName, string filePath, object fi
 		if (string.IsNullOrEmpty(message))
 			return;
 
-		var (module, className) = ParseCategory(_categoryName);
-		var logLine = $"{DateTime.Now:HH:mm:ss.fff}\t{GetLogLevelAbbreviation(logLevel)}\t{module}\t{className}\t{message}";
+		var sourceClass = _currentScope.Value?.GetValueOrDefault("sourceClass")?.ToString() ?? "";
+		var sourceMethod = _currentScope.Value?.GetValueOrDefault("sourceMethod")?.ToString() ?? "";
+		var serviceName = _currentScope.Value?.GetValueOrDefault("module")?.ToString() ?? _defaultServiceName;
+
+		var logLine = $"{DateTime.Now:HH:mm:ss.fff}\t{GetLogLevelAbbreviation(logLevel)}\t{serviceName}\t{sourceClass}\t{sourceMethod}\t{message}";
 
 		lock (_fileLock)
 		{
@@ -61,22 +79,8 @@ internal sealed class FileLogger(string categoryName, string filePath, object fi
 		_ => "???"
 	};
 
-	private static (string Module, string ClassName) ParseCategory(string category)
+	private class ScopeDisposable : IDisposable
 	{
-		var parts = category.Split('.');
-
-		var module = "System";
-		var className = parts.Length > 0 ? parts[^1] : category;
-
-		for (var i = 0; i < parts.Length; i++)
-		{
-			if (parts[i] is "Auth" or "App" or "Portal" or "System")
-			{
-				module = parts[i];
-				break;
-			}
-		}
-
-		return (module, className);
+		public void Dispose() => _currentScope.Value = null;
 	}
 }

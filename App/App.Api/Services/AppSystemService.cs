@@ -1,22 +1,23 @@
-using Dyvenix.App.Shared;
+using Dyvenix.App.Api.Logging;
 using Dyvenix.App.Shared.DTOs;
 using Dyvenix.App.Shared.Interfaces;
-using Microsoft.Extensions.Logging;
+using Dyvenix.System.Shared.Exceptions;
 
 namespace Dyvenix.App.Api.Services;
 
 public class AppSystemService : IAppSystemService
 {
-	private readonly ILogger<AppSystemService> _logger;
+	private readonly IAppModuleLogger _logger;
 
-	public AppSystemService(ILogger<AppSystemService> logger)
+	public AppSystemService(IAppModuleLogger logger)
 	{
 		_logger = logger;
 	}
 
 	public Task<AppHealthStatus> Health()
 	{
-		_logger.LogInformation("+++++++++++++++++++++   APP HEALTH  ++++++++++++++++++++++++");
+		_logger.Info("APP HEALTH");
+		throw new ValidationException("Test exception from AppSystemService.Health");
 
 		return Task.FromResult(new AppHealthStatus
 		{
@@ -26,3 +27,4 @@ public class AppSystemService : IAppSystemService
 		});
 	}
 }
+

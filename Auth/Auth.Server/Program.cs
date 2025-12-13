@@ -1,5 +1,5 @@
 using Dyvenix.Auth.Api.Extensions;
-using Dyvenix.System.Apis;
+using Dyvenix.System.Apis.Extensions;
 using Dyvenix.System.Servers;
 
 var builder = WebApplication.CreateBuilder(args);

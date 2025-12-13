@@ -1,19 +1,24 @@
 using Dyvenix.App1.Portal.Server.DTOs;
 using Dyvenix.App1.Portal.Server.Interfaces;
+using Dyvenix.App1.Portal.Server.Logging;
+using Dyvenix.System.Shared.Exceptions;
 
 namespace Dyvenix.App1.Portal.Server.Services;
 
-public class SystemService : ISystemService
+public class PortalSystemService : IPortalSystemService
 {
-	private readonly ILogger<SystemService> _logger;
+	private readonly IPortalModuleLogger _logger;
 
-	public SystemService(ILogger<SystemService> logger)
+	public PortalSystemService(IPortalModuleLogger logger)
 	{
 		_logger = logger;
 	}
 
 	public Task<PortalHealthStatus> Health()
 	{
+		_logger.Info("PORTAL HEALTH");
+		throw new ValidationException("Test exception from PortalSystemService.Health");
+
 		return Task.FromResult(new PortalHealthStatus
 		{
 			IsHealthy = true,

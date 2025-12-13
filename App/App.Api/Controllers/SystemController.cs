@@ -1,12 +1,15 @@
-using Dyvenix.App.Shared;
+using Dyvenix.App.Api.Filters;
+using Dyvenix.App.Api.Services;
 using Dyvenix.App.Shared.Interfaces;
 using Dyvenix.System.Shared.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace Dyvenix.App.Api.Controllers;
 
 [ApiController]
+[ServiceFilter(typeof(AppExceptionFilter<AppSystemService>))]
 [Asp.Versioning.ApiVersion("1.0")]  // Fully qualified to avoid ambiguity
 [Route("api/app/v{version:apiVersion}/[controller]")]
 [Route("api/app/[controller]")] // Fallback route without version
@@ -14,7 +17,7 @@ public class SystemController : ControllerBase
 {
 	private readonly IAppSystemService _systemService;
 
-	public SystemController(IAppSystemService systemService)
+	public SystemController(IAppSystemService systemService, ILogger<SystemController> logger)
 	{
 		_systemService = systemService;
 	}
@@ -28,10 +31,17 @@ public class SystemController : ControllerBase
 
 	[HttpGet("health")]
 	[AllowAnonymous]
-	public async Task<ActionResult<object>> Health()
+	public async Task<IActionResult> Health()
 	{
+		//throw new ValidationException("Controller ex!!!!!!!!!");
+		//return Ok(await CallServiceAsync(_systemService.Health));
+		var healthStatus = await _systemService.Health();
 
-		var health = await _systemService.Health();
-		return Ok(health);
+		//var a = new ApiResponse<AppHealthStatus>
+		//{
+		//	Data = healthStatus
+		//};
+
+		return Ok(healthStatus);
 	}
 }

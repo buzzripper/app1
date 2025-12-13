@@ -1,5 +1,5 @@
 using Dyvenix.App.Api.Extensions;
-using Dyvenix.System.Apis;
+using Dyvenix.System.Apis.Extensions;
 using Dyvenix.System.Servers;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,7 +10,7 @@ builder.AddServiceDefaults();
 // Add services to the container
 builder.Services.AddControllers();
 builder.Services.AddStandardJwtAuthentication(builder.Configuration);
-builder.Services.AddAppApiServices();
+builder.Services.AddAppApiServices(false);
 builder.Services.AddStandardApiVersioning();
 
 var app = builder.Build();

@@ -1,3 +1,4 @@
+using Dyvenix.System.Apis.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Configuration;
@@ -6,17 +7,21 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
+using OpenTelemetry.Exporter;
 using OpenTelemetry.Logs;
-using OpenTelemetry.Metrics;
-using OpenTelemetry.Trace;
+using OpenTelemetry.Resources;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
-namespace Dyvenix.System.Apis;
+namespace Dyvenix.System.Apis.Extensions;
 
 /// <summary>
 /// Common extensions for resilience, health checks, and OpenTelemetry.
 /// This project should be referenced by each service project in your solution.
 /// </summary>
-public static class Extensions
+public static class BuilderExtensions
 {
 	private const string HealthEndpointPath = "/health";
 	private const string AlivenessEndpointPath = "/alive";
@@ -44,6 +49,9 @@ public static class Extensions
 	/// </summary>
 	public static TBuilder ConfigureOpenTelemetry<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
 	{
+		// Get OTEL configuration from appsettings
+		var serviceName = builder.Configuration["OTEL_SERVICE_NAME"] ?? builder.Environment.ApplicationName;
+
 		var loggingConfig = builder.Configuration.GetSection("Logging:File");
 		var useFileLogging = loggingConfig.GetValue<bool>("Enabled");
 		var logFilePath = loggingConfig.GetValue<string>("Path") ?? "logs/app.log";
@@ -57,7 +65,7 @@ public static class Extensions
 				Directory.CreateDirectory(logDir);
 
 			// Add custom file logger with simple format
-			builder.Logging.AddProvider(new FileLoggerProvider(logFilePath));
+			builder.Logging.AddProvider(new FileLoggerProvider(logFilePath, serviceName));
 		}
 
 		// Configure console logging with custom formatter in Development (optional fallback)
@@ -67,63 +75,60 @@ public static class Extensions
 			builder.Logging.AddConsole(options => options.FormatterName = SimpleLogFormatter.FormatterName);
 		}
 
+		// Get remaining OTEL configuration
+		var otlpEndpoint = builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"];
+		var otlpHeaders = builder.Configuration["OTEL_EXPORTER_OTLP_HEADERS"];
+		var otlpProtocol = builder.Configuration["OTEL_EXPORTER_OTLP_PROTOCOL"];
+		var resourceAttributes = builder.Configuration["OTEL_RESOURCE_ATTRIBUTES"];
+
 		builder.Logging.AddOpenTelemetry(logging =>
 		{
 			logging.IncludeFormattedMessage = true;
 			logging.IncludeScopes = true;
 
+			// Configure resource attributes (service name, environment, etc.)
+			var resourceBuilder = ResourceBuilder.CreateDefault()
+				.AddService(serviceName);
+
+			// Parse and add custom resource attributes (e.g., "deployment.environment=dev")
+			if (!string.IsNullOrEmpty(resourceAttributes))
+			{
+				var attributes = resourceAttributes
+					.Split(',')
+					.Select(attr => attr.Split('='))
+					.Where(parts => parts.Length == 2)
+					.Select(parts => new KeyValuePair<string, object>(parts[0].Trim(), parts[1].Trim()));
+
+				resourceBuilder.AddAttributes(attributes);
+			}
+
+			logging.SetResourceBuilder(resourceBuilder);
+
 			// Export logs to OTLP (Grafana Cloud) - only when configured
-			var otlpEndpoint = builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"];
 			if (!string.IsNullOrEmpty(otlpEndpoint))
 			{
-				logging.AddOtlpExporter();
+				logging.AddOtlpExporter(options =>
+				{
+					options.Endpoint = new Uri(otlpEndpoint);
+
+					if (!string.IsNullOrEmpty(otlpHeaders))
+					{
+						options.Headers = otlpHeaders;
+					}
+
+					// Parse protocol (default to HttpProtobuf)
+					options.Protocol = otlpProtocol?.ToLowerInvariant() switch
+					{
+						"grpc" => OtlpExportProtocol.Grpc,
+						"http/protobuf" => OtlpExportProtocol.HttpProtobuf,
+						_ => OtlpExportProtocol.HttpProtobuf
+					};
+				});
 			}
 		});
 
-		//builder.Services.AddOpenTelemetry()
-		//	.WithMetrics(metrics =>
-		//	{
-		//		metrics.AddAspNetCoreInstrumentation();
-		//		metrics.AddHttpClientInstrumentation();
-		//		metrics.AddRuntimeInstrumentation();
-		//		metrics.AddOtlpExporter();
-		//	})
-		//	.WithTracing(tracing =>
-		//	{
-		//		tracing.AddSource(builder.Environment.ApplicationName)
-		//			.AddAspNetCoreInstrumentation(tracing =>
-		//				// Exclude health check requests from tracing
-		//				tracing.Filter = context =>
-		//					!context.Request.Path.StartsWithSegments(HealthEndpointPath)
-		//					&& !context.Request.Path.StartsWithSegments(AlivenessEndpointPath)
-		//			)
-		//			.AddHttpClientInstrumentation()
-		//			.AddOtlpExporter();
-		//	});
-
-		//builder.AddOpenTelemetryExporters();
-
 		return builder;
 	}
-
-	//private static TBuilder AddOpenTelemetryExporters<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
-	//{
-	//	var useOtlpExporter = !string.IsNullOrWhiteSpace(builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"]);
-
-	//	if (useOtlpExporter)
-	//	{
-	//		builder.Services.AddOpenTelemetry().UseOtlpExporter();
-	//	}
-
-	//	// Uncomment the following lines to enable the Azure Monitor exporter (requires the Azure.Monitor.OpenTelemetry.AspNetCore package)
-	//	//if (!string.IsNullOrEmpty(builder.Configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"]))
-	//	//{
-	//	//    builder.Services.AddOpenTelemetry()
-	//	//       .UseAzureMonitor();
-	//	//}
-
-	//	return builder;
-	//}
 
 	public static TBuilder AddDefaultHealthChecks<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
 	{
