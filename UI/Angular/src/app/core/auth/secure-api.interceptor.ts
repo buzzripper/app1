@@ -1,14 +1,17 @@
 import { HttpHandlerFn, HttpRequest } from '@angular/common/http';
 import { getCookie } from './get-cookie';
+import { environment } from '../../../environments/environment';
 
 export function secureApiInterceptor(
   request: HttpRequest<unknown>,
   next: HttpHandlerFn
 ) {
-  // Check if the request URL starts with /api/ (relative) or contains /api/ (absolute)
+  const apiBaseUrl = environment.apiBaseUrl;
+
+  // Check if the request URL is an API request
   const isApiRequest = request.url.startsWith('/api/') || 
                        request.url.startsWith('api/') ||
-                       request.url.includes('://') && request.url.includes('/api/');
+                       (apiBaseUrl && request.url.startsWith(apiBaseUrl));
 
   if (!isApiRequest) {
     return next(request);
@@ -16,24 +19,11 @@ export function secureApiInterceptor(
 
   const token = getCookie('X-XSRF-TOKEN');
 
+  // Clone request with credentials and XSRF token
   request = request.clone({
-    headers: request.headers.set(
-      'X-XSRF-TOKEN',
-      token
-    ),
+    withCredentials: true, // Required for cross-origin cookie authentication
+    headers: request.headers.set('X-XSRF-TOKEN', token),
   });
 
   return next(request);
-}
-
-function getApiUrl() {
-  const backendHost = getCurrentHost();
-
-  return `${backendHost}/api/`;
-}
-
-function getCurrentHost() {
-  const host = globalThis.location.host;
-  const url = `${globalThis.location.protocol}//${host}`;
-  return url;
 }

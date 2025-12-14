@@ -1,4 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
+import { AuthService } from 'app/core/auth/auth.service';
 
 @Component({
     selector: 'auth-sign-out',
@@ -10,16 +11,16 @@ export class AuthSignOutComponent {
     /**
      * Constructor
      */
-    constructor() {}
+    constructor(private _authService: AuthService) {}
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
     /**
-     * Redirect to Azure login
+     * Redirect to sign in
      */
     signInNow(): void {
-        window.location.href = '/api/Account/Login';
+        this._authService.signIn();
     }
 }

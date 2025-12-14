@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { UserService } from 'app/core/user/user.service';
-import { catchError, Observable, of, map, BehaviorSubject, interval, shareReplay, tap } from 'rxjs';
+import { catchError, Observable, of, map, BehaviorSubject, interval, shareReplay } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 interface Claim {
     type: string;
@@ -27,6 +28,8 @@ export class AuthService {
     private _httpClient = inject(HttpClient);
     private _userService = inject(UserService);
 
+    private readonly _apiBaseUrl = environment.apiBaseUrl;
+
     constructor() {
         // Initial check on startup
         this.check().subscribe();
@@ -40,10 +43,12 @@ export class AuthService {
     // -----------------------------------------------------------------------------------------------------
 
     /**
-     * Sign in - Redirect to BFF login endpoint
+     * Sign in - Redirect to BFF login endpoint with return URL back to Angular app
      */
-    signIn(): void {
-        window.location.href = '/api/Account/Login';
+    signIn(returnUrl?: string): void {
+        const currentUrl = returnUrl || window.location.href;
+        const encodedReturnUrl = encodeURIComponent(currentUrl);
+        window.location.href = `${this._apiBaseUrl}/api/Account/Login?returnUrl=${encodedReturnUrl}`;
     }
 
     /**
@@ -56,8 +61,12 @@ export class AuthService {
         this._userService.user = null;
         this._authCheckCache$ = null;
         
+        // Redirect to Angular's sign-out page after BFF logout completes
+        const signOutPageUrl = `${window.location.origin}/sign-out`;
+        const returnUrl = encodeURIComponent(signOutPageUrl);
+        
         // Perform full page redirect to logout endpoint
-        window.location.href = '/api/Account/Logout';
+        window.location.href = `${this._apiBaseUrl}/api/Account/Logout?returnUrl=${returnUrl}`;
         
         // Return observable for compatibility with existing code
         return of(true);
@@ -78,7 +87,7 @@ export class AuthService {
     forceRefresh(): Observable<boolean> {
         this._lastCheckTime = Date.now();
 
-        this._authCheckCache$ = this._httpClient.get<UserProfile>('/api/User').pipe(
+        this._authCheckCache$ = this._httpClient.get<UserProfile>(`${this._apiBaseUrl}/api/User`).pipe(
             map((profile) => {
                 this._authenticatedSubject.next(profile.isAuthenticated);
 
