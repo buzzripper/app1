@@ -2,7 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'environments/environment';
-import { AppHealthStatus, PingResult } from './system.types';
+import { PingResult } from '@app/core/models';
+import { AppHealthStatus } from './models';
 
 @Injectable({ providedIn: 'root' })
 export class AppSystemService {
