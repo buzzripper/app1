@@ -1,0 +1,21 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "ng serve ssl",
+      "type": "shell",
+      "command": "ng",
+      "args": ["serve", "--ssl"],
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "angular",
+        "pattern": [{ "regexp": ".+" }],
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "✔ Browser application bundle generation complete",
+          "endsPattern": "Compiled successfully"
+        }
+      }
+    }
+  ]
+}
