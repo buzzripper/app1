@@ -1,0 +1,41 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/.SolutionItems/">
+    <File Path=".editorconfig" />
+    <File Path=".SolutionItems/AzureDeploymentGuide.md" />
+  </Folder>
+  <Folder Name="/.SolutionItems/Scripts/">
+    <File Path=".SolutionItems/Scripts/RunAngular.bat" />
+    <File Path=".SolutionItems/Scripts/RunGrafana.bat" />
+  </Folder>
+  <Folder Name="/App/">
+    <Project Path="App/App.Api/App.Api.csproj" />
+    <Project Path="App/App.Server/App.Server.csproj" />
+    <Project Path="App/App.Shared/App.Shared.csproj" />
+  </Folder>
+  <Folder Name="/Auth/">
+    <Project Path="Auth/Auth.Api/Auth.Api.csproj" />
+    <Project Path="Auth/Auth.Server/Auth.Server.csproj" />
+    <Project Path="Auth/Auth.Shared/Auth.Shared.csproj" />
+  </Folder>
+  <Folder Name="/Functions/">
+    <Project Path="Functions/App1.Functions/App1.Functions.csproj" />
+  </Folder>
+  <Folder Name="/Portal/">
+    <Project Path="Portal/Portal.Server/Portal.Server.csproj" />
+  </Folder>
+  <Folder Name="/System/">
+    <Project Path="System/System.Apis/System.Apis.csproj" />
+    <Project Path="System/System.Servers/System.Servers.csproj" />
+    <Project Path="System/System.Shared/System.Shared.csproj" />
+  </Folder>
+  <Folder Name="/UI/">
+    <Project Path="UI/Angular/Angular.esproj">
+      <Deploy Solution="*|Any CPU" />
+    </Project>
+  </Folder>
+</Solution>

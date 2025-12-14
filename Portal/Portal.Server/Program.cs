@@ -32,24 +32,30 @@ builder.Services.AddOpenApi();
 var services = builder.Services;
 var configuration = builder.Configuration;
 
+// Configure CORS for cross-origin Angular app
+var allowedOrigins = configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
+services.AddCors(options =>
+{
+	options.AddDefaultPolicy(policy =>
+	{
+		policy.WithOrigins(allowedOrigins)
+			.AllowAnyHeader()
+			.AllowAnyMethod()
+			.AllowCredentials();
+	});
+});
+
 services.AddSecurityHeaderPolicies()
 	.SetPolicySelector(ctx =>
 	{
-		if (ctx.HttpContext.Request.Path.StartsWithSegments("/api"))
-		{
-			return ApiSecurityHeadersDefinitions.GetHeaderPolicyCollection(builder.Environment.IsDevelopment());
-		}
-
-		return SecurityHeadersDefinitions.GetHeaderPolicyCollection(
-		  builder.Environment.IsDevelopment(),
-		  configuration["MicrosoftEntraID:Instance"]);
+		return ApiSecurityHeadersDefinitions.GetHeaderPolicyCollection(builder.Environment.IsDevelopment());
 	});
 
 services.AddAntiforgery(options =>
 {
 	options.HeaderName = "X-XSRF-TOKEN";
 	options.Cookie.Name = "__Host-X-XSRF-TOKEN";
-	options.Cookie.SameSite = SameSiteMode.Strict;
+	options.Cookie.SameSite = SameSiteMode.Lax;
 	options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
 });
 
@@ -82,11 +88,14 @@ if (initialScopes.Length > 0)
 		options => options.Events = new RejectSessionCookieWhenAccountNotInCacheEvents(initialScopes));
 }
 
-services.AddControllersWithViews();
-
-services.AddRazorPages().AddMvcOptions(options =>
+// Configure cookie settings for cross-origin Angular app
+services.Configure<CookieAuthenticationOptions>(CookieAuthenticationDefaults.AuthenticationScheme, options =>
 {
-}).AddMicrosoftIdentityUI();
+	options.Cookie.SameSite = SameSiteMode.Lax;
+	options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+});
+
+services.AddControllers();
 
 services.AddTransient<IPortalModuleLogger>(sp => new PortalModuleLogger(sp.GetRequiredService<ILoggerFactory>()));
 
@@ -104,7 +113,7 @@ services.AddTransient<IPortalModuleLogger>(sp => new PortalModuleLogger(sp.GetRe
 	var appInProcess = false;
 #endif
 
-// Configure YARP with dynamic config based on compile-time defines
+// Configure YARP for API proxying (Auth/App when running out-of-process)
 services.AddSingleton<IProxyConfigProvider>(
 	new DynamicProxyConfigProvider(configuration, authInProcess, appInProcess));
 services.AddReverseProxy();
@@ -129,46 +138,33 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
 	IdentityModelEventSource.ShowPII = true;
-
 	app.UseDeveloperExceptionPage();
-	app.UseWebAssemblyDebugging();
 	app.MapOpenApi();
 }
 else
 {
-	app.UseExceptionHandler("/Error");
+	app.UseExceptionHandler("/api/error");
 }
 
 app.UseSecurityHeaders();
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
 app.UseRouting();
+
+// CORS must be called after UseRouting and before UseAuthentication
+app.UseCors();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Map specific endpoints first (highest priority)
-app.MapRazorPages();
+// Map API controllers
 app.MapControllers();
 app.MapNotFound("/api/{**segment}");
 
 // Map health check endpoints (in development only)
 app.MapDefaultEndpoints();
 
-// Map YARP reverse proxy for UI dev server (only in development)
-if (app.Environment.IsDevelopment())
-{
-	var uiDevServer = app.Configuration.GetValue<string>("UiDevServerUrl");
-	if (!string.IsNullOrEmpty(uiDevServer))
-	{
-		// YARP routes should be mapped before the fallback
-		// They have specific paths that will match before the fallback
-		app.MapReverseProxy();
-	}
-}
-
-// Fallback must be LAST - catches everything that didn't match above
-app.MapFallbackToPage("/_Host");
+// Map YARP reverse proxy for Auth/App APIs when running out-of-process
+app.MapReverseProxy();
 
 app.Run();
