@@ -16,6 +16,12 @@
 		 <DefineConstants>$(DefineConstants);AUTH_INPROCESS</DefineConstants> 
 		 <DefineConstants>$(DefineConstants);APP_INPROCESS</DefineConstants> 
 	</PropertyGroup>
+	<ItemGroup>
+	  <Compile Remove="Pages\**" />
+	  <Content Remove="Pages\**" />
+	  <EmbeddedResource Remove="Pages\**" />
+	  <None Remove="Pages\**" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Asp.Versioning.Mvc" Version="8.1.0" />
@@ -36,10 +42,6 @@
 		<ProjectReference Include="..\..\System\System.Apis\System.Apis.csproj" />
 
 		<ProjectReference Include="..\..\App\App.Api\App.Api.csproj" Condition="$(DefineConstants.Contains('APP_INPROCESS'))" />
-	</ItemGroup>
-	
-	<ItemGroup>
-	  <Folder Include="Pages\" />
 	</ItemGroup>
 
 </Project>

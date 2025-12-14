@@ -17,7 +17,7 @@ public class SystemServiceHttpClient : IAuthSystemService
 
 	public async Task<string> Ping()
 	{
-		var response = await _httpClient.GetAsync($"{cUrlPathRoot}/alive");
+		var response = await _httpClient.GetAsync($"{cUrlPathRoot}/ping");
 		response.EnsureSuccessStatusCode();
 		return await response.Content.ReadAsStringAsync();
 	}

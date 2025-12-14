@@ -16,9 +16,6 @@ public class PortalSystemService : IPortalSystemService
 
 	public Task<PortalHealthStatus> Health()
 	{
-		_logger.Info("PORTAL HEALTH");
-		throw new ValidationException("Test exception from PortalSystemService.Health");
-
 		return Task.FromResult(new PortalHealthStatus
 		{
 			IsHealthy = true,

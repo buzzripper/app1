@@ -66,6 +66,9 @@ export const appRoutes: Route[] = [
         },
         children: [
 
+            // System
+            {path: 'system', loadChildren: () => import('app/features/system/system.routes')},
+
             // Dashboards
             {path: 'dashboards', children: [
                 {path: 'project', loadChildren: () => import('app/modules/admin/dashboards/project/project.routes')},

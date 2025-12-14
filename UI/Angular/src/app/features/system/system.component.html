@@ -1,0 +1,107 @@
+<div class="flex min-w-0 flex-auto flex-col">
+    <!-- Header -->
+    <div class="bg-card border-b">
+        <div class="mx-auto flex w-full max-w-screen-xl flex-col px-6 sm:px-8">
+            <div class="my-8 flex min-w-0 flex-auto flex-col sm:my-12">
+                <div class="flex min-w-0 flex-auto items-center">
+                    <div class="ml-4 flex min-w-0 flex-col">
+                        <div class="truncate text-2xl font-semibold leading-7 tracking-tight md:text-5xl md:leading-snug">
+                            System Administration
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-auto pt-6 sm:pt-8">
+        <div class="mx-auto w-full max-w-screen-xl px-6 sm:px-8">
+            <div class="grid w-full min-w-0 grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                @for (tile of tiles(); track tile.module) {
+                    <!-- System Tile -->
+                    <div class="bg-card flex flex-auto flex-col overflow-hidden rounded-2xl p-6 shadow">
+                        <div class="flex items-start justify-between">
+                            <div class="truncate text-lg font-medium leading-6 tracking-tight">
+                                {{ tile.title }}
+                            </div>
+                        </div>
+                        
+                        <!-- Status Indicators -->
+                        <div class="mt-4 flex flex-col space-y-3">
+                            <!-- Ping Status -->
+                            <div class="flex items-center justify-between">
+                                <button 
+                                    mat-stroked-button 
+                                    class="flex-1"
+                                    (click)="callPing(tile.module)">
+                                    <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_outline:signal'"></mat-icon>
+                                    Ping
+                                </button>
+                                <div class="ml-3 flex h-8 w-8 items-center justify-center rounded-full"
+                                     [ngClass]="{
+                                        'bg-yellow-100': tile.pingStatus === 'unknown',
+                                        'bg-green-100': tile.pingStatus === 'success',
+                                        'bg-red-100': tile.pingStatus === 'error'
+                                     }">
+                                    <mat-icon 
+                                        class="icon-size-5"
+                                        [ngClass]="{
+                                            'text-yellow-600': tile.pingStatus === 'unknown',
+                                            'text-green-600': tile.pingStatus === 'success',
+                                            'text-red-600': tile.pingStatus === 'error'
+                                        }"
+                                        [svgIcon]="tile.pingStatus === 'success' ? 'heroicons_solid:check-circle' : 
+                                                   tile.pingStatus === 'error' ? 'heroicons_solid:x-circle' : 
+                                                   'heroicons_solid:question-mark-circle'">
+                                    </mat-icon>
+                                </div>
+                            </div>
+
+                            <!-- Health Status -->
+                            <div class="flex items-center justify-between">
+                                <button 
+                                    mat-stroked-button 
+                                    class="flex-1"
+                                    (click)="callHealth(tile.module)">
+                                    <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_outline:heart'"></mat-icon>
+                                    Health
+                                </button>
+                                <div class="ml-3 flex h-8 w-8 items-center justify-center rounded-full"
+                                     [ngClass]="{
+                                        'bg-yellow-100': tile.healthStatus === 'unknown',
+                                        'bg-green-100': tile.healthStatus === 'success',
+                                        'bg-red-100': tile.healthStatus === 'error'
+                                     }">
+                                    <mat-icon 
+                                        class="icon-size-5"
+                                        [ngClass]="{
+                                            'text-yellow-600': tile.healthStatus === 'unknown',
+                                            'text-green-600': tile.healthStatus === 'success',
+                                            'text-red-600': tile.healthStatus === 'error'
+                                        }"
+                                        [svgIcon]="tile.healthStatus === 'success' ? 'heroicons_solid:check-circle' : 
+                                                   tile.healthStatus === 'error' ? 'heroicons_solid:x-circle' : 
+                                                   'heroicons_solid:question-mark-circle'">
+                                    </mat-icon>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Messages -->
+                        @if (tile.pingMessage || tile.healthMessage) {
+                            <div class="text-secondary mt-4 space-y-1 text-sm">
+                                @if (tile.pingMessage) {
+                                    <div class="truncate">Ping: {{ tile.pingMessage }}</div>
+                                }
+                                @if (tile.healthMessage) {
+                                    <div class="truncate">Health: {{ tile.healthMessage }}</div>
+                                }
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

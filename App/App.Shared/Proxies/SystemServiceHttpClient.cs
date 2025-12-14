@@ -6,7 +6,7 @@ namespace Dyvenix.App.Shared.Proxies;
 
 public class SystemServiceHttpClient : IAppSystemService
 {
-	public const string cUrlPathRoot = "api/app1/v1/system";
+	public const string cUrlPathRoot = $"api/app/v1/system";
 
 	private readonly HttpClient _httpClient;
 
@@ -15,9 +15,9 @@ public class SystemServiceHttpClient : IAppSystemService
 		_httpClient = httpClient;
 	}
 
-	public async Task<string> Alive()
+	public async Task<string> Ping()
 	{
-		var response = await _httpClient.GetAsync($"{cUrlPathRoot}/alive");
+		var response = await _httpClient.GetAsync($"{cUrlPathRoot}/ping");
 		response.EnsureSuccessStatusCode();
 		return await response.Content.ReadAsStringAsync();
 	}
