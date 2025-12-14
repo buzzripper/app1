@@ -16,9 +16,6 @@ public class AppSystemService : IAppSystemService
 
 	public Task<AppHealthStatus> Health()
 	{
-		_logger.Info("APP HEALTH");
-		throw new ValidationException("Test exception from AppSystemService.Health");
-
 		return Task.FromResult(new AppHealthStatus
 		{
 			IsHealthy = true,

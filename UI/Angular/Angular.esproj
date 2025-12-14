@@ -14,7 +14,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="src\app\features\user-admin\" />
+    <Folder Include="src\app\features\admin\users\" />
   </ItemGroup>
   <PropertyGroup>
     <StartupCommand>npm start</StartupCommand>

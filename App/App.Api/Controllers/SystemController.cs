@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 namespace Dyvenix.App.Api.Controllers;
 
 [ApiController]
+[Authorize]
 [ServiceFilter(typeof(AppExceptionFilter<AppSystemService>))]
 [Asp.Versioning.ApiVersion("1.0")]  // Fully qualified to avoid ambiguity
 [Route("api/app/v{version:apiVersion}/[controller]")]

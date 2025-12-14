@@ -18,9 +18,6 @@ public class AuthSystemService : IAuthSystemService
 
 	public Task<AuthHealthStatus> Health()
 	{
-		_logger.Info("AUTH HEALTH");
-		throw new ValidationException("Test exception from AuthSystemService.Health");
-
 		return Task.FromResult(new AuthHealthStatus
 		{
 			IsHealthy = true,
