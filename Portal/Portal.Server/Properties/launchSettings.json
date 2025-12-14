@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "Portal": {
+    "Start": {
       "commandName": "Project",
       "launchBrowser": false,
       "environmentVariables": {

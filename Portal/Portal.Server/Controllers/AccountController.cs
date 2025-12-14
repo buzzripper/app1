@@ -4,10 +4,12 @@
 public class AccountController : ControllerBase
 {
 	private readonly ILogger<AccountController> _logger;
+	private readonly IConfiguration _configuration;
 
-	public AccountController(ILogger<AccountController> logger)
+	public AccountController(ILogger<AccountController> logger, IConfiguration configuration)
 	{
 		_logger = logger;
+		_configuration = configuration;
 	}
 
 	[HttpGet("Login")]
@@ -26,9 +28,11 @@ public class AccountController : ControllerBase
 
 	[Authorize]
 	[HttpGet("Logout")]
-	public async Task<IActionResult> Logout()
+	public async Task<IActionResult> Logout(string? returnUrl)
 	{
-		var properties = new AuthenticationProperties { RedirectUri = "/sign-out" };
+		var redirectUri = GetSafeRedirectUri(returnUrl, "/");
+
+		var properties = new AuthenticationProperties { RedirectUri = redirectUri };
 
 		// Get id_token from authentication properties to skip account selection prompt
 		var authenticateResult = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -61,24 +65,43 @@ public class AccountController : ControllerBase
 			OpenIdConnectDefaults.AuthenticationScheme);
 	}
 
-	private static AuthenticationProperties GetAuthProperties(string? returnUrl)
+	private AuthenticationProperties GetAuthProperties(string? returnUrl)
 	{
-		const string pathBase = "/";
+		var redirectUri = GetSafeRedirectUri(returnUrl, "/");
+		return new AuthenticationProperties { RedirectUri = redirectUri };
+	}
 
-		// Prevent open redirects.
+	/// <summary>
+	/// Validates and returns a safe redirect URI.
+	/// Allows redirects to configured allowed origins (CORS origins) or relative paths.
+	/// </summary>
+	private string GetSafeRedirectUri(string? returnUrl, string defaultPath)
+	{
 		if (string.IsNullOrEmpty(returnUrl))
 		{
-			returnUrl = pathBase;
-		}
-		else if (!Uri.IsWellFormedUriString(returnUrl, UriKind.Relative))
-		{
-			returnUrl = new Uri(returnUrl, UriKind.Absolute).PathAndQuery;
-		}
-		else if (returnUrl[0] != '/')
-		{
-			returnUrl = $"{pathBase}{returnUrl}";
+			return defaultPath;
 		}
 
-		return new AuthenticationProperties { RedirectUri = returnUrl };
+		// Allow relative URLs
+		if (Uri.IsWellFormedUriString(returnUrl, UriKind.Relative))
+		{
+			return returnUrl.StartsWith('/') ? returnUrl : $"/{returnUrl}";
+		}
+
+		// For absolute URLs, validate against allowed origins
+		if (Uri.TryCreate(returnUrl, UriKind.Absolute, out var uri))
+		{
+			var allowedOrigins = _configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
+			var origin = $"{uri.Scheme}://{uri.Authority}";
+
+			if (allowedOrigins.Contains(origin, StringComparer.OrdinalIgnoreCase))
+			{
+				return returnUrl;
+			}
+
+			_logger.LogWarning("Blocked redirect to non-allowed origin: {Origin}", origin);
+		}
+
+		return defaultPath;
 	}
 }
