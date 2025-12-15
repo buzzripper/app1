@@ -1,4 +1,4 @@
-namespace Dyvenix.App1.Functions.DTOs.EntraId;
+namespace App1.App1.Functions.DTOs.EntraId;
 
 public class ServicePrincipalInfo
 {

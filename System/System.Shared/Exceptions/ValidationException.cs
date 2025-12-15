@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Dyvenix.System.Shared.Exceptions;
+namespace App1.System.Shared.Exceptions;
 
 public class ValidationException : Exception
 {

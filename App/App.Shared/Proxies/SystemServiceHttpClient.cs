@@ -1,8 +1,8 @@
-using Dyvenix.App.Shared.DTOs;
-using Dyvenix.App.Shared.Interfaces;
+using App1.App.Shared.DTOs;
+using App1.App.Shared.Interfaces;
 using System.Net.Http.Json;
 
-namespace Dyvenix.App.Shared.Proxies;
+namespace App1.App.Shared.Proxies;
 
 public class SystemServiceHttpClient : IAppSystemService
 {

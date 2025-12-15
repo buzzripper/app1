@@ -1,7 +1,7 @@
-﻿using Dyvenix.App.Api.Logging;
-using Dyvenix.System.Apis.Filters;
+﻿using App1.App.Api.Logging;
+using App1.System.Apis.Filters;
 
-namespace Dyvenix.App.Api.Filters;
+namespace App1.App.Api.Filters;
 
 public class AppExceptionFilter<T> : SystemExceptionFilterBase<T>
 {

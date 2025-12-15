@@ -1,6 +1,6 @@
-﻿using Dyvenix.System.Shared.DTOs;
+﻿using App1.System.Shared.DTOs;
 
-namespace Dyvenix.App.Shared.DTOs;
+namespace App1.App.Shared.DTOs;
 
 public class AppHealthStatus : HealthStatus
 {

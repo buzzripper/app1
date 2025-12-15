@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Logging.Console;
 using Microsoft.Extensions.Options;
 
-namespace Dyvenix.System.Apis;
+namespace App1.System.Apis;
 
 public sealed class SimpleLogFormatter : ConsoleFormatter
 {
@@ -33,7 +33,7 @@ public sealed class SimpleLogFormatter : ConsoleFormatter
 		textWriter.Write(GetLogLevelAbbreviation(logEntry.LogLevel));
 		textWriter.Write('\t');
 
-		// Module and Class from category (e.g., "Dyvenix.Auth.Api.Services.SystemService")
+		// Module and Class from category (e.g., "App1.Auth.Api.Services.SystemService")
 		var (module, className) = ParseCategory(logEntry.Category);
 		textWriter.Write(module);
 		textWriter.Write('\t');
@@ -63,10 +63,10 @@ public sealed class SimpleLogFormatter : ConsoleFormatter
 
 	private static (string Module, string ClassName) ParseCategory(string category)
 	{
-		// Category format: "Dyvenix.Auth.Api.Services.SystemService"
+		// Category format: "App1.Auth.Api.Services.SystemService"
 		// Extract module (Auth, App, Portal) and class name
 		var parts = category.Split('.');
-		
+
 		var module = "System";
 		var className = parts.Length > 0 ? parts[^1] : category;
 

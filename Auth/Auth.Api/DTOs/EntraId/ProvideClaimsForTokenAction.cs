@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace Dyvenix.Auth.Api.DTOs.EntraId;
+namespace App1.Auth.Api.DTOs.EntraId;
 
 public sealed class ProvideClaimsForTokenAction
 {

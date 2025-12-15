@@ -1,9 +1,9 @@
-using Dyvenix.App1.Portal.Server.DTOs;
-using Dyvenix.App1.Portal.Server.Interfaces;
-using Dyvenix.App1.Portal.Server.Logging;
-using Dyvenix.System.Shared.Exceptions;
+using App1.App1.Portal.Server.DTOs;
+using App1.App1.Portal.Server.Interfaces;
+using App1.App1.Portal.Server.Logging;
+using App1.System.Shared.Exceptions;
 
-namespace Dyvenix.App1.Portal.Server.Services;
+namespace App1.App1.Portal.Server.Services;
 
 public class PortalSystemService : IPortalSystemService
 {

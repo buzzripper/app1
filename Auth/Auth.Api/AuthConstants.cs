@@ -1,5 +1,5 @@
 ﻿
-namespace Dyvenix.Auth.Api;
+namespace App1.Auth.Api;
 
 public static class AuthConstants
 {

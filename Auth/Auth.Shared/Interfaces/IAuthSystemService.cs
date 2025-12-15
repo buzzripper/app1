@@ -1,6 +1,6 @@
 using Dyvenix.Auth.Shared.DTOs;
 
-namespace Dyvenix.Auth.Shared.Interfaces;
+namespace App1.Auth.Shared.Interfaces;
 
 public interface IAuthSystemService
 {

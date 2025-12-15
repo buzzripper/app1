@@ -1,6 +1,6 @@
-﻿using Dyvenix.App1.Portal.Server.Models;
+﻿using App1.App1.Portal.Server.Models;
 
-namespace Dyvenix.App1.Portal.Server.Controllers;
+namespace App1.App1.Portal.Server.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]

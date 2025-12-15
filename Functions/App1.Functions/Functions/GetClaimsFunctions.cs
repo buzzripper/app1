@@ -1,12 +1,12 @@
-using Dyvenix.App1.Functions.DTOs.EntraId;
-using Dyvenix.App1.Functions.Services;
+using App1.App1.Functions.DTOs.EntraId;
+using App1.App1.Functions.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
 
-namespace Dyvenix.App1.Functions.Functions;
+namespace App1.App1.Functions.Functions;
 
 public class GetClaimsFunctions
 {
