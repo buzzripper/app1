@@ -1,12 +1,12 @@
-using Dyvenix.App.Api.Filters;
-using Dyvenix.App.Api.Services;
-using Dyvenix.App.Shared.Interfaces;
-using Dyvenix.System.Shared.DTOs;
+using App1.App.Api.Filters;
+using App1.App.Api.Services;
+using App1.App.Shared.Interfaces;
+using App1.System.Shared.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace Dyvenix.App.Api.Controllers;
+namespace App1.App.Api.Controllers;
 
 [ApiController]
 [Authorize]

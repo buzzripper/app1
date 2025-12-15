@@ -1,6 +1,6 @@
-﻿using Dyvenix.System.Apis.Logging;
+﻿using App1.System.Apis.Logging;
 
-namespace Dyvenix.App1.Portal.Server.Logging
+namespace App1.App1.Portal.Server.Logging
 {
 	public interface IPortalModuleLogger : IModuleLogger
 	{

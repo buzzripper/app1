@@ -1,7 +1,7 @@
-﻿using Dyvenix.App1.Portal.Server.Logging;
-using Dyvenix.System.Apis.Filters;
+﻿using App1.App1.Portal.Server.Logging;
+using App1.System.Apis.Filters;
 
-namespace Dyvenix.App1.Portal.Server.Filters;
+namespace App1.App1.Portal.Server.Filters;
 
 public class PortalExceptionFilter<T> : SystemExceptionFilterBase<T>
 {

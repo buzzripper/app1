@@ -1,6 +1,6 @@
-using Dyvenix.App1.Functions.DTOs.EntraId;
+using App1.App1.Functions.DTOs.EntraId;
 
-namespace Dyvenix.App1.Functions.Services;
+namespace App1.App1.Functions.Services;
 
 public interface ITokenEnrichmentService
 {

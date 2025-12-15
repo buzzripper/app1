@@ -1,6 +1,6 @@
 using System;
 
-namespace Dyvenix.System.Shared.DTOs;
+namespace App1.System.Shared.DTOs;
 
 public class PingResult
 {

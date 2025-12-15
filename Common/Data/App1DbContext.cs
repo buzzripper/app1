@@ -7,10 +7,10 @@
 // - "ExternalId" is the IdP subject/oid/etc. + Provider identifies the IdP
 
 #nullable enable
-using Dyvenix.App1.Data.Entities;
+using App1.App1.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Dyvenix.App1.Data;
+namespace App1.App1.Data;
 
 public class AppDbContext : DbContext
 {

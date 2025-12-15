@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 
-namespace Dyvenix.App1.Data.Entities;
+namespace App1.App1.Data.Entities;
 
 /// <summary>
 /// Represents an app permission. Usually global (not per tenant), but you can scope it if you want.

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 
-namespace Dyvenix.App1.Functions.Functions;
+namespace App1.App1.Functions.Functions;
 
 public class SystemFunctions
 {

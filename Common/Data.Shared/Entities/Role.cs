@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 
-namespace Dyvenix.App1.Data.Entities;
+namespace App1.App1.Data.Entities;
 
 /// <summary>
 /// Role scoped to an Organization.

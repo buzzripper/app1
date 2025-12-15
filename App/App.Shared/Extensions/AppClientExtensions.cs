@@ -1,9 +1,9 @@
-using Dyvenix.App.Shared.Interfaces;
-using Dyvenix.App.Shared.Proxies;
+using App1.App.Shared.Interfaces;
+using App1.App.Shared.Proxies;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Dyvenix.App.Shared.Extensions;
+namespace App1.App.Shared.Extensions;
 
 public static class AppClientExtensions
 {

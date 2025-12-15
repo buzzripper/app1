@@ -1,10 +1,6 @@
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading;
 
-namespace Dyvenix.System.Apis;
+namespace App1.System.Apis;
 
 public sealed class FileLoggerProvider(string filePath, string defaultServiceName) : ILoggerProvider
 {

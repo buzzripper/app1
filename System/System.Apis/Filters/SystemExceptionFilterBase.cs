@@ -1,12 +1,10 @@
-using Dyvenix.System.Apis.Logging;
-using Dyvenix.System.Shared.DTOs;
-using Dyvenix.System.Shared.Exceptions;
+using App1.System.Apis.Logging;
+using App1.System.Shared.DTOs;
+using App1.System.Shared.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.Logging;
-using System;
 
-namespace Dyvenix.System.Apis.Filters;
+namespace App1.System.Apis.Filters;
 
 /// <summary>
 /// Global exception filter that handles unhandled exceptions from controllers.

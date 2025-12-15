@@ -1,9 +1,8 @@
-using Dyvenix.App.Api.Logging;
-using Dyvenix.App.Shared.DTOs;
-using Dyvenix.App.Shared.Interfaces;
-using Dyvenix.System.Shared.Exceptions;
+using App1.App.Api.Logging;
+using App1.App.Shared.DTOs;
+using App1.App.Shared.Interfaces;
 
-namespace Dyvenix.App.Api.Services;
+namespace App1.App.Api.Services;
 
 public class AppSystemService : IAppSystemService
 {

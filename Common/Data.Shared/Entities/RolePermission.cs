@@ -10,7 +10,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 
-namespace Dyvenix.App1.Data.Entities;
+namespace App1.App1.Data.Entities;
 
 /// <summary>
 /// Many-to-many join for Role <-> Permission.

@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace Dyvenix.System.Servers;
+namespace App1.System.Servers;
 
 /// <summary>
 /// Common extensions for API server hosts.

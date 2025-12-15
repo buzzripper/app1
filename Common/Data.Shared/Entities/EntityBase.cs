@@ -10,7 +10,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Dyvenix.App1.Data.Entities;
+namespace App1.App1.Data.Entities;
 
 public abstract class EntityBase
 {

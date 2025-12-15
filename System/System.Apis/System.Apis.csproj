@@ -4,8 +4,8 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
-    <AssemblyName>Dyvenix.$(MSBuildProjectName)</AssemblyName>
-    <RootNamespace>Dyvenix.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <AssemblyName>App1.$(MSBuildProjectName)</AssemblyName>
+    <RootNamespace>App1.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
     <Configurations>Debug;Release;Dbg-Ext</Configurations>
   </PropertyGroup>
 
