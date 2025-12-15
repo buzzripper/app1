@@ -1,4 +1,4 @@
-using App1.App.Api.Filters;
+using App1.Auth.Api.Filters;
 using App1.Auth.Api.Services;
 using App1.Auth.Shared.Interfaces;
 using App1.System.Shared.DTOs;

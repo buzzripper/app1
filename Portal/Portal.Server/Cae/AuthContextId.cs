@@ -1,4 +1,4 @@
-﻿namespace App1.App1.Portal.Server.Cae;
+﻿namespace App1.Portal.Server.Cae;
 
 /// <summary>
 /// Consts used for the defined AuthContext. The AuthContext can be created using MS Graph.

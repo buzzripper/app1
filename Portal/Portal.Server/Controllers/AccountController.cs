@@ -1,4 +1,4 @@
-﻿namespace App1.App1.Portal.Server.Controllers;
+﻿namespace App1.Portal.Server.Controllers;
 
 [Route("api/[controller]")]
 public class AccountController : ControllerBase
