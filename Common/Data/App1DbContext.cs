@@ -7,10 +7,10 @@
 // - "ExternalId" is the IdP subject/oid/etc. + Provider identifies the IdP
 
 #nullable enable
-using App1.App1.Data.Entities;
+using Dyvenix.App1.Data.Shared.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace App1.Data;
+namespace Dyvenix.App1.Data;
 
 public class AppDbContext : DbContext
 {
@@ -39,12 +39,142 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Role>().HasQueryFilter(x => x.DeletedAtUtc == null);
         modelBuilder.Entity<Permission>().HasQueryFilter(x => x.DeletedAtUtc == null);
 
-        // External identity uniqueness:
-        // Many apps want (ExternalProvider, ExternalId) unique globally. If you want per-tenant, move it to Membership instead.
-        modelBuilder.Entity<User>()
-            .HasIndex(x => new { x.ExternalProvider, x.ExternalId })
-            .IsUnique()
-            .HasFilter("[ExternalProvider] IS NOT NULL AND [ExternalId] IS NOT NULL");
+        // Organization configuration
+        modelBuilder.Entity<Organization>(entity =>
+        {
+            entity.HasKey(o => o.Id);
+            entity.Property(o => o.RowVersion).IsRowVersion();
+            
+            entity.HasIndex(o => o.Slug).IsUnique();
+            entity.Property(o => o.Name).IsRequired().HasMaxLength(200);
+            entity.Property(o => o.Slug).IsRequired().HasMaxLength(100);
+            entity.Property(o => o.BillingExternalId).HasMaxLength(200);
+            entity.Property(o => o.DefaultLocale).HasMaxLength(20);
+            entity.Property(o => o.DefaultTimeZone).HasMaxLength(80);
+        });
+
+        // User configuration
+        modelBuilder.Entity<User>(entity =>
+        {
+            entity.HasKey(u => u.Id);
+            entity.Property(u => u.RowVersion).IsRowVersion();
+            
+            entity.HasIndex(u => u.NormalizedEmail);
+            entity.HasIndex(u => new { u.ExternalProvider, u.ExternalId })
+                .IsUnique()
+                .HasFilter("[ExternalProvider] IS NOT NULL AND [ExternalId] IS NOT NULL");
+            
+            entity.Property(u => u.ExternalId).HasMaxLength(200);
+            entity.Property(u => u.ExternalProvider).HasMaxLength(50);
+            entity.Property(u => u.Email).HasMaxLength(320);
+            entity.Property(u => u.NormalizedEmail).HasMaxLength(320);
+            entity.Property(u => u.FirstName).HasMaxLength(100);
+            entity.Property(u => u.LastName).HasMaxLength(100);
+            entity.Property(u => u.DisplayName).HasMaxLength(200);
+            entity.Property(u => u.PhoneNumber).HasMaxLength(30);
+        });
+
+        // Membership configuration
+        modelBuilder.Entity<Membership>(entity =>
+        {
+            entity.HasKey(m => m.Id);
+            entity.Property(m => m.RowVersion).IsRowVersion();
+            
+            entity.HasIndex(m => new { m.OrganizationId, m.UserId }).IsUnique();
+        });
+
+        // Role configuration
+        modelBuilder.Entity<Role>(entity =>
+        {
+            entity.HasKey(r => r.Id);
+            entity.Property(r => r.RowVersion).IsRowVersion();
+            
+            entity.HasIndex(r => new { r.OrganizationId, r.NormalizedName }).IsUnique();
+            entity.Property(r => r.Name).IsRequired().HasMaxLength(100);
+            entity.Property(r => r.NormalizedName).IsRequired().HasMaxLength(100);
+            entity.Property(r => r.Description).HasMaxLength(500);
+        });
+
+        // Permission configuration
+        modelBuilder.Entity<Permission>(entity =>
+        {
+            entity.HasKey(p => p.Id);
+            entity.Property(p => p.RowVersion).IsRowVersion();
+            
+            entity.HasIndex(p => p.Key).IsUnique();
+            entity.Property(p => p.Key).IsRequired().HasMaxLength(200);
+            entity.Property(p => p.DisplayName).HasMaxLength(200);
+            entity.Property(p => p.Description).HasMaxLength(500);
+        });
+
+        // RolePermission configuration
+        modelBuilder.Entity<RolePermission>(entity =>
+        {
+            entity.HasKey(rp => rp.Id);
+            entity.Property(rp => rp.RowVersion).IsRowVersion();
+            
+            entity.HasIndex(rp => new { rp.RoleId, rp.PermissionId }).IsUnique();
+        });
+
+        // UserRole configuration
+        modelBuilder.Entity<UserRole>(entity =>
+        {
+            entity.HasKey(ur => ur.Id);
+            entity.Property(ur => ur.RowVersion).IsRowVersion();
+            
+            entity.HasIndex(ur => new { ur.MembershipId, ur.RoleId }).IsUnique();
+        });
+
+        // UserClaim configuration
+        modelBuilder.Entity<UserClaim>(entity =>
+        {
+            entity.HasKey(uc => uc.Id);
+            entity.Property(uc => uc.RowVersion).IsRowVersion();
+            
+            entity.HasIndex(uc => new { uc.UserId, uc.Type, uc.Value }).IsUnique();
+            entity.Property(uc => uc.Type).IsRequired().HasMaxLength(200);
+            entity.Property(uc => uc.Value).IsRequired().HasMaxLength(500);
+            entity.Property(uc => uc.ValueType).HasMaxLength(50);
+            entity.Property(uc => uc.Issuer).HasMaxLength(200);
+        });
+
+        // OrganizationClaim configuration
+        modelBuilder.Entity<OrganizationClaim>(entity =>
+        {
+            entity.HasKey(oc => oc.Id);
+            entity.Property(oc => oc.RowVersion).IsRowVersion();
+            
+            entity.HasIndex(oc => new { oc.OrganizationId, oc.Type, oc.Value }).IsUnique();
+            entity.Property(oc => oc.Type).IsRequired().HasMaxLength(200);
+            entity.Property(oc => oc.Value).IsRequired().HasMaxLength(500);
+            entity.Property(oc => oc.ValueType).HasMaxLength(50);
+            entity.Property(oc => oc.Issuer).HasMaxLength(200);
+        });
+
+        // MembershipClaim configuration
+        modelBuilder.Entity<MembershipClaim>(entity =>
+        {
+            entity.HasKey(mc => mc.Id);
+            entity.Property(mc => mc.RowVersion).IsRowVersion();
+            
+            entity.HasIndex(mc => new { mc.MembershipId, mc.Type, mc.Value }).IsUnique();
+            entity.Property(mc => mc.Type).IsRequired().HasMaxLength(200);
+            entity.Property(mc => mc.Value).IsRequired().HasMaxLength(500);
+            entity.Property(mc => mc.ValueType).HasMaxLength(50);
+            entity.Property(mc => mc.Issuer).HasMaxLength(200);
+        });
+
+        // ClaimType configuration
+        modelBuilder.Entity<ClaimType>(entity =>
+        {
+            entity.HasKey(ct => ct.Id);
+            entity.Property(ct => ct.RowVersion).IsRowVersion();
+            
+            entity.HasIndex(ct => ct.Type).IsUnique();
+            entity.Property(ct => ct.Type).IsRequired().HasMaxLength(200);
+            entity.Property(ct => ct.DisplayName).HasMaxLength(200);
+            entity.Property(ct => ct.Description).HasMaxLength(500);
+        });
 
         // Relationships
         modelBuilder.Entity<Membership>()

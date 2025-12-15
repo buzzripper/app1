@@ -9,30 +9,24 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
 
-namespace App1.App1.Data.Entities;
+namespace Dyvenix.App1.Data.Shared.Entities;
 
 /// <summary>
 /// Represents a tenant / organization in a multi-tenant SaaS.
 /// </summary>
-[Index(nameof(Slug), IsUnique = true)]
 public class Organization : EntityBase
 {
-    [Required, MaxLength(200)]
     public string Name { get; set; } = string.Empty;
 
     /// <summary>
     /// URL-friendly unique key for the tenant (e.g., used in subdomain or path).
     /// </summary>
-    [Required, MaxLength(100)]
     public string Slug { get; set; } = string.Empty;
 
     /// <summary>
     /// Optional external billing/customer identifier (Stripe customer id, etc.).
     /// </summary>
-    [MaxLength(200)]
     public string? BillingExternalId { get; set; }
 
     /// <summary>
@@ -43,13 +37,11 @@ public class Organization : EntityBase
     /// <summary>
     /// Default locale/culture for the tenant.
     /// </summary>
-    [MaxLength(20)]
     public string? DefaultLocale { get; set; }
 
     /// <summary>
     /// Default time zone id (IANA or Windows id - pick one standard).
     /// </summary>
-    [MaxLength(80)]
     public string? DefaultTimeZone { get; set; }
 
     /// <summary>
@@ -60,11 +52,4 @@ public class Organization : EntityBase
     public ICollection<OrganizationClaim> Claims { get; set; } = new List<OrganizationClaim>();
     public ICollection<Membership> Memberships { get; set; } = new List<Membership>();
     public ICollection<Role> Roles { get; set; } = new List<Role>();
-}
-
-public enum OrganizationStatus : short
-{
-    Active = 1,
-    Suspended = 2,
-    Deleted = 9
 }

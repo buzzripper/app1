@@ -8,13 +8,11 @@
 
 #nullable enable
 using System;
-using System.ComponentModel.DataAnnotations;
 
-namespace App1.App1.Data.Entities;
+namespace Dyvenix.App1.Data.Shared.Entities;
 
 public abstract class EntityBase
 {
-    [Key]
     public Guid Id { get; set; } = Guid.NewGuid();
 
     /// <summary>UTC time the row was created.</summary>
@@ -36,7 +34,6 @@ public abstract class EntityBase
     public Guid? DeletedByUserId { get; set; }
 
     /// <summary>Optimistic concurrency token.</summary>
-    [Timestamp]
     public byte[] RowVersion { get; set; } = Array.Empty<byte>();
 
     public bool IsDeleted => DeletedAtUtc.HasValue;

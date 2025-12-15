@@ -8,30 +8,23 @@
 
 #nullable enable
 using System;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
 
-namespace App1.App1.Data.Entities;
+namespace Dyvenix.App1.Data.Shared.Entities;
 
 /// <summary>
 /// Claim attached to a Membership (user-in-tenant).
 /// Use this for per-tenant user claims like "department", "site", "customerRole", etc.
 /// </summary>
-[Index(nameof(MembershipId), nameof(Type), nameof(Value), IsUnique = true)]
 public class MembershipClaim : EntityBase
 {
     public Guid MembershipId { get; set; }
     public Membership Membership { get; set; } = null!;
 
-    [Required, MaxLength(200)]
     public string Type { get; set; } = string.Empty;
 
-    [Required, MaxLength(500)]
     public string Value { get; set; } = string.Empty;
 
-    [MaxLength(50)]
     public string? ValueType { get; set; }
 
-    [MaxLength(200)]
     public string? Issuer { get; set; }
 }

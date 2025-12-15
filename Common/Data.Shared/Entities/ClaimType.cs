@@ -9,25 +9,19 @@
 #nullable enable
 using System;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
 
-namespace App1.App1.Data.Entities
+namespace Dyvenix.App1.Data.Shared.Entities;
+
+/// <summary>
+/// Optional catalog of claim types you use in your app.
+/// If you don't want a registry, you can remove this and store strings directly.
+/// </summary>
+public class ClaimType : EntityBase
 {
-	/// <summary>
-	/// Optional catalog of claim types you use in your app.
-	/// If you don't want a registry, you can remove this and store strings directly.
-	/// </summary>
-	[Index(nameof(Type), IsUnique = true)]
-	public class ClaimType : EntityBase
-	{
-		[Required, MaxLength(200)]
-		public string Type { get; set; } = string.Empty; // e.g., "plan", "feature", "department", "region"
+    public string Type { get; set; } = string.Empty; // e.g., "plan", "feature", "department", "region"
 
-		[MaxLength(200)]
-		public string? DisplayName { get; set; }
+    public string? DisplayName { get; set; }
 
-		[MaxLength(500)]
-		public string? Description { get; set; }
-	}
+    public string? Description { get; set; }
 }
 

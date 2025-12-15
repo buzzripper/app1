@@ -8,30 +8,23 @@
 
 #nullable enable
 using System;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
 
-namespace App1.App1.Data.Entities;
+namespace Dyvenix.App1.Data.Shared.Entities;
 
 /// <summary>
 /// Claim attached globally to a User (not tenant-specific).
 /// For tenant-specific claims, prefer MembershipClaim.
 /// </summary>
-[Index(nameof(UserId), nameof(Type), nameof(Value), IsUnique = true)]
 public class UserClaim : EntityBase
 {
     public Guid UserId { get; set; }
     public User User { get; set; } = null!;
 
-    [Required, MaxLength(200)]
     public string Type { get; set; } = string.Empty;
 
-    [Required, MaxLength(500)]
     public string Value { get; set; } = string.Empty;
 
-    [MaxLength(50)]
     public string? ValueType { get; set; } // optional: "string", "bool", "int", etc.
 
-    [MaxLength(200)]
     public string? Issuer { get; set; } // optional
 }

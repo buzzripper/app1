@@ -9,47 +9,36 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
 
-namespace App1.App1.Data.Entities;
+namespace Dyvenix.App1.Data.Shared.Entities;
 
 /// <summary>
 /// A person/account in your system. Authentication happens at an external IdP.
 /// Authorization is enforced via roles/claims in your DB.
 /// </summary>
-[Index(nameof(NormalizedEmail))]
 public class User : EntityBase
 {
     /// <summary>
     /// IdP subject/oid/etc. (e.g. Entra "oid" or "sub"). Not unique globally unless combined with Provider.
     /// </summary>
-    [MaxLength(200)]
     public string? ExternalId { get; set; }
 
     /// <summary>
     /// Identifier for the IdP (e.g. "EntraID", "EntraExternal", "Auth0", "Okta").
     /// </summary>
-    [MaxLength(50)]
     public string? ExternalProvider { get; set; }
 
-    [MaxLength(320)]
     public string? Email { get; set; }
 
     /// <summary>Store a normalized email for case-insensitive lookups.</summary>
-    [MaxLength(320)]
     public string? NormalizedEmail { get; set; }
 
-    [MaxLength(100)]
     public string? FirstName { get; set; }
 
-    [MaxLength(100)]
     public string? LastName { get; set; }
 
-    [MaxLength(200)]
     public string? DisplayName { get; set; }
 
-    [MaxLength(30)]
     public string? PhoneNumber { get; set; }
 
     public bool EmailVerified { get; set; }
@@ -64,12 +53,4 @@ public class User : EntityBase
 
     public ICollection<UserClaim> Claims { get; set; } = new List<UserClaim>();
     public ICollection<Membership> Memberships { get; set; } = new List<Membership>();
-}
-
-public enum UserStatus : short
-{
-    Active = 1,
-    Disabled = 2,
-    Locked = 3,
-    Deleted = 9
 }

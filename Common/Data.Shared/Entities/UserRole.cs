@@ -8,14 +8,12 @@
 
 #nullable enable
 using System;
-using Microsoft.EntityFrameworkCore;
 
-namespace App1.App1.Data.Entities;
+namespace Dyvenix.App1.Data.Shared.Entities;
 
 /// <summary>
 /// Assigns a role to a user within a specific organization membership.
 /// </summary>
-[Index(nameof(MembershipId), nameof(RoleId), IsUnique = true)]
 public class UserRole : EntityBase
 {
     public Guid MembershipId { get; set; }

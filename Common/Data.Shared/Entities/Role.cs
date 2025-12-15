@@ -9,27 +9,21 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
 
-namespace App1.App1.Data.Entities;
+namespace Dyvenix.App1.Data.Shared.Entities;
 
 /// <summary>
 /// Role scoped to an Organization.
 /// </summary>
-[Index(nameof(OrganizationId), nameof(NormalizedName), IsUnique = true)]
 public class Role : EntityBase
 {
     public Guid OrganizationId { get; set; }
     public Organization Organization { get; set; } = null!;
 
-    [Required, MaxLength(100)]
     public string Name { get; set; } = string.Empty;
 
-    [Required, MaxLength(100)]
     public string NormalizedName { get; set; } = string.Empty;
 
-    [MaxLength(500)]
     public string? Description { get; set; }
 
     public bool IsSystemRole { get; set; } // e.g., "Owner", "Admin" shipped by you

@@ -8,29 +8,22 @@
 
 #nullable enable
 using System;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
 
-namespace App1.App1.Data.Entities;
+namespace Dyvenix.App1.Data.Shared.Entities;
 
 /// <summary>
 /// Claim attached to an Organization (tenant-level settings/features).
 /// </summary>
-[Index(nameof(OrganizationId), nameof(Type), nameof(Value), IsUnique = true)]
 public class OrganizationClaim : EntityBase
 {
     public Guid OrganizationId { get; set; }
     public Organization Organization { get; set; } = null!;
 
-    [Required, MaxLength(200)]
     public string Type { get; set; } = string.Empty;
 
-    [Required, MaxLength(500)]
     public string Value { get; set; } = string.Empty;
 
-    [MaxLength(50)]
     public string? ValueType { get; set; }
 
-    [MaxLength(200)]
     public string? Issuer { get; set; }
 }

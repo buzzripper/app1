@@ -9,10 +9,8 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
 
-namespace App1.App1.Data.Entities;
+namespace Dyvenix.App1.Data.Shared.Entities;
 
 /// <summary>
 /// Represents an app permission. Usually global (not per tenant), but you can scope it if you want.
@@ -21,16 +19,12 @@ namespace App1.App1.Data.Entities;
 /// - "orders.write"
 /// - "admin.users.manage"
 /// </summary>
-[Index(nameof(Key), IsUnique = true)]
 public class Permission : EntityBase
 {
-    [Required, MaxLength(200)]
     public string Key { get; set; } = string.Empty;
 
-    [MaxLength(200)]
     public string? DisplayName { get; set; }
 
-    [MaxLength(500)]
     public string? Description { get; set; }
 
     public ICollection<RolePermission> Roles { get; set; } = new List<RolePermission>();

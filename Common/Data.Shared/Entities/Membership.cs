@@ -9,15 +9,13 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
 
-namespace App1.App1.Data.Entities;
+namespace Dyvenix.App1.Data.Shared.Entities;
 
 /// <summary>
 /// Join table: a user can belong to multiple organizations (common in SaaS),
 /// and have different roles/claims per org.
 /// </summary>
-[Index(nameof(OrganizationId), nameof(UserId), IsUnique = true)]
 public class Membership : EntityBase
 {
     public Guid OrganizationId { get; set; }
@@ -33,12 +31,4 @@ public class Membership : EntityBase
 
     public ICollection<UserRole> Roles { get; set; } = new List<UserRole>();
     public ICollection<MembershipClaim> Claims { get; set; } = new List<MembershipClaim>();
-}
-
-public enum MembershipStatus : short
-{
-    Invited = 0,
-    Active = 1,
-    Suspended = 2,
-    Removed = 9
 }

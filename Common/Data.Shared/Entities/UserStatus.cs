@@ -7,18 +7,13 @@
 // - "ExternalId" is the IdP subject/oid/etc. + Provider identifies the IdP
 
 #nullable enable
-using System;
 
 namespace Dyvenix.App1.Data.Shared.Entities;
 
-/// <summary>
-/// Many-to-many join for Role <-> Permission.
-/// </summary>
-public class RolePermission : EntityBase
+public enum UserStatus : short
 {
-    public Guid RoleId { get; set; }
-    public Role Role { get; set; } = null!;
-
-    public Guid PermissionId { get; set; }
-    public Permission Permission { get; set; } = null!;
+    Active = 1,
+    Disabled = 2,
+    Locked = 3,
+    Deleted = 9
 }
