@@ -1,5 +1,4 @@
-﻿
-namespace Dyvenix.App.Api
+﻿namespace App1.App.Api
 {
 	public class AppConstants
 	{

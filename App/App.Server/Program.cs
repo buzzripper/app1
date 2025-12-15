@@ -1,6 +1,6 @@
-using Dyvenix.App.Api.Extensions;
-using Dyvenix.System.Apis.Extensions;
-using Dyvenix.System.Servers;
+using App1.App.Api.Extensions;
+using App1.System.Servers;
+using App1.System.Apis.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

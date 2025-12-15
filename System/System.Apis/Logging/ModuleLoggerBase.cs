@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Logging;
 using System.Runtime.CompilerServices;
 
-namespace Dyvenix.System.Apis.Logging;
+namespace App1.System.Apis.Logging;
 
 /// <summary>
 /// Thin wrapper around ILogger that includes a module name in the scope.

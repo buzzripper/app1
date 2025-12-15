@@ -1,11 +1,11 @@
-using Dyvenix.App.Api.Logging;
+using App1.App.Api.Logging;
+using App1.Auth.Shared.Interfaces;
+using App1.System.Shared.Exceptions;
 using Dyvenix.Auth.Shared.DTOs;
-using Dyvenix.Auth.Shared.Interfaces;
-using Dyvenix.System.Shared.Exceptions;
 using System;
 using System.Threading.Tasks;
 
-namespace Dyvenix.Auth.Api.Services;
+namespace App1.Auth.Api.Services;
 
 public class AuthSystemService : IAuthSystemService
 {
@@ -18,9 +18,6 @@ public class AuthSystemService : IAuthSystemService
 
 	public Task<AuthHealthStatus> Health()
 	{
-		_logger.Info("AUTH HEALTH");
-		throw new ValidationException("Test exception from AuthSystemService.Health");
-
 		return Task.FromResult(new AuthHealthStatus
 		{
 			IsHealthy = true,

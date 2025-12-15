@@ -1,6 +1,6 @@
-using Dyvenix.App1.Portal.Server.DTOs;
+using App1.App1.Portal.Server.DTOs;
 
-namespace Dyvenix.App1.Portal.Server.Interfaces;
+namespace App1.App1.Portal.Server.Interfaces;
 
 public interface IPortalSystemService
 {

@@ -1,4 +1,3 @@
-using Dyvenix.System.Apis.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Configuration;
@@ -6,16 +5,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Console;
 using OpenTelemetry.Exporter;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Resources;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 
-namespace Dyvenix.System.Apis.Extensions;
+namespace App1.System.Apis.Extensions;
 
 /// <summary>
 /// Common extensions for resilience, health checks, and OpenTelemetry.

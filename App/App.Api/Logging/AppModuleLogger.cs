@@ -1,7 +1,7 @@
-﻿using Dyvenix.System.Apis.Logging;
+﻿using App1.System.Apis.Logging;
 using Microsoft.Extensions.Logging;
 
-namespace Dyvenix.App.Api.Logging
+namespace App1.App.Api.Logging
 {
 	public interface IAppModuleLogger : IModuleLogger
 	{

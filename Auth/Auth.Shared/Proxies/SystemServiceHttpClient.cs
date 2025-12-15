@@ -1,8 +1,8 @@
+using App1.Auth.Shared.Interfaces;
 using Dyvenix.Auth.Shared.DTOs;
-using Dyvenix.Auth.Shared.Interfaces;
 using System.Net.Http.Json;
 
-namespace Dyvenix.Auth.Shared.Proxies;
+namespace App1.Auth.Shared.Proxies;
 
 public class SystemServiceHttpClient : IAuthSystemService
 {
@@ -17,7 +17,7 @@ public class SystemServiceHttpClient : IAuthSystemService
 
 	public async Task<string> Ping()
 	{
-		var response = await _httpClient.GetAsync($"{cUrlPathRoot}/alive");
+		var response = await _httpClient.GetAsync($"{cUrlPathRoot}/ping");
 		response.EnsureSuccessStatusCode();
 		return await response.Content.ReadAsStringAsync();
 	}

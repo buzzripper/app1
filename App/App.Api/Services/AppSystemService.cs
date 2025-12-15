@@ -1,9 +1,8 @@
-using Dyvenix.App.Api.Logging;
-using Dyvenix.App.Shared.DTOs;
-using Dyvenix.App.Shared.Interfaces;
-using Dyvenix.System.Shared.Exceptions;
+using App1.App.Api.Logging;
+using App1.App.Shared.DTOs;
+using App1.App.Shared.Interfaces;
 
-namespace Dyvenix.App.Api.Services;
+namespace App1.App.Api.Services;
 
 public class AppSystemService : IAppSystemService
 {
@@ -16,9 +15,6 @@ public class AppSystemService : IAppSystemService
 
 	public Task<AppHealthStatus> Health()
 	{
-		_logger.Info("APP HEALTH");
-		throw new ValidationException("Test exception from AppSystemService.Health");
-
 		return Task.FromResult(new AppHealthStatus
 		{
 			IsHealthy = true,

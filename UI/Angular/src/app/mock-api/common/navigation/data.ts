@@ -3,6 +3,22 @@ import { FuseNavigationItem } from '@fuse/components/navigation';
 
 export const defaultNavigation: FuseNavigationItem[] = [
     {
+        id: 'system',
+        title: 'System',
+        subtitle: 'System administration',
+        type: 'group',
+        icon: 'heroicons_outline:clipboard-document-check',
+        children: [
+            {
+                id: 'system.admin',
+                title: 'System Admin',
+                type: 'basic',
+                icon: 'heroicons_outline:clipboard-document-check',
+                link: '/system',
+            },
+        ],
+    },
+    {
         id: 'dashboards',
         title: 'Dashboards',
         subtitle: 'Unique dashboard designs',

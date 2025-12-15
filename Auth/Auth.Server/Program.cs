@@ -1,6 +1,6 @@
-using Dyvenix.Auth.Api.Extensions;
-using Dyvenix.System.Apis.Extensions;
-using Dyvenix.System.Servers;
+using App1.System.Servers;
+using App1.Auth.Api.Extensions;
+using App1.System.Apis.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

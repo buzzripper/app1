@@ -1,6 +1,6 @@
-﻿using Dyvenix.System.Shared.DTOs;
+﻿using App1.System.Shared.DTOs;
 
-namespace Dyvenix.App1.Portal.Server.DTOs;
+namespace App1.App1.Portal.Server.DTOs;
 
 public class PortalHealthStatus : HealthStatus
 {

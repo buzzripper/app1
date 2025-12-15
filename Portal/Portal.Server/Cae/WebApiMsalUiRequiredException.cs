@@ -1,4 +1,4 @@
-﻿namespace Dyvenix.App1.Portal.Server.Cae;
+﻿namespace App1.App1.Portal.Server.Cae;
 
 /// <summary>
 /// This exception class is used to pass HTTP CAE unauthorized responses from a Httpclient and 

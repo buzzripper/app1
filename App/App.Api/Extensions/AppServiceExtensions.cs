@@ -1,15 +1,14 @@
-using Dyvenix.App.Api.Filters;
-using Dyvenix.App.Api.Logging;
-using Dyvenix.App.Api.Services;
-using Dyvenix.App.Shared.Interfaces;
-using Dyvenix.System.Apis.Logging;
+using App1.App.Api.Filters;
+using App1.App.Api.Logging;
+using App1.App.Api.Services;
+using App1.App.Shared.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Scalar.AspNetCore;
 
-namespace Dyvenix.App.Api.Extensions;
+namespace App1.App.Api.Extensions;
 
 public static class AppServiceExtensions
 {

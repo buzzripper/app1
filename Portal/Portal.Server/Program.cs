@@ -1,20 +1,18 @@
 ﻿#if AUTH_INPROCESS
-using Dyvenix.Auth.Api.Extensions;
-using Dyvenix.Auth.Api.Services;
+using App1.Auth.Api.Extensions;
 #endif
 #if APP_INPROCESS
-using Dyvenix.App.Api.Extensions;
-using Dyvenix.App.Api.Services;
+using App1.App.Api.Extensions;
 #endif
-using Dyvenix.App1.Portal.Server;
-using Dyvenix.App1.Portal.Server.Interfaces;
-using Dyvenix.App1.Portal.Server.Services;
+using App1.App1.Portal.Server;
+using App1.App1.Portal.Server.Interfaces;
+using App1.App1.Portal.Server.Services;
 using Yarp.ReverseProxy.Configuration;
-using Dyvenix.App.Shared.Extensions;
-using Dyvenix.Auth.Shared.Extensions;
-using Dyvenix.System.Apis.Extensions;
-using Dyvenix.App1.Portal.Server.Logging;
-using Dyvenix.App1.Portal.Server.Filters;
+using App1.App.Shared.Extensions;
+using App1.Auth.Shared.Extensions;
+using App1.System.Apis.Extensions;
+using App1.App1.Portal.Server.Logging;
+using App1.App1.Portal.Server.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -100,15 +98,15 @@ services.AddControllers();
 services.AddTransient<IPortalModuleLogger>(sp => new PortalModuleLogger(sp.GetRequiredService<ILoggerFactory>()));
 
 #if AUTH_INPROCESS
-	var authInProcess = true;
-	services.AddAuthApiServices(isInProcess: true);
+var authInProcess = true;
+services.AddAuthApiServices(isInProcess: true);
 #else
 	var authInProcess = false;
 #endif
 
 #if APP_INPROCESS
-	var appInProcess = true;
-	services.AddAppApiServices(isInProcess: true);
+var appInProcess = true;
+services.AddAppApiServices(isInProcess: true);
 #else
 	var appInProcess = false;
 #endif

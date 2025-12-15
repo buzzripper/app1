@@ -1,4 +1,4 @@
-﻿namespace Dyvenix.App1.Portal.Server.Models;
+﻿namespace App1.App1.Portal.Server.Models;
 
 public class ClaimValue
 {

@@ -1,15 +1,15 @@
-using Dyvenix.App.Api.Filters;
-using Dyvenix.App.Api.Logging;
-using Dyvenix.Auth.Api.Services;
-using Dyvenix.Auth.Shared.Interfaces;
-using Dyvenix.System.Apis.Logging;
+using App1.App.Api.Filters;
+using App1.App.Api.Logging;
+using App1.Auth.Api.Services;
+using App1.Auth.Shared.Interfaces;
+using App1.System.Apis.Logging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Scalar.AspNetCore;
 
-namespace Dyvenix.Auth.Api.Extensions;
+namespace App1.Auth.Api.Extensions;
 
 public static class AuthServiceExtensions
 {

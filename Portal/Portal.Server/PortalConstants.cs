@@ -1,5 +1,5 @@
 ﻿
-namespace Dyvenix.App1.Portal.Server;
+namespace App1.App1.Portal.Server;
 
 public static class PortalConstants
 {

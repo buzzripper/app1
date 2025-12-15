@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Angular: Chrome SSL",
+      "type": "pwa-chrome",
+      "request": "launch",
+      "url": "https://localhost:4201",
+      "webRoot": "${workspaceFolder}",
+      "preLaunchTask": "ng serve ssl"
+    }
+  ]
+}

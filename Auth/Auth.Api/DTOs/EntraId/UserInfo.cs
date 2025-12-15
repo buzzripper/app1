@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Dyvenix.Auth.Api.DTOs.EntraId;
+namespace App1.Auth.Api.DTOs.EntraId;
 
 public class UserInfo
 {
