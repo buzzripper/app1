@@ -1,6 +1,6 @@
-﻿using App1.App1.Portal.Server.Models;
+﻿using App1.Portal.Server.Models;
 
-namespace App1.App1.Portal.Server.Controllers;
+namespace App1.Portal.Server.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]

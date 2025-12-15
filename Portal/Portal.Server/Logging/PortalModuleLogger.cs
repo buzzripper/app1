@@ -1,6 +1,6 @@
 ﻿using App1.System.Apis.Logging;
 
-namespace App1.App1.Portal.Server.Logging
+namespace App1.Portal.Server.Logging
 {
 	public interface IPortalModuleLogger : IModuleLogger
 	{

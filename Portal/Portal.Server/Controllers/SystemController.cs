@@ -1,9 +1,9 @@
-using App1.App1.Portal.Server.Filters;
-using App1.App1.Portal.Server.Interfaces;
-using App1.App1.Portal.Server.Services;
+using App1.Portal.Server.Filters;
+using App1.Portal.Server.Interfaces;
+using App1.Portal.Server.Services;
 using App1.System.Shared.DTOs;
 
-namespace App1.App1.Portal.Server.Controllers;
+namespace App1.Portal.Server.Controllers;
 
 [ApiController]
 [Asp.Versioning.ApiVersion("1.0")] // Fully qualified to avoid ambiguity

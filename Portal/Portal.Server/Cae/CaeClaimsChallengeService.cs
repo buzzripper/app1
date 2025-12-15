@@ -1,4 +1,4 @@
-﻿namespace App1.App1.Portal.Server.Cae;
+﻿namespace App1.Portal.Server.Cae;
 
 /// <summary>
 /// Claims challenges, claims requests, and client capabilities

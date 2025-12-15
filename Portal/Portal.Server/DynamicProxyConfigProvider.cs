@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Primitives;
 using Yarp.ReverseProxy.Configuration;
 
-namespace App1.App1.Portal.Server;
+namespace App1.Portal.Server;
 
 public class DynamicProxyConfigProvider : IProxyConfigProvider
 {
