@@ -23,26 +23,16 @@ public class SystemController : ControllerBase
 		_systemService = systemService;
 	}
 
-	[HttpGet("ping")]
+	[HttpGet("[action]")]
 	[AllowAnonymous]
 	public async Task<ActionResult<object>> Ping()
 	{
 		return Ok(new PingResult(AppConstants.ModuleId, ControllerContext.ActionDescriptor.ControllerName));
 	}
 
-	[HttpGet("health")]
-	[AllowAnonymous]
+	[HttpGet("[action]")]
 	public async Task<IActionResult> Health()
 	{
-		//throw new ValidationException("Controller ex!!!!!!!!!");
-		//return Ok(await CallServiceAsync(_systemService.Health));
-		var healthStatus = await _systemService.Health();
-
-		//var a = new ApiResponse<AppHealthStatus>
-		//{
-		//	Data = healthStatus
-		//};
-
-		return Ok(healthStatus);
+		return Ok(await _systemService.Health());
 	}
 }

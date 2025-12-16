@@ -8,6 +8,7 @@ using Yarp.ReverseProxy.Configuration;
 using App1.App.Shared.Extensions;
 using App1.Auth.Shared.Extensions;
 using App1.System.Apis.Extensions;
+using App1.System.Shared.Context;
 using App1.Portal.Server;
 using App1.Portal.Server.Interfaces;
 using App1.Portal.Server.Filters;
@@ -29,6 +30,9 @@ builder.Services.AddOpenApi();
 
 var services = builder.Services;
 var configuration = builder.Configuration;
+
+// Add request context for user/org access across all tiers
+services.AddRequestContext();
 
 // Configure CORS for cross-origin Angular app
 var allowedOrigins = configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
