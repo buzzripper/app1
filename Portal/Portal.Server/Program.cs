@@ -1,13 +1,16 @@
 ﻿#if AUTH_INPROCESS
 using App1.Auth.Api.Extensions;
+using App1.Auth.Shared.Authorization;
 #endif
 #if APP_INPROCESS
 using App1.App.Api.Extensions;
+using App1.App.Shared.Authorization;
 #endif
 using Yarp.ReverseProxy.Configuration;
 using App1.App.Shared.Extensions;
 using App1.Auth.Shared.Extensions;
 using App1.System.Apis.Extensions;
+using App1.System.Shared.Authorization;
 using App1.System.Shared.Context;
 using App1.Portal.Server;
 using App1.Portal.Server.Interfaces;
@@ -33,6 +36,15 @@ var configuration = builder.Configuration;
 
 // Add request context for user/org access across all tiers
 services.AddRequestContext();
+
+// Add permission-based authorization
+services.AddPermissionAuthorization();
+#if AUTH_INPROCESS
+services.AddAuthAuthorization();
+#endif
+#if APP_INPROCESS
+services.AddAppAuthorization();
+#endif
 
 // Configure CORS for cross-origin Angular app
 var allowedOrigins = configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];

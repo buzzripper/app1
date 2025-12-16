@@ -1,6 +1,8 @@
 using App1.App.Api.Extensions;
+using App1.App.Shared.Authorization;
 using App1.System.Servers;
 using App1.System.Apis.Extensions;
+using App1.System.Shared.Authorization;
 using App1.System.Shared.Context;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +13,8 @@ builder.AddServiceDefaults();
 // Add services to the container
 builder.Services.AddControllers();
 builder.Services.AddRequestContext();
+builder.Services.AddPermissionAuthorization();
+builder.Services.AddAppAuthorization();
 builder.Services.AddStandardJwtAuthentication(builder.Configuration);
 builder.Services.AddAppApiServices(false);
 builder.Services.AddStandardApiVersioning();
