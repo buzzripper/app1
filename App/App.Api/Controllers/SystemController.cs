@@ -24,6 +24,7 @@ public class SystemController : ControllerBase
 	}
 
 	[HttpGet("[action]")]
+	[Authorize(Policy = "AppPermissions.AdminFull")]
 	public async Task<ActionResult<object>> Ping()
 	{
 		return Ok(new PingResult(AppConstants.ModuleId, ControllerContext.ActionDescriptor.ControllerName));

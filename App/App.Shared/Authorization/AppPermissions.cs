@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using App1.System.Shared.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -22,7 +20,7 @@ public static class AppPermissions
 	public const string ProductsFull = "app.products.full";
 
 	// Admin (implies all App permissions)
-	public const string AdminFull = "app.admin.full";
+	public const string AdminFull = "app1.admin";
 
 	/// <summary>
 	/// All App module permissions for policy registration.
