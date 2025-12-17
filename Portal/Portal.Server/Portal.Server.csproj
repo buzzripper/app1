@@ -43,5 +43,9 @@
 
 		<ProjectReference Include="..\..\App\App.Api\App.Api.csproj" Condition="$(DefineConstants.Contains('APP_INPROCESS'))" />
 	</ItemGroup>
+	
+	<ItemGroup>
+	  <Folder Include="Models\" />
+	</ItemGroup>
 
 </Project>

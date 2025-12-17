@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace App1.Auth.Api.Controllers;
 
 [ApiController]
+[Authorize]
 [ServiceFilter(typeof(AuthExceptionFilter<AuthSystemService>))]
 [Asp.Versioning.ApiVersion("1.0")] // Fully qualified to avoid ambiguity
 [Route("api/auth/v{version:apiVersion}/[controller]")]
@@ -23,7 +24,6 @@ public class SystemController : ControllerBase
 	}
 
 	[HttpGet("[action]")]
-	[AllowAnonymous]
 	public async Task<ActionResult<object>> Ping()
 	{
 		return Ok(new PingResult(AuthConstants.ModuleId, ControllerContext.ActionDescriptor.ControllerName));

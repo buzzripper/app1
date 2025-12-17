@@ -24,13 +24,13 @@ public class SystemController : ControllerBase
 	}
 
 	[HttpGet("[action]")]
-	[AllowAnonymous]
 	public async Task<ActionResult<object>> Ping()
 	{
 		return Ok(new PingResult(AppConstants.ModuleId, ControllerContext.ActionDescriptor.ControllerName));
 	}
 
 	[HttpGet("[action]")]
+	[AllowAnonymous]
 	public async Task<IActionResult> Health()
 	{
 		return Ok(await _systemService.Health());

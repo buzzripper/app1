@@ -87,7 +87,8 @@ export class AuthService {
     forceRefresh(): Observable<boolean> {
         this._lastCheckTime = Date.now();
 
-        this._authCheckCache$ = this._httpClient.get<UserProfile>(`${this._apiBaseUrl}/api/User`).pipe(
+        // Call the Auth API user endpoint (routed through Portal YARP)
+        this._authCheckCache$ = this._httpClient.get<UserProfile>(`${this._apiBaseUrl}/api/auth/user`).pipe(
             map((profile) => {
                 this._authenticatedSubject.next(profile.isAuthenticated);
 

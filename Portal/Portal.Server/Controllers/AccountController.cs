@@ -1,6 +1,7 @@
 ﻿namespace App1.Portal.Server.Controllers;
 
 [Route("api/[controller]")]
+[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
 public class AccountController : ControllerBase
 {
 	private readonly ILogger<AccountController> _logger;
@@ -13,6 +14,7 @@ public class AccountController : ControllerBase
 	}
 
 	[HttpGet("Login")]
+	[AllowAnonymous]
 	public ActionResult Login(string? returnUrl, string? claimsChallenge)
 	{
 		var properties = GetAuthProperties(returnUrl);
@@ -23,10 +25,9 @@ public class AccountController : ControllerBase
 			properties.Items["claims"] = jsonString;
 		}
 
-		return Challenge(properties);
+		return Challenge(properties, OpenIdConnectDefaults.AuthenticationScheme);
 	}
 
-	[Authorize]
 	[HttpGet("Logout")]
 	public async Task<IActionResult> Logout(string? returnUrl)
 	{

@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
 namespace App1.System.Servers;
 
@@ -14,25 +14,47 @@ namespace App1.System.Servers;
 public static class Extensions
 {
 	/// <summary>
-	/// Configures JWT Bearer authentication using settings from the "JwtSettings" configuration section.
+	/// Configures JWT Bearer authentication to validate tokens from Microsoft Entra ID.
+	/// Uses settings from the "MicrosoftEntraID" configuration section.
+	/// This is the standard authentication for Auth/App API services.
 	/// </summary>
-	public static IServiceCollection AddStandardJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
+	public static IServiceCollection AddEntraIdJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
 	{
-		var jwtSettings = configuration.GetSection("JwtSettings");
-		var secretKey = jwtSettings["SecretKey"] ?? throw new InvalidOperationException("JWT SecretKey is required");
+		var entraIdSettings = configuration.GetSection("MicrosoftEntraID");
+		var instance = entraIdSettings["Instance"] ?? throw new InvalidOperationException("MicrosoftEntraID:Instance is required");
+		var tenantId = entraIdSettings["TenantId"] ?? throw new InvalidOperationException("MicrosoftEntraID:TenantId is required");
+		var clientId = entraIdSettings["ClientId"] ?? throw new InvalidOperationException("MicrosoftEntraID:ClientId is required");
+
+		// Build the authority URL for token validation
+		// For CIAM: https://tenant.ciamlogin.com/tenantId/v2.0
+		// For standard Entra ID: https://login.microsoftonline.com/tenantId/v2.0
+		var authority = $"{instance.TrimEnd('/')}/{tenantId}/v2.0";
 
 		services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 			.AddJwtBearer(options =>
 			{
+				options.Authority = authority;
 				options.TokenValidationParameters = new TokenValidationParameters
 				{
 					ValidateIssuer = true,
 					ValidateAudience = true,
 					ValidateLifetime = true,
 					ValidateIssuerSigningKey = true,
-					ValidIssuer = jwtSettings["Issuer"],
-					ValidAudience = jwtSettings["Audience"],
-					IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
+					ValidAudience = clientId,
+					// Entra ID tokens use the authority as issuer
+					ValidIssuer = authority
+				};
+
+				// For development, you might want to see more details
+				options.Events = new JwtBearerEvents
+				{
+					OnAuthenticationFailed = context =>
+					{
+						var logger = context.HttpContext.RequestServices
+							.GetService<ILogger<JwtBearerEvents>>();
+						logger?.LogWarning(context.Exception, "JWT authentication failed");
+						return Task.CompletedTask;
+					}
 				};
 			});
 

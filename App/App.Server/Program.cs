@@ -15,7 +15,10 @@ builder.Services.AddControllers();
 builder.Services.AddRequestContext();
 builder.Services.AddPermissionAuthorization();
 builder.Services.AddAppAuthorization();
-builder.Services.AddStandardJwtAuthentication(builder.Configuration);
+
+// Use Entra ID JWT authentication (validates tokens from Portal or direct API calls)
+builder.Services.AddEntraIdJwtAuthentication(builder.Configuration);
+
 builder.Services.AddAppApiServices(false);
 builder.Services.AddStandardApiVersioning();
 

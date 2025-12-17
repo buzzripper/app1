@@ -33,21 +33,21 @@ public class DynamicProxyConfigProvider : IProxyConfigProvider
 		{
 			var routeId = routeSection.Key;
 
-			// Skip auth-api route if Auth is running in-process
+			// Skip routes for in-process modules
+			// In-process controllers are called directly and use dual auth (Cookie + JWT Bearer)
 			if (routeId == "auth-api" && _authInProcess)
 			{
-				Console.WriteLine($"[YARP] Skipping route '{routeId}' - Auth running in-process");
+				Console.WriteLine($"[YARP] Skipping route '{routeId}' - Auth running in-process (direct controller access with dual auth)");
 				continue;
 			}
 
-			// Skip app-api route if App is running in-process
 			if (routeId == "app-api" && _appInProcess)
 			{
-				Console.WriteLine($"[YARP] Skipping route '{routeId}' - App running in-process");
+				Console.WriteLine($"[YARP] Skipping route '{routeId}' - App running in-process (direct controller access with dual auth)");
 				continue;
 			}
 
-			Console.WriteLine($"[YARP] Loading route '{routeId}'");
+			Console.WriteLine($"[YARP] Loading route '{routeId}' for out-of-process module");
 
 			var routeMatch = new RouteMatch
 			{
@@ -118,13 +118,18 @@ public class DynamicProxyConfigProvider : IProxyConfigProvider
 		{
 			var clusterId = clusterSection.Key;
 
-			// Skip auth-cluster if Auth is running in-process
+			// Skip clusters for in-process modules
 			if (clusterId == "auth-cluster" && _authInProcess)
+			{
+				Console.WriteLine($"[YARP] Skipping cluster '{clusterId}' - Auth running in-process");
 				continue;
+			}
 
-			// Skip app-cluster if App is running in-process
 			if (clusterId == "app-cluster" && _appInProcess)
+			{
+				Console.WriteLine($"[YARP] Skipping cluster '{clusterId}' - App running in-process");
 				continue;
+			}
 
 			var destinations = new Dictionary<string, DestinationConfig>();
 			var destinationsSection = clusterSection.GetSection("Destinations").GetChildren();
@@ -168,6 +173,7 @@ public class DynamicProxyConfigProvider : IProxyConfigProvider
 			}
 
 			clusters.Add(cluster);
+			Console.WriteLine($"[YARP] Cluster '{clusterId}' configured for out-of-process module");
 		}
 
 		return clusters;

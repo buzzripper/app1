@@ -1,5 +1,8 @@
-﻿namespace App1.Portal.Server.Models;
+namespace App1.Auth.Shared.DTOs;
 
+/// <summary>
+/// Represents a single claim from a user's identity.
+/// </summary>
 public class ClaimValue
 {
 	public ClaimValue()
