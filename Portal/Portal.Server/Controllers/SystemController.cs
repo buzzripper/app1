@@ -6,10 +6,9 @@ using App1.System.Shared.DTOs;
 namespace App1.Portal.Server.Controllers;
 
 [ApiController]
-[Asp.Versioning.ApiVersion("1.0")] // Fully qualified to avoid ambiguity
-[Route("api/portal/v{version:apiVersion}/[controller]")]
-[Route("api/portal/[controller]")] // Fallback route without version
 [ServiceFilter(typeof(PortalExceptionFilter<PortalSystemService>))]
+[Asp.Versioning.ApiVersion("1.0")]
+[Route("api/portal/v{version:apiVersion}/[controller]")]
 public class SystemController : ControllerBase
 {
 	private readonly IPortalSystemService _systemService;

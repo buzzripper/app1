@@ -2,18 +2,15 @@ using App1.App.Api.Filters;
 using App1.App.Api.Services;
 using App1.App.Shared.Interfaces;
 using App1.System.Shared.DTOs;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace App1.App.Api.Controllers;
 
 [ApiController]
-[Authorize]
 [ServiceFilter(typeof(AppExceptionFilter<AppSystemService>))]
-[Asp.Versioning.ApiVersion("1.0")]  // Fully qualified to avoid ambiguity
+[Asp.Versioning.ApiVersion("1.0")]
 [Route("api/app/v{version:apiVersion}/[controller]")]
-[Route("api/app/[controller]")] // Fallback route without version
 public class SystemController : ControllerBase
 {
 	private readonly IAppSystemService _systemService;
@@ -24,14 +21,12 @@ public class SystemController : ControllerBase
 	}
 
 	[HttpGet("[action]")]
-	[Authorize(Policy = "AppPermissions.AdminFull")]
 	public async Task<ActionResult<object>> Ping()
 	{
 		return Ok(new PingResult(AppConstants.ModuleId, ControllerContext.ActionDescriptor.ControllerName));
 	}
 
 	[HttpGet("[action]")]
-	[AllowAnonymous]
 	public async Task<IActionResult> Health()
 	{
 		return Ok(await _systemService.Health());
