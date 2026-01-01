@@ -13,8 +13,8 @@
 	<!-- Define constants for external service mode -->
 	<PropertyGroup>
 		<!-- Uncomment the lines below to run in external mode -->
-		 <DefineConstants>$(DefineConstants);AUTH_INPROCESS</DefineConstants> 
-		 <DefineConstants>$(DefineConstants);APP_INPROCESS</DefineConstants> 
+		 <!--<DefineConstants>$(DefineConstants);AUTH_INPROCESS</DefineConstants>--> 
+		 <!--<DefineConstants>$(DefineConstants);APP_INPROCESS</DefineConstants>--> 
 	</PropertyGroup>
 	<ItemGroup>
 	  <Compile Remove="Pages\**" />
