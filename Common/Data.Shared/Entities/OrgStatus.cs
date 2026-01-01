@@ -1,10 +1,9 @@
 
 namespace App1.Data.Shared.Entities;
 
-public enum UserStatus : short
+public enum OrgStatus : short
 {
 	Active = 1,
-	Disabled = 2,
-	Locked = 3,
+	Suspended = 2,
 	Deleted = 9
 }

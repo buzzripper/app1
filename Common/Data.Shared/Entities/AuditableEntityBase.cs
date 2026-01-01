@@ -1,0 +1,28 @@
+
+namespace App1.Data.Shared.Entities;
+
+public abstract class AuditableEntityBase
+{
+	/// <summary>UTC time the row was created.</summary>
+	public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
+
+	/// <summary>UTC time the row was last updated.</summary>
+	public DateTime? UpdatedAtUtc { get; set; }
+
+	/// <summary>Soft-delete marker.</summary>
+	public DateTime? DeletedAtUtc { get; set; }
+
+	/// <summary>Optional audit user id.</summary>
+	public Guid? CreatedByUserId { get; set; }
+
+	/// <summary>Optional audit user id.</summary>
+	public Guid? UpdatedByUserId { get; set; }
+
+	/// <summary>Optional audit user id.</summary>
+	public Guid? DeletedByUserId { get; set; }
+
+	/// <summary>Optimistic concurrency token.</summary>
+	public byte[] RowVersion { get; set; } = Array.Empty<byte>();
+
+	public bool IsDeleted => DeletedAtUtc.HasValue;
+}
