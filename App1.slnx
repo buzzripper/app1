@@ -17,6 +17,9 @@
     <Project Path="App/App.Server/App.Server.csproj" />
     <Project Path="App/App.Shared/App.Shared.csproj" />
   </Folder>
+  <Folder Name="/Aspire/">
+    <Project Path="Aspire/Aspire.AppHost/Aspire.AppHost.csproj" />
+  </Folder>
   <Folder Name="/Auth/">
     <Project Path="Auth/Auth.Api/Auth.Api.csproj" />
     <Project Path="Auth/Auth.Server/Auth.Server.csproj" />
