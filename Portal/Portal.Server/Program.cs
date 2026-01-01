@@ -16,9 +16,8 @@ using App1.App1.Portal.Server.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add OpenTelemetry support
-builder.ConfigureOpenTelemetry();
-builder.AddDefaultHealthChecks();
+// Add Aspire service defaults (OpenTelemetry, health checks, service discovery, resilience)
+builder.AddServiceDefaults();
 
 builder.WebHost.ConfigureKestrel(serverOptions =>
 {

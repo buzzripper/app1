@@ -5,15 +5,19 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using OpenTelemetry;
 using OpenTelemetry.Exporter;
 using OpenTelemetry.Logs;
+using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 
 namespace App1.System.Apis.Extensions;
 
 /// <summary>
 /// Common extensions for resilience, health checks, and OpenTelemetry.
 /// This project should be referenced by each service project in your solution.
+/// Based on Aspire ServiceDefaults pattern.
 /// </summary>
 public static class BuilderExtensions
 {
@@ -21,7 +25,7 @@ public static class BuilderExtensions
 	private const string AlivenessEndpointPath = "/alive";
 
 	/// <summary>
-	/// Adds service defaults including OpenTelemetry, health checks, and HTTP client resilience.
+	/// Adds service defaults including OpenTelemetry, health checks, service discovery, and HTTP client resilience.
 	/// </summary>
 	public static TBuilder AddServiceDefaults<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
 	{
@@ -29,36 +33,39 @@ public static class BuilderExtensions
 
 		builder.AddDefaultHealthChecks();
 
+		builder.Services.AddServiceDiscovery();
+
 		builder.Services.ConfigureHttpClientDefaults(http =>
 		{
 			// Turn on resilience by default
 			http.AddStandardResilienceHandler();
+
+			// Turn on service discovery by default
+			http.AddServiceDiscovery();
 		});
 
 		return builder;
 	}
 
 	/// <summary>
-	/// Configures OpenTelemetry for logging with OTLP export.
+	/// Configures OpenTelemetry for logging, tracing, and metrics with OTLP export.
 	/// </summary>
 	public static TBuilder ConfigureOpenTelemetry<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
 	{
-		// Get OTEL configuration from appsettings
+		// Get OTEL configuration from appsettings or environment
 		var serviceName = builder.Configuration["OTEL_SERVICE_NAME"] ?? builder.Environment.ApplicationName;
 
 		var loggingConfig = builder.Configuration.GetSection("Logging:File");
 		var useFileLogging = loggingConfig.GetValue<bool>("Enabled");
 		var logFilePath = loggingConfig.GetValue<string>("Path") ?? "logs/app.log";
 
-		// Configure file logging if enabled (for local development)
+		// Configure file logging if enabled (for local development without Aspire)
 		if (useFileLogging)
 		{
-			// Ensure log directory exists
 			var logDir = Path.GetDirectoryName(logFilePath);
 			if (!string.IsNullOrEmpty(logDir))
 				Directory.CreateDirectory(logDir);
 
-			// Add custom file logger with simple format
 			builder.Logging.AddProvider(new FileLoggerProvider(logFilePath, serviceName));
 		}
 
@@ -69,57 +76,41 @@ public static class BuilderExtensions
 			builder.Logging.AddConsole(options => options.FormatterName = SimpleLogFormatter.FormatterName);
 		}
 
-		// Get remaining OTEL configuration
-		var otlpEndpoint = builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"];
-		var otlpHeaders = builder.Configuration["OTEL_EXPORTER_OTLP_HEADERS"];
-		var otlpProtocol = builder.Configuration["OTEL_EXPORTER_OTLP_PROTOCOL"];
-		var resourceAttributes = builder.Configuration["OTEL_RESOURCE_ATTRIBUTES"];
-
+		// Configure OpenTelemetry logging
 		builder.Logging.AddOpenTelemetry(logging =>
 		{
 			logging.IncludeFormattedMessage = true;
 			logging.IncludeScopes = true;
-
-			// Configure resource attributes (service name, environment, etc.)
-			var resourceBuilder = ResourceBuilder.CreateDefault()
-				.AddService(serviceName);
-
-			// Parse and add custom resource attributes (e.g., "deployment.environment=dev")
-			if (!string.IsNullOrEmpty(resourceAttributes))
-			{
-				var attributes = resourceAttributes
-					.Split(',')
-					.Select(attr => attr.Split('='))
-					.Where(parts => parts.Length == 2)
-					.Select(parts => new KeyValuePair<string, object>(parts[0].Trim(), parts[1].Trim()));
-
-				resourceBuilder.AddAttributes(attributes);
-			}
-
-			logging.SetResourceBuilder(resourceBuilder);
-
-			// Export logs to OTLP (Grafana Cloud) - only when configured
-			if (!string.IsNullOrEmpty(otlpEndpoint))
-			{
-				logging.AddOtlpExporter(options =>
-				{
-					options.Endpoint = new Uri(otlpEndpoint);
-
-					if (!string.IsNullOrEmpty(otlpHeaders))
-					{
-						options.Headers = otlpHeaders;
-					}
-
-					// Parse protocol (default to HttpProtobuf)
-					options.Protocol = otlpProtocol?.ToLowerInvariant() switch
-					{
-						"grpc" => OtlpExportProtocol.Grpc,
-						"http/protobuf" => OtlpExportProtocol.HttpProtobuf,
-						_ => OtlpExportProtocol.HttpProtobuf
-					};
-				});
-			}
 		});
+
+		// Configure OpenTelemetry tracing and metrics
+		builder.Services.AddOpenTelemetry()
+			.WithMetrics(metrics =>
+			{
+				metrics.AddAspNetCoreInstrumentation()
+					.AddHttpClientInstrumentation()
+					.AddRuntimeInstrumentation();
+			})
+			.WithTracing(tracing =>
+			{
+				tracing.AddAspNetCoreInstrumentation()
+					.AddHttpClientInstrumentation();
+			});
+
+		// Add OTLP exporter if endpoint is configured (Aspire Dashboard or external collector)
+		builder.AddOpenTelemetryExporters();
+
+		return builder;
+	}
+
+	private static TBuilder AddOpenTelemetryExporters<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
+	{
+		var useOtlpExporter = !string.IsNullOrWhiteSpace(builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"]);
+
+		if (useOtlpExporter)
+		{
+			builder.Services.AddOpenTelemetry().UseOtlpExporter();
+		}
 
 		return builder;
 	}
@@ -134,7 +125,7 @@ public static class BuilderExtensions
 	}
 
 	/// <summary>
-	/// Maps health check endpoints for readiness and liveness probes (development only).
+	/// Maps health check endpoints for readiness and liveness probes.
 	/// </summary>
 	public static WebApplication MapDefaultEndpoints(this WebApplication app)
 	{
