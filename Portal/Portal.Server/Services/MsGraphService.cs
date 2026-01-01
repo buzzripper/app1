@@ -1,4 +1,4 @@
-﻿namespace App1.Portal.Server.Services;
+﻿namespace App1.App1.Portal.Server.Services;
 
 public class MsGraphService
 {

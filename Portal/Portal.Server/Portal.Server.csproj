@@ -5,16 +5,16 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<UserSecretsId>3e0420a7-5c54-4b9b-9c9c-e51013e5f99b</UserSecretsId>
-		<AssemblyName>App1.$(MSBuildProjectName)</AssemblyName>
-		<RootNamespace>App1.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+		<AssemblyName>Dyvenix.App1.$(MSBuildProjectName)</AssemblyName>
+		<RootNamespace>Dyvenix.App1.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
 		<Configurations>Debug;Release;Dbg-Ext</Configurations>
 	</PropertyGroup>
 
 	<!-- Define constants for external service mode -->
 	<PropertyGroup>
 		<!-- Uncomment the lines below to run in external mode -->
-		 <DefineConstants>$(DefineConstants);AUTH_INPROCESS</DefineConstants> 
-		 <DefineConstants>$(DefineConstants);APP_INPROCESS</DefineConstants> 
+		 <!--<DefineConstants>$(DefineConstants);AUTH_INPROCESS</DefineConstants>--> 
+		 <!--<DefineConstants>$(DefineConstants);APP_INPROCESS</DefineConstants>--> 
 	</PropertyGroup>
 	<ItemGroup>
 	  <Compile Remove="Pages\**" />

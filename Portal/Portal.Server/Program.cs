@@ -4,21 +4,20 @@ using App1.Auth.Api.Extensions;
 #if APP_INPROCESS
 using App1.App.Api.Extensions;
 #endif
+using App1.App1.Portal.Server;
+using App1.App1.Portal.Server.Interfaces;
+using App1.App1.Portal.Server.Services;
 using Yarp.ReverseProxy.Configuration;
 using App1.App.Shared.Extensions;
 using App1.Auth.Shared.Extensions;
 using App1.System.Apis.Extensions;
-using App1.Portal.Server;
-using App1.Portal.Server.Interfaces;
-using App1.Portal.Server.Filters;
-using App1.Portal.Server.Services;
-using App1.Portal.Server.Logging;
+using App1.App1.Portal.Server.Logging;
+using App1.App1.Portal.Server.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add OpenTelemetry support
-builder.ConfigureOpenTelemetry();
-builder.AddDefaultHealthChecks();
+// Add Aspire service defaults (OpenTelemetry, health checks, service discovery, resilience)
+builder.AddServiceDefaults();
 
 builder.WebHost.ConfigureKestrel(serverOptions =>
 {

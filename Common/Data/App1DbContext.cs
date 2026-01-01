@@ -10,7 +10,7 @@
 using App1.App1.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace App1.Data;
+namespace App1.App1.Data;
 
 public class AppDbContext : DbContext
 {

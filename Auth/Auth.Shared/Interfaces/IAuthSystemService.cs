@@ -1,4 +1,4 @@
-using App1.Auth.Shared.DTOs;
+using Dyvenix.Auth.Shared.DTOs;
 
 namespace App1.Auth.Shared.Interfaces;
 

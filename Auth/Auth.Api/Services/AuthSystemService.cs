@@ -1,6 +1,7 @@
-using App1.Auth.Api.Logging;
-using App1.Auth.Shared.DTOs;
+using App1.App.Api.Logging;
 using App1.Auth.Shared.Interfaces;
+using App1.System.Shared.Exceptions;
+using Dyvenix.Auth.Shared.DTOs;
 using System;
 using System.Threading.Tasks;
 

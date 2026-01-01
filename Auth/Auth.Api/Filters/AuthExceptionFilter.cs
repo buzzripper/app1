@@ -1,7 +1,9 @@
-﻿using App1.Auth.Api.Logging;
+﻿using App1.App.Api.Logging;
+using App1.Auth.Api;
 using App1.System.Apis.Filters;
+using App1.System.Apis.Logging;
 
-namespace App1.Auth.Api.Filters;
+namespace App1.App.Api.Filters;
 
 public class AuthExceptionFilter<T> : SystemExceptionFilterBase<T>
 {

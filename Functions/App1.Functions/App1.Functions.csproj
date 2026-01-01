@@ -6,7 +6,7 @@
     <OutputType>Exe</OutputType>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <RootNamespace>App1.Functions</RootNamespace>
+    <RootNamespace>Dyvenix.App1.Functions</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
