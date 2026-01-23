@@ -3,17 +3,17 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>disable</Nullable>
+    <Nullable>enable</Nullable>
     <AssemblyName>Dyvenix.App1.Data.Shared</AssemblyName>
     <RootNamespace>Dyvenix.App1.Data.Shared</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Entities\" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.1" />
+    <Folder Include="Entities\" />
   </ItemGroup>
 
 </Project>
