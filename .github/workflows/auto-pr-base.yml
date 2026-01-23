@@ -1,8 +1,8 @@
 name: Auto-select PR base
 
-on:
-  pull_request_target:
-    types: [opened, reopened, synchronize]
+# on:
+#   pull_request_target:
+#     types: [opened, reopened, synchronize]
 
 jobs:
   set-base:
