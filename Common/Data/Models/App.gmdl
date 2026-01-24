@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<modelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="df82137e-01a2-4f75-82d1-a282a929c99a" name="" entitiesOutputFolder="Common\Data.Shared\Entities" entitiesNamespace="Dyvenix.App1.Data.Shared.Entities" dbContextOutputFolder="Common\Data" dbContextNamespace="Dyvenix.App1.Data" enumsOutputFolder="Common\Data.Shared\Entities" enumsNamespace="Dyvenix.App1.Data.Shared.Entities" xmlns="http://schemas.microsoft.com/dsltools/GenIt">
+  <types>
+    <modelRootHasTypes Id="9720a2d6-d756-4617-9c47-eadb6d9227c9">
+      <entityModel Id="1fa2767a-e5ca-4f4b-8b4c-5031d3909400" name="EntityModel1" auditable="false" inclRowVersion="false" enabled="false">
+        <properties>
+          <propertyModel Id="b0c0a8ea-280a-4aea-9fdf-fd6ff5c9b76d" name="Id" description="Primary key" dataType="Guid" isPrimaryKey="true" isIndexed="true" isIndexUnique="true" isForeignKey="false" />
+        </properties>
+      </entityModel>
+    </modelRootHasTypes>
+  </types>
+</modelRoot>
