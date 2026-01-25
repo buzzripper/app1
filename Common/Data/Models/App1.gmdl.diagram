@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<genItDiagram dslVersion="1.0.0.0" Id="2c903b47-be18-4154-b9f8-b222ac2fa8ef" absoluteBounds="0, 0, 11, 8.5" name="App1">
+  <modelRootMoniker name="/" />
+  <nestedChildShapes>
+    <classShape Id="46d8a448-5989-4a65-bb2c-1a1a39601c53" absoluteBounds="2.125, 2.375, 1.5, 1.5627718098958332">
+      <entityModelMoniker name="//AppUser" />
+      <nestedChildShapes>
+        <elementListCompartment Id="4b0fab8e-55f5-4a0e-ab95-14a92360dfd6" absoluteBounds="2.14, 2.685, 1.4700000000000002, 0.44169108072916657" name="PropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="a6ec9cb7-308f-4fde-bb16-e3a0fe6d2ee4" absoluteBounds="2.14, 3.1366910807291664, 1.4700000000000002, 0.2493896484375" name="NavPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="78ee772b-423b-4673-bd04-de86c4fb24fa" absoluteBounds="2.14, 3.3960807291666666, 1.4700000000000002, 0.44169108072916663" name="ServiceMethods" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</genItDiagram>
