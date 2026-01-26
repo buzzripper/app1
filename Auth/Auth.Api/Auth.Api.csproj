@@ -27,9 +27,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\Data.Shared\Data.Shared.csproj" />
+    <ProjectReference Include="..\..\Common\Data\Data.csproj" />
     <ProjectReference Include="..\..\System\System.Apis\System.Apis.csproj" />
     <ProjectReference Include="..\..\System\System.Shared\System.Shared.csproj" />
     <ProjectReference Include="..\Auth.Shared\Auth.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\v1\" />
   </ItemGroup>
 
 </Project>

@@ -1,28 +1,41 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<modelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="203f7116-c690-4c66-b991-1842bdd41d8e" name="" entitiesOutputFolder="Common\Data.Shared\Entities" entitiesNamespace="Dyvenix.App1.Data.Shared.Entities" dbContextOutputFolder="Common\Data" dbContextNamespace="Dyvenix.App1.Data" enumsOutputFolder="Common\Data.Shared\Entities" enumsNamespace="Dyvenix.App1.Data.Shared.Entities" permissions="Permission1|&#xA;Permission2AAA|&#xA;Permission3|" xmlns="http://schemas.microsoft.com/dsltools/GenIt">
+<modelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="8d094f85-5d31-4062-8c2e-ffdf2ccc1cb8" name="App1" entitiesOutputFolder="Common\Data.Shared\Entities" entitiesNamespace="Dyvenix.App1.Data.Shared.Entities" dbContextOutputFolder="Common\Data\Context" dbContextNamespace="Dyvenix.App1.Data.Context" enumsOutputFolder="Common\Data.Shared\Entities" enumsNamespace="Dyvenix.App1.Data.Shared.Entities" permissions="Permission1|&#xA;Permission2|&#xA;Permission3|" xmlns="http://schemas.microsoft.com/dsltools/GenIt">
   <types>
-    <modelRootHasTypes Id="75e476d4-f1a1-4c7c-b1d8-30f11aac663a">
-      <entityModel Id="6d02deac-e824-486e-8aab-7d719531238d" name="AppUser" auditable="false" inclRowVersion="false" enabled="false">
+    <modelRootHasTypes Id="cb4fd0f5-2105-43e4-8471-df9f8fbaeb94">
+      <entityModel Id="dd4b0738-2375-4f97-8296-68bea70f1c93" name="Company" auditable="false" inclRowVersion="false" module="Auth" enabled="false">
         <properties>
-          <propertyModel Id="49bab9f6-e13b-41ee-99be-5f3817c132e3" name="Id" description="Primary key" dataType="Guid" isPrimaryKey="true" isIndexed="true" isIndexUnique="true" isForeignKey="false" />
+          <propertyModel Id="1eac20ac-2697-4146-b99a-514b3190b985" name="Id" description="Primary key" dataType="Guid" isPrimaryKey="true" isIndexed="true" isIndexUnique="true" isForeignKey="false" />
+          <propertyModel Id="dedeffe8-cbbd-42b7-b5b8-c07d29d399f0" name="Name" length="50" isForeignKey="false" />
         </properties>
         <serviceModels>
-          <entityModelHasServiceModels Id="15fd682c-6826-43ec-9726-e29be9b011f3">
-            <serviceModel Id="c935e2fe-19de-487a-a4f3-d4c48b2f5a98" name="ServiceModel1" inclCreate="true" inclUpdate="false" inclDelete="false" version="v1" createPermissions="Permission2AAA,Permission3">
+          <entityModelHasServiceModels Id="20ad31c6-2cfb-457f-9c46-d7775b5eeacd">
+            <serviceModel Id="fdbe5cb5-98cd-4f7d-9bee-9e12df90ad45" name="ServiceModel1" inclCreate="true" inclUpdate="true" inclDelete="true" version="v1" createPermissions="Permission1" updatePermissions="Permission2" deletePermissions="Permission3" permissions="Permission1,Permission2">
               <readMethods>
-                <serviceModelHasReadMethodModels Id="b601da69-5662-42cf-830b-ca6eeb0b152e">
-                  <readMethodModel Id="7b43b210-5a7b-40eb-a382-b37d0a24ac1b" name="ReadMethod1" itemId="8d58b30b-5f11-4616-b64c-3991c9a80694" inclPaging="false" useQuery="false" inclSorting="false" displayOrder="0" />
+                <serviceModelHasReadMethodModels Id="4387b8b2-ced6-4043-bb79-9eb77e40ec25">
+                  <readMethodModel Id="65113a65-506a-4e95-b0fd-723bc73a4fb6" name="GetByName" itemId="e08cc01a-f3f8-4952-8dca-8d84c24749a1" inclPaging="false" useQuery="false" inclSorting="false" displayOrder="0" permissions="Permission1">
+                    <filterProperties>
+                      <readMethodModelHasFilterProperties Id="f9204f7f-d7f8-41e9-9002-70a64bc4e9b7">
+                        <filterPropertyModel Id="a10c3145-4efc-4a19-a3b9-57b07f13715c" name="Name" isOptional="false" isInternal="false" />
+                      </readMethodModelHasFilterProperties>
+                    </filterProperties>
+                  </readMethodModel>
                 </serviceModelHasReadMethodModels>
               </readMethods>
-              <updateMethods>
-                <serviceModelHasUpdateMethods Id="6b5f357b-3290-4b0d-aa2e-61765b182d53">
-                  <updateMethodModel Id="026e9200-1d75-4772-b7ff-6370c8dcd054" name="UpdateMethod1" itemId="a3840632-fc95-45ad-abf1-979c217d4bd6" useDto="false" permissions="Permission3" />
-                </serviceModelHasUpdateMethods>
-              </updateMethods>
             </serviceModel>
           </entityModelHasServiceModels>
         </serviceModels>
       </entityModel>
+    </modelRootHasTypes>
+    <modelRootHasTypes Id="46a23356-068a-4ba9-967d-4bbac8a16b1b">
+      <moduleModel Id="ee1a9840-807d-4e1d-b79b-6eedfd1a1bba" name="Auth" rootFolder="Auth\Auth.Api" namespace="Dyvenix.App1.Auth.Api" />
+    </modelRootHasTypes>
+    <modelRootHasTypes Id="d21bcd41-bc4f-477b-9547-328873d6c63e">
+      <enumModel Id="8fab4f69-5079-4ee3-a351-5c9c2f895831" name="CustType">
+        <members>
+          <enumMember Id="77836920-21d8-4238-9909-f3219b090994" name="AAA" />
+          <enumMember Id="c3947b0f-c36c-4ec4-91f9-e31fb1b8ec24" name="BBB" />
+        </members>
+      </enumModel>
     </modelRootHasTypes>
   </types>
 </modelRoot>
