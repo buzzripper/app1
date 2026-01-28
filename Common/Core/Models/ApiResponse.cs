@@ -1,4 +1,4 @@
-﻿namespace Dyvenix.App1.Common.Core.DTOs;
+﻿namespace Dyvenix.App1.Common.Core.Models;
 
 public class ApiResponse
 {

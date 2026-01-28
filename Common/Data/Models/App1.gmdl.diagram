@@ -1,23 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<genItDiagram dslVersion="1.0.0.0" Id="abeb9c26-269c-4614-bdc2-32af3ced8c14" absoluteBounds="0, 0, 11, 8.5" name="App1">
+<genItDiagram dslVersion="1.0.0.0" Id="a9222bfb-a70d-45d8-af2e-94e688d79980" absoluteBounds="0, 0, 11, 8.5" name="App1">
   <modelRootMoniker name="/App1" />
   <nestedChildShapes>
-    <classShape Id="0102462e-de5b-4ea1-b4c8-3df06570d09a" absoluteBounds="2.75, 3, 1.5, 1.7550732421874997">
-      <entityModelMoniker name="/App1/Company" />
+    <classShape Id="d4d9e2e7-9461-451f-ae69-0860097794d2" absoluteBounds="2.125, 1.75, 1.5, 2.3586092817783353">
+      <entityModelMoniker name="/App1/Person" />
       <nestedChildShapes>
-        <elementListCompartment Id="de277e14-9e46-4cfa-9335-b9b5fc5a9a16" absoluteBounds="2.765, 3.31, 1.4700000000000002, 0.63399251302083326" name="PropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-        <elementListCompartment Id="6dc857e1-81ef-4429-98e2-b633c8b933a6" absoluteBounds="2.765, 3.9539925130208333, 1.4700000000000002, 0.2493896484375" name="NavPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-        <elementListCompartment Id="95c62c71-93b1-42b2-8136-689b85f0596b" absoluteBounds="2.765, 4.2133821614583331, 1.4700000000000002, 0.44169108072916674" name="ServiceMethods" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="b58ca957-9a32-4efb-aa3a-8a396a328db5" absoluteBounds="2.14, 2.06, 1.4700000000000002, 1.22738312681516" name="PropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="3ec2332c-0afe-44f3-bf55-7a0f42d52854" absoluteBounds="2.14, 3.29738312681516, 1.4700000000000002, 0.2531941831111908" name="NavPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="e83085cf-72e6-48f7-862a-34cbf60072fa" absoluteBounds="2.14, 3.5605773099263507, 1.4700000000000002, 0.44803197185198473" name="ServiceMethods" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <moduleShape Id="951b9d70-6804-4841-9bc3-baafa560edd6" absoluteBounds="6, 1.375, 1.5, 0.375">
+    <moduleShape Id="768a9db0-6650-43bf-b5fa-8441547ec91d" absoluteBounds="0.625, 0.5, 1.5, 0.375">
       <moduleModelMoniker name="/App1/Auth" />
     </moduleShape>
-    <enumShape Id="ac11dd3d-1cee-4f62-8ed1-a5741dd47c7f" absoluteBounds="6.25, 3.625, 1.5, 1.0439925130208332">
-      <enumModelMoniker name="/App1/CustType" />
-      <nestedChildShapes>
-        <elementListCompartment Id="093c9ecf-8581-4ae1-af60-86366b7767b0" absoluteBounds="6.265, 3.935, 1.4700000000000002, 0.63399251302083326" name="MembersCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </enumShape>
   </nestedChildShapes>
 </genItDiagram>

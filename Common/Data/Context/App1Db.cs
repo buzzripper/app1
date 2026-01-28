@@ -1,10 +1,10 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 1/25/2026 8:53 PM. Any changes made to it will be lost.
+// This file was auto-generated on 1/28/2026 3:17 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Microsoft.EntityFrameworkCore;
 using Dyvenix.App1.Data.Shared.Entities;
 
-namespace Dyvenix.App1.Data.Context;
+namespace Dyvenix.App1.Data;
 
 public partial class App1Db : DbContext
 {
@@ -15,7 +15,7 @@ public partial class App1Db : DbContext
 
 	# region Properties
 
-	public DbSet<Company> Company { get; set; }
+	public DbSet<Person> Person { get; set; }
 
 	# endregion
 
@@ -23,15 +23,18 @@ public partial class App1Db : DbContext
 	{
 		base.OnModelCreating(modelBuilder);
 
-		#region Company
+		#region Person
 
-		modelBuilder.Entity<Company>(entity =>
+		modelBuilder.Entity<Person>(entity =>
 		{
-			entity.ToTable("Company");
+			entity.ToTable("Person");
 			entity.HasKey(e => e.Id);
-			entity.Property(e => e.Name).IsRequired().HasMaxLength(50);
+			entity.Property(e => e.FirstName).IsRequired().HasMaxLength(50);
+			entity.Property(e => e.LastName).IsRequired().HasMaxLength(50);
+			entity.Property(e => e.Email).IsRequired().HasMaxLength(50);
+			entity.Property(e => e.NewProperty).IsRequired().HasMaxLength(50);
 
-			entity.HasIndex(e => e.Id, "IX_Company_Id").IsUnique();
+			entity.HasIndex(e => e.Id, "IX_Person_Id").IsUnique();
 		});
 
 		#endregion

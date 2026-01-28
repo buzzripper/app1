@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>disable</ImplicitUsings>
+    <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <AssemblyName>Dyvenix.App1.Auth.Api</AssemblyName>
     <RootNamespace>Dyvenix.App1.Auth.Api</RootNamespace>
@@ -36,6 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Controllers\v1\" />
     <Folder Include="Services\v1\" />
   </ItemGroup>
 

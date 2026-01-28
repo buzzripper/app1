@@ -1,4 +1,4 @@
-﻿namespace Dyvenix.App1.Common.Core.Queries;
+﻿namespace Dyvenix.App1.Common.Core.Models;
 
 public interface ISortingQuery
 {

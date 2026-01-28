@@ -1,4 +1,4 @@
-﻿namespace Dyvenix.App1.Common.Core.Entities
+﻿namespace Dyvenix.App1.Common.Core.Models
 {
 	public class EntityList<T> where T : new()
 	{

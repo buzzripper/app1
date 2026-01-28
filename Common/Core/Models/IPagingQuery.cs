@@ -1,8 +1,8 @@
-﻿namespace Dyvenix.App1.Common.Core.Queries;
+﻿namespace Dyvenix.App1.Common.Core.Models;
 
 public interface IPagingQuery
 {
-	int RowOffset { get; set; }
+	int PageOffset { get; set; }
 	int PageSize { get; set; }
 	bool RecalcRowCount { get; set; }
 	bool GetRowCountOnly { get; set; }

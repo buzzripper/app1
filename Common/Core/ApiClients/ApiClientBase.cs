@@ -1,5 +1,5 @@
-﻿using Dyvenix.App1.Common.Core.DTOs;
-using Dyvenix.App1.Common.Core.Exceptions;
+﻿using Dyvenix.App1.Common.Core.Exceptions;
+using Dyvenix.App1.Common.Core.Models;
 using System.Net;
 using System.Text;
 using System.Text.Json;
