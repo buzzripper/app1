@@ -16,8 +16,4 @@
     <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\System\System.Shared\System.Shared.csproj" />
-  </ItemGroup>
-
 </Project>

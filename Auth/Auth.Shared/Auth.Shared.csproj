@@ -17,14 +17,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\Core\Core.csproj" />
-    <ProjectReference Include="..\..\Common\Data.Shared\Data.Shared.csproj" />
-    <ProjectReference Include="..\..\System\System.Shared\System.Shared.csproj" />
+    <Folder Include="DTOs\v1\" />
+    <Folder Include="Queries\v1\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DTOs\v1\" />
-    <Folder Include="Queries\v1\" />
+    <ProjectReference Include="..\..\Common.Shared\Common.Shared.csproj" />
   </ItemGroup>
 
 </Project>

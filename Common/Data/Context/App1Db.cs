@@ -2,9 +2,8 @@
 // This file was auto-generated on 1/28/2026 3:17 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Microsoft.EntityFrameworkCore;
-using Dyvenix.App1.Data.Shared.Entities;
 
-namespace Dyvenix.App1.Data;
+namespace Dyvenix.App1.Data.Context;
 
 public partial class App1Db : DbContext
 {
@@ -13,11 +12,11 @@ public partial class App1Db : DbContext
 	{
 	}
 
-	# region Properties
+	#region Properties
 
 	public DbSet<Person> Person { get; set; }
 
-	# endregion
+	#endregion
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{

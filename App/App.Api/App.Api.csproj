@@ -27,8 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\System\System.Apis\System.Apis.csproj" />
-    <ProjectReference Include="..\..\System\System.Shared\System.Shared.csproj" />
     <ProjectReference Include="..\App.Shared\App.Shared.csproj" />
   </ItemGroup>
 

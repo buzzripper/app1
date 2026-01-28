@@ -1,6 +1,6 @@
 ﻿namespace App1.System.Shared.DTOs;
 
-public class ApiResponse
+public class ApiResponseDyv
 {
 	#region Static
 

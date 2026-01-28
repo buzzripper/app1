@@ -15,12 +15,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Core\Core.csproj" />
-		<ProjectReference Include="..\Data.Shared\Data.Shared.csproj" />
+	  <Folder Include="Design\" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Models\" />
+	  <ProjectReference Include="..\..\Common.Shared\Common.Shared.csproj" />
 	</ItemGroup>
 
 </Project>
