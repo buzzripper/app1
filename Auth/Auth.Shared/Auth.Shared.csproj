@@ -4,8 +4,8 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <AssemblyName>Dyvenix.$(MSBuildProjectName)</AssemblyName>
-    <RootNamespace>Dyvenix.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <AssemblyName>Dyvenix.App1.Auth.Shared</AssemblyName>
+    <RootNamespace>Dyvenix.App1.Auth.Shared</RootNamespace>
     <Configurations>Debug;Release;Dbg-Ext</Configurations>
   </PropertyGroup>
 
@@ -17,7 +17,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\Core\Core.csproj" />
+    <ProjectReference Include="..\..\Common\Data.Shared\Data.Shared.csproj" />
     <ProjectReference Include="..\..\System\System.Shared\System.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DTOs\v1\" />
+    <Folder Include="Queries\v1\" />
   </ItemGroup>
 
 </Project>

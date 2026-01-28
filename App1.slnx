@@ -26,6 +26,7 @@
     <Project Path="Auth/Auth.Shared/Auth.Shared.csproj" />
   </Folder>
   <Folder Name="/Common/">
+    <Project Path="Common/Core/Core.csproj" Id="9206eb43-9cb9-4a82-af86-61cf5e6208a7" />
     <Project Path="Common/Data.Shared/Data.Shared.csproj" Id="3af927ab-54f1-4dd8-a7be-df417e1629fa" />
     <Project Path="Common/Data/Data.csproj" Id="9d938ede-3609-4f7b-89e9-ed6630889350" />
   </Folder>
