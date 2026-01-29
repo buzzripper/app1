@@ -1,5 +1,8 @@
 <Solution>
   <Configurations>
+    <BuildType Name="Dbg-Ext" />
+    <BuildType Name="Debug" />
+    <BuildType Name="Release" />
     <Platform Name="Any CPU" />
     <Platform Name="x64" />
     <Platform Name="x86" />
@@ -10,7 +13,6 @@
   </Folder>
   <Folder Name="/.SolutionItems/Scripts/">
     <File Path=".SolutionItems/Scripts/RunAngular.bat" />
-    <File Path=".SolutionItems/Scripts/RunGrafana.bat" />
   </Folder>
   <Folder Name="/App/">
     <Project Path="src/App/App.Api/App.Api.csproj" />
@@ -18,7 +20,9 @@
     <Project Path="src/App/App.Shared/App.Shared.csproj" />
   </Folder>
   <Folder Name="/Aspire/">
-    <Project Path="src/Aspire/Aspire.AppHost/Aspire.AppHost.csproj" />
+    <Project Path="src/Aspire/Aspire.AppHost/Aspire.AppHost.csproj">
+      <BuildType Solution="Dbg-Ext|*" Project="Release" />
+    </Project>
   </Folder>
   <Folder Name="/Auth/">
     <Project Path="src/Auth/Auth.Api/Auth.Api.csproj" />
@@ -26,21 +30,35 @@
     <Project Path="src/Auth/Auth.Shared/Auth.Shared.csproj" />
   </Folder>
   <Folder Name="/Common/">
-    <Project Path="Common/Data.Shared/Data.Shared.csproj" Id="3af927ab-54f1-4dd8-a7be-df417e1629fa" />
-    <Project Path="Common/Data/Data.csproj" Id="9d938ede-3609-4f7b-89e9-ed6630889350" />
-    <Project Path="src/Common/Common.Api/Common.Api.csproj" Id="4c238e5c-16c2-46d7-a162-2ff2f6633bc9" />
-    <Project Path="src/Common/Common.Server/Common.Server.csproj" Id="385ae6d4-4fa0-4e03-ab78-02df20eadc31" />
-    <Project Path="src/Common/Common.Shared/Common.Shared.csproj" Id="781aeae7-6eb6-4529-ba1d-5c7de27ca2ab" />
+    <Project Path="src/Common/Common.Api/Common.Api.csproj" Id="4c238e5c-16c2-46d7-a162-2ff2f6633bc9">
+      <BuildType Solution="Dbg-Ext|*" Project="Release" />
+    </Project>
+    <Project Path="src/Common/Common.Data.Shared/Common.Data.Shared.csproj">
+      <BuildType Solution="Dbg-Ext|*" Project="Release" />
+    </Project>
+    <Project Path="src/Common/Common.Data/Common.Data.csproj">
+      <BuildType Solution="Dbg-Ext|*" Project="Release" />
+    </Project>
+    <Project Path="src/Common/Common.Server/Common.Server.csproj" Id="385ae6d4-4fa0-4e03-ab78-02df20eadc31">
+      <BuildType Solution="Dbg-Ext|*" Project="Release" />
+    </Project>
+    <Project Path="src/Common/Common.Shared/Common.Shared.csproj" Id="781aeae7-6eb6-4529-ba1d-5c7de27ca2ab">
+      <BuildType Solution="Dbg-Ext|*" Project="Release" />
+    </Project>
   </Folder>
   <Folder Name="/Functions/">
-    <Project Path="Functions/App1.Functions/App1.Functions.csproj" />
+    <Project Path="src/Functions/App1.Functions/App1.Functions.csproj">
+      <BuildType Solution="Dbg-Ext|*" Project="Release" />
+    </Project>
   </Folder>
   <Folder Name="/Portal/">
-    <Project Path="Portal/Portal.Server/Portal.Server.csproj" />
+    <Project Path="src/Portal/Portal.Server/Portal.Server.csproj" />
   </Folder>
   <Folder Name="/UI/">
-    <Project Path="UI/Angular/Angular.esproj">
-      <Deploy Solution="*|Any CPU" />
+    <Project Path="src/UI/Angular/Angular.esproj">
+      <Platform Project="AnyCPU" />
+      <Build />
+      <Deploy />
     </Project>
   </Folder>
 </Solution>

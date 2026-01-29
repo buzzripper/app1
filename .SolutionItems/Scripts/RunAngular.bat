@@ -1,7 +1,7 @@
 
 set "SCRIPT_DIR=%~dp0"
 
-CD "%SCRIPT_DIR%..\..\UI\Angular"
+CD "%SCRIPT_DIR%..\..\src\UI\Angular"
 
 ng serve --ssl
 

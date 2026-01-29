@@ -9,9 +9,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\..\Portal\Portal.Server\Portal.Server.csproj" />
 	  <ProjectReference Include="..\..\App\App.Server\App.Server.csproj" />
 	  <ProjectReference Include="..\..\Auth\Auth.Server\Auth.Server.csproj" />
+	  <ProjectReference Include="..\..\Portal\Portal.Server\Portal.Server.csproj" />
 	</ItemGroup>
 
 </Project>
