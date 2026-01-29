@@ -1,14 +1,11 @@
 ﻿#if AUTH_INPROCESS
-using App1.Auth.Api.Extensions;
 #endif
 #if APP_INPROCESS
-using App1.App.Api.Extensions;
+using Dyvenix.App1.App.Api.Extensions;
 #endif
-using App1.App.Shared.Extensions;
 using App1.App1.Portal.Server;
 using App1.App1.Portal.Server.Interfaces;
 using App1.App1.Portal.Server.Services;
-using Dyvenix.App1.Auth.Shared.Extensions;
 using Dyvenix.App1.Common.Api.Extensions;
 using Dyvenix.App1.Portal.Server.Filters;
 using Dyvenix.App1.Portal.Server.Logging;
@@ -97,19 +94,18 @@ services.AddControllers();
 
 services.AddTransient<IPortalModuleLogger>(sp => new PortalModuleLogger(sp.GetRequiredService<ILoggerFactory>()));
 
-#if AUTH_INPROCESS
-var authInProcess = true;
-services.AddAuthApiServices(isInProcess: true);
-#else
 var authInProcess = false;
-#endif
-
-#if APP_INPROCESS
-var appInProcess = true;
-services.AddAppApiServices(isInProcess: true);
-#else
 var appInProcess = false;
-#endif
+
+//#if AUTH_INPROCESS
+//authInProcess = true;
+//services.AddAuthApiServices(isInProcess: true);
+//#endif
+
+//#if APP_INPROCESS
+//appInProcess = true;
+//services.AddAppApiServices(isInProcess: true);
+//#endif
 
 // Configure YARP for API proxying (Auth/App when running out-of-process)
 services.AddSingleton<IProxyConfigProvider>(
@@ -117,8 +113,12 @@ services.AddSingleton<IProxyConfigProvider>(
 services.AddReverseProxy();
 
 // Register service clients (proxies)
-services.AddAuthClients(configuration, authInProcess);
-services.AddApp1Client(configuration, appInProcess);
+#if AUTH_INPROCESS
+//services.AddAuthClients(configuration, authInProcess);
+#endif
+#if APP_INPROCESS
+//services.AddApp1Client(configuration, appInProcess);
+#endif
 
 builder.Services.AddApiVersioning(options =>
 {
@@ -161,6 +161,18 @@ app.MapNotFound("/api/{**segment}");
 
 // Map health check endpoints (in development only)
 app.MapDefaultEndpoints();
+
+app.UseWhen(
+	ctx => ctx.Request.Path.StartsWithSegments("/api/auth")
+		|| ctx.Request.Path.StartsWithSegments("/api/app"),
+	branch =>
+	{
+		branch.Use(async (ctx, next) =>
+		{
+			// breakpoint here
+			await next();
+		});
+	});
 
 // Map YARP reverse proxy for Auth/App APIs when running out-of-process
 app.MapReverseProxy();

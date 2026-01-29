@@ -36,8 +36,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\App\App.Server\App.Server.csproj" />
-	  <ProjectReference Include="..\..\Auth\Auth.Server\Auth.Server.csproj" />
+	  <ProjectReference Include="..\..\App\App.Server\App.Server.csproj" Condition="$(DefineConstants.Contains('APP_INPROCESS'))" />
+	  <ProjectReference Include="..\..\Auth\Auth.Server\Auth.Server.csproj" Condition="$(DefineConstants.Contains('AUTH_INPROCESS'))" />
+	  <ProjectReference Include="..\..\Common\Common.Api\Common.Api.csproj" />
+	  <ProjectReference Include="..\..\Common\Common.Shared\Common.Shared.csproj" />
 	</ItemGroup>
 
 </Project>
