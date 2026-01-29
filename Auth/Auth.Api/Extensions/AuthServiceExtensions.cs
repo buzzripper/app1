@@ -1,15 +1,14 @@
-using App1.App.Api.Filters;
-using App1.App.Api.Logging;
-using App1.Auth.Api.Services;
 using App1.Auth.Shared.Interfaces;
-using App1.System.Apis.Logging;
+using Dyvenix.App1.Auth.Api.Filters;
+using Dyvenix.App1.Auth.Api.Logging;
+using Dyvenix.App1.Auth.Api.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Scalar.AspNetCore;
 
-namespace App1.Auth.Api.Extensions;
+namespace Dyvenix.App1.Auth.Api.Extensions;
 
 public static class AuthServiceExtensions
 {
@@ -22,7 +21,7 @@ public static class AuthServiceExtensions
 		// Register business logic services
 		services.AddScoped<IAuthSystemService, AuthSystemService>();
 		services.AddTransient<IAuthModuleLogger>(sp => new AuthModuleLogger(sp.GetRequiredService<ILoggerFactory>()));
-		
+
 		// Register exception filter for ServiceFilter attribute
 		services.AddScoped<AuthExceptionFilter<AuthSystemService>>();
 

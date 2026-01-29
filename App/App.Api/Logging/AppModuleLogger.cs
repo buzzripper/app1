@@ -1,4 +1,4 @@
-﻿using App1.System.Apis.Logging;
+﻿using Dyvenix.App1.Common.Api.Logging;
 using Microsoft.Extensions.Logging;
 
 namespace App1.App.Api.Logging

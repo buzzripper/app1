@@ -1,8 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <ItemGroup>
-    <ProjectReference Include="..\..\System\System.Apis\System.Apis.csproj" />
-    <ProjectReference Include="..\..\System\System.Servers\System.Servers.csproj" />
+    <ProjectReference Include="..\..\src\Common\Common.Server\Common.Server.csproj" />
     <ProjectReference Include="..\Auth.Api\Auth.Api.csproj" />
   </ItemGroup>
 

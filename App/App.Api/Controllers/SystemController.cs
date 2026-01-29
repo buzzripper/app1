@@ -1,7 +1,7 @@
 using App1.App.Api.Filters;
 using App1.App.Api.Services;
 using App1.App.Shared.Interfaces;
-using App1.System.Shared.DTOs;
+using Dyvenix.App1.Common.Shared.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

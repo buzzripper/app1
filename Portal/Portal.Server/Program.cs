@@ -4,15 +4,16 @@ using App1.Auth.Api.Extensions;
 #if APP_INPROCESS
 using App1.App.Api.Extensions;
 #endif
+using App1.App.Shared.Extensions;
 using App1.App1.Portal.Server;
 using App1.App1.Portal.Server.Interfaces;
 using App1.App1.Portal.Server.Services;
-using Yarp.ReverseProxy.Configuration;
-using App1.App.Shared.Extensions;
 using App1.Auth.Shared.Extensions;
-using App1.System.Apis.Extensions;
-using App1.App1.Portal.Server.Logging;
-using App1.App1.Portal.Server.Filters;
+using Dyvenix.App1.Common.Api.Extensions;
+using Dyvenix.App1.Portal.Server.Filters;
+using Dyvenix.App1.Portal.Server.Logging;
+using Dyvenix.App1.Portal.Server.Services;
+using Yarp.ReverseProxy.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -100,14 +101,14 @@ services.AddTransient<IPortalModuleLogger>(sp => new PortalModuleLogger(sp.GetRe
 var authInProcess = true;
 services.AddAuthApiServices(isInProcess: true);
 #else
-	var authInProcess = false;
+var authInProcess = false;
 #endif
 
 #if APP_INPROCESS
 var appInProcess = true;
 services.AddAppApiServices(isInProcess: true);
 #else
-	var appInProcess = false;
+var appInProcess = false;
 #endif
 
 // Configure YARP for API proxying (Auth/App when running out-of-process)

@@ -1,4 +1,4 @@
-﻿using App1.System.Shared.DTOs;
+﻿using Dyvenix.App1.Common.Shared.DTOs;
 
 namespace App1.App.Shared.DTOs;
 

@@ -1,9 +1,8 @@
-﻿using App1.App.Api.Logging;
-using App1.Auth.Api;
-using App1.System.Apis.Filters;
-using App1.System.Apis.Logging;
+﻿using App1.Auth.Api;
+using Dyvenix.App1.Auth.Api.Logging;
+using Dyvenix.App1.Common.Api.Filters;
 
-namespace App1.App.Api.Filters;
+namespace Dyvenix.App1.Auth.Api.Filters;
 
 public class AuthExceptionFilter<T> : SystemExceptionFilterBase<T>
 {

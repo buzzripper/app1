@@ -11,8 +11,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-    <ProjectReference Include="..\..\System\System.Apis\System.Apis.csproj" />
-    <ProjectReference Include="..\..\System\System.Servers\System.Servers.csproj" />
+    <ProjectReference Include="..\..\src\Common\Common.Server\Common.Server.csproj" />
     <ProjectReference Include="..\App.Api\App.Api.csproj" />
   </ItemGroup>
 

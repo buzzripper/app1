@@ -1,11 +1,9 @@
-using App1.App.Api.Logging;
+using App1.Auth.Api;
 using App1.Auth.Shared.Interfaces;
-using App1.System.Shared.Exceptions;
-using Dyvenix.Auth.Shared.DTOs;
-using System;
-using System.Threading.Tasks;
+using Dyvenix.App1.Auth.Api.Logging;
+using Dyvenix.App1.Auth.Shared.DTOs;
 
-namespace App1.Auth.Api.Services;
+namespace Dyvenix.App1.Auth.Api.Services;
 
 public class AuthSystemService : IAuthSystemService
 {
