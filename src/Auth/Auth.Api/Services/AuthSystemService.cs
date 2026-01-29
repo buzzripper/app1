@@ -1,7 +1,7 @@
 using App1.Auth.Api;
-using App1.Auth.Shared.Interfaces;
 using Dyvenix.App1.Auth.Api.Logging;
 using Dyvenix.App1.Auth.Shared.DTOs;
+using Dyvenix.App1.Auth.Shared.Interfaces;
 
 namespace Dyvenix.App1.Auth.Api.Services;
 

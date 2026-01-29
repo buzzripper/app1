@@ -8,7 +8,7 @@ using App1.App.Shared.Extensions;
 using App1.App1.Portal.Server;
 using App1.App1.Portal.Server.Interfaces;
 using App1.App1.Portal.Server.Services;
-using App1.Auth.Shared.Extensions;
+using Dyvenix.App1.Auth.Shared.Extensions;
 using Dyvenix.App1.Common.Api.Extensions;
 using Dyvenix.App1.Portal.Server.Filters;
 using Dyvenix.App1.Portal.Server.Logging;

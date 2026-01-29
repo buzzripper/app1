@@ -1,8 +1,8 @@
-using App1.Auth.Shared.Interfaces;
 using Dyvenix.App1.Auth.Shared.DTOs;
+using Dyvenix.App1.Auth.Shared.Interfaces;
 using System.Net.Http.Json;
 
-namespace App1.Auth.Shared.Proxies;
+namespace Dyvenix.App1.Auth.Shared.Proxies;
 
 public class SystemServiceHttpClient : IAuthSystemService
 {

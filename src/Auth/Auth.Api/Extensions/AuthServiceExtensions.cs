@@ -1,7 +1,7 @@
-using App1.Auth.Shared.Interfaces;
 using Dyvenix.App1.Auth.Api.Filters;
 using Dyvenix.App1.Auth.Api.Logging;
 using Dyvenix.App1.Auth.Api.Services;
+using Dyvenix.App1.Auth.Shared.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;

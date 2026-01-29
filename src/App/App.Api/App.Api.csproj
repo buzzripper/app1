@@ -4,9 +4,10 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
-    <AssemblyName>Dyvenix.App1.Auth.Api</AssemblyName>
-    <RootNamespace>Dyvenix.App1.Auth.Api</RootNamespace>
+    <AssemblyName>App1.$(MSBuildProjectName)</AssemblyName>
+    <RootNamespace>App1.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
     <Configurations>Debug;Release;Dbg-Ext</Configurations>
+    <UserSecretsId>ba532265-0b6a-444e-8fe2-306559de634a</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,19 +23,12 @@
   <ItemGroup>
     <PackageReference Include="Asp.Versioning.Mvc" Version="8.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.1.0" />
     <PackageReference Include="Scalar.AspNetCore" Version="2.11.6" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\Data.Shared\Data.Shared.csproj" />
-    <ProjectReference Include="..\..\Common\Data\Data.csproj" />
-    <ProjectReference Include="..\..\src\Common\Common.Api\Common.Api.csproj" />
-    <ProjectReference Include="..\Auth.Shared\Auth.Shared.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Services\v1\" />
+    <ProjectReference Include="..\..\Common\Common.Api\Common.Api.csproj" />
+    <ProjectReference Include="..\App.Shared\App.Shared.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,7 @@
 ﻿using App1.Auth.Api;
-using App1.Auth.Shared.Interfaces;
 using Dyvenix.App1.Auth.Api.Filters;
 using Dyvenix.App1.Auth.Api.Services;
+using Dyvenix.App1.Auth.Shared.Interfaces;
 using Dyvenix.App1.Common.Shared.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

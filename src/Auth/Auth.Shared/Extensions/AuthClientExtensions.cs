@@ -1,9 +1,9 @@
-using App1.Auth.Shared.Interfaces;
-using App1.Auth.Shared.Proxies;
+using Dyvenix.App1.Auth.Shared.Interfaces;
+using Dyvenix.App1.Auth.Shared.Proxies;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace App1.Auth.Shared.Extensions;
+namespace Dyvenix.App1.Auth.Shared.Extensions;
 
 public static class AuthClientExtensions
 {

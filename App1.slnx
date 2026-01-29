@@ -13,17 +13,17 @@
     <File Path=".SolutionItems/Scripts/RunGrafana.bat" />
   </Folder>
   <Folder Name="/App/">
-    <Project Path="App/App.Api/App.Api.csproj" />
-    <Project Path="App/App.Server/App.Server.csproj" />
-    <Project Path="App/App.Shared/App.Shared.csproj" />
+    <Project Path="src/App/App.Api/App.Api.csproj" />
+    <Project Path="src/App/App.Server/App.Server.csproj" />
+    <Project Path="src/App/App.Shared/App.Shared.csproj" />
   </Folder>
   <Folder Name="/Aspire/">
-    <Project Path="Aspire/Aspire.AppHost/Aspire.AppHost.csproj" />
+    <Project Path="src/Aspire/Aspire.AppHost/Aspire.AppHost.csproj" />
   </Folder>
   <Folder Name="/Auth/">
-    <Project Path="Auth/Auth.Api/Auth.Api.csproj" />
-    <Project Path="Auth/Auth.Server/Auth.Server.csproj" />
-    <Project Path="Auth/Auth.Shared/Auth.Shared.csproj" />
+    <Project Path="src/Auth/Auth.Api/Auth.Api.csproj" />
+    <Project Path="src/Auth/Auth.Server/Auth.Server.csproj" />
+    <Project Path="src/Auth/Auth.Shared/Auth.Shared.csproj" />
   </Folder>
   <Folder Name="/Common/">
     <Project Path="Common/Data.Shared/Data.Shared.csproj" Id="3af927ab-54f1-4dd8-a7be-df417e1629fa" />
