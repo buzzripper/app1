@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<modelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="a05f92bc-4f04-4e80-b2f9-bcdc2d98c182" name="App1" entitiesOutputFolder="Common\Data.Shared\Entities" entitiesNamespace="Dyvenix.App1.Data.Shared.Entities" dbContextOutputFolder="Common\Data\Context" dbContextNamespace="Dyvenix.App1.Data" enumsOutputFolder="Common\Data.Shared\Entities" enumsNamespace="Dyvenix.App1.Data.Shared.Entities" dbContextName="App1Db" usings="Dyvenix.App1.Common.Core.Models&#xA;Dyvenix.App1.Common.Core.Exceptions" xmlns="http://schemas.microsoft.com/dsltools/GenIt">
+<modelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="a05f92bc-4f04-4e80-b2f9-bcdc2d98c182" name="App1" entitiesOutputFolder="src\Common\Common.Data.Shared\Entities" entitiesNamespace="Dyvenix.App1.Common.Data.Shared.Entities" dbContextOutputFolder="src\Common\Common.Data\Context" dbContextNamespace="Dyvenix.App1.Common.Data" enumsOutputFolder="src\Common\Common.Data.Shared\Entities" enumsNamespace="Dyvenix.App1.Common.Data.Shared.Entities" permissions="Permission1|&#xA;Permission2|&#xA;Permission3|" dbContextName="App1Db" usings="Dyvenix.App1.Common.Shared.Models&#xA;Dyvenix.App1.Common.Shared.Exceptions" xmlns="http://schemas.microsoft.com/dsltools/GenIt">
   <types>
     <modelRootHasTypes Id="d8efa44d-a0be-4943-8724-d41966277579">
       <entityModel Id="7e073b5a-ca06-4e53-b407-5153b99e78fe" name="Person" auditable="false" inclRowVersion="false" module="Auth" enabled="false">
@@ -10,9 +10,17 @@
           <propertyModel Id="9a81e18e-146d-4e35-b744-7dab01f58f56" name="Email" length="50" isForeignKey="false" displayOrder="2" />
           <propertyModel Id="a0661825-ccde-45af-aeeb-ec8db2bc6f33" name="NewProperty" length="50" isForeignKey="false" displayOrder="3" />
         </properties>
+        <navigationProperties>
+          <navigationProperty Id="1e4359ef-e624-4d1a-af13-199d54b67be3" name="Invoices" description="Navigation to Invoice" targetEntityName="Invoice" isCollection="true" />
+        </navigationProperties>
+        <targets>
+          <association Id="5c4cedcc-7881-4ef0-8235-0adc258b2ba2" sourceMultiplicity="1" sourceRoleName="Invoices" targetMultiplicity="*" fkPropertyName="PersonId">
+            <entityModelMoniker name="/App1/Invoice" />
+          </association>
+        </targets>
         <serviceModels>
           <entityModelHasServiceModels Id="88c3cd3f-0f3a-4be1-b211-4c906b95bd70">
-            <serviceModel Id="c81b98fa-64fa-4c53-b008-21153ff3b25f" name="ServiceModel1" inclCreate="true" inclUpdate="true" inclDelete="true" version="v1">
+            <serviceModel Id="c81b98fa-64fa-4c53-b008-21153ff3b25f" name="ServiceModel1" inclCreate="true" inclUpdate="true" inclDelete="true" version="1" createPermissions="Permission1,Permission2" updatePermissions="Permission2" deletePermissions="Permission3">
               <readMethods>
                 <serviceModelHasReadMethodModels Id="dbf1f6c3-3c28-4bd1-a949-41bb642d5d77">
                   <readMethodModel Id="92ad72f2-6aef-4b5d-9db5-b470085b7b58" name="ReadMethod1" itemId="ce7c841e-cedd-481d-8d30-98b0ea8aed37" inclPaging="false" useQuery="false" inclSorting="false" displayOrder="0">
@@ -122,7 +130,16 @@
       </entityModel>
     </modelRootHasTypes>
     <modelRootHasTypes Id="7e24eceb-adee-494e-b8b2-9b32679d2333">
-      <moduleModel Id="8bda6b6b-6510-4c24-b586-a36348a1a586" name="Auth" rootFolder="Auth\Auth.Api" namespace="Dyvenix.App1.Auth.Api" dtoNamespace="Dyvenix.App1.Auth.Shared.DTOs" dtoOutputFolder="Auth\Auth.Shared\DTOs" queryNamespace="Dyvenix.App1.Auth.Shared.Queries" queryOutputFolder="Auth\Auth.Shared\Queries" />
+      <moduleModel Id="8bda6b6b-6510-4c24-b586-a36348a1a586" name="Auth" apiRootFolder="src\Auth\Auth.Api" namespace="Dyvenix.App1.Auth.Api" dtoNamespace="Dyvenix.App1.Auth.Shared.DTOs" dtoOutputFolder="src\Auth\Auth.Shared\DTOs" queryNamespace="Dyvenix.App1.Auth.Shared.Queries" queryOutputFolder="src\Auth\Auth.Shared\Queries" />
+    </modelRootHasTypes>
+    <modelRootHasTypes Id="b7d95ea9-5de9-4935-b2f2-3908a8df42af">
+      <entityModel Id="efc53c38-8d23-4550-b3f9-051e21f54dce" name="Invoice" attributes="Authorize" auditable="false" inclRowVersion="false" module="Auth" enabled="false">
+        <properties>
+          <propertyModel Id="0bf2e864-25ed-4184-bedb-9e2da3f52128" name="Id" description="Primary key" dataType="Guid" isPrimaryKey="true" isIndexed="true" isIndexUnique="true" isForeignKey="false" />
+          <propertyModel Id="66831d5a-1700-4bea-a548-85ba4a597719" name="PersonId" description="Foreign key to Person" dataType="Guid" isForeignKey="true" />
+          <propertyModel Id="b10191ba-b8b5-4f3d-880f-dd753ad2bb44" name="Amount" dataType="Decimal" length="50" isIndexed="true" isForeignKey="false" />
+        </properties>
+      </entityModel>
     </modelRootHasTypes>
   </types>
 </modelRoot>

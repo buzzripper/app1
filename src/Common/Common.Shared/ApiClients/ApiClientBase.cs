@@ -50,8 +50,8 @@ public abstract class ApiClientBase
 
 		var apiResponse = JsonSerializer.Deserialize<ApiResponse<TResult>>(responseString, _jsonSerializerOptionsGet);
 
-		if (apiResponse.ErrorCode >= 100)
-			throw new ApiException(apiResponse.ErrorCode, apiResponse.Message, apiResponse.CorrelationId);
+		if (apiResponse.StatusCode >= 100)
+			throw new ApiException(apiResponse.StatusCode, apiResponse.Message, apiResponse.CorrelationId);
 
 		return apiResponse.Data;
 	}
@@ -121,8 +121,8 @@ public abstract class ApiClientBase
 
 		var apiResponse = JsonSerializer.Deserialize<ApiResponse>(responseString, _jsonSerializerOptionsPost);
 
-		if (apiResponse.ErrorCode >= 100)
-			throw new ApiException(apiResponse.ErrorCode, apiResponse.Message, apiResponse.CorrelationId);
+		if (apiResponse.StatusCode >= 100)
+			throw new ApiException(apiResponse.StatusCode, apiResponse.Message, apiResponse.CorrelationId);
 	}
 
 	protected async Task<TResult> CallAsync<TResult>(MethodType methodType, string uri, object payload)
@@ -131,8 +131,8 @@ public abstract class ApiClientBase
 
 		var apiResponse = JsonSerializer.Deserialize<ApiResponse<TResult>>(responseString, _jsonSerializerOptionsPost);
 
-		if (apiResponse.ErrorCode >= 100)
-			throw new ApiException(apiResponse.ErrorCode, apiResponse.Message, apiResponse.CorrelationId);
+		if (apiResponse.StatusCode >= 100)
+			throw new ApiException(apiResponse.StatusCode, apiResponse.Message, apiResponse.CorrelationId);
 
 		return apiResponse.Data;
 	}

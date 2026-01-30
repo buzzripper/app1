@@ -9,7 +9,7 @@ public class ApiResponse
 		return new ApiResponse
 		{
 			Success = true,
-			ErrorCode = 0,
+			StatusCode = 0,
 			CorrelationId = correlationId,
 			Message = "Success"
 		};
@@ -20,7 +20,7 @@ public class ApiResponse
 		return new ApiResponse
 		{
 			Success = false,
-			ErrorCode = errorCode,
+			StatusCode = errorCode,
 			Message = message
 		};
 	}
@@ -32,7 +32,7 @@ public class ApiResponse
 	public ApiResponse()
 	{
 		Success = true;
-		ErrorCode = 0;
+		StatusCode = 0;
 		Message = "Success";
 	}
 
@@ -43,7 +43,7 @@ public class ApiResponse
 
 	public ApiResponse(int statusCode, string message)
 	{
-		ErrorCode = statusCode;
+		StatusCode = statusCode;
 		Message = message;
 	}
 
@@ -55,7 +55,7 @@ public class ApiResponse
 
 	public ApiResponse(int statusCode, string message, string correlationId)
 	{
-		ErrorCode = statusCode;
+		StatusCode = statusCode;
 		Message = message;
 		CorrelationId = correlationId;
 	}
@@ -65,7 +65,7 @@ public class ApiResponse
 	#region Properties
 
 	public bool Success { get; set; }
-	public int ErrorCode { get; set; }
+	public int StatusCode { get; set; }
 	public string Message { get; set; }
 	public string CorrelationId { get; set; }
 
@@ -81,7 +81,7 @@ public class ApiResponse<T> : ApiResponse
 		return new ApiResponse<T>
 		{
 			Success = true,
-			ErrorCode = 0,
+			StatusCode = 0,
 			CorrelationId = correlationId,
 			Message = "Success"
 		};
@@ -92,7 +92,7 @@ public class ApiResponse<T> : ApiResponse
 		return new ApiResponse<T>
 		{
 			Success = false,
-			ErrorCode = errorCode,
+			StatusCode = errorCode,
 			Message = message
 		};
 	}
@@ -101,7 +101,7 @@ public class ApiResponse<T> : ApiResponse
 
 	public ApiResponse()
 	{
-		ErrorCode = 0;
+		StatusCode = 0;
 		Message = "Success";
 	}
 
@@ -112,7 +112,7 @@ public class ApiResponse<T> : ApiResponse
 
 	public ApiResponse(int errorCode, string message)
 	{
-		ErrorCode = errorCode;
+		StatusCode = errorCode;
 		Message = message;
 	}
 
@@ -124,7 +124,7 @@ public class ApiResponse<T> : ApiResponse
 
 	public ApiResponse(int errorCode, string message, string correlationId)
 	{
-		ErrorCode = errorCode;
+		StatusCode = errorCode;
 		Message = message;
 		CorrelationId = correlationId;
 	}

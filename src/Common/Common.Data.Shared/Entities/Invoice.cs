@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 1/27/2026 12:24 PM. Any changes made to it will be lost.
+// This file was auto-generated on 1/29/2026 10:34 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 
 namespace Dyvenix.App1.Common.Data.Shared.Entities;
@@ -13,21 +13,15 @@ public partial class Invoice
 	public Guid PersonId { get; set; }
 
 	// Properties
-	public string InvoiceNum { get; set; } = null!;
-	public string Amount { get; set; } = null!;
-	public string IsPaid { get; set; } = null!;
-	public string Description { get; set; } = null!;
+	public decimal Amount { get; set; }
 
 	#region PropNames
 
 	public static class PropNames
 	{
 		public const string Id = "Id";
-		public const string InvoiceNum = "InvoiceNum";
-		public const string Amount = "Amount";
-		public const string IsPaid = "IsPaid";
-		public const string Description = "Description";
 		public const string PersonId = "PersonId";
+		public const string Amount = "Amount";
 	}
 
 	#endregion

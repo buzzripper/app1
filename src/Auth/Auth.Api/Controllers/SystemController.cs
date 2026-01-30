@@ -6,7 +6,7 @@ using Dyvenix.App1.Common.Shared.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Dyvenix.App1.Auth.Api.Controllers.v1;
+namespace Dyvenix.App1.Auth.Api.Controllers;
 
 [ApiController]
 [ServiceFilter(typeof(AuthExceptionFilter<AuthSystemService>))]

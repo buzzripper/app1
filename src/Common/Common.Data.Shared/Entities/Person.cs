@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 1/28/2026 3:17 PM. Any changes made to it will be lost.
+// This file was auto-generated on 1/29/2026 10:34 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 
 namespace Dyvenix.App1.Common.Data.Shared.Entities;
@@ -15,6 +15,9 @@ public partial class Person
 	public string Email { get; set; } = null!;
 	public string NewProperty { get; set; } = null!;
 
+	// Navigation Properties
+	public List<Invoice> Invoices { get; set; } = new();
+
 	#region PropNames
 
 	public static class PropNames
@@ -24,6 +27,7 @@ public partial class Person
 		public const string LastName = "LastName";
 		public const string Email = "Email";
 		public const string NewProperty = "NewProperty";
+		public const string Invoices = "Invoices";
 	}
 
 	#endregion
