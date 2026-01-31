@@ -18,10 +18,10 @@ public interface IPersonService
 	Task<Guid> CreatePerson(Person person);
 	Task<bool> DeletePerson(Guid id);
 	Task UpdatePerson(Person person);
-	Task UpdateMethod1(Guid id, string firstName);
-	Task UpdateMethod2(Guid id, string lastName, string email);
-	Task<Person> ReadMethod1(Guid id);
-	Task<List<Person>> ReadMethod2(string firstName);
+	Task UpdateFirstName(Guid id, string firstName);
+	Task UpdateLastNameAndEmail(Guid id, string lastName, string email);
+	Task<Person> GetById(Guid id);
+	Task<Person> GetByEmail(string email);
 	Task<List<Person>> ReadMethod3(string lastName, int pageSize = 0, int pageOffset = 0);
 	Task<EntityList<Person>>ReadMethod4(ReadMethod4Query query);
 }
@@ -82,7 +82,7 @@ public partial class PersonService : IPersonService
 		}
 	}
 
-	public async Task UpdateMethod1(Guid id, string firstName)
+	public async Task UpdateFirstName(Guid id, string firstName)
 	{
 		ArgumentNullException.ThrowIfNull(firstName);
 
@@ -103,7 +103,7 @@ public partial class PersonService : IPersonService
 		}
 	}
 
-	public async Task UpdateMethod2(Guid id, string lastName, string email)
+	public async Task UpdateLastNameAndEmail(Guid id, string lastName, string email)
 	{
 		ArgumentNullException.ThrowIfNull(lastName);
 		ArgumentNullException.ThrowIfNull(email);
@@ -131,7 +131,7 @@ public partial class PersonService : IPersonService
 	
 	#region Single Methods
 	
-	public async Task<Person> ReadMethod1(Guid id)
+	public async Task<Person> GetById(Guid id)
 	{
 		var dbQuery = _dbContextFactory.CreateDbContext().Person.AsQueryable();
 	
@@ -140,19 +140,19 @@ public partial class PersonService : IPersonService
 		return await dbQuery.AsNoTracking().FirstOrDefaultAsync();
 	}
 	
-	#endregion
-	
-	#region List Methods
-	
-	public async Task<List<Person>> ReadMethod2(string firstName)
+	public async Task<Person> GetByEmail(string email)
 	{
 		var dbQuery = _dbContextFactory.CreateDbContext().Person.AsQueryable();
 	
-		if (!string.IsNullOrWhiteSpace(firstName))
-			dbQuery = dbQuery.Where(x => EF.Functions.Like(x.FirstName, firstName));
+		if (!string.IsNullOrWhiteSpace(email))
+			dbQuery = dbQuery.Where(x => EF.Functions.Like(x.Email, email));
 	
-		return await dbQuery.AsNoTracking().ToListAsync();
+		return await dbQuery.AsNoTracking().FirstOrDefaultAsync();
 	}
+	
+	#endregion
+	
+	#region List Methods
 	
 	public async Task<List<Person>> ReadMethod3(string lastName, int pageSize = 0, int pageOffset = 0)
 	{
