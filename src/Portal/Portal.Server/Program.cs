@@ -97,15 +97,15 @@ services.AddTransient<IPortalModuleLogger>(sp => new PortalModuleLogger(sp.GetRe
 var authInProcess = false;
 var appInProcess = false;
 
-//#if AUTH_INPROCESS
-//authInProcess = true;
-//services.AddAuthApiServices(isInProcess: true);
-//#endif
+#if AUTH_INPROCESS
+authInProcess = true;
+services.AddAuthApiServices(isInProcess: true);
+#endif
 
-//#if APP_INPROCESS
-//appInProcess = true;
-//services.AddAppApiServices(isInProcess: true);
-//#endif
+#if APP_INPROCESS
+appInProcess = true;
+services.AddAppApiServices(isInProcess: true);
+#endif
 
 // Configure YARP for API proxying (Auth/App when running out-of-process)
 services.AddSingleton<IProxyConfigProvider>(

@@ -8,10 +8,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Scalar.AspNetCore;
 
-namespace Dyvenix.App1.Auth.Api.Extensions;
+namespace Dyvenix.App1.Auth.Api.Config;
 
-public static class AuthServiceExtensions
+public static partial class ServiceCollectionExt
 {
+	// Declaration of partial method for code-generated services
+	static partial void AddGeneratedServices(IServiceCollection services);
+
 	/// <summary>
 	/// Registers Auth API services and controllers.
 	/// Call this when hosting Auth services (standalone or in-process).
@@ -29,10 +32,12 @@ public static class AuthServiceExtensions
 		{
 			// Add Controllers
 			services.AddControllers();
-
 			// Add OpenAPI support
 			services.AddOpenApi();
 		}
+
+		// Add code-generated services
+		AddGeneratedServices(services);
 
 		return services;
 	}

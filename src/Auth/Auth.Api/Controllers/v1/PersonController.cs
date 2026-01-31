@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 1/30/2026 7:29 PM. Any changes made to it will be lost.
+// This file was auto-generated on 1/31/2026 2:55 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
@@ -21,6 +21,11 @@ namespace Dyvenix.App1.Auth.Api.Controllers.v1;
 public class PersonController : ControllerBase
 {
 	private readonly IPersonService _personService;
+
+	public PersonController(IPersonService personService)
+	{
+		_personService = personService;
+	}
 	
 	#region Create
 	
@@ -71,11 +76,13 @@ public class PersonController : ControllerBase
 	#endregion
 
 	#region Read Methods - Single
+	
 	[HttpGet, Route("[action]/{id}")]
 	public async Task<ActionResult<Person>> GetById(Guid id)
 	{
 		return Ok(await _personService.GetById(id));
 	}
+	
 	
 	[HttpGet, Route("[action]/{email}")]
 	public async Task<ActionResult<Person>> GetByEmail(string email)
@@ -100,7 +107,7 @@ public class PersonController : ControllerBase
 	[HttpPost, Route("[action]")]
 	public async Task<ActionResult<EntityList<Person>>> ReadMethod4([FromBody] ReadMethod4Query readMethod4Query)
 	{
-			return Ok(await _personService.ReadMethod4(readMethod4Query));
+		return Ok(await _personService.ReadMethod4(readMethod4Query));
 	}
 
 	#endregion

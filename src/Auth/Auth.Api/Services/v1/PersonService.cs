@@ -1,3 +1,6 @@
+//------------------------------------------------------------------------------------------------------------
+// This file was auto-generated on 1/31/2026 2:55 PM. Any changes made to it will be lost.
+//------------------------------------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,9 +31,14 @@ public interface IPersonService
 
 public partial class PersonService : IPersonService
 {
-	private readonly ILogger _logger;
+	private readonly ILogger<IPersonService> _logger;
 	private readonly App1Db _db;
-	private readonly IDbContextFactory<App1Db> _dbContextFactory;
+
+	public PersonService(App1Db db, ILogger<IPersonService> logger)
+	{
+		_db = db;
+		_logger = logger;
+	}
 
 	#region Create
 
@@ -39,9 +47,8 @@ public partial class PersonService : IPersonService
 		ArgumentNullException.ThrowIfNull(person);
 
 		try {
-			using var db = _dbContextFactory.CreateDbContext();
-			db.Add(person);
-			await db.SaveChangesAsync();
+			_db.Add(person);
+			await _db.SaveChangesAsync();
 
 			return person.Id;
 
@@ -56,9 +63,7 @@ public partial class PersonService : IPersonService
 
 	public async Task<bool> DeletePerson(Guid id)
 	{
-		using var db = _dbContextFactory.CreateDbContext();
-
-		var result = await db.Person.Where(a => a.Id == id).ExecuteDeleteAsync();
+		var result = await _db.Person.Where(a => a.Id == id).ExecuteDeleteAsync();
 		return result == 1;
 	}
 
@@ -70,12 +75,10 @@ public partial class PersonService : IPersonService
 	{
 		ArgumentNullException.ThrowIfNull(person);
 
-		using var db = _dbContextFactory.CreateDbContext();
-
 		try {
-			db.Attach(person);
-			db.Entry(person).State = EntityState.Modified;
-			await db.SaveChangesAsync();
+			_db.Attach(person);
+			_db.Entry(person).State = EntityState.Modified;
+			await _db.SaveChangesAsync();
 
 		} catch (DbUpdateConcurrencyException) {
 			throw new ConcurrencyApiException("The item was modified or deleted by another user.");
@@ -92,11 +95,10 @@ public partial class PersonService : IPersonService
 				FirstName = firstName,
 			};
 
-			using var db = _dbContextFactory.CreateDbContext();
-			db.Attach(person);
-			db.Entry(person).Property(u => u.FirstName).IsModified = true;
+			_db.Attach(person);
+			_db.Entry(person).Property(u => u.FirstName).IsModified = true;
 
-			await db.SaveChangesAsync();
+			await _db.SaveChangesAsync();
 
 		} catch (DbUpdateConcurrencyException) {
 			throw new ConcurrencyApiException("The item was modified or deleted by another user.");
@@ -115,12 +117,11 @@ public partial class PersonService : IPersonService
 				Email = email,
 			};
 
-			using var db = _dbContextFactory.CreateDbContext();
-			db.Attach(person);
-			db.Entry(person).Property(u => u.LastName).IsModified = true;
-			db.Entry(person).Property(u => u.Email).IsModified = true;
+			_db.Attach(person);
+			_db.Entry(person).Property(u => u.LastName).IsModified = true;
+			_db.Entry(person).Property(u => u.Email).IsModified = true;
 
-			await db.SaveChangesAsync();
+			await _db.SaveChangesAsync();
 
 		} catch (DbUpdateConcurrencyException) {
 			throw new ConcurrencyApiException("The item was modified or deleted by another user.");
@@ -133,7 +134,7 @@ public partial class PersonService : IPersonService
 	
 	public async Task<Person> GetById(Guid id)
 	{
-		var dbQuery = _dbContextFactory.CreateDbContext().Person.AsQueryable();
+		var dbQuery = _db.Person.AsQueryable();
 	
 		dbQuery = dbQuery.Where(x => x.Id == id);
 	
@@ -142,7 +143,7 @@ public partial class PersonService : IPersonService
 	
 	public async Task<Person> GetByEmail(string email)
 	{
-		var dbQuery = _dbContextFactory.CreateDbContext().Person.AsQueryable();
+		var dbQuery = _db.Person.AsQueryable();
 	
 		if (!string.IsNullOrWhiteSpace(email))
 			dbQuery = dbQuery.Where(x => EF.Functions.Like(x.Email, email));
@@ -156,7 +157,7 @@ public partial class PersonService : IPersonService
 	
 	public async Task<List<Person>> ReadMethod3(string lastName, int pageSize = 0, int pageOffset = 0)
 	{
-		var dbQuery = _dbContextFactory.CreateDbContext().Person.AsQueryable();
+		var dbQuery = _db.Person.AsQueryable();
 	
 		if (!string.IsNullOrWhiteSpace(lastName))
 			dbQuery = dbQuery.Where(x => EF.Functions.Like(x.LastName, lastName));
@@ -172,7 +173,7 @@ public partial class PersonService : IPersonService
 
 	public async Task<EntityList<Person>>ReadMethod4(ReadMethod4Query query)
 	{
-		var dbQuery = _dbContextFactory.CreateDbContext().Person.AsQueryable();
+		var dbQuery = _db.Person.AsQueryable();
 		var result = new EntityList<Person>();
 
 		// Filters
