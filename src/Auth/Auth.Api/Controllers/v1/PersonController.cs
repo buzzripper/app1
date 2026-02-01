@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 1/31/2026 2:55 PM. Any changes made to it will be lost.
+// This file was auto-generated on 1/31/2026 7:01 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
@@ -16,7 +16,7 @@ namespace Dyvenix.App1.Auth.Api.Controllers.v1;
 [ApiController]
 [ServiceFilter(typeof(AuthExceptionFilter<PersonService>))]
 [Asp.Versioning.ApiVersion("1")]
-[Route("api/v{version:apiVersion}/[controller]")]
+[Route("api/auth/v{version:apiVersion}/[controller]")]
 [Route("api/auth/[controller]")]
 public class PersonController : ControllerBase
 {

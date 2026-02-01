@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 1/31/2026 2:55 PM. Any changes made to it will be lost.
+// This file was auto-generated on 1/31/2026 7:01 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
@@ -31,10 +31,10 @@ public interface IPersonService
 
 public partial class PersonService : IPersonService
 {
-	private readonly ILogger<IPersonService> _logger;
+	private readonly ILogger<PersonService> _logger;
 	private readonly App1Db _db;
 
-	public PersonService(App1Db db, ILogger<IPersonService> logger)
+	public PersonService(App1Db db, ILogger<PersonService> logger)
 	{
 		_db = db;
 		_logger = logger;
