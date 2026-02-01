@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 1/31/2026 7:01 PM. Any changes made to it will be lost.
+// This file was auto-generated on 2/1/2026 4:43 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Microsoft.EntityFrameworkCore;
 using Dyvenix.App1.Common.Data.Shared.Entities;
@@ -15,8 +15,9 @@ public partial class App1Db : DbContext
 
 	# region Properties
 
-	public DbSet<Person> Person { get; set; }
+	public DbSet<Patient> Patient { get; set; }
 	public DbSet<Invoice> Invoice { get; set; }
+	public DbSet<AppUser> AppUser { get; set; }
 
 	# endregion
 
@@ -24,18 +25,17 @@ public partial class App1Db : DbContext
 	{
 		base.OnModelCreating(modelBuilder);
 
-		#region Person
+		#region Patient
 
-		modelBuilder.Entity<Person>(entity =>
+		modelBuilder.Entity<Patient>(entity =>
 		{
-			entity.ToTable("Person");
+			entity.ToTable("Patient");
 			entity.HasKey(e => e.Id);
 			entity.Property(e => e.FirstName).IsRequired().HasMaxLength(50);
 			entity.Property(e => e.LastName).IsRequired().HasMaxLength(50);
-			entity.Property(e => e.Email).IsRequired().HasMaxLength(50);
-			entity.Property(e => e.NewProperty).IsRequired().HasMaxLength(50);
+			entity.Property(e => e.Email).HasMaxLength(50);
 
-			entity.HasIndex(e => e.Id, "IX_Person_Id").IsUnique();
+			entity.HasIndex(e => e.Id, "IX_Patient_Id").IsUnique();
 		});
 
 		#endregion
@@ -52,6 +52,19 @@ public partial class App1Db : DbContext
 			entity.HasIndex(e => e.Id, "IX_Invoice_Id").IsUnique();
 			entity.HasIndex(e => e.PersonId, "IX_Invoice_PersonId");
 			entity.HasIndex(e => e.Amount, "IX_Invoice_Amount");
+		});
+
+		#endregion
+
+		#region AppUser
+
+		modelBuilder.Entity<AppUser>(entity =>
+		{
+			entity.ToTable("AppUser");
+			entity.HasKey(e => e.Id);
+			entity.Property(e => e.Username).IsRequired().HasMaxLength(50);
+
+			entity.HasIndex(e => e.Id, "IX_AppUser_Id").IsUnique();
 		});
 
 		#endregion

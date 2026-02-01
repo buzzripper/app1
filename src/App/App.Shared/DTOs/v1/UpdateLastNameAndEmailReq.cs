@@ -1,10 +1,10 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 1/31/2026 7:01 PM. Any changes made to it will be lost.
+// This file was auto-generated on 2/1/2026 4:43 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Dyvenix.App1.Common.Shared.Models;
 using Dyvenix.App1.Common.Shared.Exceptions;
 
-namespace Dyvenix.App1.Auth.Shared.DTOs.v1;
+namespace Dyvenix.App1.App.Shared.DTOs.v1;
 
 public class UpdateLastNameAndEmailReq
 {

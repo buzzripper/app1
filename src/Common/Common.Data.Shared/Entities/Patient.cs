@@ -1,10 +1,10 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 1/31/2026 7:01 PM. Any changes made to it will be lost.
+// This file was auto-generated on 2/1/2026 4:43 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 
 namespace Dyvenix.App1.Common.Data.Shared.Entities;
 
-public partial class Person
+public partial class Patient
 {
 	// PK
 	public Guid Id { get; set; }
@@ -12,8 +12,7 @@ public partial class Person
 	// Properties
 	public string LastName { get; set; } = null!;
 	public string FirstName { get; set; } = null!;
-	public string Email { get; set; } = null!;
-	public string NewProperty { get; set; } = null!;
+	public string? Email { get; set; }
 
 	// Navigation Properties
 	public List<Invoice> Invoices { get; set; } = new();
@@ -26,7 +25,6 @@ public partial class Person
 		public const string FirstName = "FirstName";
 		public const string LastName = "LastName";
 		public const string Email = "Email";
-		public const string NewProperty = "NewProperty";
 		public const string Invoices = "Invoices";
 	}
 

@@ -1,0 +1,22 @@
+INSERT INTO dbo.Person (Id, FirstName, LastName, Email)
+VALUES
+(NEWID(), 'John',     'Smith',     'john.smith1@example.com'),
+(NEWID(), 'Jane',     'Doe',       'jane.doe@example.com'),
+(NEWID(), 'Michael',  'Johnson',   'michael.johnson@example.com'),
+(NEWID(), 'Emily',    'Davis',     'emily.davis@example.com'),
+(NEWID(), 'Robert',   'Brown',     'robert.brown@example.com'),
+(NEWID(), 'Linda',    'Wilson',    'linda.wilson@example.com'),
+(NEWID(), 'William',  'Taylor',    'william.taylor@example.com'),
+(NEWID(), 'Susan',    'Anderson',  'susan.anderson@example.com'),
+(NEWID(), 'David',    'Thomas',    'david.thomas@example.com'),
+(NEWID(), 'Karen',    'Moore',     'karen.moore@example.com'),
+(NEWID(), 'James',    'Martin',    'james.martin@example.com'),
+(NEWID(), 'Sarah',    'Jackson',   'sarah.jackson@example.com'),
+(NEWID(), 'Christopher','White',   'chris.white@example.com'),
+(NEWID(), 'Jessica',  'Harris',    'jessica.harris@example.com'),
+(NEWID(), 'Daniel',   'Clark',     'daniel.clark@example.com'),
+(NEWID(), 'Laura',    'Lewis',     'laura.lewis@example.com'),
+(NEWID(), 'Matthew',  'Walker',    'matthew.walker@example.com'),
+(NEWID(), 'Amanda',   'Hall',      'amanda.hall@example.com'),
+(NEWID(), 'Andrew',   'Allen',     'andrew.allen@example.com'),
+(NEWID(), 'Nicole',   'Young',     'nicole.young@example.com');

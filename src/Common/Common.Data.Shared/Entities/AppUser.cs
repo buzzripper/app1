@@ -4,24 +4,20 @@
 
 namespace Dyvenix.App1.Common.Data.Shared.Entities;
 
-public partial class Invoice
+public partial class AppUser
 {
 	// PK
 	public Guid Id { get; set; }
 
-	// FKs
-	public Guid PersonId { get; set; }
-
 	// Properties
-	public decimal Amount { get; set; }
+	public string Username { get; set; } = null!;
 
 	#region PropNames
 
 	public static class PropNames
 	{
 		public const string Id = "Id";
-		public const string PersonId = "PersonId";
-		public const string Amount = "Amount";
+		public const string Username = "Username";
 	}
 
 	#endregion

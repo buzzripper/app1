@@ -7,7 +7,7 @@ using App1.App1.Portal.Server;
 using App1.App1.Portal.Server.Interfaces;
 using App1.App1.Portal.Server.Services;
 using Dyvenix.App1.Common.Api.Extensions;
-using Dyvenix.App1.Portal.Server.Filters;
+using Dyvenix.App1.Common.Api.Filters;
 using Dyvenix.App1.Portal.Server.Logging;
 using Dyvenix.App1.Portal.Server.Services;
 using Yarp.ReverseProxy.Configuration;
@@ -55,7 +55,7 @@ services.AddAntiforgery(options =>
 });
 
 services.AddScoped<IPortalSystemService, PortalSystemService>();
-services.AddScoped<PortalExceptionFilter<PortalSystemService>>();
+services.AddScoped<ApiExceptionFilter<PortalSystemService>>();
 
 services.AddHttpClient();
 services.AddOptions();

@@ -1,7 +1,7 @@
 using App1.App1.Portal.Server;
 using App1.App1.Portal.Server.Interfaces;
+using Dyvenix.App1.Common.Api.Filters;
 using Dyvenix.App1.Common.Shared.DTOs;
-using Dyvenix.App1.Portal.Server.Filters;
 using Dyvenix.App1.Portal.Server.Services;
 
 namespace Dyvenix.App1.Portal.Server.Controllers;
@@ -10,7 +10,7 @@ namespace Dyvenix.App1.Portal.Server.Controllers;
 [Asp.Versioning.ApiVersion("1.0")] // Fully qualified to avoid ambiguity
 [Route("api/portal/v{version:apiVersion}/[controller]")]
 [Route("api/portal/[controller]")] // Fallback route without version
-[ServiceFilter(typeof(PortalExceptionFilter<PortalSystemService>))]
+[ServiceFilter(typeof(ApiExceptionFilter<PortalSystemService>))]
 public class SystemController : ControllerBase
 {
 	private readonly IPortalSystemService _systemService;

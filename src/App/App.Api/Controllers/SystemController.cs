@@ -1,16 +1,15 @@
-using App1.App.Api.Filters;
-using App1.App.Api.Services;
 using App1.App.Shared.Interfaces;
+using Dyvenix.App1.Common.Api.Filters;
 using Dyvenix.App1.Common.Shared.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace App1.App.Api.Controllers;
+namespace Dyvenix.App1.App.Api.Controllers;
 
 [ApiController]
 [Authorize]
-[ServiceFilter(typeof(AppExceptionFilter<AppSystemService>))]
+[ServiceFilter(typeof(ApiExceptionFilter<AppSystemService>))]
 [Asp.Versioning.ApiVersion("1.0")]  // Fully qualified to avoid ambiguity
 [Route("api/app/v{version:apiVersion}/[controller]")]
 [Route("api/app/[controller]")] // Fallback route without version

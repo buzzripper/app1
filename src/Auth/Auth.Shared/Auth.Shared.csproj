@@ -17,7 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="DTOs\v1\" />
     <Folder Include="Queries\" />
+    <Folder Include="Queries\v1\" />
   </ItemGroup>
 
   <ItemGroup>

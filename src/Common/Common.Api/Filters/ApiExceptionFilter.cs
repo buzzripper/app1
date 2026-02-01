@@ -3,20 +3,19 @@ using Dyvenix.App1.Common.Shared.DTOs;
 using Dyvenix.App1.Common.Shared.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Logging;
 
 namespace Dyvenix.App1.Common.Api.Filters;
 
 /// <summary>
 /// Global exception filter that handles unhandled exceptions from controllers.
 /// </summary>
-public abstract class SystemExceptionFilterBase<T> : IExceptionFilter
+public class ApiExceptionFilter<T> : IExceptionFilter
 {
-	protected static string _moduleName;
-
-	private readonly IModuleLogger _logger;
+	private readonly ILogger<T> _logger;
 	private readonly string _sourceClass;
 
-	public SystemExceptionFilterBase(IModuleLogger logger)
+	public ApiExceptionFilter(ILogger<T> logger)
 	{
 		_logger = logger;
 		_sourceClass = typeof(T).Name;
@@ -29,7 +28,7 @@ public abstract class SystemExceptionFilterBase<T> : IExceptionFilter
 		_logger.Error(context.Exception, _sourceClass, sourceMethod);
 
 		var statusCode = MapExceptionToStatusCode(context.Exception);
-		var apiResponse = ApiResponse.Fail(statusCode, context.Exception.GetBaseException().Message);
+		var apiResponse = Response.Fail(statusCode, context.Exception.GetBaseException().Message);
 
 		context.Result = new ObjectResult(apiResponse)
 		{
@@ -55,6 +54,9 @@ public abstract class SystemExceptionFilterBase<T> : IExceptionFilter
 	{
 		if (ex is ValidationException)
 			return 400;
+
+		if (ex is ArgumentNullException)
+			return 404;
 
 		// Default to 500
 		return 500;

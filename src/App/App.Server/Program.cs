@@ -1,5 +1,6 @@
-using App1.App.Api.Extensions;
+using Dyvenix.App1.App.Api.Config;
 using Dyvenix.App1.Common.Api.Extensions;
+using Dyvenix.App1.Common.Data.Config;
 using Dyvenix.App1.Common.Server;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,11 +8,16 @@ var builder = WebApplication.CreateBuilder(args);
 // Add service defaults (telemetry, health checks, resilience)
 builder.AddServiceDefaults();
 
+var dataConfig = DataConfigBuilder.Build(builder.Configuration);
+
 // Add services to the container
 builder.Services.AddControllers();
 builder.Services.AddStandardJwtAuthentication(builder.Configuration);
-builder.Services.AddAppApiServices(false);
+builder.Services.AddAuthApiServices(false);
 builder.Services.AddStandardApiVersioning();
+builder.Services.AddDataServices(dataConfig);
+
+//----------------------------------------------------------------------------------------------
 
 var app = builder.Build();
 
@@ -20,9 +26,7 @@ app.UseStandardApiPipeline();
 
 // Enable API documentation in development
 if (app.Environment.IsDevelopment())
-{
 	app.MapAppApiDocumentation();
-}
 
 app.MapStandardApiEndpoints();
 app.MapDefaultEndpoints();

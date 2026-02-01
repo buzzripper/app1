@@ -2,31 +2,42 @@
 <genItDiagram dslVersion="1.0.0.0" Id="a9222bfb-a70d-45d8-af2e-94e688d79980" absoluteBounds="0, 0, 11, 8.5" name="App1">
   <modelRootMoniker name="/App1" />
   <nestedChildShapes>
-    <classShape Id="d4d9e2e7-9461-451f-ae69-0860097794d2" absoluteBounds="2.125, 1.75, 1.5, 2.5534470705191286">
-      <entityModelMoniker name="/App1/Person" />
+    <classShape Id="d4d9e2e7-9461-451f-ae69-0860097794d2" absoluteBounds="5.375, 1.5, 1.5, 2.3586092817783353">
+      <entityModelMoniker name="/App1/Patient" />
       <nestedChildShapes>
-        <elementListCompartment Id="b58ca957-9a32-4efb-aa3a-8a396a328db5" absoluteBounds="2.14, 2.06, 1.4700000000000002, 1.22738312681516" name="PropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-        <elementListCompartment Id="3ec2332c-0afe-44f3-bf55-7a0f42d52854" absoluteBounds="2.14, 3.29738312681516, 1.4700000000000002, 0.44803197185198462" name="NavPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-        <elementListCompartment Id="e83085cf-72e6-48f7-862a-34cbf60072fa" absoluteBounds="2.14, 3.7554150986671444, 1.4700000000000002, 0.44803197185198451" name="ServiceMethods" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="b58ca957-9a32-4efb-aa3a-8a396a328db5" absoluteBounds="5.3900000000000006, 1.81, 1.4700000000000002, 1.0325453380743661" name="PropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="3ec2332c-0afe-44f3-bf55-7a0f42d52854" absoluteBounds="5.3900000000000006, 2.8525453380743659, 1.4700000000000002, 0.44803197185198473" name="NavPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="e83085cf-72e6-48f7-862a-34cbf60072fa" absoluteBounds="5.3900000000000006, 3.3105773099263507, 1.4700000000000002, 0.44803197185198473" name="ServiceMethods" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <moduleShape Id="768a9db0-6650-43bf-b5fa-8441547ec91d" absoluteBounds="0.625, 0.5, 1.5, 0.375">
       <moduleModelMoniker name="/App1/Auth" />
     </moduleShape>
-    <classShape Id="693f17cb-f950-4a3a-a21d-8bd400763383" absoluteBounds="5.375, 2.375, 1.5, 1.7740959155559537">
+    <classShape Id="693f17cb-f950-4a3a-a21d-8bd400763383" absoluteBounds="8.125, 3.625, 1.5, 1.7740959155559537">
       <entityModelMoniker name="/App1/Invoice" />
       <nestedChildShapes>
-        <elementListCompartment Id="b7df4f7a-cef9-486c-ba6a-d1e0fd85f91d" absoluteBounds="5.3900000000000006, 2.685, 1.4700000000000002, 0.83770754933357239" name="PropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-        <elementListCompartment Id="a87b9130-1bf9-4dec-9e40-e66396aa837a" absoluteBounds="5.39, 3.5327075493335727, 1.4700000000000002, 0.2531941831111908" name="NavPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-        <elementListCompartment Id="bd089687-65de-4021-94e6-898e4ae36937" absoluteBounds="5.39, 3.7959017324447633, 1.4700000000000002, 0.2531941831111908" name="ServiceMethods" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="b7df4f7a-cef9-486c-ba6a-d1e0fd85f91d" absoluteBounds="8.14, 3.9350000000000005, 1.4700000000000002, 0.83770754933357239" name="PropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="a87b9130-1bf9-4dec-9e40-e66396aa837a" absoluteBounds="8.14, 4.7827075493335727, 1.4700000000000002, 0.2531941831111908" name="NavPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="bd089687-65de-4021-94e6-898e4ae36937" absoluteBounds="8.14, 5.0459017324447633, 1.4700000000000002, 0.2531941831111908" name="ServiceMethods" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector Id="73bf5660-eee9-4c89-b8fe-ee6496cec98b" edgePoints="[(3.625 : 3.26204795777798); (5.375 : 3.26204795777798)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector Id="73bf5660-eee9-4c89-b8fe-ee6496cec98b" edgePoints="[(6.875 : 2.5624995); (8.875 : 2.5624995); (8.875 : 3.625)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <associationMoniker Id="5c4cedcc-7881-4ef0-8235-0adc258b2ba2" />
       <nodes>
         <classShapeMoniker Id="d4d9e2e7-9461-451f-ae69-0860097794d2" />
         <classShapeMoniker Id="693f17cb-f950-4a3a-a21d-8bd400763383" />
       </nodes>
     </associationConnector>
+    <moduleShape Id="efb47a98-86b0-4290-ae6e-15992f79e344" absoluteBounds="6.75, 0.5, 1.5, 0.375">
+      <moduleModelMoniker name="/App1/App" />
+    </moduleShape>
+    <classShape Id="6e28f8ac-3569-4b7d-b176-c6418e0dda44" absoluteBounds="0.75, 2.25, 1.5, 1.57925812681516">
+      <entityModelMoniker name="/App1/AppUser" />
+      <nestedChildShapes>
+        <elementListCompartment Id="a55adbd7-a9fc-46a1-991f-c2b990e6b1da" absoluteBounds="0.765, 2.56, 1.4700000000000002, 0.64286976059277845" name="PropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="40481ce1-8c8b-4b7c-92ec-9639c266d25c" absoluteBounds="0.765, 3.2128697605927785, 1.4700000000000002, 0.2531941831111908" name="NavPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="62b2393f-850b-4c9a-a0ac-fd6885143c5e" absoluteBounds="0.765, 3.4760639437039691, 1.4700000000000002, 0.2531941831111908" name="ServiceMethods" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
   </nestedChildShapes>
 </genItDiagram>

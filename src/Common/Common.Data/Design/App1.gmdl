@@ -2,13 +2,12 @@
 <modelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="a05f92bc-4f04-4e80-b2f9-bcdc2d98c182" name="App1" entitiesOutputFolder="src\Common\Common.Data.Shared\Entities" entitiesNamespace="Dyvenix.App1.Common.Data.Shared.Entities" dbContextOutputFolder="src\Common\Common.Data\Context" dbContextNamespace="Dyvenix.App1.Common.Data" enumsOutputFolder="src\Common\Common.Data.Shared\Entities" enumsNamespace="Dyvenix.App1.Common.Data.Shared.Entities" permissions="Permission1|&#xA;Permission2|&#xA;Permission3|" dbContextName="App1Db" usings="Dyvenix.App1.Common.Shared.Models&#xA;Dyvenix.App1.Common.Shared.Exceptions" xmlns="http://schemas.microsoft.com/dsltools/GenIt">
   <types>
     <modelRootHasTypes Id="d8efa44d-a0be-4943-8724-d41966277579">
-      <entityModel Id="7e073b5a-ca06-4e53-b407-5153b99e78fe" name="Person" auditable="false" inclRowVersion="false" module="Auth" enabled="false">
+      <entityModel Id="7e073b5a-ca06-4e53-b407-5153b99e78fe" name="Patient" auditable="false" inclRowVersion="false" module="App" enabled="false">
         <properties>
           <propertyModel Id="ed0af203-8ba4-4652-b270-da257df091d9" name="Id" description="Primary key" dataType="Guid" isPrimaryKey="true" isIndexed="true" isIndexUnique="true" isForeignKey="false" />
           <propertyModel Id="448786a9-ce1a-41ee-bba5-70b4732e2408" name="FirstName" length="50" isForeignKey="false" displayOrder="1" />
           <propertyModel Id="37e3e8e5-d88a-4998-9f22-22b48fbf218a" name="LastName" length="50" isForeignKey="false" />
-          <propertyModel Id="9a81e18e-146d-4e35-b744-7dab01f58f56" name="Email" length="50" isIndexUnique="true" isForeignKey="false" displayOrder="2" />
-          <propertyModel Id="a0661825-ccde-45af-aeeb-ec8db2bc6f33" name="NewProperty" length="50" isForeignKey="false" displayOrder="3" />
+          <propertyModel Id="9a81e18e-146d-4e35-b744-7dab01f58f56" name="Email" length="50" isNullable="true" isIndexUnique="true" isForeignKey="false" displayOrder="2" />
         </properties>
         <navigationProperties>
           <navigationProperty Id="1e4359ef-e624-4d1a-af13-199d54b67be3" name="Invoices" description="Navigation to Invoice" targetEntityName="Invoice" isCollection="true" />
@@ -29,7 +28,7 @@
                         <filterPropertyModel Id="be6b0f2e-e6ee-4e4c-b093-be37b890306c" isOptional="false" isInternal="false">
                           <propertyModel>
                             <filterPropertyModelHasProperty Id="7575a92e-0daf-47e5-b4dc-fc3afdea427a">
-                              <propertyModelMoniker name="/App1/Person/Id" />
+                              <propertyModelMoniker name="/App1/Patient/Id" />
                             </filterPropertyModelHasProperty>
                           </propertyModel>
                         </filterPropertyModel>
@@ -44,7 +43,7 @@
                         <filterPropertyModel Id="ecdcd024-5803-4310-ad47-35475e782852" isOptional="false" isInternal="false">
                           <propertyModel>
                             <filterPropertyModelHasProperty Id="4c18e77d-a222-421e-b253-bacc638771dc">
-                              <propertyModelMoniker name="/App1/Person/Email" />
+                              <propertyModelMoniker name="/App1/Patient/Email" />
                             </filterPropertyModelHasProperty>
                           </propertyModel>
                         </filterPropertyModel>
@@ -53,28 +52,16 @@
                   </readMethodModel>
                 </serviceModelHasReadMethodModels>
                 <serviceModelHasReadMethodModels Id="4a794641-c1e6-4fe0-988a-8d6535dbe60c">
-                  <readMethodModel Id="f680141a-1b5f-45bf-bcae-bfe155583c45" name="ReadMethod3" itemId="b3ed96ad-8fe4-4f5a-82a3-b876c49c9027" inclPaging="true" useQuery="false" inclSorting="false" displayOrder="2">
-                    <filterProperties>
-                      <readMethodModelHasFilterProperties Id="03662a78-6f7e-47a2-94c5-2cd92dcfb924">
-                        <filterPropertyModel Id="f2bb74e7-676f-49e1-a0fc-5e1942499ca5" isOptional="false" isInternal="false">
-                          <propertyModel>
-                            <filterPropertyModelHasProperty Id="d921fa28-dde2-4fa1-ad24-e1fa9d2f2953">
-                              <propertyModelMoniker name="/App1/Person/LastName" />
-                            </filterPropertyModelHasProperty>
-                          </propertyModel>
-                        </filterPropertyModel>
-                      </readMethodModelHasFilterProperties>
-                    </filterProperties>
-                  </readMethodModel>
+                  <readMethodModel Id="f680141a-1b5f-45bf-bcae-bfe155583c45" name="GetAllPaging" itemId="b3ed96ad-8fe4-4f5a-82a3-b876c49c9027" inclPaging="true" useQuery="false" inclSorting="false" displayOrder="2" />
                 </serviceModelHasReadMethodModels>
                 <serviceModelHasReadMethodModels Id="d7d661c2-57f0-4601-9c2a-1a48f87a424d">
-                  <readMethodModel Id="c2684939-a84b-47bf-aba8-fb05d165fb08" name="ReadMethod4" itemId="263f6d8f-26f2-4063-8091-0130b77e6036" inclPaging="true" useQuery="true" inclSorting="false" displayOrder="3">
+                  <readMethodModel Id="c2684939-a84b-47bf-aba8-fb05d165fb08" name="QueryByLastNamePaging" itemId="263f6d8f-26f2-4063-8091-0130b77e6036" inclPaging="true" useQuery="true" inclSorting="false" displayOrder="3">
                     <filterProperties>
                       <readMethodModelHasFilterProperties Id="f1c86d35-c953-4bf8-b562-a60985669b57">
                         <filterPropertyModel Id="0dfedd90-c251-4fe2-b7d8-95bfead20ae7" isOptional="false" isInternal="false">
                           <propertyModel>
                             <filterPropertyModelHasProperty Id="3f1e4853-2dba-4c1b-a31d-ef08adcbb972">
-                              <propertyModelMoniker name="/App1/Person/LastName" />
+                              <propertyModelMoniker name="/App1/Patient/LastName" />
                             </filterPropertyModelHasProperty>
                           </propertyModel>
                         </filterPropertyModel>
@@ -91,7 +78,7 @@
                         <updatePropertyModel Id="86fbe275-976a-4714-adc7-1de6728ee3eb" isOptional="false">
                           <propertyModel>
                             <updatePropertyModelHasPropertyModel Id="11203ffc-e5cc-4d0a-ab15-e9290080147d">
-                              <propertyModelMoniker name="/App1/Person/FirstName" />
+                              <propertyModelMoniker name="/App1/Patient/FirstName" />
                             </updatePropertyModelHasPropertyModel>
                           </propertyModel>
                         </updatePropertyModel>
@@ -106,7 +93,7 @@
                         <updatePropertyModel Id="c0c60c13-9317-4d24-b37b-26b10c3ee6d3" isOptional="false">
                           <propertyModel>
                             <updatePropertyModelHasPropertyModel Id="bc5ce579-2b3c-43fa-a9ec-0647defd4c20">
-                              <propertyModelMoniker name="/App1/Person/LastName" />
+                              <propertyModelMoniker name="/App1/Patient/LastName" />
                             </updatePropertyModelHasPropertyModel>
                           </propertyModel>
                         </updatePropertyModel>
@@ -115,7 +102,7 @@
                         <updatePropertyModel Id="42b50c71-c1b8-4b65-bcc8-a008644aecd6" isOptional="false">
                           <propertyModel>
                             <updatePropertyModelHasPropertyModel Id="ba3d1af7-aa1e-4bff-9481-85e6d397e34a">
-                              <propertyModelMoniker name="/App1/Person/Email" />
+                              <propertyModelMoniker name="/App1/Patient/Email" />
                             </updatePropertyModelHasPropertyModel>
                           </propertyModel>
                         </updatePropertyModel>
@@ -133,11 +120,22 @@
       <moduleModel Id="8bda6b6b-6510-4c24-b586-a36348a1a586" name="Auth" apiRootFolder="src\Auth\Auth.Api" namespace="Dyvenix.App1.Auth.Api" dtoNamespace="Dyvenix.App1.Auth.Shared.DTOs" dtoOutputFolder="src\Auth\Auth.Shared\DTOs" queryNamespace="Dyvenix.App1.Auth.Shared.Queries" queryOutputFolder="src\Auth\Auth.Shared\Queries" />
     </modelRootHasTypes>
     <modelRootHasTypes Id="b7d95ea9-5de9-4935-b2f2-3908a8df42af">
-      <entityModel Id="efc53c38-8d23-4550-b3f9-051e21f54dce" name="Invoice" attributes="Authorize" auditable="false" inclRowVersion="false" module="Auth" enabled="false">
+      <entityModel Id="efc53c38-8d23-4550-b3f9-051e21f54dce" name="Invoice" attributes="Authorize" auditable="false" inclRowVersion="false" module="App" enabled="false">
         <properties>
           <propertyModel Id="0bf2e864-25ed-4184-bedb-9e2da3f52128" name="Id" description="Primary key" dataType="Guid" isPrimaryKey="true" isIndexed="true" isIndexUnique="true" isForeignKey="false" />
           <propertyModel Id="66831d5a-1700-4bea-a548-85ba4a597719" name="PersonId" description="Foreign key to Person" dataType="Guid" isForeignKey="true" />
           <propertyModel Id="b10191ba-b8b5-4f3d-880f-dd753ad2bb44" name="Amount" dataType="Decimal" length="50" isIndexed="true" isForeignKey="false" />
+        </properties>
+      </entityModel>
+    </modelRootHasTypes>
+    <modelRootHasTypes Id="92d4d5b8-2bb5-4af1-a731-e2aa2d4c93d6">
+      <moduleModel Id="df3dc907-3fd4-4ce4-b560-883e96a3efbe" name="App" apiRootFolder="src\App\App.Api" namespace="Dyvenix.App1.App.Api" permissionsStorage="invoce.read&#xA;invoice.write&#xA;admin" dtoNamespace="Dyvenix.App1.App.Shared.DTOs" dtoOutputFolder="src\App\App.Shared\DTOs" queryNamespace="Dyvenix.App1.App.Shared.Queries" queryOutputFolder="src\App\App.Shared\Queires" />
+    </modelRootHasTypes>
+    <modelRootHasTypes Id="a8097145-a7cc-491b-b268-91476a8cf47d">
+      <entityModel Id="5bd2d97c-7645-4147-a381-b43512adfb2e" name="AppUser" auditable="false" inclRowVersion="false" module="Auth" enabled="false">
+        <properties>
+          <propertyModel Id="e4747ff3-cb26-4e74-8950-967ee83dedd2" name="Id" description="Primary key" dataType="Guid" isPrimaryKey="true" isIndexed="true" isIndexUnique="true" isForeignKey="false" />
+          <propertyModel Id="326dbb8b-5c7c-498a-9cd6-063effa7a9ba" name="Username" length="50" isForeignKey="false" />
         </properties>
       </entityModel>
     </modelRootHasTypes>

@@ -44,16 +44,17 @@ public abstract class ApiClientBase
 
 		if (!httpResponse.IsSuccessStatusCode)
 			throw new HttpException((int)httpResponse.StatusCode, $"{(int)httpResponse.StatusCode} - {httpResponse.ReasonPhrase}");
+
 		if (httpResponse.StatusCode == HttpStatusCode.NoContent)
-			return default;
+			return default!;
+
 		var responseString = await httpResponse.Content.ReadAsStringAsync();
 
-		var apiResponse = JsonSerializer.Deserialize<ApiResponse<TResult>>(responseString, _jsonSerializerOptionsGet);
+		var response = JsonSerializer.Deserialize<Response<TResult>>(responseString, _jsonSerializerOptionsGet);
+		if (response is null)
+			return default!;
 
-		if (apiResponse.StatusCode >= 100)
-			throw new ApiException(apiResponse.StatusCode, apiResponse.Message, apiResponse.CorrelationId);
-
-		return apiResponse.Data;
+		return response.Data!;
 	}
 
 	#region Post
@@ -119,7 +120,7 @@ public abstract class ApiClientBase
 	{
 		var responseString = await CallAsyncStr(methodType, uri, payload);
 
-		var apiResponse = JsonSerializer.Deserialize<ApiResponse>(responseString, _jsonSerializerOptionsPost);
+		var apiResponse = JsonSerializer.Deserialize<Response>(responseString, _jsonSerializerOptionsPost);
 
 		if (apiResponse.StatusCode >= 100)
 			throw new ApiException(apiResponse.StatusCode, apiResponse.Message, apiResponse.CorrelationId);
@@ -129,7 +130,7 @@ public abstract class ApiClientBase
 	{
 		var responseString = await CallAsyncStr(methodType, uri, payload);
 
-		var apiResponse = JsonSerializer.Deserialize<ApiResponse<TResult>>(responseString, _jsonSerializerOptionsPost);
+		var apiResponse = JsonSerializer.Deserialize<Response<TResult>>(responseString, _jsonSerializerOptionsPost);
 
 		if (apiResponse.StatusCode >= 100)
 			throw new ApiException(apiResponse.StatusCode, apiResponse.Message, apiResponse.CorrelationId);

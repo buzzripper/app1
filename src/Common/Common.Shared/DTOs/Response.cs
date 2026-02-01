@@ -1,25 +1,25 @@
 ﻿namespace Dyvenix.App1.Common.Shared.DTOs;
 
-public class ApiResponse
+public class Response
 {
 	#region Static
 
-	public static ApiResponse Succeed(string correlationId = null)
+	public static Response Succeed(string correlationId = null)
 	{
-		return new ApiResponse
+		return new Response
 		{
-			Success = true,
+			IsSuccess = true,
 			StatusCode = 0,
 			CorrelationId = correlationId,
 			Message = "Success"
 		};
 	}
 
-	public static ApiResponse Fail(int errorCode, string message)
+	public static Response Fail(int errorCode, string message)
 	{
-		return new ApiResponse
+		return new Response
 		{
-			Success = false,
+			IsSuccess = false,
 			StatusCode = errorCode,
 			Message = message
 		};
@@ -29,31 +29,31 @@ public class ApiResponse
 
 	#region Ctors / Init
 
-	public ApiResponse()
+	public Response()
 	{
-		Success = true;
+		IsSuccess = true;
 		StatusCode = 0;
 		Message = "Success";
 	}
 
-	public ApiResponse(string message) : this()
+	public Response(string message) : this()
 	{
 		Message = message;
 	}
 
-	public ApiResponse(int statusCode, string message)
+	public Response(int statusCode, string message)
 	{
 		StatusCode = statusCode;
 		Message = message;
 	}
 
-	public ApiResponse(string message, string correlationId)
+	public Response(string message, string correlationId)
 	{
 		Message = message;
 		CorrelationId = correlationId;
 	}
 
-	public ApiResponse(int statusCode, string message, string correlationId)
+	public Response(int statusCode, string message, string correlationId)
 	{
 		StatusCode = statusCode;
 		Message = message;
@@ -64,34 +64,35 @@ public class ApiResponse
 
 	#region Properties
 
-	public bool Success { get; set; }
+	public bool IsSuccess { get; init; }
 	public int StatusCode { get; set; }
 	public string Message { get; set; }
+	public string Error { get; set; }
 	public string CorrelationId { get; set; }
 
 	#endregion
 }
 
-public class ApiResponse<T> : ApiResponse
+public class Response<T> : Response
 {
 	#region Static
 
-	new public static ApiResponse<T> Succeed(string correlationId = null)
+	new public static Response<T> Succeed(string correlationId = null)
 	{
-		return new ApiResponse<T>
+		return new Response<T>
 		{
-			Success = true,
+			IsSuccess = true,
 			StatusCode = 0,
 			CorrelationId = correlationId,
 			Message = "Success"
 		};
 	}
 
-	new public static ApiResponse<T> Fail(int errorCode, string message)
+	new public static Response<T> Fail(int errorCode, string message)
 	{
-		return new ApiResponse<T>
+		return new Response<T>
 		{
-			Success = false,
+			IsSuccess = false,
 			StatusCode = errorCode,
 			Message = message
 		};
@@ -99,30 +100,30 @@ public class ApiResponse<T> : ApiResponse
 
 	#endregion
 
-	public ApiResponse()
+	public Response()
 	{
 		StatusCode = 0;
 		Message = "Success";
 	}
 
-	public ApiResponse(string message)
+	public Response(string message)
 	{
 		Message = message;
 	}
 
-	public ApiResponse(int errorCode, string message)
+	public Response(int errorCode, string message)
 	{
 		StatusCode = errorCode;
 		Message = message;
 	}
 
-	public ApiResponse(string message, string correlationId)
+	public Response(string message, string correlationId)
 	{
 		Message = message;
 		CorrelationId = correlationId;
 	}
 
-	public ApiResponse(int errorCode, string message, string correlationId)
+	public Response(int errorCode, string message, string correlationId)
 	{
 		StatusCode = errorCode;
 		Message = message;
@@ -131,7 +132,7 @@ public class ApiResponse<T> : ApiResponse
 
 	#region Properties
 
-	public T Data { get; set; }
+	public T? Data { get; set; }
 
 	#endregion
 }
