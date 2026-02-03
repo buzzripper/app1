@@ -12,6 +12,7 @@
     <File Path=".SolutionItems/AzureDeploymentGuide.md" />
   </Folder>
   <Folder Name="/.SolutionItems/Scripts/">
+    <File Path=".SolutionItems/Scripts/EF Commands.txt" />
     <File Path=".SolutionItems/Scripts/RunAngular.bat" />
   </Folder>
   <Folder Name="/App/">

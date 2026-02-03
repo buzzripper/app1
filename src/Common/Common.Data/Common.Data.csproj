@@ -21,6 +21,7 @@
 
 	<ItemGroup>
 	  <Folder Include="Design\" />
+	  <Folder Include="Migrations\" />
 	</ItemGroup>
 
 	<ItemGroup>

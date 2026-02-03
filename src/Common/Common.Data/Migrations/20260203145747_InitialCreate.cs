@@ -12,18 +12,29 @@ namespace Dyvenix.App1.Common.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Person",
+                name: "AppUser",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Username = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppUser", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Patient",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    NewProperty = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                    Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Person", x => x.Id);
+                    table.PrimaryKey("PK_Patient", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -32,18 +43,25 @@ namespace Dyvenix.App1.Common.Data.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     PersonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Memo = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    PatientId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Invoice", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Invoice_Person_PersonId",
-                        column: x => x.PersonId,
-                        principalTable: "Person",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_Invoice_Patient_PatientId",
+                        column: x => x.PatientId,
+                        principalTable: "Patient",
+                        principalColumn: "Id");
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AppUser_Id",
+                table: "AppUser",
+                column: "Id",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Invoice_Amount",
@@ -57,13 +75,18 @@ namespace Dyvenix.App1.Common.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Invoice_PatientId",
+                table: "Invoice",
+                column: "PatientId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Invoice_PersonId",
                 table: "Invoice",
                 column: "PersonId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Person_Id",
-                table: "Person",
+                name: "IX_Patient_Id",
+                table: "Patient",
                 column: "Id",
                 unique: true);
         }
@@ -72,10 +95,13 @@ namespace Dyvenix.App1.Common.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "AppUser");
+
+            migrationBuilder.DropTable(
                 name: "Invoice");
 
             migrationBuilder.DropTable(
-                name: "Person");
+                name: "Patient");
         }
     }
 }

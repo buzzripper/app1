@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dyvenix.App1.Common.Data.Migrations
 {
     [DbContext(typeof(App1Db))]
-    [Migration("20260130223132_InitialCreate")]
+    [Migration("20260203145747_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -25,6 +25,25 @@ namespace Dyvenix.App1.Common.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Dyvenix.App1.Common.Data.Shared.Entities.AppUser", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex(new[] { "Id" }, "IX_AppUser_Id")
+                        .IsUnique();
+
+                    b.ToTable("AppUser", (string)null);
+                });
+
             modelBuilder.Entity("Dyvenix.App1.Common.Data.Shared.Entities.Invoice", b =>
                 {
                     b.Property<Guid>("Id")
@@ -34,10 +53,20 @@ namespace Dyvenix.App1.Common.Data.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<string>("Memo")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<Guid?>("PatientId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("PersonId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PatientId");
 
                     b.HasIndex(new[] { "Amount" }, "IX_Invoice_Amount");
 
@@ -49,14 +78,13 @@ namespace Dyvenix.App1.Common.Data.Migrations
                     b.ToTable("Invoice", (string)null);
                 });
 
-            modelBuilder.Entity("Dyvenix.App1.Common.Data.Shared.Entities.Person", b =>
+            modelBuilder.Entity("Dyvenix.App1.Common.Data.Shared.Entities.Patient", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -70,29 +98,22 @@ namespace Dyvenix.App1.Common.Data.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("NewProperty")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex(new[] { "Id" }, "IX_Person_Id")
+                    b.HasIndex(new[] { "Id" }, "IX_Patient_Id")
                         .IsUnique();
 
-                    b.ToTable("Person", (string)null);
+                    b.ToTable("Patient", (string)null);
                 });
 
             modelBuilder.Entity("Dyvenix.App1.Common.Data.Shared.Entities.Invoice", b =>
                 {
-                    b.HasOne("Dyvenix.App1.Common.Data.Shared.Entities.Person", null)
+                    b.HasOne("Dyvenix.App1.Common.Data.Shared.Entities.Patient", null)
                         .WithMany("Invoices")
-                        .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PatientId");
                 });
 
-            modelBuilder.Entity("Dyvenix.App1.Common.Data.Shared.Entities.Person", b =>
+            modelBuilder.Entity("Dyvenix.App1.Common.Data.Shared.Entities.Patient", b =>
                 {
                     b.Navigation("Invoices");
                 });

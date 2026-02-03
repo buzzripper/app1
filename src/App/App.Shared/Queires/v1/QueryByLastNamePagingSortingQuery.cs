@@ -6,12 +6,14 @@ using Dyvenix.App1.Common.Shared.Models;
 
 namespace Dyvenix.App1.App.Shared.Queries.v1;
 
-public class QueryByLastNamePagingQuery : IPagingQuery
+public class QueryByLastNamePagingSortingQuery : IPagingQuery, ISortingQuery
 {
 	public int PageSize { get; set; }
 	public int PageOffset { get; set; }
 	public bool RecalcRowCount { get; set; }
 	public bool GetRowCountOnly { get; set; }
+	public string SortBy { get; set; } = null!;
+	public bool SortDesc { get; set; }
 
 	public string LastName { get; set; } = null!;
 }

@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/2/2026 8:28 PM. Any changes made to it will be lost.
+// This file was auto-generated on 2/3/2026 9:41 AM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Dyvenix.App1.Common.Shared.Models;
-using Dyvenix.App1.Common.Shared.Exceptions;
 using Dyvenix.App1.Common.Data.Shared.Entities;
 using Dyvenix.App1.App.Api.Services.v1;
 using Dyvenix.App1.App.Api.Extensions;
@@ -58,10 +57,23 @@ public static class PatientEndpoints
 				.Produces<Guid>(StatusCodes.Status200OK)
 				.Produces(StatusCodes.Status404NotFound);
 			
+			group.MapGet("GetWithInvoices", GetWithInvoices)
+				.Produces<Guid>(StatusCodes.Status200OK)
+				.Produces(StatusCodes.Status404NotFound);
+			
 			group.MapGet("GetAllPaging", GetAllPaging)
 				.Produces<Guid>(StatusCodes.Status200OK);
 			
+			group.MapGet("GetAllSorting", GetAllSorting)
+				.Produces<Guid>(StatusCodes.Status200OK);
+			
 			group.MapPost("QueryByLastNamePaging", QueryByLastNamePaging)
+				.Produces<EntityList<Patient>>(StatusCodes.Status200OK);
+			
+			group.MapPost("QueryByLastNameSorting", QueryByLastNameSorting)
+				.Produces<EntityList<Patient>>(StatusCodes.Status200OK);
+			
+			group.MapPost("QueryByLastNamePagingSorting", QueryByLastNamePagingSorting)
 				.Produces<EntityList<Patient>>(StatusCodes.Status200OK);
 	
 		return app;
@@ -79,7 +91,7 @@ public static class PatientEndpoints
 	
 	#region Delete
 	
-	public static async Task<IResult> DeletePatient(Guid id, IPatientService patientService)
+	public static async Task<IResult> DeletePatient(IPatientService patientService, Guid id)
 	{
 		var result = await patientService.DeletePatient(id);
 		return result.ToHttpResult();
@@ -89,19 +101,19 @@ public static class PatientEndpoints
 
 	#region Updates
 	
-	public static async Task<IResult> UpdatePatient(Patient patient, IPatientService patientService)
+	public static async Task<IResult> UpdatePatient(IPatientService patientService, Patient patient)
 	{
 		var result = await patientService.UpdatePatient(patient);
 		return result.ToHttpResult();
 	}
 	
-	public static async Task<IResult> UpdateFirstName(Guid id, string firstName, IPatientService patientService)
+	public static async Task<IResult> UpdateFirstName(IPatientService patientService, Guid id, string firstName)
 	{
 		var result = await patientService.UpdateFirstName(id, firstName);
 		return result.ToHttpResult();
 	}
 	
-	public static async Task<IResult> UpdateLastNameAndEmail([FromBody] UpdateLastNameAndEmailReq request, IPatientService patientService)
+	public static async Task<IResult> UpdateLastNameAndEmail(IPatientService patientService, [FromBody] UpdateLastNameAndEmailReq request)
 	{
 		var result = await patientService.UpdateLastNameAndEmail(request.Id, request.LastName, request.Email);
 		return result.ToHttpResult();
@@ -117,10 +129,15 @@ public static class PatientEndpoints
 		return result.ToHttpResult();
 	}
 	
-	
 	public static async Task<IResult> GetByEmail(string email, IPatientService patientService)
 	{
 		var result = await patientService.GetByEmail(email);
+		return result.ToHttpResult();
+	}
+	
+	public static async Task<IResult> GetWithInvoices(Guid id, IPatientService patientService)
+	{
+		var result = await patientService.GetWithInvoices(id);
 		return result.ToHttpResult();
 	}
 
@@ -133,6 +150,13 @@ public static class PatientEndpoints
 		var result = await patientService.GetAllPaging(pgSize, pgOffset);
 		return result.ToHttpResult();
 	}
+	
+	
+	public static async Task<IResult> GetAllSorting(IPatientService patientService)
+	{
+		var result = await patientService.GetAllSorting();
+		return result.ToHttpResult();
+	}
 
 	#endregion
 
@@ -141,6 +165,18 @@ public static class PatientEndpoints
 	public static async Task<IResult> QueryByLastNamePaging(IPatientService patientService, [FromBody] QueryByLastNamePagingQuery queryByLastNamePagingQuery)
 	{
 		var result = await patientService.QueryByLastNamePaging(queryByLastNamePagingQuery);
+		return result.ToHttpResult();
+	}
+
+	public static async Task<IResult> QueryByLastNameSorting(IPatientService patientService, [FromBody] QueryByLastNameSortingQuery queryByLastNameSortingQuery)
+	{
+		var result = await patientService.QueryByLastNameSorting(queryByLastNameSortingQuery);
+		return result.ToHttpResult();
+	}
+
+	public static async Task<IResult> QueryByLastNamePagingSorting(IPatientService patientService, [FromBody] QueryByLastNamePagingSortingQuery queryByLastNamePagingSortingQuery)
+	{
+		var result = await patientService.QueryByLastNamePagingSorting(queryByLastNamePagingSortingQuery);
 		return result.ToHttpResult();
 	}
 

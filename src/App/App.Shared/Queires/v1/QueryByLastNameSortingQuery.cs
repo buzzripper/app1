@@ -1,15 +1,15 @@
 //------------------------------------------------------------------------------------------------------------
 // This file was auto-generated on 2/3/2026 9:41 AM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
+using System;
 using Dyvenix.App1.Common.Shared.Models;
 
-namespace Dyvenix.App1.App.Shared.DTOs.v1;
+namespace Dyvenix.App1.App.Shared.Queries.v1;
 
-public class UpdateLastNameAndEmailReq
+public class QueryByLastNameSortingQuery : ISortingQuery
 {
-	public Guid Id { get; set; }
+	public string SortBy { get; set; } = null!;
+	public bool SortDesc { get; set; }
 
-	// Required properties
-	public string LastName { get; set; }
-	public string Email { get; set; }
+	public string LastName { get; set; } = null!;
 }

@@ -9,12 +9,12 @@
 
 		public EntityList(IEnumerable<T> entityList)
 		{
-			Data.AddRange(entityList);
+			Items.AddRange(entityList);
 		}
 
 		#endregion
 
-		public List<T> Data { get; set; } = new List<T>();
+		public List<T> Items { get; set; } = new List<T>();
 		public int TotalRowCount { get; set; }
 	}
 }

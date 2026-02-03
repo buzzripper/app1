@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/2/2026 8:28 PM. Any changes made to it will be lost.
+// This file was auto-generated on 2/3/2026 9:41 AM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Microsoft.EntityFrameworkCore;
 using Dyvenix.App1.Common.Data.Shared.Entities;
@@ -48,6 +48,7 @@ public partial class App1Db : DbContext
 			entity.HasKey(e => e.Id);
 			entity.Property(e => e.PersonId).IsRequired();
 			entity.Property(e => e.Amount).IsRequired();
+			entity.Property(e => e.Memo).IsRequired().HasMaxLength(200);
 
 			entity.HasIndex(e => e.Id, "IX_Invoice_Id").IsUnique();
 			entity.HasIndex(e => e.PersonId, "IX_Invoice_PersonId");
