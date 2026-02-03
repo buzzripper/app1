@@ -21,7 +21,7 @@
         <elementListCompartment Id="bd089687-65de-4021-94e6-898e4ae36937" absoluteBounds="8.14, 5.2407395211855565, 1.4700000000000002, 0.44803197185198462" name="ServiceMethods" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector Id="73bf5660-eee9-4c89-b8fe-ee6496cec98b" edgePoints="[(6.875 : 3.83922353525956); (8.125 : 3.83922353525956)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector Id="73bf5660-eee9-4c89-b8fe-ee6496cec98b" edgePoints="[(6.875 : 3.83922353525956); (8.125 : 3.83922353525956)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <associationMoniker Id="5c4cedcc-7881-4ef0-8235-0adc258b2ba2" />
       <nodes>
         <classShapeMoniker Id="d4d9e2e7-9461-451f-ae69-0860097794d2" />

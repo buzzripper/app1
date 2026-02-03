@@ -35,7 +35,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\v1\" />
     <Folder Include="Services\v1\" />
   </ItemGroup>
 

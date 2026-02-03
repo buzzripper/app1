@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/3/2026 9:41 AM. Any changes made to it will be lost.
+// This file was auto-generated on 2/3/2026 5:33 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Dyvenix.App1.Common.Shared.Models;
 using Dyvenix.App1.Common.Data.Shared.Entities;
 using Dyvenix.App1.Common.Data;
+using Dyvenix.App1.Auth.Shared.Requests.v1;
 
 namespace Dyvenix.App1.Auth.Api.Services.v1;
 
@@ -20,6 +21,7 @@ public interface IAppUserService
 	Task<Result> UpdateAppUser(AppUser appUser);
 	Task<Result> UpdateUsername(Guid id, string username);
 	Task<Result<AppUser>> GetById(Guid id);
+	Task<Result<List<AppUser>>>ReqByUsername(ReqByUsernameReq request);
 }
 
 public partial class AppUserService : IAppUserService
@@ -122,5 +124,26 @@ public partial class AppUserService : IAppUserService
 		return Result<AppUser>.Ok(appUser);
 	}
 	
+	#endregion
+
+	#region Query Methods
+
+	public async Task<Result<List<AppUser>>>ReqByUsername(ReqByUsernameReq request)
+	{
+		IQueryable<AppUser> dbQuery = _db.AppUser.AsNoTracking();
+
+		// Filters
+		if (!string.IsNullOrWhiteSpace(request.Username))
+		{
+			var pattern = $"%{request.Username}%";
+			dbQuery = dbQuery.Where(x => EF.Functions.Like(x.Username, pattern));
+		}
+
+		// Data
+		var data = await dbQuery.ToListAsync();
+
+		return Result<List<AppUser>>.Ok(data);
+	}
+
 	#endregion
 }

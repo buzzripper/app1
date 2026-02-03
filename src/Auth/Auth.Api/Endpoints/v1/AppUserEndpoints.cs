@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/3/2026 9:41 AM. Any changes made to it will be lost.
+// This file was auto-generated on 2/3/2026 5:33 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
@@ -11,6 +11,7 @@ using Dyvenix.App1.Common.Data.Shared.Entities;
 using Dyvenix.App1.Auth.Api.Services.v1;
 using Dyvenix.App1.Auth.Api.Extensions;
 using Dyvenix.App1.Common.Api.Filters;
+using Dyvenix.App1.Auth.Shared.Requests.v1;
 
 namespace Dyvenix.App1.Auth.Api.Controllers.v1;
 
@@ -43,6 +44,9 @@ public static class AppUserEndpoints
 			group.MapGet("GetById", GetById)
 				.Produces<Guid>(StatusCodes.Status200OK)
 				.Produces(StatusCodes.Status404NotFound);
+			
+			group.MapPost("ReqByUsername", ReqByUsername)
+				.Produces<EntityList<AppUser>>(StatusCodes.Status200OK);
 	
 		return app;
 	}
@@ -88,6 +92,17 @@ public static class AppUserEndpoints
 	public static async Task<IResult> GetById(Guid id, IAppUserService appUserService)
 	{
 		var result = await appUserService.GetById(id);
+		return result.ToHttpResult();
+	}
+
+	#endregion
+
+	#region Request Methods
+
+
+	public static async Task<IResult> ReqByUsername(IAppUserService appUserService, [FromBody] ReqByUsernameRequest reqByUsernameRequest)
+	{
+		var result = await appUserService.ReqByUsername(reqByUsernameRequest);
 		return result.ToHttpResult();
 	}
 

@@ -1,6 +1,6 @@
 ﻿namespace Dyvenix.App1.Common.Shared.Models;
 
-public interface IPagingQuery
+public interface IPagingRequest
 {
 	int PageOffset { get; set; }
 	int PageSize { get; set; }

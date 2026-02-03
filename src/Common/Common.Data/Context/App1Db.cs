@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/3/2026 9:41 AM. Any changes made to it will be lost.
+// This file was auto-generated on 2/3/2026 5:33 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Microsoft.EntityFrameworkCore;
 using Dyvenix.App1.Common.Data.Shared.Entities;
@@ -34,6 +34,7 @@ public partial class App1Db : DbContext
 			entity.Property(e => e.FirstName).IsRequired().HasMaxLength(50);
 			entity.Property(e => e.LastName).IsRequired().HasMaxLength(50);
 			entity.Property(e => e.Email).HasMaxLength(50);
+			entity.Property(e => e.IsActive).IsRequired();
 
 			entity.HasIndex(e => e.Id, "IX_Patient_Id").IsUnique();
 		});

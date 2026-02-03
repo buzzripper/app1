@@ -28,6 +28,8 @@
 
   <ItemGroup>
     <Folder Include="Endpoints\" />
+    <Folder Include="Endpoints\v1\" />
+    <Folder Include="Services\v1\" />
   </ItemGroup>
 
 </Project>

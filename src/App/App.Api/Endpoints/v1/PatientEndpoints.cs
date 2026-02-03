@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/3/2026 9:41 AM. Any changes made to it will be lost.
+// This file was auto-generated on 2/3/2026 5:33 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
@@ -12,7 +12,7 @@ using Dyvenix.App1.App.Api.Services.v1;
 using Dyvenix.App1.App.Api.Extensions;
 using Dyvenix.App1.Common.Api.Filters;
 using Dyvenix.App1.App.Shared.DTOs.v1;
-using Dyvenix.App1.App.Shared.Queries.v1;
+using Dyvenix.App1.App.Shared.Requests.v1;
 
 namespace Dyvenix.App1.App.Api.Controllers.v1;
 
@@ -57,15 +57,19 @@ public static class PatientEndpoints
 				.Produces<Guid>(StatusCodes.Status200OK)
 				.Produces(StatusCodes.Status404NotFound);
 			
-			group.MapGet("GetWithInvoices", GetWithInvoices)
+			group.MapGet("GetByIdWithInvoices", GetByIdWithInvoices)
 				.Produces<Guid>(StatusCodes.Status200OK)
 				.Produces(StatusCodes.Status404NotFound);
 			
-			group.MapGet("GetAllPaging", GetAllPaging)
+			group.MapGet("ReqByEmail", ReqByEmail)
+				.Produces<Guid>(StatusCodes.Status200OK)
+				.Produces(StatusCodes.Status404NotFound);
+			
+			group.MapGet("GetActive", GetActive)
 				.Produces<Guid>(StatusCodes.Status200OK);
 			
-			group.MapGet("GetAllSorting", GetAllSorting)
-				.Produces<Guid>(StatusCodes.Status200OK);
+			group.MapPost("GetAllPaging", GetAllPaging)
+				.Produces<EntityList<Patient>>(StatusCodes.Status200OK);
 			
 			group.MapPost("QueryByLastNamePaging", QueryByLastNamePaging)
 				.Produces<EntityList<Patient>>(StatusCodes.Status200OK);
@@ -74,6 +78,15 @@ public static class PatientEndpoints
 				.Produces<EntityList<Patient>>(StatusCodes.Status200OK);
 			
 			group.MapPost("QueryByLastNamePagingSorting", QueryByLastNamePagingSorting)
+				.Produces<EntityList<Patient>>(StatusCodes.Status200OK);
+			
+			group.MapPost("GetAllSorting", GetAllSorting)
+				.Produces<EntityList<Patient>>(StatusCodes.Status200OK);
+			
+			group.MapPost("QueryByLastEmailOpt", QueryByLastEmailOpt)
+				.Produces<EntityList<Patient>>(StatusCodes.Status200OK);
+			
+			group.MapPost("GetAllPagingSorting", GetAllPagingSorting)
 				.Produces<EntityList<Patient>>(StatusCodes.Status200OK);
 	
 		return app;
@@ -135,9 +148,15 @@ public static class PatientEndpoints
 		return result.ToHttpResult();
 	}
 	
-	public static async Task<IResult> GetWithInvoices(Guid id, IPatientService patientService)
+	public static async Task<IResult> GetByIdWithInvoices(Guid id, IPatientService patientService)
 	{
-		var result = await patientService.GetWithInvoices(id);
+		var result = await patientService.GetByIdWithInvoices(id);
+		return result.ToHttpResult();
+	}
+	
+	public static async Task<IResult> ReqByEmail(string email, IPatientService patientService)
+	{
+		var result = await patientService.ReqByEmail(email);
 		return result.ToHttpResult();
 	}
 
@@ -145,38 +164,56 @@ public static class PatientEndpoints
 
 	#region Read Methods - List
 	
-	public static async Task<IResult> GetAllPaging(IPatientService patientService, [FromQuery] int pgSize = 0, [FromQuery] int pgOffset = 0)
+	public static async Task<IResult> GetActive(IPatientService patientService)
 	{
-		var result = await patientService.GetAllPaging(pgSize, pgOffset);
-		return result.ToHttpResult();
-	}
-	
-	
-	public static async Task<IResult> GetAllSorting(IPatientService patientService)
-	{
-		var result = await patientService.GetAllSorting();
+		var result = await patientService.GetActive();
 		return result.ToHttpResult();
 	}
 
 	#endregion
 
-	#region Query Methods
+	#region Request Methods
 
-	public static async Task<IResult> QueryByLastNamePaging(IPatientService patientService, [FromBody] QueryByLastNamePagingQuery queryByLastNamePagingQuery)
+
+	public static async Task<IResult> GetAllPaging(IPatientService patientService, [FromBody] GetAllPagingRequest getAllPagingRequest)
 	{
-		var result = await patientService.QueryByLastNamePaging(queryByLastNamePagingQuery);
+		var result = await patientService.GetAllPaging(getAllPagingRequest);
 		return result.ToHttpResult();
 	}
 
-	public static async Task<IResult> QueryByLastNameSorting(IPatientService patientService, [FromBody] QueryByLastNameSortingQuery queryByLastNameSortingQuery)
+	public static async Task<IResult> QueryByLastNamePaging(IPatientService patientService, [FromBody] QueryByLastNamePagingRequest queryByLastNamePagingRequest)
 	{
-		var result = await patientService.QueryByLastNameSorting(queryByLastNameSortingQuery);
+		var result = await patientService.QueryByLastNamePaging(queryByLastNamePagingRequest);
 		return result.ToHttpResult();
 	}
 
-	public static async Task<IResult> QueryByLastNamePagingSorting(IPatientService patientService, [FromBody] QueryByLastNamePagingSortingQuery queryByLastNamePagingSortingQuery)
+	public static async Task<IResult> QueryByLastNameSorting(IPatientService patientService, [FromBody] QueryByLastNameSortingRequest queryByLastNameSortingRequest)
 	{
-		var result = await patientService.QueryByLastNamePagingSorting(queryByLastNamePagingSortingQuery);
+		var result = await patientService.QueryByLastNameSorting(queryByLastNameSortingRequest);
+		return result.ToHttpResult();
+	}
+
+	public static async Task<IResult> QueryByLastNamePagingSorting(IPatientService patientService, [FromBody] QueryByLastNamePagingSortingRequest queryByLastNamePagingSortingRequest)
+	{
+		var result = await patientService.QueryByLastNamePagingSorting(queryByLastNamePagingSortingRequest);
+		return result.ToHttpResult();
+	}
+
+	public static async Task<IResult> GetAllSorting(IPatientService patientService, [FromBody] GetAllSortingRequest getAllSortingRequest)
+	{
+		var result = await patientService.GetAllSorting(getAllSortingRequest);
+		return result.ToHttpResult();
+	}
+
+	public static async Task<IResult> QueryByLastEmailOpt(IPatientService patientService, [FromBody] QueryByLastEmailOptRequest queryByLastEmailOptRequest)
+	{
+		var result = await patientService.QueryByLastEmailOpt(queryByLastEmailOptRequest);
+		return result.ToHttpResult();
+	}
+
+	public static async Task<IResult> GetAllPagingSorting(IPatientService patientService, [FromBody] GetAllPagingSortingRequest getAllPagingSortingRequest)
+	{
+		var result = await patientService.GetAllPagingSorting(getAllPagingSortingRequest);
 		return result.ToHttpResult();
 	}
 

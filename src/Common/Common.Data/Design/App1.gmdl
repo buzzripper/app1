@@ -23,7 +23,7 @@
             <serviceModel Id="c81b98fa-64fa-4c53-b008-21153ff3b25f" name="ServiceModel1" inclCreate="true" inclUpdate="true" inclDelete="true" version="1" createPermissions="Permission1,Permission2" updatePermissions="Permission2" deletePermissions="Permission3">
               <readMethods>
                 <serviceModelHasReadMethodModels Id="dbf1f6c3-3c28-4bd1-a949-41bb642d5d77">
-                  <readMethodModel Id="92ad72f2-6aef-4b5d-9db5-b470085b7b58" name="GetById" itemId="ce7c841e-cedd-481d-8d30-98b0ea8aed37" inclPaging="false" useQuery="false" inclSorting="false" displayOrder="0">
+                  <readMethodModel Id="92ad72f2-6aef-4b5d-9db5-b470085b7b58" name="GetById" itemId="ce7c841e-cedd-481d-8d30-98b0ea8aed37" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="0">
                     <filterProperties>
                       <readMethodModelHasFilterProperties Id="39f8066d-103b-4b4c-9d6f-38b4150e13aa">
                         <filterPropertyModel Id="be6b0f2e-e6ee-4e4c-b093-be37b890306c" isOptional="false" isInternal="false">
@@ -38,7 +38,7 @@
                   </readMethodModel>
                 </serviceModelHasReadMethodModels>
                 <serviceModelHasReadMethodModels Id="d6b1e065-18b5-4285-b26c-3a2510b149ee">
-                  <readMethodModel Id="beeeb9e9-ee66-43a7-99d4-499c00cc31f1" name="GetByEmail" itemId="61431ff3-e00d-4e4b-a360-6dcf0df3414b" inclPaging="false" useQuery="false" inclSorting="false" displayOrder="1">
+                  <readMethodModel Id="beeeb9e9-ee66-43a7-99d4-499c00cc31f1" name="GetByEmail" itemId="61431ff3-e00d-4e4b-a360-6dcf0df3414b" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="2">
                     <filterProperties>
                       <readMethodModelHasFilterProperties Id="51d25c93-414a-4376-83fc-15f81d8ffcb8">
                         <filterPropertyModel Id="ecdcd024-5803-4310-ad47-35475e782852" isOptional="false" isInternal="false">
@@ -53,10 +53,10 @@
                   </readMethodModel>
                 </serviceModelHasReadMethodModels>
                 <serviceModelHasReadMethodModels Id="4a794641-c1e6-4fe0-988a-8d6535dbe60c">
-                  <readMethodModel Id="f680141a-1b5f-45bf-bcae-bfe155583c45" name="GetAllPaging" itemId="b3ed96ad-8fe4-4f5a-82a3-b876c49c9027" inclPaging="true" useQuery="false" inclSorting="false" displayOrder="3" />
+                  <readMethodModel Id="f680141a-1b5f-45bf-bcae-bfe155583c45" name="GetAllPaging" itemId="b3ed96ad-8fe4-4f5a-82a3-b876c49c9027" inclPaging="false" useRequest="true" inclSorting="false" displayOrder="4" />
                 </serviceModelHasReadMethodModels>
                 <serviceModelHasReadMethodModels Id="d7d661c2-57f0-4601-9c2a-1a48f87a424d">
-                  <readMethodModel Id="c2684939-a84b-47bf-aba8-fb05d165fb08" name="QueryByLastNamePaging" itemId="263f6d8f-26f2-4063-8091-0130b77e6036" inclPaging="true" useQuery="true" inclSorting="false" displayOrder="5">
+                  <readMethodModel Id="c2684939-a84b-47bf-aba8-fb05d165fb08" name="QueryByLastNamePaging" itemId="263f6d8f-26f2-4063-8091-0130b77e6036" inclPaging="true" useRequest="true" inclSorting="false" displayOrder="7">
                     <filterProperties>
                       <readMethodModelHasFilterProperties Id="f1c86d35-c953-4bf8-b562-a60985669b57">
                         <filterPropertyModel Id="0dfedd90-c251-4fe2-b7d8-95bfead20ae7" isOptional="false" isInternal="false">
@@ -71,7 +71,7 @@
                   </readMethodModel>
                 </serviceModelHasReadMethodModels>
                 <serviceModelHasReadMethodModels Id="d8668327-82d4-4f1a-8625-918b25411da6">
-                  <readMethodModel Id="0c0f2a30-e152-4a05-b3bb-407133a42636" name="QueryByLastNameSorting" itemId="5f88da37-2969-406a-a9ca-e0f695811423" inclPaging="false" useQuery="true" inclSorting="true" displayOrder="6">
+                  <readMethodModel Id="0c0f2a30-e152-4a05-b3bb-407133a42636" name="QueryByLastNameSorting" itemId="5f88da37-2969-406a-a9ca-e0f695811423" inclPaging="false" useRequest="true" inclSorting="true" displayOrder="8">
                     <filterProperties>
                       <readMethodModelHasFilterProperties Id="b4fbd538-6495-41db-9bcb-aed7983df468">
                         <filterPropertyModel Id="84cb3583-f5db-4e3e-af13-f3acde9fb63b" isOptional="false" isInternal="false">
@@ -86,7 +86,7 @@
                   </readMethodModel>
                 </serviceModelHasReadMethodModels>
                 <serviceModelHasReadMethodModels Id="75185eb5-a358-417b-ad91-3f0ab1a5dc39">
-                  <readMethodModel Id="8f7839f0-69af-4ecd-afc1-21740c915d50" name="QueryByLastNamePagingSorting" itemId="9d238c08-62be-49cb-b638-51a8d48fc791" inclPaging="true" useQuery="true" inclSorting="true" displayOrder="7">
+                  <readMethodModel Id="8f7839f0-69af-4ecd-afc1-21740c915d50" name="QueryByLastNamePagingSorting" itemId="9d238c08-62be-49cb-b638-51a8d48fc791" inclPaging="true" useRequest="true" inclSorting="true" displayOrder="9">
                     <filterProperties>
                       <readMethodModelHasFilterProperties Id="ee7bce1a-9340-4bba-89d3-94fbcdeafc68">
                         <filterPropertyModel Id="41b1bf07-af30-4fb4-9e12-241605662d63" isOptional="false" isInternal="false">
@@ -101,7 +101,7 @@
                   </readMethodModel>
                 </serviceModelHasReadMethodModels>
                 <serviceModelHasReadMethodModels Id="4de6294a-ed0a-4dbc-ae2a-0c14ce25cdc2">
-                  <readMethodModel Id="c865d13a-ad6c-453a-a5f2-ea4a417759dc" name="GetWithInvoices" itemId="23e5b02c-94c5-4432-a63a-482c8a5e3fce" inclPaging="false" useQuery="false" inclSorting="false" displayOrder="2" inclNavProperties="Invoices">
+                  <readMethodModel Id="c865d13a-ad6c-453a-a5f2-ea4a417759dc" name="GetByIdWithInvoices" itemId="23e5b02c-94c5-4432-a63a-482c8a5e3fce" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="1" inclNavProperties="Invoices">
                     <filterProperties>
                       <readMethodModelHasFilterProperties Id="5cd28a4c-86cf-4615-b84f-2374c1ccac84">
                         <filterPropertyModel Id="4fe8b451-2fac-420a-a012-3b69929ca69b" isOptional="false" isInternal="false">
@@ -116,7 +116,64 @@
                   </readMethodModel>
                 </serviceModelHasReadMethodModels>
                 <serviceModelHasReadMethodModels Id="9e4fbee7-67e0-4d4a-841f-29c4678bbdb7">
-                  <readMethodModel Id="e23e3581-d116-45bc-82b3-7083342b8ab5" name="GetAllSorting" itemId="3ebaa079-aad3-4f6e-87f4-8294015848a3" inclPaging="false" useQuery="false" inclSorting="true" displayOrder="4" />
+                  <readMethodModel Id="e23e3581-d116-45bc-82b3-7083342b8ab5" name="GetAllSorting" itemId="3ebaa079-aad3-4f6e-87f4-8294015848a3" inclPaging="false" useRequest="true" inclSorting="true" displayOrder="6" />
+                </serviceModelHasReadMethodModels>
+                <serviceModelHasReadMethodModels Id="4f982d6f-0e3c-4b66-a8f1-8f48244da474">
+                  <readMethodModel Id="34c14d0d-57e3-4b2b-a94b-6722c477b46c" name="QueryByLastEmailOpt" itemId="2ca8c12d-a059-4629-b06e-5e4cf0ee2a14" inclPaging="false" useRequest="true" inclSorting="false" displayOrder="10">
+                    <filterProperties>
+                      <readMethodModelHasFilterProperties Id="ca5ef643-4562-4c7c-bc31-da0e68af55f8">
+                        <filterPropertyModel Id="239e3a34-0fb6-4f70-a9a0-4c0e8b405e6e" isOptional="false" isInternal="false">
+                          <propertyModel>
+                            <filterPropertyModelHasProperty Id="11687b92-e49b-4273-9429-6ded832a603f">
+                              <propertyModelMoniker name="/App1/Patient/LastName" />
+                            </filterPropertyModelHasProperty>
+                          </propertyModel>
+                        </filterPropertyModel>
+                      </readMethodModelHasFilterProperties>
+                      <readMethodModelHasFilterProperties Id="0491968d-abfc-4c40-81b2-e754d290e149">
+                        <filterPropertyModel Id="617385ca-88b2-4ab0-b64b-77e442859535" isOptional="true" isInternal="false">
+                          <propertyModel>
+                            <filterPropertyModelHasProperty Id="17724327-605d-42d2-badd-d2b43ed39e6b">
+                              <propertyModelMoniker name="/App1/Patient/Email" />
+                            </filterPropertyModelHasProperty>
+                          </propertyModel>
+                        </filterPropertyModel>
+                      </readMethodModelHasFilterProperties>
+                    </filterProperties>
+                  </readMethodModel>
+                </serviceModelHasReadMethodModels>
+                <serviceModelHasReadMethodModels Id="12b93bea-372c-4593-a282-f58ac7245e16">
+                  <readMethodModel Id="4f8e29bb-4303-4010-8667-bee46b21ca0f" name="ReqByEmail" itemId="5ad05855-19b8-4b4a-b5ee-0c6ad426230f" inclPaging="false" useRequest="true" inclSorting="false" displayOrder="3">
+                    <filterProperties>
+                      <readMethodModelHasFilterProperties Id="3b29a62a-6eab-4174-b615-55131e249323">
+                        <filterPropertyModel Id="2b4ba2aa-5c0c-41e1-a26f-8c1bd82dfade" isOptional="false" isInternal="false">
+                          <propertyModel>
+                            <filterPropertyModelHasProperty Id="7560136f-7371-48ee-99aa-767524a9fb87">
+                              <propertyModelMoniker name="/App1/Patient/Email" />
+                            </filterPropertyModelHasProperty>
+                          </propertyModel>
+                        </filterPropertyModel>
+                      </readMethodModelHasFilterProperties>
+                    </filterProperties>
+                  </readMethodModel>
+                </serviceModelHasReadMethodModels>
+                <serviceModelHasReadMethodModels Id="0ac374d6-e502-4514-8c7b-dd49c1a7abed">
+                  <readMethodModel Id="1c68214d-79e1-4e15-8ea6-5729c140a343" name="GetActive" itemId="3cdc4acd-f98e-41df-b237-ad09539da826" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="11">
+                    <filterProperties>
+                      <readMethodModelHasFilterProperties Id="d1d30e2c-444d-470c-aaf8-f97df1fa96fc">
+                        <filterPropertyModel Id="4e8ca4a6-e298-48d0-9321-ffb5073c8025" isOptional="false" isInternal="true" internalValue="true">
+                          <propertyModel>
+                            <filterPropertyModelHasProperty Id="522a6477-204c-486c-b26f-3fb63af93eca">
+                              <propertyModelMoniker name="/App1/Patient/IsActive" />
+                            </filterPropertyModelHasProperty>
+                          </propertyModel>
+                        </filterPropertyModel>
+                      </readMethodModelHasFilterProperties>
+                    </filterProperties>
+                  </readMethodModel>
+                </serviceModelHasReadMethodModels>
+                <serviceModelHasReadMethodModels Id="e0f83a6f-7067-428e-8ca6-a6a64adfa187">
+                  <readMethodModel Id="6cfd7224-6aad-4e3e-af64-0aacb37074d3" name="GetAllPagingSorting" itemId="d81e0d2a-01d3-45e4-b950-4a852f9daf7d" inclPaging="true" useRequest="true" inclSorting="true" displayOrder="5" />
                 </serviceModelHasReadMethodModels>
               </readMethods>
               <updateMethods>
@@ -166,7 +223,7 @@
       </entityModel>
     </modelRootHasTypes>
     <modelRootHasTypes Id="7e24eceb-adee-494e-b8b2-9b32679d2333">
-      <moduleModel Id="8bda6b6b-6510-4c24-b586-a36348a1a586" name="Auth" apiRootFolder="src\Auth\Auth.Api" namespace="Dyvenix.App1.Auth.Api" dtoNamespace="Dyvenix.App1.Auth.Shared.DTOs" dtoOutputFolder="src\Auth\Auth.Shared\DTOs" queryNamespace="Dyvenix.App1.Auth.Shared.Queries" queryOutputFolder="src\Auth\Auth.Shared\Queries" />
+      <moduleModel Id="8bda6b6b-6510-4c24-b586-a36348a1a586" name="Auth" apiRootFolder="src\Auth\Auth.Api" namespace="Dyvenix.App1.Auth.Api" dtoNamespace="Dyvenix.App1.Auth.Shared.DTOs" dtoOutputFolder="src\Auth\Auth.Shared\DTOs" requestNamespace="Dyvenix.App1.Auth.Shared.Requests" requestOutputFolder="src\Auth\Auth.Shared\Requests" />
     </modelRootHasTypes>
     <modelRootHasTypes Id="b7d95ea9-5de9-4935-b2f2-3908a8df42af">
       <entityModel Id="efc53c38-8d23-4550-b3f9-051e21f54dce" name="Invoice" attributes="Authorize" auditable="false" inclRowVersion="false" module="App" enabled="false">
@@ -181,7 +238,7 @@
             <serviceModel Id="2b2f477f-5368-40b0-83ec-595ab0484f9a" name="ServiceModel1" inclCreate="true" inclUpdate="false" inclDelete="true" version="1">
               <readMethods>
                 <serviceModelHasReadMethodModels Id="18d61036-a234-4312-aa0b-e8388076e335">
-                  <readMethodModel Id="36c23ce7-0ccf-4ca0-bbf8-f757b3a7efb2" name="GetById" itemId="b9cfb217-c3a6-45ce-8d00-af95607f0c49" inclPaging="false" useQuery="false" inclSorting="false" displayOrder="0">
+                  <readMethodModel Id="36c23ce7-0ccf-4ca0-bbf8-f757b3a7efb2" name="GetById" itemId="b9cfb217-c3a6-45ce-8d00-af95607f0c49" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="0">
                     <filterProperties>
                       <readMethodModelHasFilterProperties Id="5f559d62-7752-4425-9fca-8475bff219e6">
                         <filterPropertyModel Id="f6fbaf25-d8e5-495a-826c-e95b42c60d12" isOptional="false" isInternal="false">
@@ -196,7 +253,7 @@
                   </readMethodModel>
                 </serviceModelHasReadMethodModels>
                 <serviceModelHasReadMethodModels Id="2ba0f74a-8070-41cc-a406-c2ee64fed225">
-                  <readMethodModel Id="003e43a4-8fff-4bf8-9614-f58260afa6b4" name="QueryByMemo" itemId="c2bd307b-8039-45bb-974c-68ae2136dafb" inclPaging="false" useQuery="false" inclSorting="false" displayOrder="1">
+                  <readMethodModel Id="003e43a4-8fff-4bf8-9614-f58260afa6b4" name="QueryByMemo" itemId="c2bd307b-8039-45bb-974c-68ae2136dafb" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="1">
                     <filterProperties>
                       <readMethodModelHasFilterProperties Id="766c1dd1-aefa-4131-bbd2-52ddc1bf23f1">
                         <filterPropertyModel Id="03b99dde-02c2-4643-ac68-709c51841acc" isOptional="false" isInternal="false">
@@ -234,7 +291,7 @@
       </entityModel>
     </modelRootHasTypes>
     <modelRootHasTypes Id="92d4d5b8-2bb5-4af1-a731-e2aa2d4c93d6">
-      <moduleModel Id="df3dc907-3fd4-4ce4-b560-883e96a3efbe" name="App" apiRootFolder="src\App\App.Api" namespace="Dyvenix.App1.App.Api" permissionsStorage="invoce.read&#xA;invoice.write&#xA;admin" dtoNamespace="Dyvenix.App1.App.Shared.DTOs" dtoOutputFolder="src\App\App.Shared\DTOs" queryNamespace="Dyvenix.App1.App.Shared.Queries" queryOutputFolder="src\App\App.Shared\Queries" />
+      <moduleModel Id="df3dc907-3fd4-4ce4-b560-883e96a3efbe" name="App" apiRootFolder="src\App\App.Api" namespace="Dyvenix.App1.App.Api" permissionsStorage="invoce.read&#xA;invoice.write&#xA;admin" dtoNamespace="Dyvenix.App1.App.Shared.DTOs" dtoOutputFolder="src\App\App.Shared\DTOs" requestNamespace="Dyvenix.App1.App.Shared.Requests" requestOutputFolder="src\App\App.Shared\Requests" />
     </modelRootHasTypes>
     <modelRootHasTypes Id="a8097145-a7cc-491b-b268-91476a8cf47d">
       <entityModel Id="5bd2d97c-7645-4147-a381-b43512adfb2e" name="AppUser" auditable="false" inclRowVersion="false" module="Auth" enabled="false">
@@ -247,13 +304,28 @@
             <serviceModel Id="95a8a254-ec39-4ffe-8ecf-09f7dec4a9db" name="ServiceModel1" inclCreate="true" inclUpdate="true" inclDelete="true" version="1">
               <readMethods>
                 <serviceModelHasReadMethodModels Id="06f610d2-ccf4-4213-b3d2-62f948e5e958">
-                  <readMethodModel Id="d416d053-c73c-4bba-9fa7-634c26c6c36e" name="GetById" itemId="31bdd49a-e537-4e05-95d0-4bc3d59d160b" inclPaging="false" useQuery="false" inclSorting="false" displayOrder="0">
+                  <readMethodModel Id="d416d053-c73c-4bba-9fa7-634c26c6c36e" name="GetById" itemId="31bdd49a-e537-4e05-95d0-4bc3d59d160b" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="0">
                     <filterProperties>
                       <readMethodModelHasFilterProperties Id="aea30313-3a49-4757-89d9-9bdcee85eecd">
                         <filterPropertyModel Id="9b167b25-6f95-43da-9554-2a48792b2b8f" isOptional="false" isInternal="false">
                           <propertyModel>
                             <filterPropertyModelHasProperty Id="b4182ad1-5d2d-4b7f-8f9d-d03bd81dba7f">
                               <propertyModelMoniker name="/App1/AppUser/Id" />
+                            </filterPropertyModelHasProperty>
+                          </propertyModel>
+                        </filterPropertyModel>
+                      </readMethodModelHasFilterProperties>
+                    </filterProperties>
+                  </readMethodModel>
+                </serviceModelHasReadMethodModels>
+                <serviceModelHasReadMethodModels Id="cd95c00c-d1aa-4ed4-9319-28ee60825225">
+                  <readMethodModel Id="2a0955b1-0e60-4fbf-979f-0ebb960c2584" name="ReqByUsername" itemId="c15ed7a0-c213-426d-b2d3-7e16a9fef47f" inclPaging="false" useRequest="true" inclSorting="false" displayOrder="1">
+                    <filterProperties>
+                      <readMethodModelHasFilterProperties Id="f3637d05-caef-43bc-9d53-c7042541c7fb">
+                        <filterPropertyModel Id="98971d2e-9606-4336-b738-01bda15b78db" isOptional="false" isInternal="false">
+                          <propertyModel>
+                            <filterPropertyModelHasProperty Id="0736ce01-f1b8-4eb6-ab32-2a386b2b0c6d">
+                              <propertyModelMoniker name="/App1/AppUser/Username" />
                             </filterPropertyModelHasProperty>
                           </propertyModel>
                         </filterPropertyModel>

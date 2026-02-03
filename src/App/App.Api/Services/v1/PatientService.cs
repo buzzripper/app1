@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/3/2026 9:41 AM. Any changes made to it will be lost.
+// This file was auto-generated on 2/3/2026 5:33 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Dyvenix.App1.Common.Shared.Models;
 using Dyvenix.App1.Common.Data.Shared.Entities;
 using Dyvenix.App1.Common.Data;
-using Dyvenix.App1.App.Shared.Queries.v1;
+using Dyvenix.App1.App.Shared.Requests.v1;
 using Dyvenix.App1.App.Shared.DTOs.v1;
 using Dyvenix.App1.Common.Shared.Extensions;
 
@@ -25,12 +25,16 @@ public interface IPatientService
 	Task<Result> UpdateLastNameAndEmail(Guid id, string lastName, string email);
 	Task<Result<Patient>> GetById(Guid id);
 	Task<Result<Patient>> GetByEmail(string email);
-	Task<Result<Patient>> GetWithInvoices(Guid id);
-	Task<Result<EntityList<Patient>>> GetAllPaging(int pageSize = 0, int pageOffset = 0);
-	Task<Result<List<Patient>>> GetAllSorting();
-	Task<Result<EntityList<Patient>>>QueryByLastNamePaging(QueryByLastNamePagingQuery query);
-	Task<Result<List<Patient>>>QueryByLastNameSorting(QueryByLastNameSortingQuery query);
-	Task<Result<EntityList<Patient>>>QueryByLastNamePagingSorting(QueryByLastNamePagingSortingQuery query);
+	Task<Result<Patient>> GetByIdWithInvoices(Guid id);
+	Task<Result<List<Patient>>> GetActive();
+	Task<Result<List<Patient>>>GetAllPaging(GetAllPagingReq request);
+	Task<Result<EntityList<Patient>>>QueryByLastNamePaging(QueryByLastNamePagingReq request);
+	Task<Result<List<Patient>>>QueryByLastNameSorting(QueryByLastNameSortingReq request);
+	Task<Result<EntityList<Patient>>>QueryByLastNamePagingSorting(QueryByLastNamePagingSortingReq request);
+	Task<Result<List<Patient>>>GetAllSorting(GetAllSortingReq request);
+	Task<Result<List<Patient>>>QueryByLastEmailOpt(QueryByLastEmailOptReq request);
+	Task<Result<Patient>>ReqByEmail(ReqByEmailReq request);
+	Task<Result<EntityList<Patient>>>GetAllPagingSorting(GetAllPagingSortingReq request);
 }
 
 public partial class PatientService : IPatientService
@@ -172,7 +176,7 @@ public partial class PatientService : IPatientService
 		return Result<Patient>.Ok(patient);
 	}
 	
-	public async Task<Result<Patient>> GetWithInvoices(Guid id)
+	public async Task<Result<Patient>> GetByIdWithInvoices(Guid id)
 	{
 		var dbQuery = _db.Patient.AsQueryable();
 	
@@ -190,22 +194,13 @@ public partial class PatientService : IPatientService
 	
 	#region List Methods
 	
-	public async Task<Result<EntityList<Patient>>> GetAllPaging(int pageSize = 0, int pageOffset = 0)
+	public async Task<Result<List<Patient>>> GetActive()
 	{
 		var dbQuery = _db.Patient.AsQueryable();
 	
-		if (pageSize > 0)
-			dbQuery = dbQuery.Skip(pageOffset * pageSize).Take(pageSize);
 	
-		var data = await dbQuery.AsNoTracking().ToListAsync();
-	
-		return Result<EntityList<Patient>>.Ok(data.ToEntityList<Patient>());
-	}
-	
-	public async Task<Result<List<Patient>>> GetAllSorting()
-	{
-		var dbQuery = _db.Patient.AsQueryable();
-	
+			// Internal
+			dbQuery = dbQuery.Where(x => x.IsActive == true);
 		var data = await dbQuery.AsNoTracking().ToListAsync();
 	
 		return Result<List<Patient>>.Ok(data);
@@ -215,55 +210,11 @@ public partial class PatientService : IPatientService
 
 	#region Query Methods
 
-	public async Task<Result<EntityList<Patient>>>QueryByLastNamePaging(QueryByLastNamePagingQuery query)
+	public async Task<Result<List<Patient>>>GetAllPaging(GetAllPagingReq request)
 	{
 		IQueryable<Patient> dbQuery = _db.Patient.AsNoTracking();
 
 		// Filters
-		if (!string.IsNullOrWhiteSpace(query.LastName))
-		{
-			var pattern = $"%{query.LastName}%";
-			dbQuery = dbQuery.Where(x => EF.Functions.Like(x.LastName, pattern));
-		}
-
-		var entityList = new EntityList<Patient>();
-
-		// Stable ordering for paging
-		dbQuery = dbQuery.OrderBy(x => x.LastName).ThenBy(x => x.Id);
-
-		// Count (only when requested)
-		if (query.RecalcRowCount || query.GetRowCountOnly)
-		{
-			entityList.TotalRowCount = await dbQuery.CountAsync();
-
-			if (query.GetRowCountOnly)
-				return Result<EntityList<Patient>>.Ok(entityList);
-		}
-
-		// Paging
-		if (query.PageSize > 0)
-			dbQuery = dbQuery.Skip(query.PageOffset * query.PageSize).Take(query.PageSize);
-
-		// Data
-		entityList.Items = await dbQuery.ToListAsync();
-
-		return Result<EntityList<Patient>>.Ok(entityList);
-	}
-
-	public async Task<Result<List<Patient>>>QueryByLastNameSorting(QueryByLastNameSortingQuery query)
-	{
-		IQueryable<Patient> dbQuery = _db.Patient.AsNoTracking();
-
-		// Filters
-		if (!string.IsNullOrWhiteSpace(query.LastName))
-		{
-			var pattern = $"%{query.LastName}%";
-			dbQuery = dbQuery.Where(x => EF.Functions.Like(x.LastName, pattern));
-		}
-
-		// Sorting
-		if (!string.IsNullOrWhiteSpace(query.SortBy))
-			this.AddSorting(ref dbQuery, query);
 
 		// Data
 		var data = await dbQuery.ToListAsync();
@@ -271,20 +222,16 @@ public partial class PatientService : IPatientService
 		return Result<List<Patient>>.Ok(data);
 	}
 
-	public async Task<Result<EntityList<Patient>>>QueryByLastNamePagingSorting(QueryByLastNamePagingSortingQuery query)
+	public async Task<Result<EntityList<Patient>>>QueryByLastNamePaging(QueryByLastNamePagingReq request)
 	{
 		IQueryable<Patient> dbQuery = _db.Patient.AsNoTracking();
 
 		// Filters
-		if (!string.IsNullOrWhiteSpace(query.LastName))
+		if (!string.IsNullOrWhiteSpace(request.LastName))
 		{
-			var pattern = $"%{query.LastName}%";
+			var pattern = $"%{request.LastName}%";
 			dbQuery = dbQuery.Where(x => EF.Functions.Like(x.LastName, pattern));
 		}
-
-		// Sorting
-		if (!string.IsNullOrWhiteSpace(query.SortBy))
-			this.AddSorting(ref dbQuery, query);
 
 		var entityList = new EntityList<Patient>();
 
@@ -292,17 +239,165 @@ public partial class PatientService : IPatientService
 		dbQuery = dbQuery.OrderBy(x => x.LastName).ThenBy(x => x.Id);
 
 		// Count (only when requested)
-		if (query.RecalcRowCount || query.GetRowCountOnly)
+		if (request.RecalcRowCount || request.GetRowCountOnly)
 		{
 			entityList.TotalRowCount = await dbQuery.CountAsync();
 
-			if (query.GetRowCountOnly)
+			if (request.GetRowCountOnly)
 				return Result<EntityList<Patient>>.Ok(entityList);
 		}
 
 		// Paging
-		if (query.PageSize > 0)
-			dbQuery = dbQuery.Skip(query.PageOffset * query.PageSize).Take(query.PageSize);
+		if (request.PageSize > 0)
+			dbQuery = dbQuery.Skip(request.PageOffset * request.PageSize).Take(request.PageSize);
+
+		// Data
+		entityList.Items = await dbQuery.ToListAsync();
+
+		return Result<EntityList<Patient>>.Ok(entityList);
+	}
+
+	public async Task<Result<List<Patient>>>QueryByLastNameSorting(QueryByLastNameSortingReq request)
+	{
+		IQueryable<Patient> dbQuery = _db.Patient.AsNoTracking();
+
+		// Filters
+		if (!string.IsNullOrWhiteSpace(request.LastName))
+		{
+			var pattern = $"%{request.LastName}%";
+			dbQuery = dbQuery.Where(x => EF.Functions.Like(x.LastName, pattern));
+		}
+
+		// Sorting
+		if (!string.IsNullOrWhiteSpace(request.SortBy))
+			this.AddSorting(ref dbQuery, request);
+
+		// Data
+		var data = await dbQuery.ToListAsync();
+
+		return Result<List<Patient>>.Ok(data);
+	}
+
+	public async Task<Result<EntityList<Patient>>>QueryByLastNamePagingSorting(QueryByLastNamePagingSortingReq request)
+	{
+		IQueryable<Patient> dbQuery = _db.Patient.AsNoTracking();
+
+		// Filters
+		if (!string.IsNullOrWhiteSpace(request.LastName))
+		{
+			var pattern = $"%{request.LastName}%";
+			dbQuery = dbQuery.Where(x => EF.Functions.Like(x.LastName, pattern));
+		}
+
+		// Sorting
+		if (!string.IsNullOrWhiteSpace(request.SortBy))
+			this.AddSorting(ref dbQuery, request);
+
+		var entityList = new EntityList<Patient>();
+
+		// Stable ordering for paging
+		dbQuery = dbQuery.OrderBy(x => x.LastName).ThenBy(x => x.Id);
+
+		// Count (only when requested)
+		if (request.RecalcRowCount || request.GetRowCountOnly)
+		{
+			entityList.TotalRowCount = await dbQuery.CountAsync();
+
+			if (request.GetRowCountOnly)
+				return Result<EntityList<Patient>>.Ok(entityList);
+		}
+
+		// Paging
+		if (request.PageSize > 0)
+			dbQuery = dbQuery.Skip(request.PageOffset * request.PageSize).Take(request.PageSize);
+
+		// Data
+		entityList.Items = await dbQuery.ToListAsync();
+
+		return Result<EntityList<Patient>>.Ok(entityList);
+	}
+
+	public async Task<Result<List<Patient>>>GetAllSorting(GetAllSortingReq request)
+	{
+		IQueryable<Patient> dbQuery = _db.Patient.AsNoTracking();
+
+		// Filters
+
+		// Sorting
+		if (!string.IsNullOrWhiteSpace(request.SortBy))
+			this.AddSorting(ref dbQuery, request);
+
+		// Data
+		var data = await dbQuery.ToListAsync();
+
+		return Result<List<Patient>>.Ok(data);
+	}
+
+	public async Task<Result<List<Patient>>>QueryByLastEmailOpt(QueryByLastEmailOptReq request)
+	{
+		IQueryable<Patient> dbQuery = _db.Patient.AsNoTracking();
+
+		// Filters
+		if (!string.IsNullOrWhiteSpace(request.LastName))
+		{
+			var pattern = $"%{request.LastName}%";
+			dbQuery = dbQuery.Where(x => EF.Functions.Like(x.LastName, pattern));
+		}
+		if (!string.IsNullOrWhiteSpace(request.Email))
+		{
+			var pattern = $"%{request.Email}%";
+			dbQuery = dbQuery.Where(x => EF.Functions.Like(x.Email, pattern));
+		}
+
+		// Data
+		var data = await dbQuery.ToListAsync();
+
+		return Result<List<Patient>>.Ok(data);
+	}
+
+	public async Task<Result<Patient>>ReqByEmail(ReqByEmailReq request)
+	{
+		IQueryable<Patient> dbQuery = _db.Patient.AsNoTracking();
+
+		// Filters
+		if (!string.IsNullOrWhiteSpace(request.Email))
+		{
+			var pattern = $"%{request.Email}%";
+			dbQuery = dbQuery.Where(x => EF.Functions.Like(x.Email, pattern));
+		}
+
+		// Data
+		var data = await dbQuery.ToListAsync();
+
+		return Result<Patient>.Ok(data);
+	}
+
+	public async Task<Result<EntityList<Patient>>>GetAllPagingSorting(GetAllPagingSortingReq request)
+	{
+		IQueryable<Patient> dbQuery = _db.Patient.AsNoTracking();
+
+		// Filters
+
+		// Sorting
+		if (!string.IsNullOrWhiteSpace(request.SortBy))
+			this.AddSorting(ref dbQuery, request);
+
+		var entityList = new EntityList<Patient>();
+
+		// Stable ordering for paging
+
+		// Count (only when requested)
+		if (request.RecalcRowCount || request.GetRowCountOnly)
+		{
+			entityList.TotalRowCount = await dbQuery.CountAsync();
+
+			if (request.GetRowCountOnly)
+				return Result<EntityList<Patient>>.Ok(entityList);
+		}
+
+		// Paging
+		if (request.PageSize > 0)
+			dbQuery = dbQuery.Skip(request.PageOffset * request.PageSize).Take(request.PageSize);
 
 		// Data
 		entityList.Items = await dbQuery.ToListAsync();
@@ -337,6 +432,12 @@ public partial class PatientService : IPatientService
 				dbQuery.OrderByDescending(x => x.Email);
 			else
 				dbQuery.OrderBy(x => x.Email);
+
+		if (string.Equals(sortingQuery.SortBy, Patient.PropNames.IsActive, StringComparison.OrdinalIgnoreCase))
+			if (sortingQuery.SortDesc)
+				dbQuery.OrderByDescending(x => x.IsActive);
+			else
+				dbQuery.OrderBy(x => x.IsActive);
 	}
 
 }
