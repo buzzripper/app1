@@ -1,5 +1,6 @@
 using App1.App.Shared.DTOs;
 using App1.App.Shared.Interfaces;
+using Dyvenix.App1.App.Api.Logging;
 
 namespace Dyvenix.App1.App.Api.Services;
 

@@ -1,10 +1,10 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/1/2026 4:43 PM. Any changes made to it will be lost.
+// This file was auto-generated on 2/2/2026 8:28 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Dyvenix.App1.App.Shared.Queries.v1;
 using Dyvenix.App1.Common.Data;
 using Dyvenix.App1.Common.Data.Shared.Entities;
-using Dyvenix.App1.Common.Shared.Exceptions;
+using Dyvenix.App1.Common.Shared.Extensions;
 using Dyvenix.App1.Common.Shared.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -13,15 +13,15 @@ namespace Dyvenix.App1.App.Api.Services.v1;
 
 public interface IPatientService
 {
-	Task<Guid> CreatePatient(Patient patient);
-	Task<bool> DeletePatient(Guid id);
-	Task UpdatePatient(Patient patient);
-	Task UpdateFirstName(Guid id, string firstName);
-	Task UpdateLastNameAndEmail(Guid id, string lastName, string email);
+	Task<Result<Guid>> CreatePatient(Patient patient);
+	Task<Result> DeletePatient(Guid id);
+	Task<Result> UpdatePatient(Patient patient);
+	Task<Result> UpdateFirstName(Guid id, string firstName);
+	Task<Result> UpdateLastNameAndEmail(Guid id, string lastName, string email);
 	Task<Result<Patient>> GetById(Guid id);
-	Task<Patient> GetByEmail(string email);
-	Task<List<Patient>> GetAllPaging(int pageSize = 0, int pageOffset = 0);
-	Task<EntityList<Patient>> QueryByLastNamePaging(QueryByLastNamePagingQuery query);
+	Task<Result<Patient>> GetByEmail(string email);
+	Task<Result<EntityList<Patient>>> GetAllPaging(int pageSize = 0, int pageOffset = 0);
+	Task<Result<EntityList<Patient>>> QueryByLastNamePaging(QueryByLastNamePagingQuery query);
 }
 
 public partial class PatientService : IPatientService
@@ -37,7 +37,7 @@ public partial class PatientService : IPatientService
 
 	#region Create
 
-	public async Task<Guid> CreatePatient(Patient patient)
+	public async Task<Result<Guid>> CreatePatient(Patient patient)
 	{
 		ArgumentNullException.ThrowIfNull(patient);
 
@@ -46,12 +46,12 @@ public partial class PatientService : IPatientService
 			_db.Add(patient);
 			await _db.SaveChangesAsync();
 
-			return patient.Id;
+			return Result<Guid>.Ok(patient.Id);
 
 		}
 		catch (DbUpdateConcurrencyException)
 		{
-			throw new ConcurrencyApiException("The item was modified or deleted by another user.");
+			return Result<Guid>.Conflict("The item was modified or deleted by another user.");
 		}
 	}
 
@@ -59,17 +59,21 @@ public partial class PatientService : IPatientService
 
 	#region Delete
 
-	public async Task<bool> DeletePatient(Guid id)
+	public async Task<Result> DeletePatient(Guid id)
 	{
-		var result = await _db.Patient.Where(a => a.Id == id).ExecuteDeleteAsync();
-		return result == 1;
+		var rowsAffected = await _db.Patient.Where(a => a.Id == id).ExecuteDeleteAsync();
+
+		if (rowsAffected == 0)
+			return Result.NotFound($"Patient {id} not found");
+
+		return Result.Ok();
 	}
 
 	#endregion
 
 	#region Update
 
-	public async Task UpdatePatient(Patient patient)
+	public async Task<Result> UpdatePatient(Patient patient)
 	{
 		ArgumentNullException.ThrowIfNull(patient);
 
@@ -79,14 +83,15 @@ public partial class PatientService : IPatientService
 			_db.Entry(patient).State = EntityState.Modified;
 			await _db.SaveChangesAsync();
 
+			return Result.Ok();
 		}
 		catch (DbUpdateConcurrencyException)
 		{
-			throw new ConcurrencyApiException("The item was modified or deleted by another user.");
+			return Result.Conflict("The item was modified or deleted by another user.");
 		}
 	}
 
-	public async Task UpdateFirstName(Guid id, string firstName)
+	public async Task<Result> UpdateFirstName(Guid id, string firstName)
 	{
 		ArgumentNullException.ThrowIfNull(firstName);
 
@@ -103,14 +108,16 @@ public partial class PatientService : IPatientService
 
 			await _db.SaveChangesAsync();
 
+			return Result.Ok();
+
 		}
 		catch (DbUpdateConcurrencyException)
 		{
-			throw new ConcurrencyApiException("The item was modified or deleted by another user.");
+			return Result.Conflict("The item was modified or deleted by another user.");
 		}
 	}
 
-	public async Task UpdateLastNameAndEmail(Guid id, string lastName, string email)
+	public async Task<Result> UpdateLastNameAndEmail(Guid id, string lastName, string email)
 	{
 		ArgumentNullException.ThrowIfNull(lastName);
 		ArgumentNullException.ThrowIfNull(email);
@@ -130,10 +137,12 @@ public partial class PatientService : IPatientService
 
 			await _db.SaveChangesAsync();
 
+			return Result.Ok();
+
 		}
 		catch (DbUpdateConcurrencyException)
 		{
-			throw new ConcurrencyApiException("The item was modified or deleted by another user.");
+			return Result.Conflict("The item was modified or deleted by another user.");
 		}
 	}
 
@@ -143,64 +152,84 @@ public partial class PatientService : IPatientService
 
 	public async Task<Result<Patient>> GetById(Guid id)
 	{
-		var patient = await _db.Patient
-			.AsNoTracking()
-			.FirstOrDefaultAsync(x => x.Id == id);
+		var dbQuery = _db.Patient.AsQueryable();
+
+		dbQuery = dbQuery.Where(x => x.Id == id);
+		var patient = await dbQuery.AsNoTracking().FirstOrDefaultAsync();
 
 		if (patient is null)
-			return Result<Patient>.NotFound($"Patient {id} not found");
+			return Result<Patient>.NotFound($"Patient not found");
 
 		return Result<Patient>.Ok(patient);
 	}
 
-	public async Task<Patient> GetByEmail(string email)
+	public async Task<Result<Patient>> GetByEmail(string email)
 	{
 		var dbQuery = _db.Patient.AsQueryable();
 
 		if (!string.IsNullOrWhiteSpace(email))
 			dbQuery = dbQuery.Where(x => EF.Functions.Like(x.Email, $"%email%"));
+		var patient = await dbQuery.AsNoTracking().FirstOrDefaultAsync();
 
-		return await dbQuery.AsNoTracking().FirstOrDefaultAsync();
+		if (patient is null)
+			return Result<Patient>.NotFound($"Patient not found");
+
+		return Result<Patient>.Ok(patient);
 	}
 
 	#endregion
 
 	#region List Methods
 
-	public async Task<List<Patient>> GetAllPaging(int pageSize = 0, int pageOffset = 0)
+	public async Task<Result<EntityList<Patient>>> GetAllPaging(int pageSize = 0, int pageOffset = 0)
 	{
 		var dbQuery = _db.Patient.AsQueryable();
 
 		if (pageSize > 0)
 			dbQuery = dbQuery.Skip(pageOffset * pageSize).Take(pageSize);
 
-		return await dbQuery.AsNoTracking().ToListAsync();
+		var data = await dbQuery.AsNoTracking().ToListAsync();
+
+		return Result<EntityList<Patient>>.Ok(data.ToEntityList<Patient>());
 	}
 
 	#endregion
 
 	#region Query Methods
 
-	public async Task<EntityList<Patient>> QueryByLastNamePaging(QueryByLastNamePagingQuery query)
+	public async Task<Result<EntityList<Patient>>> QueryByLastNamePaging(QueryByLastNamePagingQuery query)
 	{
-		var dbQuery = _db.Patient.AsQueryable();
-		var result = new EntityList<Patient>();
+		IQueryable<Patient> dbQuery = _db.Patient.AsNoTracking();
 
 		// Filters
 		if (!string.IsNullOrWhiteSpace(query.LastName))
-			dbQuery = dbQuery.Where(x => EF.Functions.Like(x.LastName, query.LastName));
+		{
+			var pattern = $"%{query.LastName}%";
+			dbQuery = dbQuery.Where(x => EF.Functions.Like(x.LastName, pattern));
+		}
+
+		var entityList = new EntityList<Patient>();
+
+		// Stable ordering for paging
+		dbQuery = dbQuery.OrderBy(x => x.LastName).ThenBy(x => x.Id);
+
+		// Count (only when requested)
+		if (query.RecalcRowCount || query.GetRowCountOnly)
+		{
+			entityList.TotalRowCount = await dbQuery.CountAsync();
+
+			if (query.GetRowCountOnly)
+				return Result<EntityList<Patient>>.Ok(entityList);
+		}
 
 		// Paging
-		if (query.RecalcRowCount || query.GetRowCountOnly)
-			result.TotalRowCount = dbQuery.Count();
-		if (query.GetRowCountOnly)
-			return result;
 		if (query.PageSize > 0)
-			dbQuery = dbQuery.Skip(query.PageOffset).Take(query.PageSize);
+			dbQuery = dbQuery.Skip(query.PageOffset * query.PageSize).Take(query.PageSize);
 
-		result.Data = await dbQuery.AsNoTracking().ToListAsync();
+		// Data
+		entityList.Data = await dbQuery.ToListAsync();
 
-		return result;
+		return Result<EntityList<Patient>>.Ok(entityList);
 	}
 
 	#endregion

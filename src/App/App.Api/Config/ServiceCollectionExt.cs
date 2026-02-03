@@ -1,5 +1,5 @@
 using App1.App.Shared.Interfaces;
-using Dyvenix.App1.App.Api.Controllers;
+using Dyvenix.App1.App.Api.Controllers.v1;
 using Dyvenix.App1.App.Api.Logging;
 using Dyvenix.App1.App.Api.Services;
 using Dyvenix.App1.Common.Api.Filters;
@@ -43,7 +43,7 @@ public static partial class ServiceCollectionExt
 		return services;
 	}
 
-	/// <summary>
+	/// <summary> 
 	/// Maps OpenAPI and Scalar API documentation endpoints for Auth API.
 	/// Call this in development or when you want to expose API documentation.
 	/// </summary>

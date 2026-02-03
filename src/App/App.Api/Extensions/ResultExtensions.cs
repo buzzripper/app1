@@ -11,7 +11,7 @@ public static class ResultExtensions
 	public static IResult ToHttpResult<T>(this Result<T> result)
 	{
 		if (result.IsSuccess)
-			return Results.Ok(result.Value);
+			return Results.Ok(result.Data);
 
 		return result.Error!.Kind switch
 		{

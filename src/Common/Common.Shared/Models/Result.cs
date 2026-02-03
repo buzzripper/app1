@@ -9,13 +9,13 @@ public class Result<T>
 
 	public bool IsSuccess { get; private init; }
 	public bool IsFailure => !IsSuccess;
-	public T? Value { get; private init; }
+	public T? Data { get; private init; }
 	public ResultError? Error { get; private init; }
 
 	public static Result<T> Ok(T value) => new()
 	{
 		IsSuccess = true,
-		Value = value
+		Data = value
 	};
 
 	public static Result<T> NotFound(string? message = null) => new()
@@ -58,7 +58,7 @@ public class Result<T>
 	/// Pattern-match on success/failure.
 	/// </summary>
 	public TOut Match<TOut>(Func<T, TOut> onSuccess, Func<ResultError, TOut> onFailure)
-		=> IsSuccess ? onSuccess(Value!) : onFailure(Error!);
+		=> IsSuccess ? onSuccess(Data!) : onFailure(Error!);
 }
 
 /// <summary>
