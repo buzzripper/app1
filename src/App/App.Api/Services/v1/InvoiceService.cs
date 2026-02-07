@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/3/2026 5:33 PM. Any changes made to it will be lost.
+// This file was auto-generated on 2/7/2026 3:16 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
@@ -93,14 +93,15 @@ public partial class InvoiceService : IInvoiceService
 
 	#endregion
 	
-	#region Single Methods
+	#region Read - Single
 	
 	public async Task<Result<Invoice>> GetById(Guid id)
 	{
-		var dbQuery = _db.Invoice.AsQueryable();
+		var dbQuery = _db.Invoice.AsNoTracking();
 	
 		dbQuery = dbQuery.Where(x => x.Id == id);
-		var invoice = await dbQuery.AsNoTracking().FirstOrDefaultAsync();
+	
+		var invoice = await dbQuery.FirstOrDefaultAsync();
 	
 		if (invoice is null)
 			return Result<Invoice>.NotFound($"Invoice not found");
@@ -110,15 +111,16 @@ public partial class InvoiceService : IInvoiceService
 	
 	#endregion
 	
-	#region List Methods
+	#region Read - List
 	
 	public async Task<Result<List<Invoice>>> QueryByMemo(string memo)
 	{
-		var dbQuery = _db.Invoice.AsQueryable();
+		var dbQuery = _db.Invoice.AsNoTracking();
 	
 		if (!string.IsNullOrWhiteSpace(memo))
-			dbQuery = dbQuery.Where(x => EF.Functions.Like(x.Memo, $"%memo%"));
-		var data = await dbQuery.AsNoTracking().ToListAsync();
+			dbQuery = dbQuery.Where(x => x.Memo == memo);
+	
+		var data = await dbQuery.ToListAsync();
 	
 		return Result<List<Invoice>>.Ok(data);
 	}

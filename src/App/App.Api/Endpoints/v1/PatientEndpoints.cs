@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/3/2026 5:33 PM. Any changes made to it will be lost.
+// This file was auto-generated on 2/7/2026 3:16 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
@@ -20,81 +20,92 @@ public static class PatientEndpoints
 {
 	public static IEndpointRouteBuilder MapPatientEndpoints(this IEndpointRouteBuilder app)
 	{
-		var group = app.MapGroup("api/app/1/patient")
+		var group = app.MapGroup("api/app/v1/patient")
 			.WithTags("Patient");
-			
-			// Create
-			group.MapPost("CreatePatient", CreatePatient)
-				.Produces<Guid>(StatusCodes.Status200OK)
-				.Produces(StatusCodes.Status409Conflict)
-				.RequireAuthorization("Permission1,Permission2");
-			
-			// Delete
-			group.MapPost("DeletePatient", DeletePatient)
-				.Produces<Guid>(StatusCodes.Status200OK)
-				.Produces(StatusCodes.Status409Conflict)
-				.RequireAuthorization("Permission3");
-			
-			// FullUpdate
-			group.MapPost("UpdatePatient", UpdatePatient)
-				.Produces<Guid>(StatusCodes.Status200OK)
-				.Produces(StatusCodes.Status409Conflict)
-				.RequireAuthorization("Permission2");
-			
-			group.MapPost("UpdateFirstName", UpdateFirstName)
-				.Produces<Guid>(StatusCodes.Status200OK)
-				.Produces(StatusCodes.Status409Conflict);
-			
-			group.MapPost("UpdateLastNameAndEmail", UpdateLastNameAndEmail)
-				.Produces<Guid>(StatusCodes.Status200OK)
-				.Produces(StatusCodes.Status409Conflict);
-			
-			group.MapGet("GetById", GetById)
-				.Produces<Guid>(StatusCodes.Status200OK)
-				.Produces(StatusCodes.Status404NotFound);
-			
-			group.MapGet("GetByEmail", GetByEmail)
-				.Produces<Guid>(StatusCodes.Status200OK)
-				.Produces(StatusCodes.Status404NotFound);
-			
-			group.MapGet("GetByIdWithInvoices", GetByIdWithInvoices)
-				.Produces<Guid>(StatusCodes.Status200OK)
-				.Produces(StatusCodes.Status404NotFound);
-			
-			group.MapGet("ReqByEmail", ReqByEmail)
-				.Produces<Guid>(StatusCodes.Status200OK)
-				.Produces(StatusCodes.Status404NotFound);
-			
-			group.MapGet("GetActive", GetActive)
-				.Produces<Guid>(StatusCodes.Status200OK);
-			
-			group.MapPost("GetAllPaging", GetAllPaging)
-				.Produces<EntityList<Patient>>(StatusCodes.Status200OK);
-			
-			group.MapPost("QueryByLastNamePaging", QueryByLastNamePaging)
-				.Produces<EntityList<Patient>>(StatusCodes.Status200OK);
-			
-			group.MapPost("QueryByLastNameSorting", QueryByLastNameSorting)
-				.Produces<EntityList<Patient>>(StatusCodes.Status200OK);
-			
-			group.MapPost("QueryByLastNamePagingSorting", QueryByLastNamePagingSorting)
-				.Produces<EntityList<Patient>>(StatusCodes.Status200OK);
-			
-			group.MapPost("GetAllSorting", GetAllSorting)
-				.Produces<EntityList<Patient>>(StatusCodes.Status200OK);
-			
-			group.MapPost("QueryByLastEmailOpt", QueryByLastEmailOpt)
-				.Produces<EntityList<Patient>>(StatusCodes.Status200OK);
-			
-			group.MapPost("GetAllPagingSorting", GetAllPagingSorting)
-				.Produces<EntityList<Patient>>(StatusCodes.Status200OK);
+		
+		// Create
+		
+		group.MapPost("CreatePatient", CreatePatient)
+			.Produces<Guid>(StatusCodes.Status200OK)
+			.Produces(StatusCodes.Status409Conflict)
+			.RequireAuthorization("Permission1,Permission2");
+		
+		// Delete
+		
+		group.MapPost("DeletePatient", DeletePatient)
+			.Produces<Guid>(StatusCodes.Status200OK)
+			.Produces(StatusCodes.Status409Conflict)
+			.RequireAuthorization("Permission3");
+		
+		// Full Update
+		
+		group.MapPost("UpdatePatient", UpdatePatient)
+			.Produces<Guid>(StatusCodes.Status200OK)
+			.Produces(StatusCodes.Status409Conflict)
+			.RequireAuthorization("Permission2");
+		
+		// Update
+		
+		group.MapPost("UpdateFirstName", UpdateFirstName)
+			.Produces<Guid>(StatusCodes.Status200OK)
+			.Produces(StatusCodes.Status409Conflict);
+		
+		group.MapPost("UpdateLastNameAndEmail", UpdateLastNameAndEmail)
+			.Produces<Guid>(StatusCodes.Status200OK)
+			.Produces(StatusCodes.Status409Conflict);
+		
+		// Read - Single
+		
+		group.MapGet("GetById/{id}", GetById)
+			.Produces<Guid>(StatusCodes.Status200OK)
+			.Produces(StatusCodes.Status404NotFound);
+		
+		group.MapGet("GetByEmail/{email}", GetByEmail)
+			.Produces<Guid>(StatusCodes.Status200OK)
+			.Produces(StatusCodes.Status404NotFound);
+		
+		group.MapGet("GetByIdWithInvoices/{id}", GetByIdWithInvoices)
+			.Produces<Guid>(StatusCodes.Status200OK)
+			.Produces(StatusCodes.Status404NotFound);
+		
+		// Read - List
+		
+		group.MapPost("GetAllPaging", GetAllPaging)
+			.Produces<Guid>(StatusCodes.Status200OK);
+		
+		group.MapPost("SearchByLastNamePaging", SearchByLastNamePaging)
+			.Produces<Guid>(StatusCodes.Status200OK);
+		
+		group.MapPost("SearchByLastNameSorting", SearchByLastNameSorting)
+			.Produces<Guid>(StatusCodes.Status200OK);
+		
+		group.MapPost("SearchByLastNamePagingSorting", SearchByLastNamePagingSorting)
+			.Produces<Guid>(StatusCodes.Status200OK);
+		
+		group.MapPost("GetAllSorting", GetAllSorting)
+			.Produces<Guid>(StatusCodes.Status200OK);
+		
+		group.MapPost("SearchByLastEmailOpt", SearchByLastEmailOpt)
+			.Produces<Guid>(StatusCodes.Status200OK);
+		
+		group.MapPost("SearchByEmail", SearchByEmail)
+			.Produces<Guid>(StatusCodes.Status200OK);
+		
+		group.MapGet("GetActive", GetActive)
+			.Produces<Guid>(StatusCodes.Status200OK);
+		
+		group.MapPost("GetAllPagingSorting", GetAllPagingSorting)
+			.Produces<Guid>(StatusCodes.Status200OK);
+		
+		group.MapGet("SearchActiveLastName/{lastName}", SearchActiveLastName)
+			.Produces<Guid>(StatusCodes.Status200OK);
 	
 		return app;
 	}
 	
 	#region Create
 	
-	public static async Task<IResult> CreatePatient(Patient patient, IPatientService patientService)
+	public static async Task<IResult> CreatePatient(IPatientService patientService, Patient patient)
 	{
 		var result = await patientService.CreatePatient(patient);
 		return result.ToHttpResult();
@@ -136,27 +147,21 @@ public static class PatientEndpoints
 
 	#region Read Methods - Single
 	
-	public static async Task<IResult> GetById(Guid id, IPatientService patientService)
+	public static async Task<IResult> GetById(IPatientService patientService, Guid id)
 	{
 		var result = await patientService.GetById(id);
 		return result.ToHttpResult();
 	}
 	
-	public static async Task<IResult> GetByEmail(string email, IPatientService patientService)
+	public static async Task<IResult> GetByEmail(IPatientService patientService, string email)
 	{
 		var result = await patientService.GetByEmail(email);
 		return result.ToHttpResult();
 	}
 	
-	public static async Task<IResult> GetByIdWithInvoices(Guid id, IPatientService patientService)
+	public static async Task<IResult> GetByIdWithInvoices(IPatientService patientService, Guid id)
 	{
 		var result = await patientService.GetByIdWithInvoices(id);
-		return result.ToHttpResult();
-	}
-	
-	public static async Task<IResult> ReqByEmail(string email, IPatientService patientService)
-	{
-		var result = await patientService.ReqByEmail(email);
 		return result.ToHttpResult();
 	}
 
@@ -164,56 +169,63 @@ public static class PatientEndpoints
 
 	#region Read Methods - List
 	
+	public static async Task<IResult> GetAllPaging(IPatientService patientService, GetAllPagingReq getAllPagingReq)
+	{
+		var result = await patientService.GetAllPaging(getAllPagingReq);
+		return result.ToHttpResult();
+	}
+	
+	public static async Task<IResult> SearchByLastNamePaging(IPatientService patientService, SearchByLastNamePagingReq searchByLastNamePagingReq)
+	{
+		var result = await patientService.SearchByLastNamePaging(searchByLastNamePagingReq);
+		return result.ToHttpResult();
+	}
+	
+	public static async Task<IResult> SearchByLastNameSorting(IPatientService patientService, SearchByLastNameSortingReq searchByLastNameSortingReq)
+	{
+		var result = await patientService.SearchByLastNameSorting(searchByLastNameSortingReq);
+		return result.ToHttpResult();
+	}
+	
+	public static async Task<IResult> SearchByLastNamePagingSorting(IPatientService patientService, SearchByLastNamePagingSortingReq searchByLastNamePagingSortingReq)
+	{
+		var result = await patientService.SearchByLastNamePagingSorting(searchByLastNamePagingSortingReq);
+		return result.ToHttpResult();
+	}
+	
+	public static async Task<IResult> GetAllSorting(IPatientService patientService, GetAllSortingReq getAllSortingReq)
+	{
+		var result = await patientService.GetAllSorting(getAllSortingReq);
+		return result.ToHttpResult();
+	}
+	
+	public static async Task<IResult> SearchByLastEmailOpt(IPatientService patientService, SearchByLastEmailOptReq searchByLastEmailOptReq)
+	{
+		var result = await patientService.SearchByLastEmailOpt(searchByLastEmailOptReq);
+		return result.ToHttpResult();
+	}
+	
+	public static async Task<IResult> SearchByEmail(IPatientService patientService, SearchByEmailReq searchByEmailReq)
+	{
+		var result = await patientService.SearchByEmail(searchByEmailReq);
+		return result.ToHttpResult();
+	}
+	
 	public static async Task<IResult> GetActive(IPatientService patientService)
 	{
 		var result = await patientService.GetActive();
 		return result.ToHttpResult();
 	}
-
-	#endregion
-
-	#region Request Methods
-
-
-	public static async Task<IResult> GetAllPaging(IPatientService patientService, [FromBody] GetAllPagingRequest getAllPagingRequest)
+	
+	public static async Task<IResult> GetAllPagingSorting(IPatientService patientService, GetAllPagingSortingReq getAllPagingSortingReq)
 	{
-		var result = await patientService.GetAllPaging(getAllPagingRequest);
+		var result = await patientService.GetAllPagingSorting(getAllPagingSortingReq);
 		return result.ToHttpResult();
 	}
-
-	public static async Task<IResult> QueryByLastNamePaging(IPatientService patientService, [FromBody] QueryByLastNamePagingRequest queryByLastNamePagingRequest)
+	
+	public static async Task<IResult> SearchActiveLastName(IPatientService patientService, [FromRoute] string lastName)
 	{
-		var result = await patientService.QueryByLastNamePaging(queryByLastNamePagingRequest);
-		return result.ToHttpResult();
-	}
-
-	public static async Task<IResult> QueryByLastNameSorting(IPatientService patientService, [FromBody] QueryByLastNameSortingRequest queryByLastNameSortingRequest)
-	{
-		var result = await patientService.QueryByLastNameSorting(queryByLastNameSortingRequest);
-		return result.ToHttpResult();
-	}
-
-	public static async Task<IResult> QueryByLastNamePagingSorting(IPatientService patientService, [FromBody] QueryByLastNamePagingSortingRequest queryByLastNamePagingSortingRequest)
-	{
-		var result = await patientService.QueryByLastNamePagingSorting(queryByLastNamePagingSortingRequest);
-		return result.ToHttpResult();
-	}
-
-	public static async Task<IResult> GetAllSorting(IPatientService patientService, [FromBody] GetAllSortingRequest getAllSortingRequest)
-	{
-		var result = await patientService.GetAllSorting(getAllSortingRequest);
-		return result.ToHttpResult();
-	}
-
-	public static async Task<IResult> QueryByLastEmailOpt(IPatientService patientService, [FromBody] QueryByLastEmailOptRequest queryByLastEmailOptRequest)
-	{
-		var result = await patientService.QueryByLastEmailOpt(queryByLastEmailOptRequest);
-		return result.ToHttpResult();
-	}
-
-	public static async Task<IResult> GetAllPagingSorting(IPatientService patientService, [FromBody] GetAllPagingSortingRequest getAllPagingSortingRequest)
-	{
-		var result = await patientService.GetAllPagingSorting(getAllPagingSortingRequest);
+		var result = await patientService.SearchActiveLastName(lastName);
 		return result.ToHttpResult();
 	}
 

@@ -3,9 +3,9 @@
 //------------------------------------------------------------------------------------------------------------
 using System;
 
-namespace Dyvenix.App1.Auth.Shared.Requests.v1;
+namespace Dyvenix.App1.App.Shared.Requests.v1;
 
-public class ReqByUsernameReq
+public class SearchByEmailReq
 {
-	public string Username { get; set; } = null!;
+	public string Email { get; set; } = null!;
 }

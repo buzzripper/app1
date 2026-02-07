@@ -15,6 +15,10 @@
     <File Path=".SolutionItems/Scripts/EF Commands.txt" />
     <File Path=".SolutionItems/Scripts/RunAngular.bat" />
   </Folder>
+  <Folder Name="/.SolutionItems/Sql/">
+    <File Path=".SolutionItems/Sql/App1_Working1.sql" />
+    <File Path=".SolutionItems/Sql/TestData.sql" />
+  </Folder>
   <Folder Name="/App/">
     <Project Path="src/App/App.Api/App.Api.csproj" />
     <Project Path="src/App/App.Server/App.Server.csproj" />

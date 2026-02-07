@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/3/2026 5:33 PM. Any changes made to it will be lost.
+// This file was auto-generated on 2/7/2026 3:16 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
@@ -19,41 +19,50 @@ public static class AppUserEndpoints
 {
 	public static IEndpointRouteBuilder MapAppUserEndpoints(this IEndpointRouteBuilder app)
 	{
-		var group = app.MapGroup("api/auth/1/appuser")
+		var group = app.MapGroup("api/auth/v1/appuser")
 			.WithTags("AppUser");
-			
-			// Create
-			group.MapPost("CreateAppUser", CreateAppUser)
-				.Produces<Guid>(StatusCodes.Status200OK)
-				.Produces(StatusCodes.Status409Conflict);
-			
-			// Delete
-			group.MapPost("DeleteAppUser", DeleteAppUser)
-				.Produces<Guid>(StatusCodes.Status200OK)
-				.Produces(StatusCodes.Status409Conflict);
-			
-			// FullUpdate
-			group.MapPost("UpdateAppUser", UpdateAppUser)
-				.Produces<Guid>(StatusCodes.Status200OK)
-				.Produces(StatusCodes.Status409Conflict);
-			
-			group.MapPost("UpdateUsername", UpdateUsername)
-				.Produces<Guid>(StatusCodes.Status200OK)
-				.Produces(StatusCodes.Status409Conflict);
-			
-			group.MapGet("GetById", GetById)
-				.Produces<Guid>(StatusCodes.Status200OK)
-				.Produces(StatusCodes.Status404NotFound);
-			
-			group.MapPost("ReqByUsername", ReqByUsername)
-				.Produces<EntityList<AppUser>>(StatusCodes.Status200OK);
+		
+		// Create
+		
+		group.MapPost("CreateAppUser", CreateAppUser)
+			.Produces<Guid>(StatusCodes.Status200OK)
+			.Produces(StatusCodes.Status409Conflict);
+		
+		// Delete
+		
+		group.MapPost("DeleteAppUser", DeleteAppUser)
+			.Produces<Guid>(StatusCodes.Status200OK)
+			.Produces(StatusCodes.Status409Conflict);
+		
+		// Full Update
+		
+		group.MapPost("UpdateAppUser", UpdateAppUser)
+			.Produces<Guid>(StatusCodes.Status200OK)
+			.Produces(StatusCodes.Status409Conflict);
+		
+		// Update
+		
+		group.MapPost("UpdateUsername", UpdateUsername)
+			.Produces<Guid>(StatusCodes.Status200OK)
+			.Produces(StatusCodes.Status409Conflict);
+		
+		// Read - Single
+		
+		group.MapGet("GetById/{id}", GetById)
+			.Produces<Guid>(StatusCodes.Status200OK)
+			.Produces(StatusCodes.Status404NotFound);
+		
+		// Read - List
+		
+		group.MapPost("ReqByUsername", ReqByUsername)
+			.Produces<Guid>(StatusCodes.Status200OK);
 	
 		return app;
 	}
 	
 	#region Create
 	
-	public static async Task<IResult> CreateAppUser(AppUser appUser, IAppUserService appUserService)
+	public static async Task<IResult> CreateAppUser(IAppUserService appUserService, AppUser appUser)
 	{
 		var result = await appUserService.CreateAppUser(appUser);
 		return result.ToHttpResult();
@@ -89,7 +98,7 @@ public static class AppUserEndpoints
 
 	#region Read Methods - Single
 	
-	public static async Task<IResult> GetById(Guid id, IAppUserService appUserService)
+	public static async Task<IResult> GetById(IAppUserService appUserService, Guid id)
 	{
 		var result = await appUserService.GetById(id);
 		return result.ToHttpResult();
@@ -97,12 +106,11 @@ public static class AppUserEndpoints
 
 	#endregion
 
-	#region Request Methods
-
-
-	public static async Task<IResult> ReqByUsername(IAppUserService appUserService, [FromBody] ReqByUsernameRequest reqByUsernameRequest)
+	#region Read Methods - List
+	
+	public static async Task<IResult> ReqByUsername(IAppUserService appUserService, ReqByUsernameReq reqByUsernameReq)
 	{
-		var result = await appUserService.ReqByUsername(reqByUsernameRequest);
+		var result = await appUserService.ReqByUsername(reqByUsernameReq);
 		return result.ToHttpResult();
 	}
 

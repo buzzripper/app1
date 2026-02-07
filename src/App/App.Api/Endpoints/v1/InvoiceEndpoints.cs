@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/3/2026 5:33 PM. Any changes made to it will be lost.
+// This file was auto-generated on 2/7/2026 3:16 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
@@ -19,36 +19,44 @@ public static class InvoiceEndpoints
 {
 	public static IEndpointRouteBuilder MapInvoiceEndpoints(this IEndpointRouteBuilder app)
 	{
-		var group = app.MapGroup("api/app/1/invoice")
+		var group = app.MapGroup("api/app/v1/invoice")
 			.WithTags("Invoice");
-			
-			// Create
-			group.MapPost("CreateInvoice", CreateInvoice)
-				.Produces<Guid>(StatusCodes.Status200OK)
-				.Produces(StatusCodes.Status409Conflict);
-			
-			// Delete
-			group.MapPost("DeleteInvoice", DeleteInvoice)
-				.Produces<Guid>(StatusCodes.Status200OK)
-				.Produces(StatusCodes.Status409Conflict);
-			
-			group.MapPost("UpdateMemo", UpdateMemo)
-				.Produces<Guid>(StatusCodes.Status200OK)
-				.Produces(StatusCodes.Status409Conflict);
-			
-			group.MapGet("GetById", GetById)
-				.Produces<Guid>(StatusCodes.Status200OK)
-				.Produces(StatusCodes.Status404NotFound);
-			
-			group.MapGet("QueryByMemo", QueryByMemo)
-				.Produces<Guid>(StatusCodes.Status200OK);
+		
+		// Create
+		
+		group.MapPost("CreateInvoice", CreateInvoice)
+			.Produces<Guid>(StatusCodes.Status200OK)
+			.Produces(StatusCodes.Status409Conflict);
+		
+		// Delete
+		
+		group.MapPost("DeleteInvoice", DeleteInvoice)
+			.Produces<Guid>(StatusCodes.Status200OK)
+			.Produces(StatusCodes.Status409Conflict);
+		
+		// Update
+		
+		group.MapPost("UpdateMemo", UpdateMemo)
+			.Produces<Guid>(StatusCodes.Status200OK)
+			.Produces(StatusCodes.Status409Conflict);
+		
+		// Read - Single
+		
+		group.MapGet("GetById/{id}", GetById)
+			.Produces<Guid>(StatusCodes.Status200OK)
+			.Produces(StatusCodes.Status404NotFound);
+		
+		// Read - List
+		
+		group.MapGet("QueryByMemo/{memo}", QueryByMemo)
+			.Produces<Guid>(StatusCodes.Status200OK);
 	
 		return app;
 	}
 	
 	#region Create
 	
-	public static async Task<IResult> CreateInvoice(Invoice invoice, IInvoiceService invoiceService)
+	public static async Task<IResult> CreateInvoice(IInvoiceService invoiceService, Invoice invoice)
 	{
 		var result = await invoiceService.CreateInvoice(invoice);
 		return result.ToHttpResult();
@@ -77,7 +85,7 @@ public static class InvoiceEndpoints
 
 	#region Read Methods - Single
 	
-	public static async Task<IResult> GetById(Guid id, IInvoiceService invoiceService)
+	public static async Task<IResult> GetById(IInvoiceService invoiceService, Guid id)
 	{
 		var result = await invoiceService.GetById(id);
 		return result.ToHttpResult();

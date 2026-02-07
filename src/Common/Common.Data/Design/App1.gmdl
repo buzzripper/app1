@@ -26,7 +26,7 @@
                   <readMethodModel Id="92ad72f2-6aef-4b5d-9db5-b470085b7b58" name="GetById" itemId="ce7c841e-cedd-481d-8d30-98b0ea8aed37" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="0">
                     <filterProperties>
                       <readMethodModelHasFilterProperties Id="39f8066d-103b-4b4c-9d6f-38b4150e13aa">
-                        <filterPropertyModel Id="be6b0f2e-e6ee-4e4c-b093-be37b890306c" isOptional="false" isInternal="false">
+                        <filterPropertyModel Id="be6b0f2e-e6ee-4e4c-b093-be37b890306c" isOptional="false" isInternal="false" isPartialMatch="false">
                           <propertyModel>
                             <filterPropertyModelHasProperty Id="7575a92e-0daf-47e5-b4dc-fc3afdea427a">
                               <propertyModelMoniker name="/App1/Patient/Id" />
@@ -41,7 +41,7 @@
                   <readMethodModel Id="beeeb9e9-ee66-43a7-99d4-499c00cc31f1" name="GetByEmail" itemId="61431ff3-e00d-4e4b-a360-6dcf0df3414b" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="2">
                     <filterProperties>
                       <readMethodModelHasFilterProperties Id="51d25c93-414a-4376-83fc-15f81d8ffcb8">
-                        <filterPropertyModel Id="ecdcd024-5803-4310-ad47-35475e782852" isOptional="false" isInternal="false">
+                        <filterPropertyModel Id="ecdcd024-5803-4310-ad47-35475e782852" isOptional="false" isInternal="false" isPartialMatch="false">
                           <propertyModel>
                             <filterPropertyModelHasProperty Id="4c18e77d-a222-421e-b253-bacc638771dc">
                               <propertyModelMoniker name="/App1/Patient/Email" />
@@ -53,13 +53,13 @@
                   </readMethodModel>
                 </serviceModelHasReadMethodModels>
                 <serviceModelHasReadMethodModels Id="4a794641-c1e6-4fe0-988a-8d6535dbe60c">
-                  <readMethodModel Id="f680141a-1b5f-45bf-bcae-bfe155583c45" name="GetAllPaging" itemId="b3ed96ad-8fe4-4f5a-82a3-b876c49c9027" inclPaging="false" useRequest="true" inclSorting="false" displayOrder="4" />
+                  <readMethodModel Id="f680141a-1b5f-45bf-bcae-bfe155583c45" name="GetAllPaging" itemId="b3ed96ad-8fe4-4f5a-82a3-b876c49c9027" inclPaging="true" useRequest="true" inclSorting="false" displayOrder="4" />
                 </serviceModelHasReadMethodModels>
                 <serviceModelHasReadMethodModels Id="d7d661c2-57f0-4601-9c2a-1a48f87a424d">
-                  <readMethodModel Id="c2684939-a84b-47bf-aba8-fb05d165fb08" name="QueryByLastNamePaging" itemId="263f6d8f-26f2-4063-8091-0130b77e6036" inclPaging="true" useRequest="true" inclSorting="false" displayOrder="7">
+                  <readMethodModel Id="c2684939-a84b-47bf-aba8-fb05d165fb08" name="SearchByLastNamePaging" itemId="263f6d8f-26f2-4063-8091-0130b77e6036" inclPaging="true" useRequest="true" inclSorting="false" displayOrder="7">
                     <filterProperties>
                       <readMethodModelHasFilterProperties Id="f1c86d35-c953-4bf8-b562-a60985669b57">
-                        <filterPropertyModel Id="0dfedd90-c251-4fe2-b7d8-95bfead20ae7" isOptional="false" isInternal="false">
+                        <filterPropertyModel Id="0dfedd90-c251-4fe2-b7d8-95bfead20ae7" isOptional="false" isInternal="false" isPartialMatch="true">
                           <propertyModel>
                             <filterPropertyModelHasProperty Id="3f1e4853-2dba-4c1b-a31d-ef08adcbb972">
                               <propertyModelMoniker name="/App1/Patient/LastName" />
@@ -71,10 +71,10 @@
                   </readMethodModel>
                 </serviceModelHasReadMethodModels>
                 <serviceModelHasReadMethodModels Id="d8668327-82d4-4f1a-8625-918b25411da6">
-                  <readMethodModel Id="0c0f2a30-e152-4a05-b3bb-407133a42636" name="QueryByLastNameSorting" itemId="5f88da37-2969-406a-a9ca-e0f695811423" inclPaging="false" useRequest="true" inclSorting="true" displayOrder="8">
+                  <readMethodModel Id="0c0f2a30-e152-4a05-b3bb-407133a42636" name="SearchByLastNameSorting" itemId="5f88da37-2969-406a-a9ca-e0f695811423" inclPaging="false" useRequest="true" inclSorting="true" displayOrder="8">
                     <filterProperties>
                       <readMethodModelHasFilterProperties Id="b4fbd538-6495-41db-9bcb-aed7983df468">
-                        <filterPropertyModel Id="84cb3583-f5db-4e3e-af13-f3acde9fb63b" isOptional="false" isInternal="false">
+                        <filterPropertyModel Id="84cb3583-f5db-4e3e-af13-f3acde9fb63b" isOptional="false" isInternal="false" isPartialMatch="true">
                           <propertyModel>
                             <filterPropertyModelHasProperty Id="bab48532-04ed-4642-b8c2-f6597127f6d8">
                               <propertyModelMoniker name="/App1/Patient/LastName" />
@@ -86,10 +86,10 @@
                   </readMethodModel>
                 </serviceModelHasReadMethodModels>
                 <serviceModelHasReadMethodModels Id="75185eb5-a358-417b-ad91-3f0ab1a5dc39">
-                  <readMethodModel Id="8f7839f0-69af-4ecd-afc1-21740c915d50" name="QueryByLastNamePagingSorting" itemId="9d238c08-62be-49cb-b638-51a8d48fc791" inclPaging="true" useRequest="true" inclSorting="true" displayOrder="9">
+                  <readMethodModel Id="8f7839f0-69af-4ecd-afc1-21740c915d50" name="SearchByLastNamePagingSorting" itemId="9d238c08-62be-49cb-b638-51a8d48fc791" inclPaging="true" useRequest="true" inclSorting="true" displayOrder="9">
                     <filterProperties>
                       <readMethodModelHasFilterProperties Id="ee7bce1a-9340-4bba-89d3-94fbcdeafc68">
-                        <filterPropertyModel Id="41b1bf07-af30-4fb4-9e12-241605662d63" isOptional="false" isInternal="false">
+                        <filterPropertyModel Id="41b1bf07-af30-4fb4-9e12-241605662d63" isOptional="false" isInternal="false" isPartialMatch="true">
                           <propertyModel>
                             <filterPropertyModelHasProperty Id="f7ac727e-3413-4714-9d94-e5d6c5b6cb13">
                               <propertyModelMoniker name="/App1/Patient/LastName" />
@@ -104,7 +104,7 @@
                   <readMethodModel Id="c865d13a-ad6c-453a-a5f2-ea4a417759dc" name="GetByIdWithInvoices" itemId="23e5b02c-94c5-4432-a63a-482c8a5e3fce" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="1" inclNavProperties="Invoices">
                     <filterProperties>
                       <readMethodModelHasFilterProperties Id="5cd28a4c-86cf-4615-b84f-2374c1ccac84">
-                        <filterPropertyModel Id="4fe8b451-2fac-420a-a012-3b69929ca69b" isOptional="false" isInternal="false">
+                        <filterPropertyModel Id="4fe8b451-2fac-420a-a012-3b69929ca69b" isOptional="false" isInternal="false" isPartialMatch="false">
                           <propertyModel>
                             <filterPropertyModelHasProperty Id="79dace2f-5ee3-47eb-b558-488f660174de">
                               <propertyModelMoniker name="/App1/Patient/Id" />
@@ -119,10 +119,10 @@
                   <readMethodModel Id="e23e3581-d116-45bc-82b3-7083342b8ab5" name="GetAllSorting" itemId="3ebaa079-aad3-4f6e-87f4-8294015848a3" inclPaging="false" useRequest="true" inclSorting="true" displayOrder="6" />
                 </serviceModelHasReadMethodModels>
                 <serviceModelHasReadMethodModels Id="4f982d6f-0e3c-4b66-a8f1-8f48244da474">
-                  <readMethodModel Id="34c14d0d-57e3-4b2b-a94b-6722c477b46c" name="QueryByLastEmailOpt" itemId="2ca8c12d-a059-4629-b06e-5e4cf0ee2a14" inclPaging="false" useRequest="true" inclSorting="false" displayOrder="10">
+                  <readMethodModel Id="34c14d0d-57e3-4b2b-a94b-6722c477b46c" name="SearchByLastEmailOpt" itemId="2ca8c12d-a059-4629-b06e-5e4cf0ee2a14" inclPaging="false" useRequest="true" inclSorting="false" displayOrder="10">
                     <filterProperties>
                       <readMethodModelHasFilterProperties Id="ca5ef643-4562-4c7c-bc31-da0e68af55f8">
-                        <filterPropertyModel Id="239e3a34-0fb6-4f70-a9a0-4c0e8b405e6e" isOptional="false" isInternal="false">
+                        <filterPropertyModel Id="239e3a34-0fb6-4f70-a9a0-4c0e8b405e6e" isOptional="false" isInternal="false" isPartialMatch="true">
                           <propertyModel>
                             <filterPropertyModelHasProperty Id="11687b92-e49b-4273-9429-6ded832a603f">
                               <propertyModelMoniker name="/App1/Patient/LastName" />
@@ -131,7 +131,7 @@
                         </filterPropertyModel>
                       </readMethodModelHasFilterProperties>
                       <readMethodModelHasFilterProperties Id="0491968d-abfc-4c40-81b2-e754d290e149">
-                        <filterPropertyModel Id="617385ca-88b2-4ab0-b64b-77e442859535" isOptional="true" isInternal="false">
+                        <filterPropertyModel Id="617385ca-88b2-4ab0-b64b-77e442859535" isOptional="true" isInternal="false" isPartialMatch="true">
                           <propertyModel>
                             <filterPropertyModelHasProperty Id="17724327-605d-42d2-badd-d2b43ed39e6b">
                               <propertyModelMoniker name="/App1/Patient/Email" />
@@ -143,10 +143,10 @@
                   </readMethodModel>
                 </serviceModelHasReadMethodModels>
                 <serviceModelHasReadMethodModels Id="12b93bea-372c-4593-a282-f58ac7245e16">
-                  <readMethodModel Id="4f8e29bb-4303-4010-8667-bee46b21ca0f" name="ReqByEmail" itemId="5ad05855-19b8-4b4a-b5ee-0c6ad426230f" inclPaging="false" useRequest="true" inclSorting="false" displayOrder="3">
+                  <readMethodModel Id="4f8e29bb-4303-4010-8667-bee46b21ca0f" name="SearchByEmail" itemId="5ad05855-19b8-4b4a-b5ee-0c6ad426230f" inclPaging="false" useRequest="true" inclSorting="false" displayOrder="3">
                     <filterProperties>
                       <readMethodModelHasFilterProperties Id="3b29a62a-6eab-4174-b615-55131e249323">
-                        <filterPropertyModel Id="2b4ba2aa-5c0c-41e1-a26f-8c1bd82dfade" isOptional="false" isInternal="false">
+                        <filterPropertyModel Id="2b4ba2aa-5c0c-41e1-a26f-8c1bd82dfade" isOptional="false" isInternal="false" isPartialMatch="true">
                           <propertyModel>
                             <filterPropertyModelHasProperty Id="7560136f-7371-48ee-99aa-767524a9fb87">
                               <propertyModelMoniker name="/App1/Patient/Email" />
@@ -161,7 +161,7 @@
                   <readMethodModel Id="1c68214d-79e1-4e15-8ea6-5729c140a343" name="GetActive" itemId="3cdc4acd-f98e-41df-b237-ad09539da826" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="11">
                     <filterProperties>
                       <readMethodModelHasFilterProperties Id="d1d30e2c-444d-470c-aaf8-f97df1fa96fc">
-                        <filterPropertyModel Id="4e8ca4a6-e298-48d0-9321-ffb5073c8025" isOptional="false" isInternal="true" internalValue="true">
+                        <filterPropertyModel Id="4e8ca4a6-e298-48d0-9321-ffb5073c8025" isOptional="false" isInternal="true" internalValue="true" isPartialMatch="false">
                           <propertyModel>
                             <filterPropertyModelHasProperty Id="522a6477-204c-486c-b26f-3fb63af93eca">
                               <propertyModelMoniker name="/App1/Patient/IsActive" />
@@ -174,6 +174,30 @@
                 </serviceModelHasReadMethodModels>
                 <serviceModelHasReadMethodModels Id="e0f83a6f-7067-428e-8ca6-a6a64adfa187">
                   <readMethodModel Id="6cfd7224-6aad-4e3e-af64-0aacb37074d3" name="GetAllPagingSorting" itemId="d81e0d2a-01d3-45e4-b950-4a852f9daf7d" inclPaging="true" useRequest="true" inclSorting="true" displayOrder="5" />
+                </serviceModelHasReadMethodModels>
+                <serviceModelHasReadMethodModels Id="f77d958a-6d0e-4c70-9655-5b53eb971240">
+                  <readMethodModel Id="8fd60cb4-301a-46e7-ba13-80de4cdb82ff" name="SearchActiveLastName" itemId="965427f5-d565-4296-a2f4-9cc44238139c" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="12">
+                    <filterProperties>
+                      <readMethodModelHasFilterProperties Id="04febaf2-a8b2-4493-9019-bdc32e58511e">
+                        <filterPropertyModel Id="2bfa9a45-73d2-462b-8741-42761f84e74f" isOptional="false" isInternal="true" internalValue="true" isPartialMatch="false">
+                          <propertyModel>
+                            <filterPropertyModelHasProperty Id="df811332-05f5-4b4a-87c2-b119c24eebf8">
+                              <propertyModelMoniker name="/App1/Patient/IsActive" />
+                            </filterPropertyModelHasProperty>
+                          </propertyModel>
+                        </filterPropertyModel>
+                      </readMethodModelHasFilterProperties>
+                      <readMethodModelHasFilterProperties Id="47437b59-422d-46f7-bf54-b2641e6bb662">
+                        <filterPropertyModel Id="c253678f-3e1c-4f6c-837e-4e3ee8bfbf23" isOptional="false" isInternal="false" isPartialMatch="true">
+                          <propertyModel>
+                            <filterPropertyModelHasProperty Id="02f992b2-9ddb-4c91-979a-5dbaca45a9f7">
+                              <propertyModelMoniker name="/App1/Patient/LastName" />
+                            </filterPropertyModelHasProperty>
+                          </propertyModel>
+                        </filterPropertyModel>
+                      </readMethodModelHasFilterProperties>
+                    </filterProperties>
+                  </readMethodModel>
                 </serviceModelHasReadMethodModels>
               </readMethods>
               <updateMethods>
@@ -241,7 +265,7 @@
                   <readMethodModel Id="36c23ce7-0ccf-4ca0-bbf8-f757b3a7efb2" name="GetById" itemId="b9cfb217-c3a6-45ce-8d00-af95607f0c49" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="0">
                     <filterProperties>
                       <readMethodModelHasFilterProperties Id="5f559d62-7752-4425-9fca-8475bff219e6">
-                        <filterPropertyModel Id="f6fbaf25-d8e5-495a-826c-e95b42c60d12" isOptional="false" isInternal="false">
+                        <filterPropertyModel Id="f6fbaf25-d8e5-495a-826c-e95b42c60d12" isOptional="false" isInternal="false" isPartialMatch="false">
                           <propertyModel>
                             <filterPropertyModelHasProperty Id="a4848cbe-e5e2-4d30-b42d-0f0d7e6aa81a">
                               <propertyModelMoniker name="/App1/Invoice/Id" />
@@ -256,7 +280,7 @@
                   <readMethodModel Id="003e43a4-8fff-4bf8-9614-f58260afa6b4" name="QueryByMemo" itemId="c2bd307b-8039-45bb-974c-68ae2136dafb" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="1">
                     <filterProperties>
                       <readMethodModelHasFilterProperties Id="766c1dd1-aefa-4131-bbd2-52ddc1bf23f1">
-                        <filterPropertyModel Id="03b99dde-02c2-4643-ac68-709c51841acc" isOptional="false" isInternal="false">
+                        <filterPropertyModel Id="03b99dde-02c2-4643-ac68-709c51841acc" isOptional="false" isInternal="false" isPartialMatch="false">
                           <propertyModel>
                             <filterPropertyModelHasProperty Id="fe0cb56a-4eed-425c-a830-8f6ad9a32708">
                               <propertyModelMoniker name="/App1/Invoice/Memo" />
@@ -307,7 +331,7 @@
                   <readMethodModel Id="d416d053-c73c-4bba-9fa7-634c26c6c36e" name="GetById" itemId="31bdd49a-e537-4e05-95d0-4bc3d59d160b" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="0">
                     <filterProperties>
                       <readMethodModelHasFilterProperties Id="aea30313-3a49-4757-89d9-9bdcee85eecd">
-                        <filterPropertyModel Id="9b167b25-6f95-43da-9554-2a48792b2b8f" isOptional="false" isInternal="false">
+                        <filterPropertyModel Id="9b167b25-6f95-43da-9554-2a48792b2b8f" isOptional="false" isInternal="false" isPartialMatch="false">
                           <propertyModel>
                             <filterPropertyModelHasProperty Id="b4182ad1-5d2d-4b7f-8f9d-d03bd81dba7f">
                               <propertyModelMoniker name="/App1/AppUser/Id" />
@@ -322,7 +346,7 @@
                   <readMethodModel Id="2a0955b1-0e60-4fbf-979f-0ebb960c2584" name="ReqByUsername" itemId="c15ed7a0-c213-426d-b2d3-7e16a9fef47f" inclPaging="false" useRequest="true" inclSorting="false" displayOrder="1">
                     <filterProperties>
                       <readMethodModelHasFilterProperties Id="f3637d05-caef-43bc-9d53-c7042541c7fb">
-                        <filterPropertyModel Id="98971d2e-9606-4336-b738-01bda15b78db" isOptional="false" isInternal="false">
+                        <filterPropertyModel Id="98971d2e-9606-4336-b738-01bda15b78db" isOptional="false" isInternal="false" isPartialMatch="false">
                           <propertyModel>
                             <filterPropertyModelHasProperty Id="0736ce01-f1b8-4eb6-ab32-2a386b2b0c6d">
                               <propertyModelMoniker name="/App1/AppUser/Username" />

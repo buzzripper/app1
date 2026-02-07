@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/3/2026 5:33 PM. Any changes made to it will be lost.
+// This file was auto-generated on 2/7/2026 3:16 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
@@ -21,7 +21,7 @@ public interface IAppUserService
 	Task<Result> UpdateAppUser(AppUser appUser);
 	Task<Result> UpdateUsername(Guid id, string username);
 	Task<Result<AppUser>> GetById(Guid id);
-	Task<Result<List<AppUser>>>ReqByUsername(ReqByUsernameReq request);
+	Task<Result<List<AppUser>>> ReqByUsername(ReqByUsernameReq request);
 }
 
 public partial class AppUserService : IAppUserService
@@ -109,14 +109,15 @@ public partial class AppUserService : IAppUserService
 
 	#endregion
 	
-	#region Single Methods
+	#region Read - Single
 	
 	public async Task<Result<AppUser>> GetById(Guid id)
 	{
-		var dbQuery = _db.AppUser.AsQueryable();
+		var dbQuery = _db.AppUser.AsNoTracking();
 	
 		dbQuery = dbQuery.Where(x => x.Id == id);
-		var appUser = await dbQuery.AsNoTracking().FirstOrDefaultAsync();
+	
+		var appUser = await dbQuery.FirstOrDefaultAsync();
 	
 		if (appUser is null)
 			return Result<AppUser>.NotFound($"AppUser not found");
@@ -125,25 +126,20 @@ public partial class AppUserService : IAppUserService
 	}
 	
 	#endregion
-
-	#region Query Methods
-
-	public async Task<Result<List<AppUser>>>ReqByUsername(ReqByUsernameReq request)
+	
+	#region Read - List
+	
+	public async Task<Result<List<AppUser>>> ReqByUsername(ReqByUsernameReq request)
 	{
-		IQueryable<AppUser> dbQuery = _db.AppUser.AsNoTracking();
-
-		// Filters
+		var dbQuery = _db.AppUser.AsNoTracking();
+	
 		if (!string.IsNullOrWhiteSpace(request.Username))
-		{
-			var pattern = $"%{request.Username}%";
-			dbQuery = dbQuery.Where(x => EF.Functions.Like(x.Username, pattern));
-		}
-
-		// Data
+			dbQuery = dbQuery.Where(x => x.Username == request.Username);
+	
 		var data = await dbQuery.ToListAsync();
-
+	
 		return Result<List<AppUser>>.Ok(data);
 	}
-
+	
 	#endregion
 }
