@@ -7,34 +7,33 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Folder Name="/.SolutionItems/">
-    <File Path=".editorconfig" />
-    <File Path=".SolutionItems/AzureDeploymentGuide.md" />
+  <Folder Name="/design/" />
+  <Folder Name="/docs/">
+    <File Path="docs/AzureDeploymentGuide.md" />
   </Folder>
-  <Folder Name="/.SolutionItems/Scripts/">
-    <File Path=".SolutionItems/Scripts/EF Commands.txt" />
-    <File Path=".SolutionItems/Scripts/RunAngular.bat" />
+  <Folder Name="/scripts/">
+    <File Path="scripts/App1_Working1.sql" />
+    <File Path="scripts/EF Commands.txt" />
+    <File Path="scripts/RunAngular.bat" />
+    <File Path="scripts/TestData.sql" />
   </Folder>
-  <Folder Name="/.SolutionItems/Sql/">
-    <File Path=".SolutionItems/Sql/App1_Working1.sql" />
-    <File Path=".SolutionItems/Sql/TestData.sql" />
-  </Folder>
-  <Folder Name="/App/">
+  <Folder Name="/src/" />
+  <Folder Name="/src/App/">
     <Project Path="src/App/App.Api/App.Api.csproj" />
     <Project Path="src/App/App.Server/App.Server.csproj" />
     <Project Path="src/App/App.Shared/App.Shared.csproj" />
   </Folder>
-  <Folder Name="/Aspire/">
+  <Folder Name="/src/Aspire/">
     <Project Path="src/Aspire/Aspire.AppHost/Aspire.AppHost.csproj">
       <BuildType Solution="Dbg-Ext|*" Project="Release" />
     </Project>
   </Folder>
-  <Folder Name="/Auth/">
+  <Folder Name="/src/Auth/">
     <Project Path="src/Auth/Auth.Api/Auth.Api.csproj" />
     <Project Path="src/Auth/Auth.Server/Auth.Server.csproj" />
     <Project Path="src/Auth/Auth.Shared/Auth.Shared.csproj" />
   </Folder>
-  <Folder Name="/Common/">
+  <Folder Name="/src/Common/">
     <Project Path="src/Common/Common.Api/Common.Api.csproj" Id="4c238e5c-16c2-46d7-a162-2ff2f6633bc9">
       <BuildType Solution="Dbg-Ext|*" Project="Release" />
     </Project>
@@ -51,19 +50,27 @@
       <BuildType Solution="Dbg-Ext|*" Project="Release" />
     </Project>
   </Folder>
-  <Folder Name="/Functions/">
+  <Folder Name="/src/Functions/">
     <Project Path="src/Functions/App1.Functions/App1.Functions.csproj">
       <BuildType Solution="Dbg-Ext|*" Project="Release" />
     </Project>
   </Folder>
-  <Folder Name="/Portal/">
+  <Folder Name="/src/Portal/">
     <Project Path="src/Portal/Portal.Server/Portal.Server.csproj" />
   </Folder>
-  <Folder Name="/UI/">
+  <Folder Name="/src/UI/">
     <Project Path="src/UI/Angular/Angular.esproj">
       <Platform Project="AnyCPU" />
       <Build />
       <Deploy />
+    </Project>
+  </Folder>
+  <Folder Name="/tests/" />
+  <Folder Name="/tests/App/" />
+  <Folder Name="/tests/Auth/" />
+  <Folder Name="/tests/Common/">
+    <Project Path="tests/Common/Common.Core/Common.Core.csproj" Id="070ec34b-1945-4a3c-bc72-961d5172f41d">
+      <BuildType Solution="Dbg-Ext|*" Project="Release" />
     </Project>
   </Folder>
 </Solution>
