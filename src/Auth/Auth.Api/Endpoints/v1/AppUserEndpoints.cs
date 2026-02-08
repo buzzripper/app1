@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/7/2026 3:16 PM. Any changes made to it will be lost.
+// This file was auto-generated on 2/7/2026 9:13 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
@@ -8,12 +8,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Dyvenix.App1.Common.Shared.Models;
 using Dyvenix.App1.Common.Data.Shared.Entities;
-using Dyvenix.App1.Auth.Api.Services.v1;
+using Dyvenix.App1.Auth.Services.v1;
 using Dyvenix.App1.Auth.Api.Extensions;
 using Dyvenix.App1.Common.Api.Filters;
+using Dyvenix.App1.Common.Shared.Requests;
 using Dyvenix.App1.Auth.Shared.Requests.v1;
 
-namespace Dyvenix.App1.Auth.Api.Controllers.v1;
+namespace Dyvenix.App1.Auth.Endpoints.v1;
 
 public static class AppUserEndpoints
 {
@@ -24,25 +25,25 @@ public static class AppUserEndpoints
 		
 		// Create
 		
-		group.MapPost("CreateAppUser", CreateAppUser)
+		group.MapPut("CreateAppUser", CreateAppUser)
 			.Produces<Guid>(StatusCodes.Status200OK)
 			.Produces(StatusCodes.Status409Conflict);
 		
 		// Delete
 		
-		group.MapPost("DeleteAppUser", DeleteAppUser)
+		group.MapDelete("DeleteAppUser", DeleteAppUser)
 			.Produces<Guid>(StatusCodes.Status200OK)
 			.Produces(StatusCodes.Status409Conflict);
 		
 		// Full Update
 		
-		group.MapPost("UpdateAppUser", UpdateAppUser)
+		group.MapPatch("UpdateAppUser", UpdateAppUser)
 			.Produces<Guid>(StatusCodes.Status200OK)
 			.Produces(StatusCodes.Status409Conflict);
 		
 		// Update
 		
-		group.MapPost("UpdateUsername", UpdateUsername)
+		group.MapPatch("UpdateUsername", UpdateUsername)
 			.Produces<Guid>(StatusCodes.Status200OK)
 			.Produces(StatusCodes.Status409Conflict);
 		
@@ -72,9 +73,9 @@ public static class AppUserEndpoints
 	
 	#region Delete
 	
-	public static async Task<IResult> DeleteAppUser(IAppUserService appUserService, Guid id)
+	public static async Task<IResult> DeleteAppUser(IAppUserService appUserService, [FromBody] DeleteReq deleteReq)
 	{
-		var result = await appUserService.DeleteAppUser(id);
+		var result = await appUserService.DeleteAppUser(deleteReq.Id);
 		return result.ToHttpResult();
 	}
 	
@@ -88,9 +89,9 @@ public static class AppUserEndpoints
 		return result.ToHttpResult();
 	}
 	
-	public static async Task<IResult> UpdateUsername(IAppUserService appUserService, Guid id, string username)
+	public static async Task<IResult> UpdateUsername(IAppUserService appUserService, [FromBody] UpdateUsernameReq request)
 	{
-		var result = await appUserService.UpdateUsername(id, username);
+		var result = await appUserService.UpdateUsername(request.Id, request.Username);
 		return result.ToHttpResult();
 	}
 

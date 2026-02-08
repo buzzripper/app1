@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/7/2026 3:16 PM. Any changes made to it will be lost.
+// This file was auto-generated on 2/7/2026 9:13 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
@@ -8,13 +8,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Dyvenix.App1.Common.Shared.Models;
 using Dyvenix.App1.Common.Data.Shared.Entities;
-using Dyvenix.App1.App.Api.Services.v1;
+using Dyvenix.App1.App.Services.v1;
 using Dyvenix.App1.App.Api.Extensions;
 using Dyvenix.App1.Common.Api.Filters;
-using Dyvenix.App1.App.Shared.DTOs.v1;
+using Dyvenix.App1.Common.Shared.Requests;
 using Dyvenix.App1.App.Shared.Requests.v1;
 
-namespace Dyvenix.App1.App.Api.Controllers.v1;
+namespace Dyvenix.App1.App.Endpoints.v1;
 
 public static class PatientEndpoints
 {
@@ -25,32 +25,32 @@ public static class PatientEndpoints
 		
 		// Create
 		
-		group.MapPost("CreatePatient", CreatePatient)
+		group.MapPut("CreatePatient", CreatePatient)
 			.Produces<Guid>(StatusCodes.Status200OK)
 			.Produces(StatusCodes.Status409Conflict)
 			.RequireAuthorization("Permission1,Permission2");
 		
 		// Delete
 		
-		group.MapPost("DeletePatient", DeletePatient)
+		group.MapDelete("DeletePatient", DeletePatient)
 			.Produces<Guid>(StatusCodes.Status200OK)
 			.Produces(StatusCodes.Status409Conflict)
 			.RequireAuthorization("Permission3");
 		
 		// Full Update
 		
-		group.MapPost("UpdatePatient", UpdatePatient)
+		group.MapPatch("UpdatePatient", UpdatePatient)
 			.Produces<Guid>(StatusCodes.Status200OK)
 			.Produces(StatusCodes.Status409Conflict)
 			.RequireAuthorization("Permission2");
 		
 		// Update
 		
-		group.MapPost("UpdateFirstName", UpdateFirstName)
+		group.MapPatch("UpdateFirstName", UpdateFirstName)
 			.Produces<Guid>(StatusCodes.Status200OK)
 			.Produces(StatusCodes.Status409Conflict);
 		
-		group.MapPost("UpdateLastNameAndEmail", UpdateLastNameAndEmail)
+		group.MapPatch("UpdateLastNameAndEmail", UpdateLastNameAndEmail)
 			.Produces<Guid>(StatusCodes.Status200OK)
 			.Produces(StatusCodes.Status409Conflict);
 		
@@ -115,9 +115,9 @@ public static class PatientEndpoints
 	
 	#region Delete
 	
-	public static async Task<IResult> DeletePatient(IPatientService patientService, Guid id)
+	public static async Task<IResult> DeletePatient(IPatientService patientService, [FromBody] DeleteReq deleteReq)
 	{
-		var result = await patientService.DeletePatient(id);
+		var result = await patientService.DeletePatient(deleteReq.Id);
 		return result.ToHttpResult();
 	}
 	
@@ -131,9 +131,9 @@ public static class PatientEndpoints
 		return result.ToHttpResult();
 	}
 	
-	public static async Task<IResult> UpdateFirstName(IPatientService patientService, Guid id, string firstName)
+	public static async Task<IResult> UpdateFirstName(IPatientService patientService, [FromBody] UpdateFirstNameReq request)
 	{
-		var result = await patientService.UpdateFirstName(id, firstName);
+		var result = await patientService.UpdateFirstName(request.Id, request.FirstName);
 		return result.ToHttpResult();
 	}
 	

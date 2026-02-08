@@ -1,7 +1,7 @@
 using App1.App.Shared.Interfaces;
-using Dyvenix.App1.App.Api.Controllers.v1;
 using Dyvenix.App1.App.Api.Logging;
 using Dyvenix.App1.App.Api.Services;
+using Dyvenix.App1.App.Endpoints.v1;
 using Dyvenix.App1.Common.Api.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;

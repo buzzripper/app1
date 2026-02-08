@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/7/2026 3:16 PM. Any changes made to it will be lost.
+// This file was auto-generated on 2/7/2026 9:13 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
@@ -10,9 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using Dyvenix.App1.Common.Shared.Models;
 using Dyvenix.App1.Common.Data.Shared.Entities;
 using Dyvenix.App1.Common.Data;
-using Dyvenix.App1.App.Shared.DTOs.v1;
 
-namespace Dyvenix.App1.App.Api.Services.v1;
+namespace Dyvenix.App1.App.Services.v1;
 
 public interface IInvoiceService
 {

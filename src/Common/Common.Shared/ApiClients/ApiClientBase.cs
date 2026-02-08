@@ -76,6 +76,25 @@ public abstract class ApiClientBase
 
 	#endregion
 
+	#region Delete
+
+	protected async Task DeleteAsync(string uri, object payload)
+	{
+		await CallAsync(MethodType.Delete, uri, payload);
+	}
+
+	protected async Task<TResult> DeleteAsync<TResult>(string uri, object payload)
+	{
+		return await CallAsync<TResult>(MethodType.Delete, uri, payload);
+	}
+
+	protected async Task<string> DeleteAsyncStr(string uri, object payload)
+	{
+		return await CallAsyncStr(MethodType.Delete, uri, payload);
+	}
+
+	#endregion
+
 	#region Put
 
 	protected async Task PutAsync(string uri, object payload)
@@ -171,6 +190,7 @@ public abstract class ApiClientBase
 	public enum MethodType
 	{
 		Post,
+		Delete,
 		Put,
 		Patch
 	}

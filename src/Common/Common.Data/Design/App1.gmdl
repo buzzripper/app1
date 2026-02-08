@@ -247,7 +247,7 @@
       </entityModel>
     </modelRootHasTypes>
     <modelRootHasTypes Id="7e24eceb-adee-494e-b8b2-9b32679d2333">
-      <moduleModel Id="8bda6b6b-6510-4c24-b586-a36348a1a586" name="Auth" apiRootFolder="src\Auth\Auth.Api" namespace="Dyvenix.App1.Auth.Api" dtoNamespace="Dyvenix.App1.Auth.Shared.DTOs" dtoOutputFolder="src\Auth\Auth.Shared\DTOs" requestNamespace="Dyvenix.App1.Auth.Shared.Requests" requestOutputFolder="src\Auth\Auth.Shared\Requests" />
+      <moduleModel Id="8bda6b6b-6510-4c24-b586-a36348a1a586" name="Auth" rootFolder="src\Auth" namespace="Dyvenix.App1.Auth" dtoNamespace="Dyvenix.App1.Auth.Shared.DTOs" requestNamespace="Dyvenix.App1.Auth.Shared.Requests" />
     </modelRootHasTypes>
     <modelRootHasTypes Id="b7d95ea9-5de9-4935-b2f2-3908a8df42af">
       <entityModel Id="efc53c38-8d23-4550-b3f9-051e21f54dce" name="Invoice" attributes="Authorize" auditable="false" inclRowVersion="false" module="App" enabled="false">
@@ -315,7 +315,7 @@
       </entityModel>
     </modelRootHasTypes>
     <modelRootHasTypes Id="92d4d5b8-2bb5-4af1-a731-e2aa2d4c93d6">
-      <moduleModel Id="df3dc907-3fd4-4ce4-b560-883e96a3efbe" name="App" apiRootFolder="src\App\App.Api" namespace="Dyvenix.App1.App.Api" permissionsStorage="invoce.read&#xA;invoice.write&#xA;admin" dtoNamespace="Dyvenix.App1.App.Shared.DTOs" dtoOutputFolder="src\App\App.Shared\DTOs" requestNamespace="Dyvenix.App1.App.Shared.Requests" requestOutputFolder="src\App\App.Shared\Requests" />
+      <moduleModel Id="df3dc907-3fd4-4ce4-b560-883e96a3efbe" name="App" rootFolder="src\App" namespace="Dyvenix.App1.App" permissionsStorage="invoce.read&#xA;invoice.write&#xA;admin" dtoNamespace="Dyvenix.App1.App.Shared.DTOs" requestNamespace="Dyvenix.App1.App.Shared.Requests" />
     </modelRootHasTypes>
     <modelRootHasTypes Id="a8097145-a7cc-491b-b268-91476a8cf47d">
       <entityModel Id="5bd2d97c-7645-4147-a381-b43512adfb2e" name="AppUser" auditable="false" inclRowVersion="false" module="Auth" enabled="false">

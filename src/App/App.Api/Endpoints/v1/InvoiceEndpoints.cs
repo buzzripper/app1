@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/7/2026 3:16 PM. Any changes made to it will be lost.
+// This file was auto-generated on 2/7/2026 9:13 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
@@ -8,12 +8,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Dyvenix.App1.Common.Shared.Models;
 using Dyvenix.App1.Common.Data.Shared.Entities;
-using Dyvenix.App1.App.Api.Services.v1;
+using Dyvenix.App1.App.Services.v1;
 using Dyvenix.App1.App.Api.Extensions;
 using Dyvenix.App1.Common.Api.Filters;
-using Dyvenix.App1.App.Shared.DTOs.v1;
+using Dyvenix.App1.Common.Shared.Requests;
+using Dyvenix.App1.App.Shared.Requests.v1;
 
-namespace Dyvenix.App1.App.Api.Controllers.v1;
+namespace Dyvenix.App1.App.Endpoints.v1;
 
 public static class InvoiceEndpoints
 {
@@ -24,19 +25,19 @@ public static class InvoiceEndpoints
 		
 		// Create
 		
-		group.MapPost("CreateInvoice", CreateInvoice)
+		group.MapPut("CreateInvoice", CreateInvoice)
 			.Produces<Guid>(StatusCodes.Status200OK)
 			.Produces(StatusCodes.Status409Conflict);
 		
 		// Delete
 		
-		group.MapPost("DeleteInvoice", DeleteInvoice)
+		group.MapDelete("DeleteInvoice", DeleteInvoice)
 			.Produces<Guid>(StatusCodes.Status200OK)
 			.Produces(StatusCodes.Status409Conflict);
 		
 		// Update
 		
-		group.MapPost("UpdateMemo", UpdateMemo)
+		group.MapPatch("UpdateMemo", UpdateMemo)
 			.Produces<Guid>(StatusCodes.Status200OK)
 			.Produces(StatusCodes.Status409Conflict);
 		
@@ -66,9 +67,9 @@ public static class InvoiceEndpoints
 	
 	#region Delete
 	
-	public static async Task<IResult> DeleteInvoice(IInvoiceService invoiceService, Guid id)
+	public static async Task<IResult> DeleteInvoice(IInvoiceService invoiceService, [FromBody] DeleteReq deleteReq)
 	{
-		var result = await invoiceService.DeleteInvoice(id);
+		var result = await invoiceService.DeleteInvoice(deleteReq.Id);
 		return result.ToHttpResult();
 	}
 	
