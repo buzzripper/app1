@@ -1,54 +1,59 @@
 using Dyvenix.App1.Tests.Integration.Data;
+using Dyvenix.App1.Tests.Integration.DataSets;
 using Dyvenix.App1.Tests.Integration.Fixtures;
 
 namespace Dyvenix.App1.Tests.Integration.App;
 
-public sealed class PatientReadTestFixture
+public sealed class PatientReadTestFixture(GlobalTestFixture globalFixture) : IAsyncLifetime
 {
-	public GlobalTestFixture GlobalFixture { get; private set; } = default!;
-	public bool IsInitialized { get; private set; }
+	public GlobalTestFixture GlobalFixture { get; } = globalFixture;
+	public IDataSet DataSet { get; private set; } = default!;
 
-	public async Task InitializeAsync(GlobalTestFixture globalFixture)
+	public async ValueTask InitializeAsync()
 	{
-		if (IsInitialized)
-			return;
-
-		GlobalFixture = globalFixture;
-
-		// One-time per-class setup that needs GlobalTestFixture
-		// e.g., seed Patient data using GlobalFixture.Services
-		var dataManager = globalFixture.Services.GetRequiredService<IDataManager>();
-		// await dataManager.SeedAsync(...);
-
-		IsInitialized = true;
+		var dataManager = GlobalFixture.Services.GetRequiredService<IDataManager>();
+		DataSet = await dataManager.Reset(DataSetType.Default);
 	}
+
+	public ValueTask DisposeAsync() => default;
 }
 
 [Collection(nameof(GlobalTestCollection))]
-public class PatientReadTests(GlobalTestFixture fixture, PatientReadTestFixture classFixture) : TestBase(fixture), IClassFixture<PatientReadTestFixture>
+public class PatientReadTests : TestBase, IClassFixture<PatientReadTestFixture>
 {
-	public override async ValueTask InitializeAsync()
-	{
-		await base.InitializeAsync();
+	private readonly PatientReadTestFixture _fixture;
 
-		// Pass the global fixture to the class fixture (runs once due to IsInitialized guard)
-		await classFixture.InitializeAsync(_fixture);
+	public PatientReadTests(GlobalTestFixture globalFixture, PatientReadTestFixture fixture)
+		: base(globalFixture)
+	{
+		_fixture = fixture;
 	}
 
 	[Fact]
 	public async Task Ping()
 	{
 		// Arrange
-		using var httpClient = _fixture.App.CreateHttpClient("app-server");
+		using var httpClient = _globalFixture.App.CreateHttpClient("app-server");
 
 		// Act
 		using var response = await httpClient.GetAsync("/api/app/v1/system/ping", TestContext.Current.CancellationToken);
 
+		// Assert
+		Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+	}
+
+	[Fact]
+	public async Task GetPatientCount_Success()
+	{
+		// Arrange
 		if (_db == null)
 			throw new InvalidOperationException("App1Db is not available from the test fixture.");
-
 		var userCount = _db.Patient.ToList().Count();
-		TestContext.Current.TestOutputHelper?.WriteLine($"Patient count: {userCount}");
+		TestContext.Current.TestOutputHelper?.WriteLine($"Patient count in db: {userCount}");
+		using var httpClient = _globalFixture.App.CreateHttpClient("app-server");
+
+		// Act
+		using var response = await httpClient.GetAsync("/api/app/v1/system/ping", TestContext.Current.CancellationToken);
 
 		// Assert
 		Assert.Equal(HttpStatusCode.OK, response.StatusCode);

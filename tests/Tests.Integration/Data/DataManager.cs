@@ -1,9 +1,9 @@
 ﻿//------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/8/2026 8:50 PM. Any changes made to it will be lost.
+// This file was auto-generated on 2/9/2026 10:08 AM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
-using Microsoft.EntityFrameworkCore;
 using Dyvenix.App1.Common.Data;
 using Dyvenix.App1.Tests.Integration.DataSets;
+using Microsoft.EntityFrameworkCore;
 
 namespace Dyvenix.App1.Tests.Integration.Data;
 
@@ -31,7 +31,7 @@ public class DataManager : IDataManager
 	public Dictionary<DataSetType, IDataSet> DataSets { get; } = [];
 
 	public async Task<IDataSet> Reset(DataSetType dataSetType)
-	 {
+	{
 		var dataSet = this.DataSets[dataSetType];
 
 		await DeleteAllData();
@@ -42,8 +42,8 @@ public class DataManager : IDataManager
 
 	private async Task DeleteAllData()
 	{
-		await _db.Patient.ExecuteDeleteAsync();
 		await _db.Invoice.ExecuteDeleteAsync();
+		await _db.Patient.ExecuteDeleteAsync();
 		await _db.AppUser.ExecuteDeleteAsync();
 
 		await _db.SaveChangesAsync();

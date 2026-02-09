@@ -14,4 +14,11 @@ var portalServer = builder.AddProject<Projects.Portal_Server>("portal-server")
 	.WithReference(authServer)
 	.WithReference(appServer);
 
-builder.Build().Run();
+try
+{
+	await builder.Build().RunAsync();
+}
+catch (OperationCanceledException)
+{
+	// Expected when Aspire.Hosting.Testing tears down the DistributedApplicationFactory.
+}
