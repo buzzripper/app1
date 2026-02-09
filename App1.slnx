@@ -65,11 +65,14 @@
       <Deploy />
     </Project>
   </Folder>
-  <Folder Name="/tests/" />
-  <Folder Name="/tests/App/" />
-  <Folder Name="/tests/Auth/" />
-  <Folder Name="/tests/Common/">
-    <Project Path="tests/Common/Common.Core/Common.Core.csproj" Id="070ec34b-1945-4a3c-bc72-961d5172f41d">
+  <Folder Name="/tests/">
+    <Project Path="tests/Tests.Common/Tests.Common.csproj">
+      <BuildType Solution="Dbg-Ext|*" Project="Release" />
+    </Project>
+    <Project Path="tests/Tests.Integration/Tests.Integration.csproj">
+      <BuildType Solution="Dbg-Ext|*" Project="Release" />
+    </Project>
+    <Project Path="tests/Tests.Unit/Tests.Unit.csproj" Id="77c35258-707f-4b22-a708-b6f4d788c639">
       <BuildType Solution="Dbg-Ext|*" Project="Release" />
     </Project>
   </Folder>

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<modelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="a05f92bc-4f04-4e80-b2f9-bcdc2d98c182" name="App1" entitiesOutputFolder="src\Common\Common.Data.Shared\Entities" entitiesNamespace="Dyvenix.App1.Common.Data.Shared.Entities" dbContextOutputFolder="src\Common\Common.Data\Context" dbContextNamespace="Dyvenix.App1.Common.Data" enumsOutputFolder="src\Common\Common.Data.Shared\Entities" enumsNamespace="Dyvenix.App1.Common.Data.Shared.Entities" editorSplitterPosition="725.00000000000034" permissions="Permission1|&#xA;Permission2|&#xA;Permission3|" dbContextName="App1Db" usings="Dyvenix.App1.Common.Shared.Models" commonNamespace="Dyvenix.App1.Common" xmlns="http://schemas.microsoft.com/dsltools/GenIt">
+<modelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="a05f92bc-4f04-4e80-b2f9-bcdc2d98c182" name="App1" entitiesOutputFolder="src\Common\Common.Data.Shared\Entities" entitiesNamespace="Dyvenix.App1.Common.Data.Shared.Entities" dbContextOutputFolder="src\Common\Common.Data\Context" dbContextNamespace="Dyvenix.App1.Common.Data" enumsOutputFolder="src\Common\Common.Data.Shared\Entities" enumsNamespace="Dyvenix.App1.Common.Data.Shared.Entities" editorSplitterPosition="725.00000000000034" permissions="Permission1|&#xA;Permission2|&#xA;Permission3|" dbContextName="App1Db" usings="Dyvenix.App1.Common.Shared.Models" commonNamespace="Dyvenix.App1.Common" intTestsOutputFolder="tests\Tests.Integration" intTestsNamespace="Dyvenix.App1.Tests.Integration" unitTestsOutputFolder="tests\Tests.Unit" unitTestsNamespace="Dyvenix.App1.Tests.Unit" intTestsEnabled="true" unitTestsEnabled="false" xmlns="http://schemas.microsoft.com/dsltools/GenIt">
   <types>
     <modelRootHasTypes Id="d8efa44d-a0be-4943-8724-d41966277579">
       <entityModel Id="7e073b5a-ca06-4e53-b407-5153b99e78fe" name="Patient" auditable="false" inclRowVersion="false" module="App" enabled="false">
@@ -202,7 +202,7 @@
               </readMethods>
               <updateMethods>
                 <serviceModelHasUpdateMethods Id="0f9eef4e-fc99-4461-9f53-178f4a8a3dbb">
-                  <updateMethodModel Id="d5a065ef-5d2c-45e5-b8f5-c694fcbbadcc" name="UpdateFirstName" itemId="bb6ea927-2bce-49d0-b31f-7f512227527b" useDto="false">
+                  <updateMethodModel Id="d5a065ef-5d2c-45e5-b8f5-c694fcbbadcc" name="UpdateFirstName" itemId="bb6ea927-2bce-49d0-b31f-7f512227527b">
                     <updateProperties>
                       <updateMethodModelHasUpdateProperties Id="7bd0a67c-3c3e-4802-8b7a-9d92bccf7df2">
                         <updatePropertyModel Id="86fbe275-976a-4714-adc7-1de6728ee3eb" isOptional="false">
@@ -217,7 +217,7 @@
                   </updateMethodModel>
                 </serviceModelHasUpdateMethods>
                 <serviceModelHasUpdateMethods Id="f8623ab9-4200-47d1-8ffb-2c459e9d5607">
-                  <updateMethodModel Id="e5bf5ea8-c84d-4098-9bb5-66c3be233180" name="UpdateLastNameAndEmail" itemId="db096714-c545-4662-8c47-5f4c440fb15d" useDto="true" displayOrder="1">
+                  <updateMethodModel Id="e5bf5ea8-c84d-4098-9bb5-66c3be233180" name="UpdateLastNameAndEmail" itemId="db096714-c545-4662-8c47-5f4c440fb15d" displayOrder="1">
                     <updateProperties>
                       <updateMethodModelHasUpdateProperties Id="27d1d035-2713-4218-b5b6-f8a25f6138a0">
                         <updatePropertyModel Id="c0c60c13-9317-4d24-b37b-26b10c3ee6d3" isOptional="false">
@@ -294,7 +294,7 @@
               </readMethods>
               <updateMethods>
                 <serviceModelHasUpdateMethods Id="a2a8a1d6-eb92-42fb-a4e7-3d12020baf5a">
-                  <updateMethodModel Id="87ceff5e-2915-470f-92a7-757c042b3dbd" name="UpdateMemo" itemId="b2443f97-1897-4cb3-9d51-517eccf63d74" useDto="true">
+                  <updateMethodModel Id="87ceff5e-2915-470f-92a7-757c042b3dbd" name="UpdateMemo" itemId="b2443f97-1897-4cb3-9d51-517eccf63d74">
                     <updateProperties>
                       <updateMethodModelHasUpdateProperties Id="9f1ba1e0-d887-4485-a299-9ef4b9414967">
                         <updatePropertyModel Id="11ec6552-1dc0-4d0b-9c42-cda07002755f" isOptional="false">
@@ -360,7 +360,7 @@
               </readMethods>
               <updateMethods>
                 <serviceModelHasUpdateMethods Id="832e273f-bfe5-466a-b42c-d97847006b2c">
-                  <updateMethodModel Id="fbbf39ad-58b0-4531-9105-90823ce90a55" name="UpdateUsername" itemId="9b93280f-d8b5-46f6-8c77-114adba233f2" useDto="false">
+                  <updateMethodModel Id="fbbf39ad-58b0-4531-9105-90823ce90a55" name="UpdateUsername" itemId="9b93280f-d8b5-46f6-8c77-114adba233f2">
                     <updateProperties>
                       <updateMethodModelHasUpdateProperties Id="6b887390-e4a7-4143-b6f7-50e5480af791">
                         <updatePropertyModel Id="91f29125-fcb2-4dc8-89ae-1daa78e2436d" isOptional="false">

@@ -1,25 +1,21 @@
-﻿namespace Dyvenix.App1.Tests.Common.Core;
-
-public class TestBase
+﻿
+public class TestUtils
 {
-	#region Fields
+	private readonly Random _random = new Random();
 
-	private static readonly Random _random = new Random();
-
-	#endregion
-
-	#region Methods
-
-	public static string RndStr(int maxLength)
+	public int Rnd(int x, int y = int.MaxValue)
 	{
-		if (maxLength > 0 && maxLength <= 36)
-		{
-			return Guid.NewGuid().ToString().Substring(0, maxLength);
-		}
-		else
-		{
-			return Guid.NewGuid().ToString();
-		}
+		if (x > y)
+			throw new ArgumentException("x must be less than or equal to y");
+
+		var yVal = y < int.MaxValue ? y : int.MaxValue - 1; // 1st arg is inclusive but 2nd arg is exclusive
+
+		return _random.Next(x, yVal);
+	}
+
+	public bool PctChance(int x)
+	{
+		return _random.Next(0, 100) > x;
 	}
 
 	public int RndInt()
@@ -62,11 +58,11 @@ public class TestBase
 		return min + _random.NextDouble() * (max - min);
 	}
 
-	public static T RndEnum<T>() where T : Enum
+	public T RndEnum<T>() where T : Enum
 	{
 		var values = Enum.GetValues(typeof(T));
 		return (T)values.GetValue(_random.Next(values.Length))!;
 	}
 
-	#endregion
 }
+
