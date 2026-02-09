@@ -9,11 +9,11 @@ public class TestBase(GlobalTestFixture _fixture) : IAsyncLifetime
 	protected IServiceScope _scope = default!;
 	protected App1Db _db = default!;
 
-	public ValueTask InitializeAsync()
+	public virtual async ValueTask InitializeAsync()
 	{
 		_scope = _fixture.Services.CreateScope();
 		_db = _scope.ServiceProvider.GetRequiredService<App1Db>();
-		return ValueTask.CompletedTask;
+		await ValueTask.CompletedTask;
 	}
 
 	public ValueTask DisposeAsync()
