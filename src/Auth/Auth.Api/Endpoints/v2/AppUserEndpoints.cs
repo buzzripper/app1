@@ -8,19 +8,19 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Dyvenix.App1.Common.Shared.Models;
 using Dyvenix.App1.Common.Data.Shared.Entities;
-using Dyvenix.App1.Auth.Services.v1;
+using Dyvenix.App1.Auth.Services.v2;
 using Dyvenix.App1.Auth.Api.Extensions;
 using Dyvenix.App1.Common.Api.Filters;
 using Dyvenix.App1.Common.Shared.Requests;
-using Dyvenix.App1.Auth.Shared.Requests.v1;
+using Dyvenix.App1.Auth.Shared.Requests.v2;
 
-namespace Dyvenix.App1.Auth.Endpoints.v1;
+namespace Dyvenix.App1.Auth.Endpoints.v2;
 
 public static class AppUserEndpoints
 {
 	public static IEndpointRouteBuilder MapAppUserEndpoints(this IEndpointRouteBuilder app)
 	{
-		var group = app.MapGroup("api/auth/v1/appuser")
+		var group = app.MapGroup("api/auth/v2/appuser")
 			.WithTags("AppUser");
 		
 		// Create

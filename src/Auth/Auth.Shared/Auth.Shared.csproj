@@ -21,4 +21,8 @@
     <ProjectReference Include="..\..\Common\Common.Shared\Common.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ApiClients\" />
+  </ItemGroup>
+
 </Project>

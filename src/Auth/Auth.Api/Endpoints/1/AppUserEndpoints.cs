@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/10/2026 11:50 AM. Any changes made to it will be lost.
+// This file was auto-generated on 2/10/2026 11:48 AM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
@@ -8,19 +8,19 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Dyvenix.App1.Common.Shared.Models;
 using Dyvenix.App1.Common.Data.Shared.Entities;
-using Dyvenix.App1.Auth.Services.v1;
+using Dyvenix.App1.Auth.Services.1;
 using Dyvenix.App1.Auth.Api.Extensions;
 using Dyvenix.App1.Common.Api.Filters;
 using Dyvenix.App1.Common.Shared.Requests;
-using Dyvenix.App1.Auth.Shared.Requests.v1;
+using Dyvenix.App1.Auth.Shared.Requests.1;
 
-namespace Dyvenix.App1.Auth.Endpoints.v1;
+namespace Dyvenix.App1.Auth.Endpoints.1;
 
 public static class AppUserEndpoints
 {
 	public static IEndpointRouteBuilder MapAppUserEndpoints(this IEndpointRouteBuilder app)
 	{
-		var group = app.MapGroup("api/auth/v1/appuser")
+		var group = app.MapGroup("api/auth/1/appuser")
 			.WithTags("AppUser");
 		
 		// Create

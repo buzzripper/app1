@@ -21,7 +21,7 @@
         </targets>
         <serviceModels>
           <entityModelHasServiceModels Id="88c3cd3f-0f3a-4be1-b211-4c906b95bd70">
-            <serviceModel Id="c81b98fa-64fa-4c53-b008-21153ff3b25f" name="ServiceModel1" inclCreate="true" inclUpdate="true" inclDelete="true" version="1" createPermissions="Permission1,Permission2" updatePermissions="Permission2" deletePermissions="Permission3">
+            <serviceModel Id="c81b98fa-64fa-4c53-b008-21153ff3b25f" name="ServiceModel1" inclCreate="true" inclUpdate="true" inclDelete="true" version="v1" createPermissions="Permission1,Permission2" updatePermissions="Permission2" deletePermissions="Permission3">
               <readMethods>
                 <serviceModelHasReadMethodModels Id="dbf1f6c3-3c28-4bd1-a949-41bb642d5d77">
                   <readMethodModel Id="92ad72f2-6aef-4b5d-9db5-b470085b7b58" name="GetById" itemId="ce7c841e-cedd-481d-8d30-98b0ea8aed37" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="0">
@@ -261,7 +261,7 @@
         </properties>
         <serviceModels>
           <entityModelHasServiceModels Id="bc9c6a10-214c-424c-ae04-978264d6139d">
-            <serviceModel Id="2b2f477f-5368-40b0-83ec-595ab0484f9a" name="ServiceModel1" inclCreate="true" inclUpdate="false" inclDelete="true" version="1">
+            <serviceModel Id="2b2f477f-5368-40b0-83ec-595ab0484f9a" name="ServiceModel1" inclCreate="true" inclUpdate="false" inclDelete="true" version="v1">
               <readMethods>
                 <serviceModelHasReadMethodModels Id="18d61036-a234-4312-aa0b-e8388076e335">
                   <readMethodModel Id="36c23ce7-0ccf-4ca0-bbf8-f757b3a7efb2" name="GetById" itemId="b9cfb217-c3a6-45ce-8d00-af95607f0c49" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="0">
@@ -327,7 +327,7 @@
         </properties>
         <serviceModels>
           <entityModelHasServiceModels Id="9ab946e2-441a-407c-9fbe-c031e4a965d9">
-            <serviceModel Id="95a8a254-ec39-4ffe-8ecf-09f7dec4a9db" name="ServiceModel1" inclCreate="true" inclUpdate="true" inclDelete="true" version="1">
+            <serviceModel Id="95a8a254-ec39-4ffe-8ecf-09f7dec4a9db" name="ServiceModel1" inclCreate="true" inclUpdate="true" inclDelete="true" version="v1">
               <readMethods>
                 <serviceModelHasReadMethodModels Id="06f610d2-ccf4-4213-b3d2-62f948e5e958">
                   <readMethodModel Id="d416d053-c73c-4bba-9fa7-634c26c6c36e" name="GetById" itemId="31bdd49a-e537-4e05-95d0-4bc3d59d160b" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="0">
