@@ -1,4 +1,5 @@
 ﻿using Aspire.Hosting;
+using Dyvenix.App1.Common.Data;
 using Dyvenix.App1.Common.Data.Config;
 using Dyvenix.App1.Tests.Integration.Data;
 using Microsoft.Extensions.Configuration;
@@ -51,9 +52,17 @@ public class GlobalTestFixture : IAsyncLifetime
 		var dataConfig = DataConfigBuilder.Build(Configuration);
 		services.AddDataServices(dataConfig);
 
-		services.AddSingleton<IDataManager, DataManager>();
+		services.AddSingleton<IDataManager>(sp =>
+		{
+			var db = sp.GetRequiredService<App1Db>();
+			return new DataManager(db);
+		});
 
 		Services = services.BuildServiceProvider();
+
+		// Initialize test data
+		var dataManager = Services.GetRequiredService<IDataManager>();
+		await dataManager.Initialize();
 	}
 
 	public async ValueTask DisposeAsync()

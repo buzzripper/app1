@@ -1,16 +1,18 @@
 ﻿//------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/9/2026 10:08 AM. Any changes made to it will be lost.
+// This file was auto-generated on 2/10/2026 7:33 AM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Dyvenix.App1.Common.Data;
 using Dyvenix.App1.Tests.Integration.DataSets;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 
 namespace Dyvenix.App1.Tests.Integration.Data;
 
 public interface IDataManager : IDisposable
 {
-	Dictionary<DataSetType, IDataSet> DataSets { get; }
-	Task<IDataSet> Reset(DataSetType dataSetType);
+	Dictionary<string, TestDataSet> DataSets { get; }
+	Task<TestDataSet> Reset(string dataSetName);
+	Task Initialize();
 }
 
 public class DataManager : IDataManager
@@ -20,7 +22,6 @@ public class DataManager : IDataManager
 	public DataManager(App1Db db)
 	{
 		_db = db;
-		DataSets.Add(DataSetType.Default, new DefaultDataSet());
 	}
 
 	public void Dispose()
@@ -28,11 +29,41 @@ public class DataManager : IDataManager
 		_db?.Dispose();
 	}
 
-	public Dictionary<DataSetType, IDataSet> DataSets { get; } = [];
+	public Dictionary<string, TestDataSet> DataSets { get; } = new();
 
-	public async Task<IDataSet> Reset(DataSetType dataSetType)
+	public async Task Initialize()
 	{
-		var dataSet = this.DataSets[dataSetType];
+		// Each json file is a dataset. The "Default" can optionally hold common data that should be included in all datasets.
+		var testDataRootDir = Path.Combine(AppContext.BaseDirectory, "TestData");
+		var defaultDataDir = Path.Combine(testDataRootDir, "Default");
+
+		var jsonFilepaths = Directory.GetFiles(testDataRootDir, "*.json", SearchOption.TopDirectoryOnly);
+		foreach (var jsonFilepath in jsonFilepaths)
+		{
+			var dataSetName = Path.GetFileNameWithoutExtension(jsonFilepath);
+			var dataSet = await LoadDataSet(jsonFilepath);
+			DataSets.Add(dataSetName, dataSet);
+		}
+	}
+
+	private async Task<TestDataSet> LoadDataSet(string jsonFilepath)
+	{
+		try
+		{
+			using var reader = new StreamReader(jsonFilepath);
+			var json = await reader.ReadToEndAsync();
+			var dataSet = JsonSerializer.Deserialize<TestDataSet>(json);
+			return dataSet;
+		}
+		catch (Exception ex)
+		{
+			throw new Exception($"Error loading dataset from file '{jsonFilepath}': {ex.Message}", ex);
+		}
+	}
+
+	public async Task<TestDataSet> Reset(string dataSetName)
+	{
+		var dataSet = this.DataSets[dataSetName];
 
 		await DeleteAllData();
 		await InsertAllData(dataSet);
@@ -45,17 +76,23 @@ public class DataManager : IDataManager
 		await _db.Invoice.ExecuteDeleteAsync();
 		await _db.Patient.ExecuteDeleteAsync();
 		await _db.AppUser.ExecuteDeleteAsync();
+		await _db.Practice.ExecuteDeleteAsync();
+		await _db.Category.ExecuteDeleteAsync();
 
 		await _db.SaveChangesAsync();
 	}
 
-	private async Task InsertAllData(IDataSet dataSet)
+	private async Task InsertAllData(TestDataSet dataSet)
 	{
+		await _db.Category.AddRangeAsync(dataSet.CategoryList);
+		await _db.SaveChangesAsync();
+		await _db.Practice.AddRangeAsync(dataSet.PracticeList);
+		await _db.SaveChangesAsync();
+		await _db.AppUser.AddRangeAsync(dataSet.AppUserList);
+		await _db.SaveChangesAsync();
 		await _db.Patient.AddRangeAsync(dataSet.PatientList);
 		await _db.SaveChangesAsync();
 		await _db.Invoice.AddRangeAsync(dataSet.InvoiceList);
-		await _db.SaveChangesAsync();
-		await _db.AppUser.AddRangeAsync(dataSet.AppUserList);
 		await _db.SaveChangesAsync();
 	}
 }

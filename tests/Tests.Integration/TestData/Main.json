@@ -1,0 +1,429 @@
+{
+	"CategoryList": [
+		{
+			"Id": "341d4f55-ab58-483e-96fd-9dd57357b49f",
+			"Name": "VwrfY9Sgz088RmvY8OzQlYe3qVcyRx"
+		},
+		{
+			"Id": "83753d3b-2746-4f22-9e4c-9bd59f9e70ac",
+			"Name": "j2wYVsSIckLZPdjDmafYYtrz7ryZc7uzb6YguyJGqfwFJ8"
+		},
+		{
+			"Id": "d5985a2e-a81b-4161-ace3-f4fde369a56b",
+			"Name": "ZgsZxLJf0K70E33Ff0mYS"
+		},
+		{
+			"Id": "ce11742c-d10a-43d9-9b48-d0c6a344631a",
+			"Name": "diXAJIS6WZ91"
+		},
+		{
+			"Id": "0b4f764c-3827-4053-b314-1314e9576e20",
+			"Name": "SUh6XB08FxIfMxKrPxkQKdjc6bbx"
+		}
+	],
+	"PracticeList": [
+		{
+			"Id": "5644be11-4cc5-4583-bd48-8a495dfa5523",
+			"Name": "Xh1MvkU73yw2qHVpv7khOhBYl7PKf9WADeRpQDrmZuV9YY"
+		},
+		{
+			"Id": "fc95ce83-0efb-4135-8504-00b9f26a2809",
+			"Name": "FyWLe0ppQPcAxEk13"
+		},
+		{
+			"Id": "58026b67-e674-4549-b6d6-99c97ff659a1",
+			"Name": "5zlZGJ1Q8suvCaxNjmtyRJnZbJOc3SP"
+		},
+		{
+			"Id": "8cecfdd0-83cc-46d8-b188-23eff3cf5180",
+			"Name": "1w2yiQ1mUy275vmcdUu7HF4w"
+		},
+		{
+			"Id": "39644f27-fafd-4ed2-ba89-51a06ed3c106",
+			"Name": "wY65YWpM1D"
+		}
+	],
+	"AppUserList": [
+		{
+			"Id": "98c8d64d-b344-493e-9c3e-6f1bef5d1774",
+			"Username": "h8EDvg"
+		},
+		{
+			"Id": "bb92eeee-154c-4881-9128-3f7c3d52893d",
+			"Username": "tRp4QwL9jxS4wBGmW14r5LMue1g4ep0MB"
+		},
+		{
+			"Id": "eac57178-e923-47c0-83a7-a3957c33268e",
+			"Username": "LO6CiKtZM246hOKVSMAYSRe4ZYqQ43GgDF01qtTu8g9U"
+		},
+		{
+			"Id": "2aa5d57e-7338-464f-98bd-c3ef778e9fc5",
+			"Username": "iUCtsHolMi3KcMttM4SvYC"
+		},
+		{
+			"Id": "62600811-311f-48ec-9776-82ad8293f0d0",
+			"Username": "XTFy3f0MStEReYwMws41w7rnRzavlqy"
+		}
+	],
+	"PatientList": [
+		{
+			"Id": "2d85d238-b7e1-4671-bff3-a79a58023c25",
+			"FirstName": "iOKWivfWGlqH4pFpswd3LpZCrRDfEAB42b",
+			"LastName": "jWZn6Ye0WaQWjEg34vSe2YiEB1asfTvP3twDCigfGzdBL5t",
+			"Email": "GHJj7duNuWeXWUdOa30i",
+			"IsActive": true,
+			"PracticeId": "5644be11-4cc5-4583-bd48-8a495dfa5523"
+		},
+		{
+			"Id": "cd7f17f1-7d13-4a69-ac41-59f66f8407f6",
+			"FirstName": "VoNIDVR2FHA4JlWG5qb0iw",
+			"LastName": "rT",
+			"Email": "W",
+			"IsActive": true,
+			"PracticeId": "5644be11-4cc5-4583-bd48-8a495dfa5523"
+		},
+		{
+			"Id": "f72778fe-299c-4dc7-bc3b-35eeaa6e4bea",
+			"FirstName": "DB",
+			"LastName": "gWuGzJJ6BqHx2l12D7JhWsznwYXV4rDe9iCzBaG",
+			"Email": "4QfE41Ei4he3u9XwhjLWYbk",
+			"IsActive": true,
+			"PracticeId": "5644be11-4cc5-4583-bd48-8a495dfa5523"
+		},
+		{
+			"Id": "c1df5652-5b55-4336-923c-2da91fd2ce37",
+			"FirstName": "xTSCADB3P1LtSC6tM9jykOjP",
+			"LastName": "t04",
+			"Email": "2GrcGhWQDONaPhlczROClbbzrTJczhNG",
+			"IsActive": true,
+			"PracticeId": "5644be11-4cc5-4583-bd48-8a495dfa5523"
+		},
+		{
+			"Id": "b7874cd6-b2f0-40f8-a3a6-cb0f88a14910",
+			"FirstName": "9f",
+			"LastName": "Q5",
+			"Email": "6GEUk9cD94iqBC0E2UXHTqwbhbN",
+			"IsActive": false,
+			"PracticeId": "5644be11-4cc5-4583-bd48-8a495dfa5523"
+		},
+		{
+			"Id": "21476dc1-c05f-4914-af4e-164f0f2ae768",
+			"FirstName": "aTWZ5o",
+			"LastName": "GOhTHJAnEpHJiKk5irXQkDNiw4",
+			"Email": "kwBGnu8nMeaj0jG1Ee8F0XNIiIvcb8xMmBchYavXM7seqN0a6V",
+			"IsActive": true,
+			"PracticeId": "5644be11-4cc5-4583-bd48-8a495dfa5523"
+		},
+		{
+			"Id": "c46ed5d0-a192-48b3-a1bb-fa496ab3e57e",
+			"FirstName": "1ixS3xP95lOQy7ygzcDSk33EJrERugpufQvsOz5MPYQVOx1",
+			"LastName": "B4HTkJU8p2jL38OZ5tLSMfC9h0dwmhZmAYq",
+			"Email": "GkF5wdVqtTRk10vVidvBHLtFyVhc",
+			"IsActive": true,
+			"PracticeId": "fc95ce83-0efb-4135-8504-00b9f26a2809"
+		},
+		{
+			"Id": "6817dd89-e84d-44c2-b1a4-ccff7aefb26d",
+			"FirstName": "fRnqzjgXp",
+			"LastName": "QT",
+			"Email": "vlvrEA",
+			"IsActive": false,
+			"PracticeId": "fc95ce83-0efb-4135-8504-00b9f26a2809"
+		},
+		{
+			"Id": "d7a13a42-353f-4ef3-baa8-5df7efc68b95",
+			"FirstName": "48b409GL6StjN96KAlPvYtVXYmknA0IF3vXppE",
+			"LastName": "grOg7AODwpU0tV6",
+			"Email": "nngOZtkfkXqsmRu63JeknYxjSX8Q9oU",
+			"IsActive": true,
+			"PracticeId": "fc95ce83-0efb-4135-8504-00b9f26a2809"
+		},
+		{
+			"Id": "6f8bc8b0-87ae-4a6f-93e4-bc2aef788cc1",
+			"FirstName": "ccxOq7DaWN",
+			"LastName": "lkHz4zm2Vxy065bvEg5d",
+			"Email": "aPsIpsgQnbTVHNAqeZHdOYNlBSoM931Kesj2hwk3Wekx",
+			"IsActive": false,
+			"PracticeId": "58026b67-e674-4549-b6d6-99c97ff659a1"
+		},
+		{
+			"Id": "5aa740d6-2d9e-4dbc-ac19-58698d24e228",
+			"FirstName": "yx4obgFpnl",
+			"LastName": "gh",
+			"Email": "DRtk",
+			"IsActive": false,
+			"PracticeId": "58026b67-e674-4549-b6d6-99c97ff659a1"
+		},
+		{
+			"Id": "7e7d4e25-6306-4d81-9c3a-d44c82863cfd",
+			"FirstName": "oDIjSONrJNpfpu0SV1UeZe80apO0sx0n6Fj",
+			"LastName": "wetC17OIWb1mmU6Cze1jFRiDaX8mWbiUl6vQIrn1Azd9xB",
+			"Email": "ByX2O9yO6ZCd9BVU2hbpyp3i19Sf",
+			"IsActive": true,
+			"PracticeId": "58026b67-e674-4549-b6d6-99c97ff659a1"
+		},
+		{
+			"Id": "340d3155-2dfc-4b77-9f47-48deb8e9eb41",
+			"FirstName": "gIkAUyoq",
+			"LastName": "lIRUTZ",
+			"Email": null,
+			"IsActive": true,
+			"PracticeId": "58026b67-e674-4549-b6d6-99c97ff659a1"
+		},
+		{
+			"Id": "0c61bf5e-f5c6-4a6d-b977-8397f144abfa",
+			"FirstName": "tgqAxjlFPaOqsbWT42IRxGMbZRRFktQhT",
+			"LastName": "ucZhXrJ2JpC4qQ795rtsrX",
+			"Email": "LQBQuwtGH1QT3",
+			"IsActive": true,
+			"PracticeId": "8cecfdd0-83cc-46d8-b188-23eff3cf5180"
+		},
+		{
+			"Id": "d05e8a33-6a68-4607-a306-e3b54724d522",
+			"FirstName": "qhE7",
+			"LastName": "I5AbHkyzXBjGIKGh02I",
+			"Email": null,
+			"IsActive": true,
+			"PracticeId": "8cecfdd0-83cc-46d8-b188-23eff3cf5180"
+		},
+		{
+			"Id": "9a7d0ae4-2ce0-46fe-8fde-8f2a7d9519a1",
+			"FirstName": "xz9ofimdkX0hQPpzij84SfRklsq7zp6UBNHbctfpmUrwQA4",
+			"LastName": "2BUyoamrRZcW1pN51gQdhowYeSS8YuDUyzf8EHFAAqt",
+			"Email": null,
+			"IsActive": false,
+			"PracticeId": "8cecfdd0-83cc-46d8-b188-23eff3cf5180"
+		},
+		{
+			"Id": "7e6e2d2d-5c25-4eef-bdfd-fc11d54b657f",
+			"FirstName": "x6gwFKU1SNe5tGs",
+			"LastName": "DwvsyCkPAtKp",
+			"Email": "4jHWuV2CZ29HRB4Jo8imX61835WB6m9Fo1S4xGmGvaHD",
+			"IsActive": false,
+			"PracticeId": "8cecfdd0-83cc-46d8-b188-23eff3cf5180"
+		},
+		{
+			"Id": "710b30b6-ec02-43ee-9982-69d7fe23f952",
+			"FirstName": "VSU0eMgAe8rJ3y9BGN2EsZS9lRWM0WzyQckdQfhxyXW",
+			"LastName": "NYNXG3E3KXI5aVOw0EJsJ320n6VAFFgEd8wxd8",
+			"Email": null,
+			"IsActive": true,
+			"PracticeId": "8cecfdd0-83cc-46d8-b188-23eff3cf5180"
+		},
+		{
+			"Id": "ab098653-ea54-46da-8eab-36dfefdae248",
+			"FirstName": "FX2Dpc4AUH3oElT",
+			"LastName": "XKKieyfRd1czrs1yMaefaw730aU8mqIWMBqxFYngSlAxaFi",
+			"Email": "ELDgO5AMQsdNhEWtpW0cE3YX7wZ6J3u1ts",
+			"IsActive": true,
+			"PracticeId": "8cecfdd0-83cc-46d8-b188-23eff3cf5180"
+		},
+		{
+			"Id": "9333f72a-ff38-402b-b26c-423918aaef82",
+			"FirstName": "fQ8G0VYFjDLQNeUTszlLWPjrfDcX8muYVg",
+			"LastName": "JYulTetOEVis",
+			"Email": "LI3hh3z",
+			"IsActive": true,
+			"PracticeId": "8cecfdd0-83cc-46d8-b188-23eff3cf5180"
+		},
+		{
+			"Id": "b1ff7265-319d-4502-80ef-8bfdc66957e3",
+			"FirstName": "AwSbH6jW4G1l48oCGCbPG7kHPwNAROnYci3",
+			"LastName": "adVRu8nWO6QKOOKAx1kDlkvktSfptciWezBDRuuIT",
+			"Email": "SQdWceWAl8AM0RLyM28CLX4FpngTdHLTWrNEp6clGM7YO",
+			"IsActive": true,
+			"PracticeId": "8cecfdd0-83cc-46d8-b188-23eff3cf5180"
+		},
+		{
+			"Id": "68c62123-9cb9-4878-85ed-0cc5252c1991",
+			"FirstName": "Wg6SPV5s4WIGZ8dwNwRZIegiQ0W680f",
+			"LastName": "CLuNhZ6818SSRzmnDptC76cS9XbZ89teQReoOApYzS8",
+			"Email": "xBqNJDSGN4FILNtXh9",
+			"IsActive": true,
+			"PracticeId": "8cecfdd0-83cc-46d8-b188-23eff3cf5180"
+		},
+		{
+			"Id": "35dd368d-36bf-42b4-a39e-06875c25fe06",
+			"FirstName": "Ncav8IcaEco7DwLwUlyGLIdXIPcW5bsSh4",
+			"LastName": "vB5PaARbKPIfob7c5Lvdf8nWsGqeDUF0IOp5",
+			"Email": "xf3GChaKXU89whV1MwojwEkNIZj",
+			"IsActive": true,
+			"PracticeId": "8cecfdd0-83cc-46d8-b188-23eff3cf5180"
+		},
+		{
+			"Id": "3437ef2a-f9f3-4a93-98da-1f2d919536be",
+			"FirstName": "VbnznpjIGfWSSFfDyyeRc2RQk25q8",
+			"LastName": "7sdn96W64GRd0iwOWOHeBVNZH2uHpuu3",
+			"Email": "hDOEGiRBEI98cItFgqS4lmPoQgLpRJlYE6a39riyw9reZI",
+			"IsActive": true,
+			"PracticeId": "39644f27-fafd-4ed2-ba89-51a06ed3c106"
+		},
+		{
+			"Id": "d5baacb8-8e6d-4fca-97b4-350b430ce56c",
+			"FirstName": "nTndkPS5XAXAHCU4wlEfHAGYitHl4LyipZb7vhN",
+			"LastName": "offJES13owRNeUoXnz50hGambPkRBXJoIP1Cv6uzCN",
+			"Email": "3UeFLoU6mWRRe2IYHkCBXDfy2WBq",
+			"IsActive": false,
+			"PracticeId": "39644f27-fafd-4ed2-ba89-51a06ed3c106"
+		},
+		{
+			"Id": "4523ebb5-3eaa-4194-b728-a9f7b2a9849e",
+			"FirstName": "yDJCtqLPfmcMcW8kxCyF1rlFUz",
+			"LastName": "PMZWD1QxnhMIrn2epylAtASy82INgsdS3K",
+			"Email": "qA",
+			"IsActive": true,
+			"PracticeId": "39644f27-fafd-4ed2-ba89-51a06ed3c106"
+		},
+		{
+			"Id": "58442d61-f92d-47cc-a3e8-471755cd50ce",
+			"FirstName": "wyUcV4gs9n5hI9wp4AXLscr5e3PRr0YZZAe4PP",
+			"LastName": "eVqO3x6j4nQiZM8BtgZ82pzaizfsi4CJ",
+			"Email": null,
+			"IsActive": true,
+			"PracticeId": "39644f27-fafd-4ed2-ba89-51a06ed3c106"
+		},
+		{
+			"Id": "1d347def-0f3f-4845-9681-e095a9be98e5",
+			"FirstName": "ZcxyHhTUDLS8m08UX0RUZwpFDrOb9Vg3b3iz5",
+			"LastName": "r0iE6yAA3BkjOSHd3CW14qDSURFY7sRJYfJ0M",
+			"Email": "1fdyn10hxw8aQMeYaxATo3",
+			"IsActive": true,
+			"PracticeId": "39644f27-fafd-4ed2-ba89-51a06ed3c106"
+		}
+	],
+	"InvoiceList": [
+		{
+			"Id": "a0189ce9-f326-42c0-ba66-033ca5103401",
+			"PatientId": "9333f72a-ff38-402b-b26c-423918aaef82",
+			"Amount": 5890.81,
+			"Memo": "KuJjQBIc5W02q04JhC8sb6UqIDlLl7DKXDqFIoPHCNQr7igJZOVjEsROKsLmp608tqeWKzb3WB0yqDtzwMWGltfFVM5qMDrFWS7Qeu9zN2wdCtxg8l0NkuW9lJa8EUqtjuMHGMvcMw3t7cdCoYr",
+			"CategoryId": "341d4f55-ab58-483e-96fd-9dd57357b49f"
+		},
+		{
+			"Id": "2eb80172-938e-49e9-b91f-0e96684f82fc",
+			"PatientId": "5aa740d6-2d9e-4dbc-ac19-58698d24e228",
+			"Amount": 4404.89,
+			"Memo": "OuC67FEtb52Mc3hR0KwZXaYADcjGHTPDZQFajLIh0TLBaR4i5Vxo5LZNGbD5w8VrpzXwyhHpbo9ezxAWhaKWvAIn11DiiNV27ulL3IUYoinQMUojLQXvx95Y1JEHNz",
+			"CategoryId": "341d4f55-ab58-483e-96fd-9dd57357b49f"
+		},
+		{
+			"Id": "d95b8d21-e8c7-4dbe-b4a5-06fc99980722",
+			"PatientId": "d7a13a42-353f-4ef3-baa8-5df7efc68b95",
+			"Amount": 1106.72,
+			"Memo": "DggelY2JqWHmn1LgMuGBZzE8ywUudmkZcZmFOk7WYofLBSL97y5s2PHdLiQZeHFdLSkyOfCCxTMLt3",
+			"CategoryId": "341d4f55-ab58-483e-96fd-9dd57357b49f"
+		},
+		{
+			"Id": "311664a5-f2d9-41bd-9d7b-9df90fb89d70",
+			"PatientId": "d7a13a42-353f-4ef3-baa8-5df7efc68b95",
+			"Amount": 5325.74,
+			"Memo": "VUwPr16wri3FDiSrSc9THnu26D5jd6USLbdtk0VTVYgGl68obv3r3XhHAETY6Xtvyl4Ceyg1qp7TgYQ9ERhRcCYX3F3Ph7X8FVhacGjMocaO0yBMYTtpPLt6whJIFATsB9ovQP7",
+			"CategoryId": "341d4f55-ab58-483e-96fd-9dd57357b49f"
+		},
+		{
+			"Id": "d0790a1e-50dc-4892-a566-77405746bf3a",
+			"PatientId": "7e7d4e25-6306-4d81-9c3a-d44c82863cfd",
+			"Amount": 9778.25,
+			"Memo": "ED9Bk6Fer1yOIs3BlN57LhXtRm1kf5iWuRlhuEmkeDnJuO3Ru3Fccb5xPPT7fv8vTLt0hVhQAU2h3o8dtkZmzfUtWXCOVpeSF10TvcKIVZLr",
+			"CategoryId": "341d4f55-ab58-483e-96fd-9dd57357b49f"
+		},
+		{
+			"Id": "a9ba9a5c-7191-4f5b-b3ff-a4f86e09f7b6",
+			"PatientId": "340d3155-2dfc-4b77-9f47-48deb8e9eb41",
+			"Amount": 8156.52,
+			"Memo": "BRQO5FW6N1aettD5lQjMcxpSqJqAKDDk7ua7eKjnS5n1u8rps3AL8mBeB8yvovvjxZh8tG0KG63gkxxrsbiQd2lV36FgmX8",
+			"CategoryId": "83753d3b-2746-4f22-9e4c-9bd59f9e70ac"
+		},
+		{
+			"Id": "af6fce84-1ff9-49ba-a23e-b4997abadb0f",
+			"PatientId": "9a7d0ae4-2ce0-46fe-8fde-8f2a7d9519a1",
+			"Amount": 5799.68,
+			"Memo": "EE1s5Vd0ectu",
+			"CategoryId": "d5985a2e-a81b-4161-ace3-f4fde369a56b"
+		},
+		{
+			"Id": "95e9afdd-b8eb-4c46-b36a-03931090b1de",
+			"PatientId": "35dd368d-36bf-42b4-a39e-06875c25fe06",
+			"Amount": 8925.16,
+			"Memo": "LgcnmPgFOwfxbTx",
+			"CategoryId": "d5985a2e-a81b-4161-ace3-f4fde369a56b"
+		},
+		{
+			"Id": "62aa3dd8-2c62-44ec-bf35-1850b373a5f7",
+			"PatientId": "7e6e2d2d-5c25-4eef-bdfd-fc11d54b657f",
+			"Amount": 7284.23,
+			"Memo": "GGh32AafxNmYjBIcAFgUVk4780FmIUtCveWYWlSPchZc3RE4HuKor8mvLk4b5XHNtUDfPTqpWASNu2dqwLPnjfkw1BmMqRUoKmSjoypXdvB1pJaSgOOuhtEnJgonGO8fQEdij3c7v2kXOthrAEFMczgqSFJikbqzwvlVF2ImLQ8pjQJq86XciwcqxWAOu4XuLU",
+			"CategoryId": "d5985a2e-a81b-4161-ace3-f4fde369a56b"
+		},
+		{
+			"Id": "197aa6c1-fd34-4b4a-b14a-232ffb193fa2",
+			"PatientId": "0c61bf5e-f5c6-4a6d-b977-8397f144abfa",
+			"Amount": 4286.27,
+			"Memo": "iwWH5tavB1hb6tjonoqat4xTC42R3NOyqqiMkqgZvQZGOySaVJhxEA9n8cebA",
+			"CategoryId": "d5985a2e-a81b-4161-ace3-f4fde369a56b"
+		},
+		{
+			"Id": "733a6d30-6d5c-45f6-8876-971638cd0a72",
+			"PatientId": "c46ed5d0-a192-48b3-a1bb-fa496ab3e57e",
+			"Amount": 4527.21,
+			"Memo": "nTVPlGe7hAOMf1eel26uGq3Zr4Ohlfzbocs5McZoEjpdVwig8aZIxhq6Z5yq26WbbMxcIiBjcRZwa0e4WHjkq0OhVwgRNIwIxoci9fHZJPFPr4591EDuXLVk8qrmcUGEvr8WX64RatLKu8Z1Ah0ifbVWC1jTYvW",
+			"CategoryId": "ce11742c-d10a-43d9-9b48-d0c6a344631a"
+		},
+		{
+			"Id": "85a6533c-1fc8-46b6-bcd9-70e3f26988ca",
+			"PatientId": "7e7d4e25-6306-4d81-9c3a-d44c82863cfd",
+			"Amount": 8248.21,
+			"Memo": "bua5il4KWuDalZaAAV54xztGmu6Wl3PH",
+			"CategoryId": "ce11742c-d10a-43d9-9b48-d0c6a344631a"
+		},
+		{
+			"Id": "4e32cd54-0990-4dcd-bdf6-86b47fb3da66",
+			"PatientId": "710b30b6-ec02-43ee-9982-69d7fe23f952",
+			"Amount": 7739.90,
+			"Memo": "tOZ5r55IsRrVqbjsxJ15WMaETYoiy2P6oVGvLED98ZgMoAd5N2FfQ0ORNvmDRWjzcvHFFXR3g166GyqsVtFFx",
+			"CategoryId": "ce11742c-d10a-43d9-9b48-d0c6a344631a"
+		},
+		{
+			"Id": "fb7cd471-2aaf-4409-bd6b-e48ae4f4d3c8",
+			"PatientId": "9333f72a-ff38-402b-b26c-423918aaef82",
+			"Amount": 2577.21,
+			"Memo": "hZRpsaslPQJ23IzZlM9Y4Rkpe4SxrOcCfjxPfBKfJUrZYyym3PuVKBCAOClxs44bOgWUkTTTb3okz",
+			"CategoryId": "0b4f764c-3827-4053-b314-1314e9576e20"
+		},
+		{
+			"Id": "bd40f3b8-9846-4468-846d-0643d730da10",
+			"PatientId": "7e6e2d2d-5c25-4eef-bdfd-fc11d54b657f",
+			"Amount": 3449.52,
+			"Memo": "QFFELtr2OQ7bNqmXP0plSLOcj6LTRmsasbE2WzsRwohdnSfCYfJtkjRf1CuPSHkBx7SLWuapHHYEDKZB0i4MN8",
+			"CategoryId": "0b4f764c-3827-4053-b314-1314e9576e20"
+		},
+		{
+			"Id": "d6a2e489-e848-4a72-9964-62eef1bfeb5c",
+			"PatientId": "6f8bc8b0-87ae-4a6f-93e4-bc2aef788cc1",
+			"Amount": 8413.50,
+			"Memo": "tzatfN9YdQPp9EQDeuWMvnLrN3YKM",
+			"CategoryId": "0b4f764c-3827-4053-b314-1314e9576e20"
+		},
+		{
+			"Id": "061b46df-6e2f-4696-ab0a-9f8dc2cdfdec",
+			"PatientId": "3437ef2a-f9f3-4a93-98da-1f2d919536be",
+			"Amount": 5556.24,
+			"Memo": "zhJsxuQk4I9BX4JCwBBHsmnXgYSQlYzlE1qizltixk1evWXxeBCilaFm3WlJMa8giX65OAckiskivjBuavLUvraEwdpM9TGwlU5IZ1SNyr930w1Tu1IqynV1XCJKlzlyVX7Lo3EiM8vergN9mGshlq889dUxsiC8gKh",
+			"CategoryId": "0b4f764c-3827-4053-b314-1314e9576e20"
+		},
+		{
+			"Id": "3e38fa76-7466-401d-b877-90cea5b17305",
+			"PatientId": "5aa740d6-2d9e-4dbc-ac19-58698d24e228",
+			"Amount": 594.65,
+			"Memo": "pEAxzNA1RKQYJxPhdnFY8Mljh0EGx7R9JK6b1UVMHgsDeISUX1dwMoANtrpJj4ET2Rp9BNpsB2r2uSfIhTT",
+			"CategoryId": "0b4f764c-3827-4053-b314-1314e9576e20"
+		},
+		{
+			"Id": "e79f3625-89b1-4159-80e6-a28c86369f42",
+			"PatientId": "3437ef2a-f9f3-4a93-98da-1f2d919536be",
+			"Amount": 5101.55,
+			"Memo": "uwujtSKFmCNLIKwtTtjLV4T7ItKmQBAl8ZHu40i5PWpANqVhSpyAJ3izMxK9hyYVcCNScbz3lo68PtusHCDBcaLfRhSHpiXr8DylNceQ0Eov7jUtcsCO4wSb0Hb4t2OcAPam4jPExWLHVphHxyE6QiwLVwufbkx80l5rjIz3N7rhVkqLzEH5x",
+			"CategoryId": "0b4f764c-3827-4053-b314-1314e9576e20"
+		}
+	]
+}

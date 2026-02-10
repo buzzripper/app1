@@ -7,12 +7,12 @@ namespace Dyvenix.App1.Tests.Integration.App;
 public sealed class PatientReadTestFixture(GlobalTestFixture globalFixture) : IAsyncLifetime
 {
 	public GlobalTestFixture GlobalFixture { get; } = globalFixture;
-	public IDataSet DataSet { get; private set; } = default!;
+	public TestDataSet DataSet { get; private set; } = default!;
 
 	public async ValueTask InitializeAsync()
 	{
 		var dataManager = GlobalFixture.Services.GetRequiredService<IDataManager>();
-		DataSet = await dataManager.Reset(DataSetType.Default);
+		DataSet = await dataManager.Reset(DataSetType.Main.ToString());
 	}
 
 	public ValueTask DisposeAsync() => default;
@@ -50,6 +50,9 @@ public class PatientReadTests : TestBase, IClassFixture<PatientReadTestFixture>
 			throw new InvalidOperationException("App1Db is not available from the test fixture.");
 		var userCount = _db.Patient.ToList().Count();
 		TestContext.Current.TestOutputHelper?.WriteLine($"Patient count in db: {userCount}");
+
+		var testPatientCount = _fixture.DataSet.PatientList.Count;
+
 		using var httpClient = _globalFixture.App.CreateHttpClient("app-server");
 
 		// Act

@@ -6,15 +6,16 @@
         <properties>
           <propertyModel Id="ed0af203-8ba4-4652-b270-da257df091d9" name="Id" description="Primary key" dataType="Guid" isPrimaryKey="true" isIndexed="true" isIndexUnique="true" isForeignKey="false" />
           <propertyModel Id="448786a9-ce1a-41ee-bba5-70b4732e2408" name="FirstName" length="50" isForeignKey="false" displayOrder="1" />
-          <propertyModel Id="37e3e8e5-d88a-4998-9f22-22b48fbf218a" name="LastName" length="50" isForeignKey="false" />
+          <propertyModel Id="37e3e8e5-d88a-4998-9f22-22b48fbf218a" name="LastName" length="50" isForeignKey="false" displayOrder="2" />
           <propertyModel Id="9a81e18e-146d-4e35-b744-7dab01f58f56" name="Email" length="50" isNullable="true" isIndexUnique="true" isForeignKey="false" displayOrder="2" />
           <propertyModel Id="4b893e3e-8720-41c9-a50a-4f6e58a3b6ec" name="IsActive" dataType="Boolean" length="50" isForeignKey="false" displayOrder="3" />
+          <propertyModel Id="03f3bc12-aba6-47e4-b2b5-e488420a1af3" name="PracticeId" description="Foreign key to Practice" dataType="Guid" isForeignKey="true" displayOrder="1" />
         </properties>
         <navigationProperties>
           <navigationProperty Id="1e4359ef-e624-4d1a-af13-199d54b67be3" name="Invoices" description="Navigation to Invoice" targetEntityName="Invoice" isCollection="true" />
         </navigationProperties>
         <targets>
-          <association Id="5c4cedcc-7881-4ef0-8235-0adc258b2ba2" sourceMultiplicity="1" sourceRoleName="Invoices" targetMultiplicity="*" fkPropertyName="PersonId">
+          <association Id="5c4cedcc-7881-4ef0-8235-0adc258b2ba2" sourceMultiplicity="1" sourceRoleName="Invoices" targetMultiplicity="*" fkPropertyName="PatientId">
             <entityModelMoniker name="/App1/Invoice" />
           </association>
         </targets>
@@ -253,9 +254,10 @@
       <entityModel Id="efc53c38-8d23-4550-b3f9-051e21f54dce" name="Invoice" attributes="Authorize" auditable="false" inclRowVersion="false" module="App" enabled="false">
         <properties>
           <propertyModel Id="0bf2e864-25ed-4184-bedb-9e2da3f52128" name="Id" description="Primary key" dataType="Guid" isPrimaryKey="true" isIndexed="true" isIndexUnique="true" isForeignKey="false" />
-          <propertyModel Id="66831d5a-1700-4bea-a548-85ba4a597719" name="PersonId" description="Foreign key to Person" dataType="Guid" isForeignKey="true" />
-          <propertyModel Id="b10191ba-b8b5-4f3d-880f-dd753ad2bb44" name="Amount" dataType="Decimal" length="50" isIndexed="true" isForeignKey="false" />
-          <propertyModel Id="c66300ce-6a24-465b-87d0-637ffe45ac2a" name="Memo" length="200" isForeignKey="false" />
+          <propertyModel Id="66831d5a-1700-4bea-a548-85ba4a597719" name="PatientId" description="Foreign key to Person" dataType="Guid" isForeignKey="true" displayOrder="2" />
+          <propertyModel Id="b10191ba-b8b5-4f3d-880f-dd753ad2bb44" name="Amount" dataType="Decimal" length="50" isIndexed="true" isForeignKey="false" displayOrder="3" />
+          <propertyModel Id="c66300ce-6a24-465b-87d0-637ffe45ac2a" name="Memo" length="200" isForeignKey="false" displayOrder="4" />
+          <propertyModel Id="dec323df-f387-403a-ac80-c422e7f89233" name="CategoryId" description="Foreign key to Category" dataType="Guid" isForeignKey="true" displayOrder="1" />
         </properties>
         <serviceModels>
           <entityModelHasServiceModels Id="bc9c6a10-214c-424c-ae04-978264d6139d">
@@ -378,6 +380,38 @@
             </serviceModel>
           </entityModelHasServiceModels>
         </serviceModels>
+      </entityModel>
+    </modelRootHasTypes>
+    <modelRootHasTypes Id="adbfa296-237b-4109-9270-f172870f552a">
+      <entityModel Id="511806a7-cf24-4caa-9e00-8eadd017ec51" name="Practice" auditable="false" inclRowVersion="false" module="App" enabled="false">
+        <properties>
+          <propertyModel Id="0c6057c7-2eda-48f3-9caf-8676056bb2cd" name="Id" description="Primary key" dataType="Guid" isPrimaryKey="true" isIndexed="true" isIndexUnique="true" isForeignKey="false" />
+          <propertyModel Id="e05a15d4-e16a-4e29-b180-fe831b656e30" name="Name" length="50" isForeignKey="false" />
+        </properties>
+        <navigationProperties>
+          <navigationProperty Id="4e266fe8-90a7-485b-8678-f20d2b11f32a" name="Patients" description="Navigation to Patient" targetEntityName="Patient" isCollection="true" />
+        </navigationProperties>
+        <targets>
+          <association Id="f76c92fe-d885-4873-bf9c-bddbdf6785c8" sourceMultiplicity="1" sourceRoleName="Patients" targetMultiplicity="*" fkPropertyName="PracticeId">
+            <entityModelMoniker name="/App1/Patient" />
+          </association>
+        </targets>
+      </entityModel>
+    </modelRootHasTypes>
+    <modelRootHasTypes Id="e3e08e85-48a1-47d3-83a3-515ed20d215c">
+      <entityModel Id="945bf8d0-8893-49f5-94a0-e8549532eefb" name="Category" auditable="false" inclRowVersion="false" module="App" enabled="false">
+        <properties>
+          <propertyModel Id="d649e3c0-5bba-4c4d-afad-772faf959dd9" name="Id" description="Primary key" dataType="Guid" isPrimaryKey="true" isIndexed="true" isIndexUnique="true" isForeignKey="false" />
+          <propertyModel Id="8a051618-4771-4e96-8384-b6914154cd63" name="Name" length="50" isForeignKey="false" />
+        </properties>
+        <navigationProperties>
+          <navigationProperty Id="b36a40d3-58f6-4fbf-89cd-b3f970289391" name="Invoice" description="Navigation to Invoice" targetEntityName="Invoice" isCollection="true" />
+        </navigationProperties>
+        <targets>
+          <association Id="947fcfee-a935-4d5c-8d92-3fc170a3dcd4" sourceMultiplicity="1" sourceRoleName="Invoice" targetMultiplicity="*" fkPropertyName="CategoryId">
+            <entityModelMoniker name="/App1/Invoice" />
+          </association>
+        </targets>
       </entityModel>
     </modelRootHasTypes>
   </types>

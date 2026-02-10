@@ -4,6 +4,7 @@ using Dyvenix.App1.Common.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dyvenix.App1.Common.Data.Migrations
 {
     [DbContext(typeof(App1Db))]
-    partial class App1DbModelSnapshot : ModelSnapshot
+    [Migration("20260209194113_AddPractice")]
+    partial class AddPractice
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,25 +44,6 @@ namespace Dyvenix.App1.Common.Data.Migrations
                     b.ToTable("AppUser", (string)null);
                 });
 
-            modelBuilder.Entity("Dyvenix.App1.Common.Data.Shared.Entities.Category", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex(new[] { "Id" }, "IX_Category_Id")
-                        .IsUnique();
-
-                    b.ToTable("Category", (string)null);
-                });
-
             modelBuilder.Entity("Dyvenix.App1.Common.Data.Shared.Entities.Invoice", b =>
                 {
                     b.Property<Guid>("Id")
@@ -69,27 +53,27 @@ namespace Dyvenix.App1.Common.Data.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<Guid>("CategoryId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Memo")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<Guid>("PatientId")
+                    b.Property<Guid?>("PatientId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PersonId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex(new[] { "Amount" }, "IX_Invoice_Amount");
+                    b.HasIndex("PatientId");
 
-                    b.HasIndex(new[] { "CategoryId" }, "IX_Invoice_CategoryId");
+                    b.HasIndex(new[] { "Amount" }, "IX_Invoice_Amount");
 
                     b.HasIndex(new[] { "Id" }, "IX_Invoice_Id")
                         .IsUnique();
 
-                    b.HasIndex(new[] { "PatientId" }, "IX_Invoice_PatientId");
+                    b.HasIndex(new[] { "PersonId" }, "IX_Invoice_PersonId");
 
                     b.ToTable("Invoice", (string)null);
                 });
@@ -151,17 +135,9 @@ namespace Dyvenix.App1.Common.Data.Migrations
 
             modelBuilder.Entity("Dyvenix.App1.Common.Data.Shared.Entities.Invoice", b =>
                 {
-                    b.HasOne("Dyvenix.App1.Common.Data.Shared.Entities.Category", null)
-                        .WithMany("Invoice")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Dyvenix.App1.Common.Data.Shared.Entities.Patient", null)
                         .WithMany("Invoices")
-                        .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PatientId");
                 });
 
             modelBuilder.Entity("Dyvenix.App1.Common.Data.Shared.Entities.Patient", b =>
@@ -171,11 +147,6 @@ namespace Dyvenix.App1.Common.Data.Migrations
                         .HasForeignKey("PracticeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Dyvenix.App1.Common.Data.Shared.Entities.Category", b =>
-                {
-                    b.Navigation("Invoice");
                 });
 
             modelBuilder.Entity("Dyvenix.App1.Common.Data.Shared.Entities.Patient", b =>

@@ -4,28 +4,24 @@
 
 namespace Dyvenix.App1.Common.Data.Shared.Entities;
 
-public partial class Invoice
+public partial class Category
 {
 	// PK
 	public Guid Id { get; set; }
 
-	// FKs
-	public Guid PatientId { get; set; }
-	public Guid CategoryId { get; set; }
-
 	// Properties
-	public decimal Amount { get; set; }
-	public string Memo { get; set; } = null!;
+	public string Name { get; set; } = null!;
+
+	// Navigation Properties
+	public List<Invoice> Invoice { get; set; } = new();
 
 	#region PropNames
 
 	public static class PropNames
 	{
 		public const string Id = "Id";
-		public const string PatientId = "PatientId";
-		public const string Amount = "Amount";
-		public const string Memo = "Memo";
-		public const string CategoryId = "CategoryId";
+		public const string Name = "Name";
+		public const string Invoice = "Invoice";
 	}
 
 	#endregion
