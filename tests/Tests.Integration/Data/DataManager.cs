@@ -1,10 +1,10 @@
 ﻿//------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/10/2026 7:33 AM. Any changes made to it will be lost.
+// This file was auto-generated on 2/10/2026 9:14 AM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
+using System.Text.Json;
+using Microsoft.EntityFrameworkCore;
 using Dyvenix.App1.Common.Data;
 using Dyvenix.App1.Tests.Integration.DataSets;
-using Microsoft.EntityFrameworkCore;
-using System.Text.Json;
 
 namespace Dyvenix.App1.Tests.Integration.Data;
 
@@ -29,7 +29,7 @@ public class DataManager : IDataManager
 		_db?.Dispose();
 	}
 
-	public Dictionary<string, TestDataSet> DataSets { get; } = new();
+	public Dictionary<string, TestDataSet> DataSets { get; } = [];
 
 	public async Task Initialize()
 	{
@@ -46,13 +46,15 @@ public class DataManager : IDataManager
 		}
 	}
 
-	private async Task<TestDataSet> LoadDataSet(string jsonFilepath)
+	public async Task<TestDataSet> LoadDataSet(string jsonFilepath)
 	{
 		try
 		{
 			using var reader = new StreamReader(jsonFilepath);
 			var json = await reader.ReadToEndAsync();
 			var dataSet = JsonSerializer.Deserialize<TestDataSet>(json);
+			if (dataSet == null)
+				throw new Exception($"Error attempting to load dataset file {jsonFilepath}. Returned null.");
 			return dataSet;
 		}
 		catch (Exception ex)
@@ -62,7 +64,7 @@ public class DataManager : IDataManager
 	}
 
 	public async Task<TestDataSet> Reset(string dataSetName)
-	{
+	 {
 		var dataSet = this.DataSets[dataSetName];
 
 		await DeleteAllData();
@@ -78,8 +80,6 @@ public class DataManager : IDataManager
 		await _db.AppUser.ExecuteDeleteAsync();
 		await _db.Practice.ExecuteDeleteAsync();
 		await _db.Category.ExecuteDeleteAsync();
-
-		await _db.SaveChangesAsync();
 	}
 
 	private async Task InsertAllData(TestDataSet dataSet)

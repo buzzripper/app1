@@ -43,22 +43,21 @@ public class PatientReadTests : TestBase, IClassFixture<PatientReadTestFixture>
 	}
 
 	[Fact]
-	public async Task GetPatientCount_Success()
+	public async Task CheckPatientCount_Success()
 	{
 		// Arrange
 		if (_db == null)
 			throw new InvalidOperationException("App1Db is not available from the test fixture.");
-		var userCount = _db.Patient.ToList().Count();
-		TestContext.Current.TestOutputHelper?.WriteLine($"Patient count in db: {userCount}");
-
-		var testPatientCount = _fixture.DataSet.PatientList.Count;
-
-		using var httpClient = _globalFixture.App.CreateHttpClient("app-server");
+		var testDataPatientCount = _fixture.DataSet.PatientList.Count;
 
 		// Act
-		using var response = await httpClient.GetAsync("/api/app/v1/system/ping", TestContext.Current.CancellationToken);
+		var dbUserCount = _db.Patient.ToList().Count();
 
 		// Assert
-		Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+		TestContext.Current.TestOutputHelper?.WriteLine($"Patient count in test data: {testDataPatientCount}");
+		TestContext.Current.TestOutputHelper?.WriteLine($"Patient count in db: {dbUserCount}");
+
+		Assert.Equal(testDataPatientCount, dbUserCount);
+
 	}
 }
