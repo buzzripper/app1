@@ -1,3 +1,4 @@
+using Dyvenix.App1.App.Api.Endpoints;
 using Dyvenix.App1.App.Api.Extensions;
 using Dyvenix.App1.Common.Api.Extensions;
 using Dyvenix.App1.Common.Data.Config;
@@ -11,7 +12,6 @@ builder.AddServiceDefaults();
 var dataConfig = DataConfigBuilder.Build(builder.Configuration);
 
 // Add services to the container
-builder.Services.AddControllers();
 builder.Services.AddStandardJwtAuthentication(builder.Configuration);
 builder.Services.AddAppApiServices(false);
 builder.Services.AddStandardApiVersioning();
@@ -28,7 +28,7 @@ app.UseStandardApiPipeline();
 if (app.Environment.IsDevelopment())
 	app.MapAppApiDocumentation();
 
-app.MapStandardApiEndpoints();
+app.MapAppSystemEndpoints();
 app.MapDefaultEndpoints();
 
 app.Run();

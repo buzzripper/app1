@@ -16,6 +16,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Endpoints\SystemEndpoints.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
@@ -36,6 +40,8 @@
 
   <ItemGroup>
     <Folder Include="Config\" />
+    <Folder Include="Controllers\" />
+    <Folder Include="Endpoints\v1\" />
     <Folder Include="Services\v1\" />
   </ItemGroup>
 

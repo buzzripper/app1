@@ -28,8 +28,7 @@
 
   <ItemGroup>
     <Folder Include="Config\" />
-    <Folder Include="Endpoints\" />
-    <Folder Include="Endpoints\v1\" />
+    <Folder Include="Controllers\" />
     <Folder Include="Services\v1\" />
   </ItemGroup>
 

@@ -1,6 +1,5 @@
 using Dyvenix.App1.Auth.Api.Services;
 using Dyvenix.App1.Auth.Shared.Interfaces;
-using Dyvenix.App1.Common.Api.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,7 +13,7 @@ public static partial class ServiceCollectionExt
 	static partial void AddGeneratedServices(IServiceCollection services);
 
 	/// <summary>
-	/// Registers Auth API services and controllers.
+	/// Registers Auth API services.
 	/// Call this when hosting Auth services (standalone or in-process).
 	/// </summary>
 	public static IServiceCollection AddAuthApiServices(this IServiceCollection services, bool isInProcess)
@@ -22,13 +21,8 @@ public static partial class ServiceCollectionExt
 		// Register business logic services
 		services.AddScoped<IAuthSystemService, AuthSystemService>();
 
-		// Register exception filter for ServiceFilter attribute
-		services.AddScoped<ApiExceptionFilter<AuthSystemService>>();
-
 		if (!isInProcess)
 		{
-			// Add Controllers
-			services.AddControllers();
 			// Add OpenAPI support
 			services.AddOpenApi();
 		}
