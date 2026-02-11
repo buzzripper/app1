@@ -1,14 +1,14 @@
 using App1.App.Shared.DTOs;
 using App1.App.Shared.Interfaces;
-using Dyvenix.App1.App.Api.Logging;
+using Microsoft.Extensions.Logging;
 
 namespace Dyvenix.App1.App.Api.Services;
 
 public class AppSystemService : IAppSystemService
 {
-	private readonly IAppModuleLogger _logger;
+	private readonly ILogger<AppSystemService> _logger;
 
-	public AppSystemService(IAppModuleLogger logger)
+	public AppSystemService(ILogger<AppSystemService> logger)
 	{
 		_logger = logger;
 	}

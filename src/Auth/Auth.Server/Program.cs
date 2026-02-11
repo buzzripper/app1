@@ -1,4 +1,4 @@
-using Dyvenix.App1.Auth.Api.Config;
+using Dyvenix.App1.Auth.Api.Extensions;
 using Dyvenix.App1.Common.Api.Extensions;
 using Dyvenix.App1.Common.Data.Config;
 using Dyvenix.App1.Common.Server;

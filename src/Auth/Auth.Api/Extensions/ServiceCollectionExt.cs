@@ -1,14 +1,12 @@
-using Dyvenix.App1.Auth.Api.Logging;
 using Dyvenix.App1.Auth.Api.Services;
 using Dyvenix.App1.Auth.Shared.Interfaces;
 using Dyvenix.App1.Common.Api.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Scalar.AspNetCore;
 
-namespace Dyvenix.App1.Auth.Api.Config;
+namespace Dyvenix.App1.Auth.Api.Extensions;
 
 public static partial class ServiceCollectionExt
 {
@@ -23,7 +21,6 @@ public static partial class ServiceCollectionExt
 	{
 		// Register business logic services
 		services.AddScoped<IAuthSystemService, AuthSystemService>();
-		services.AddTransient<IAuthModuleLogger>(sp => new AuthModuleLogger(sp.GetRequiredService<ILoggerFactory>()));
 
 		// Register exception filter for ServiceFilter attribute
 		services.AddScoped<ApiExceptionFilter<AuthSystemService>>();

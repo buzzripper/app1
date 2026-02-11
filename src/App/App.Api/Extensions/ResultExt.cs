@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Dyvenix.App1.App.Api.Extensions;
 
-public static class ResultExtensions
+public static class ResultExt
 {
 	/// <summary>
 	/// Maps a Result&lt;T&gt; to an IResult for Minimal APIs.

@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/10/2026 11:50 AM. Any changes made to it will be lost.
+// This file was auto-generated on 2/10/2026 4:33 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Dyvenix.App1.Common.Shared.ApiClients;
 using Dyvenix.App1.Common.Shared.Requests;
@@ -22,6 +22,7 @@ public partial class InvoiceApiClient : ApiClientBase, IInvoiceApiClient
 	public InvoiceApiClient(HttpClient httpClient) : base(httpClient)
 	{
 	}
+	
 	#region Create
 	
 	public async Task<Guid> CreateInvoice(Invoice invoice)
