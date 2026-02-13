@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/12/2026 8:04 PM. Any changes made to it will be lost.
+// This file was auto-generated on 2/13/2026 8:31 AM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
@@ -8,10 +8,11 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Dyvenix.App1.Common.Shared.Models;
 using Dyvenix.App1.Common.Data.Shared.Entities;
-using Dyvenix.App1.App.Services.v1;
+using Dyvenix.App1.App.Api.Services.v1;
 using Dyvenix.App1.Common.Api.Extensions;
 using Dyvenix.App1.Common.Api.Filters;
 using Dyvenix.App1.Common.Shared.Requests;
+using Dyvenix.App1.App.Shared.Contracts.v1;
 using Dyvenix.App1.App.Shared.Requests.v1;
 
 namespace Dyvenix.App1.App.Endpoints.v1;
@@ -41,6 +42,10 @@ public static class InvoiceEndpoints
 			.Produces<Guid>(StatusCodes.Status200OK)
 			.Produces(StatusCodes.Status409Conflict);
 		
+		group.MapPatch("UpdateAmount", UpdateAmount)
+			.Produces<Guid>(StatusCodes.Status200OK)
+			.Produces(StatusCodes.Status409Conflict);
+		
 		// Read - Single
 		
 		group.MapGet("GetById/{id}", GetById)
@@ -59,47 +64,55 @@ public static class InvoiceEndpoints
 	
 	public static async Task<IResult> CreateInvoice(IInvoiceService invoiceService, Invoice invoice)
 	{
-		var result = await invoiceService.CreateInvoice(invoice);
-		return result.ToHttpResult();
+		await invoiceService.CreateInvoice(invoice);
+		return Results.Ok();
 	}
 	
 	#endregion
 	
 	#region Delete
 	
-	public static async Task<IResult> DeleteInvoice(IInvoiceService invoiceService, [FromBody] DeleteReq deleteReq)
+	public static async Task<Result> DeleteInvoice(IInvoiceService invoiceService, [FromBody] DeleteReq deleteReq)
 	{
-		var result = await invoiceService.DeleteInvoice(deleteReq.Id);
-		return result.ToHttpResult();
+		await invoiceService.DeleteInvoice(deleteReq.Id);
+		return Result.Ok();
 	}
 	
 	#endregion
 
 	#region Updates
-	public static async Task<IResult> UpdateMemo(IInvoiceService invoiceService, [FromBody] UpdateMemoReq request)
+	
+	public static async Task<Result> UpdateMemo(IInvoiceService invoiceService, [FromBody] UpdateMemoReq request)
 	{
-		var result = await invoiceService.UpdateMemo(request.Id, request.Memo);
-		return result.ToHttpResult();
+		await invoiceService.UpdateMemo(request);
+		return Result.Ok();
+	}
+	
+	
+	public static async Task<Result> UpdateAmount(IInvoiceService invoiceService, [FromBody] UpdateAmountReq request)
+	{
+		await invoiceService.UpdateAmount(request);
+		return Result.Ok();
 	}
 
 	#endregion
 
 	#region Read Methods - Single
 	
-	public static async Task<IResult> GetById(IInvoiceService invoiceService, Guid id)
+	public static async Task<Result<Invoice>> GetById(IInvoiceService invoiceService, Guid id)
 	{
-		var result = await invoiceService.GetById(id);
-		return result.ToHttpResult();
+		var invoice = await invoiceService.GetById(id);
+		return Result<Invoice>.Ok(invoice);
 	}
 
 	#endregion
 
 	#region Read Methods - List
 	
-	public static async Task<IResult> QueryByMemo(IInvoiceService invoiceService, [FromRoute] string memo)
+	public static async Task<Result<List<Invoice>>> QueryByMemo(IInvoiceService invoiceService, [FromRoute] string memo)
 	{
-		var result = await invoiceService.QueryByMemo(memo);
-		return result.ToHttpResult();
+		var data = await invoiceService.QueryByMemo(memo);
+		return Result<List<Invoice>>.Ok(data);
 	}
 
 	#endregion

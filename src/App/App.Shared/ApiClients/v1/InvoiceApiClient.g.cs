@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/12/2026 8:04 PM. Any changes made to it will be lost.
+// This file was auto-generated on 2/13/2026 8:31 AM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Dyvenix.App1.Common.Shared.ApiClients;
 using Dyvenix.App1.Common.Shared.Requests;
@@ -13,6 +13,7 @@ public interface IInvoiceApiClient
 	Task<Guid> CreateInvoice(Invoice invoice);
 	Task<bool> DeleteInvoice(Guid id);
 	Task<byte[]> UpdateMemo(UpdateMemoReq request);
+	Task<byte[]> UpdateAmount(UpdateAmountReq request);
 	Task<Invoice> GetById(Guid id);
 	Task<List<Invoice>> QueryByMemo(string memo);
 }
@@ -52,6 +53,11 @@ public partial class InvoiceApiClient : ApiClientBase, IInvoiceApiClient
 	public async Task<byte[]> UpdateMemo(UpdateMemoReq request)
 	{
 		return await PatchAsync<byte[]>($"api/v1/Invoice/UpdateMemo", request);
+	}
+	
+	public async Task<byte[]> UpdateAmount(UpdateAmountReq request)
+	{
+		return await PatchAsync<byte[]>($"api/v1/Invoice/UpdateAmount", request);
 	}
 
 	#endregion

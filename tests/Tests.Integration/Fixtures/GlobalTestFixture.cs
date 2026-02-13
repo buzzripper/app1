@@ -1,4 +1,5 @@
 ﻿using Aspire.Hosting;
+using Dyvenix.App1.App.Shared.Extensions;
 using Dyvenix.App1.Auth.Shared.Extensions;
 using Dyvenix.App1.Common.Data;
 using Dyvenix.App1.Common.Data.Config;

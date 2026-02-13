@@ -36,6 +36,7 @@
     <ProjectReference Include="..\..\Common\Common.Api\Common.Api.csproj" />
     <ProjectReference Include="..\..\Common\Common.Data.Shared\Common.Data.Shared.csproj" />
     <ProjectReference Include="..\..\Common\Common.Data\Common.Data.csproj" />
+    <ProjectReference Include="..\..\Common\Common.Shared\Common.Shared.csproj" />
     <ProjectReference Include="..\Auth.Shared\Auth.Shared.csproj" />
   </ItemGroup>
 

@@ -4,8 +4,8 @@ namespace Dyvenix.App1.Common.Shared.Extensions;
 
 public static class ListTExtensions
 {
-	public static EntityList<T>? ToEntityList<T>(this List<T> list) where T : class, new()
+	public static ListPage<T>? ToListPage<T>(this List<T> list) where T : class, new()
 	{
-		return new EntityList<T>(list);
+		return new ListPage<T>(list);
 	}
 }

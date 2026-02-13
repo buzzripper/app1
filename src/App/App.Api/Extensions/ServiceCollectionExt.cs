@@ -1,6 +1,6 @@
-using App1.App.Shared.Interfaces;
 using Dyvenix.App1.App.Api.Services;
 using Dyvenix.App1.App.Endpoints.v1;
+using Dyvenix.App1.App.Shared.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;

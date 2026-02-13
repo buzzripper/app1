@@ -1,4 +1,5 @@
-using Dyvenix.App1.App.Shared.Interfaces;
+using Dyvenix.App1.App.Shared.ApiClients;
+using Dyvenix.App1.App.Shared.Contracts;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -20,8 +21,7 @@ public static class AppSharedExtensions
 					"ServiceClients:App1:BaseUrl is required when InProcess is false");
 			}
 
-
-			services.AddHttpClient<IAppSystemService, SystemServiceHttpClient>(client =>
+			services.AddHttpClient<IAppSystemService, SystemApiClient>(client =>
 			{
 				client.BaseAddress = new Uri(baseUrl);
 			});

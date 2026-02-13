@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/12/2026 8:04 PM. Any changes made to it will be lost.
+// This file was auto-generated on 2/13/2026 8:31 AM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
@@ -8,10 +8,11 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Dyvenix.App1.Common.Shared.Models;
 using Dyvenix.App1.Common.Data.Shared.Entities;
-using Dyvenix.App1.App.Services.v1;
+using Dyvenix.App1.App.Api.Services.v1;
 using Dyvenix.App1.Common.Api.Extensions;
 using Dyvenix.App1.Common.Api.Filters;
 using Dyvenix.App1.Common.Shared.Requests;
+using Dyvenix.App1.App.Shared.Contracts.v1;
 using Dyvenix.App1.App.Shared.Requests.v1;
 
 namespace Dyvenix.App1.App.Endpoints.v1;
@@ -120,126 +121,128 @@ public static class PatientEndpoints
 	
 	public static async Task<IResult> CreatePatient(IPatientService patientService, Patient patient)
 	{
-		var result = await patientService.CreatePatient(patient);
-		return result.ToHttpResult();
+		await patientService.CreatePatient(patient);
+		return Results.Ok();
 	}
 	
 	#endregion
 	
 	#region Delete
 	
-	public static async Task<IResult> DeletePatient(IPatientService patientService, [FromBody] DeleteReq deleteReq)
+	public static async Task<Result> DeletePatient(IPatientService patientService, [FromBody] DeleteReq deleteReq)
 	{
-		var result = await patientService.DeletePatient(deleteReq.Id);
-		return result.ToHttpResult();
+		await patientService.DeletePatient(deleteReq.Id);
+		return Result.Ok();
 	}
 	
 	#endregion
 
 	#region Updates
 	
-	public static async Task<IResult> UpdatePatient(IPatientService patientService, Patient patient)
+	public static async Task<Result<byte[]>> UpdatePatient(IPatientService patientService, Patient patient)
 	{
-		var result = await patientService.UpdatePatient(patient);
-		return result.ToHttpResult();
+		var rowVersion = await patientService.UpdatePatient(patient);
+		return Result<byte[]>.Ok(rowVersion);
 	}
 	
-	public static async Task<IResult> UpdateFirstName(IPatientService patientService, [FromBody] UpdateFirstNameReq request)
+	
+	public static async Task<Result<byte[]>> UpdateFirstName(IPatientService patientService, [FromBody] UpdateFirstNameReq request)
 	{
-		var result = await patientService.UpdateFirstName(request.Id, request.RowVersion, request.FirstName);
-		return result.ToHttpResult();
+		var rowVersion = await patientService.UpdateFirstName(request);
+		return Result<byte[]>.Ok(rowVersion);
 	}
 	
-	public static async Task<IResult> UpdateLastNameAndEmail(IPatientService patientService, [FromBody] UpdateLastNameAndEmailReq request)
+	
+	public static async Task<Result<byte[]>> UpdateLastNameAndEmail(IPatientService patientService, [FromBody] UpdateLastNameAndEmailReq request)
 	{
-		var result = await patientService.UpdateLastNameAndEmail(request.Id, request.RowVersion, request.LastName, request.Email);
-		return result.ToHttpResult();
+		var rowVersion = await patientService.UpdateLastNameAndEmail(request);
+		return Result<byte[]>.Ok(rowVersion);
 	}
 
 	#endregion
 
 	#region Read Methods - Single
 	
-	public static async Task<IResult> GetById(IPatientService patientService, Guid id)
+	public static async Task<Result<Patient>> GetById(IPatientService patientService, Guid id)
 	{
-		var result = await patientService.GetById(id);
-		return result.ToHttpResult();
+		var patient = await patientService.GetById(id);
+		return Result<Patient>.Ok(patient);
 	}
 	
-	public static async Task<IResult> GetByEmail(IPatientService patientService, string email)
+	public static async Task<Result<Patient>> GetByEmail(IPatientService patientService, string email)
 	{
-		var result = await patientService.GetByEmail(email);
-		return result.ToHttpResult();
+		var patient = await patientService.GetByEmail(email);
+		return Result<Patient>.Ok(patient);
 	}
 	
-	public static async Task<IResult> GetByIdWithInvoices(IPatientService patientService, Guid id)
+	public static async Task<Result<Patient>> GetByIdWithInvoices(IPatientService patientService, Guid id)
 	{
-		var result = await patientService.GetByIdWithInvoices(id);
-		return result.ToHttpResult();
+		var patient = await patientService.GetByIdWithInvoices(id);
+		return Result<Patient>.Ok(patient);
 	}
 
 	#endregion
 
 	#region Read Methods - List
 	
-	public static async Task<IResult> GetAllPaging(IPatientService patientService, GetAllPagingReq getAllPagingReq)
+	public static async Task<Result<ListPage<Patient>>> GetAllPaging(IPatientService patientService, GetAllPagingReq getAllPagingReq)
 	{
-		var result = await patientService.GetAllPaging(getAllPagingReq);
-		return result.ToHttpResult();
+		var data = await patientService.GetAllPaging(getAllPagingReq);
+		return Result<ListPage<Patient>>.Ok(data);
 	}
 	
-	public static async Task<IResult> SearchByLastNamePaging(IPatientService patientService, SearchByLastNamePagingReq searchByLastNamePagingReq)
+	public static async Task<Result<ListPage<Patient>>> SearchByLastNamePaging(IPatientService patientService, SearchByLastNamePagingReq searchByLastNamePagingReq)
 	{
-		var result = await patientService.SearchByLastNamePaging(searchByLastNamePagingReq);
-		return result.ToHttpResult();
+		var data = await patientService.SearchByLastNamePaging(searchByLastNamePagingReq);
+		return Result<ListPage<Patient>>.Ok(data);
 	}
 	
-	public static async Task<IResult> SearchByLastNameSorting(IPatientService patientService, SearchByLastNameSortingReq searchByLastNameSortingReq)
+	public static async Task<Result<List<Patient>>> SearchByLastNameSorting(IPatientService patientService, SearchByLastNameSortingReq searchByLastNameSortingReq)
 	{
-		var result = await patientService.SearchByLastNameSorting(searchByLastNameSortingReq);
-		return result.ToHttpResult();
+		var data = await patientService.SearchByLastNameSorting(searchByLastNameSortingReq);
+		return Result<List<Patient>>.Ok(data);
 	}
 	
-	public static async Task<IResult> SearchByLastNamePagingSorting(IPatientService patientService, SearchByLastNamePagingSortingReq searchByLastNamePagingSortingReq)
+	public static async Task<Result<ListPage<Patient>>> SearchByLastNamePagingSorting(IPatientService patientService, SearchByLastNamePagingSortingReq searchByLastNamePagingSortingReq)
 	{
-		var result = await patientService.SearchByLastNamePagingSorting(searchByLastNamePagingSortingReq);
-		return result.ToHttpResult();
+		var data = await patientService.SearchByLastNamePagingSorting(searchByLastNamePagingSortingReq);
+		return Result<ListPage<Patient>>.Ok(data);
 	}
 	
-	public static async Task<IResult> GetAllSorting(IPatientService patientService, GetAllSortingReq getAllSortingReq)
+	public static async Task<Result<List<Patient>>> GetAllSorting(IPatientService patientService, GetAllSortingReq getAllSortingReq)
 	{
-		var result = await patientService.GetAllSorting(getAllSortingReq);
-		return result.ToHttpResult();
+		var data = await patientService.GetAllSorting(getAllSortingReq);
+		return Result<List<Patient>>.Ok(data);
 	}
 	
-	public static async Task<IResult> SearchByLastEmailOpt(IPatientService patientService, SearchByLastEmailOptReq searchByLastEmailOptReq)
+	public static async Task<Result<List<Patient>>> SearchByLastEmailOpt(IPatientService patientService, SearchByLastEmailOptReq searchByLastEmailOptReq)
 	{
-		var result = await patientService.SearchByLastEmailOpt(searchByLastEmailOptReq);
-		return result.ToHttpResult();
+		var data = await patientService.SearchByLastEmailOpt(searchByLastEmailOptReq);
+		return Result<List<Patient>>.Ok(data);
 	}
 	
-	public static async Task<IResult> SearchByEmail(IPatientService patientService, SearchByEmailReq searchByEmailReq)
+	public static async Task<Result<List<Patient>>> SearchByEmail(IPatientService patientService, SearchByEmailReq searchByEmailReq)
 	{
-		var result = await patientService.SearchByEmail(searchByEmailReq);
-		return result.ToHttpResult();
+		var data = await patientService.SearchByEmail(searchByEmailReq);
+		return Result<List<Patient>>.Ok(data);
 	}
 	
-	public static async Task<IResult> GetActive(IPatientService patientService)
+	public static async Task<Result<List<Patient>>> GetActive(IPatientService patientService)
 	{
-		var result = await patientService.GetActive();
-		return result.ToHttpResult();
+		var data = await patientService.GetActive();
+		return Result<List<Patient>>.Ok(data);
 	}
 	
-	public static async Task<IResult> GetAllPagingSorting(IPatientService patientService, GetAllPagingSortingReq getAllPagingSortingReq)
+	public static async Task<Result<ListPage<Patient>>> GetAllPagingSorting(IPatientService patientService, GetAllPagingSortingReq getAllPagingSortingReq)
 	{
-		var result = await patientService.GetAllPagingSorting(getAllPagingSortingReq);
-		return result.ToHttpResult();
+		var data = await patientService.GetAllPagingSorting(getAllPagingSortingReq);
+		return Result<ListPage<Patient>>.Ok(data);
 	}
 	
-	public static async Task<IResult> SearchActiveLastName(IPatientService patientService, [FromRoute] string lastName)
+	public static async Task<Result<List<Patient>>> SearchActiveLastName(IPatientService patientService, [FromRoute] string lastName)
 	{
-		var result = await patientService.SearchActiveLastName(lastName);
-		return result.ToHttpResult();
+		var data = await patientService.SearchActiveLastName(lastName);
+		return Result<List<Patient>>.Ok(data);
 	}
 
 	#endregion

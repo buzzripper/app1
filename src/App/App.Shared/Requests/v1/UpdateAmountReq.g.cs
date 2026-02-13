@@ -3,12 +3,12 @@
 //------------------------------------------------------------------------------------------------------------
 using Dyvenix.App1.Common.Shared.Models;
 
-namespace Dyvenix.App1.Auth.Shared.Requests.v1;
+namespace Dyvenix.App1.App.Shared.Requests.v1;
 
-public class UpdateUsernameReq
+public class UpdateAmountReq
 {
 	public Guid Id { get; set; }
 
 	// Required properties
-	public string Username { get; set; }
+	public decimal Amount { get; set; }
 }

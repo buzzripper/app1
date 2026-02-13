@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/12/2026 8:04 PM. Any changes made to it will be lost.
+// This file was auto-generated on 2/13/2026 8:31 AM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
@@ -10,17 +10,11 @@ using Microsoft.EntityFrameworkCore;
 using Dyvenix.App1.Common.Shared.Models;
 using Dyvenix.App1.Common.Data.Shared.Entities;
 using Dyvenix.App1.Common.Data;
+using Dyvenix.App1.Common.Shared.Exceptions;
+using Dyvenix.App1.App.Shared.Contracts.v1;
+using Dyvenix.App1.App.Shared.Requests.v1;
 
-namespace Dyvenix.App1.App.Services.v1;
-
-public interface IInvoiceService
-{
-	Task<Result<Guid>> CreateInvoice(Invoice invoice);
-	Task<Result> DeleteInvoice(Guid id);
-	Task<Result> UpdateMemo(Guid id, string memo);
-	Task<Result<Invoice>> GetById(Guid id);
-	Task<Result<List<Invoice>>> QueryByMemo(string memo);
-}
+namespace Dyvenix.App1.App.Api.Services.v1;
 
 public partial class InvoiceService : IInvoiceService
 {
@@ -35,18 +29,18 @@ public partial class InvoiceService : IInvoiceService
 
 	#region Create
 
-	public async Task<Result<Guid>> CreateInvoice(Invoice invoice)
+	public async Task CreateInvoice(Invoice invoice)
 	{
 		ArgumentNullException.ThrowIfNull(invoice);
 
 		try {
 			_db.Add(invoice);
 			await _db.SaveChangesAsync();
-
-			return Result<Guid>.Ok(invoice.Id);
-
-		} catch (DbUpdateConcurrencyException) {
-			return Result<Guid>.Conflict("The item was modified or deleted by another user.");
+			return;
+		}
+		catch (DbUpdateConcurrencyException)
+		{
+			throw new ConcurrencyException("The item was modified or deleted by another user.");
 		}
 	}
 
@@ -54,28 +48,26 @@ public partial class InvoiceService : IInvoiceService
 
 	#region Delete
 
-	public async Task<Result> DeleteInvoice(Guid id)
+	public async Task DeleteInvoice(Guid id)
 	{
 		var rowsAffected = await _db.Invoice.Where(a => a.Id == id).ExecuteDeleteAsync();
 
 		if (rowsAffected == 0)
-			return Result.NotFound($"Invoice {id} not found");
-
-		return Result.Ok();
+			throw new NotFoundException($"Invoice {id} not found");
 	}
 
 	#endregion
 
 	#region Update
 
-	public async Task<Result> UpdateMemo(Guid id, string memo)
+	public async Task UpdateMemo(UpdateMemoReq request)
 	{
-		ArgumentNullException.ThrowIfNull(memo);
+		ArgumentNullException.ThrowIfNull(request);
 
 		try {
 			var invoice = new Invoice {
-				Id = id,
-				Memo = memo,
+				Id = request.Id,
+				Memo = request.Memo,
 			};
 
 			_db.Attach(invoice);
@@ -83,10 +75,28 @@ public partial class InvoiceService : IInvoiceService
 
 			await _db.SaveChangesAsync();
 
-			return Result.Ok();
+		} catch (DbUpdateConcurrencyException) {
+			throw new ConcurrencyException("The item was modified or deleted by another user.");
+		}
+	}
+
+	public async Task UpdateAmount(UpdateAmountReq request)
+	{
+		ArgumentNullException.ThrowIfNull(request);
+
+		try {
+			var invoice = new Invoice {
+				Id = request.Id,
+				Amount = request.Amount,
+			};
+
+			_db.Attach(invoice);
+			_db.Entry(invoice).Property(u => u.Amount).IsModified = true;
+
+			await _db.SaveChangesAsync();
 
 		} catch (DbUpdateConcurrencyException) {
-			return Result.Conflict("The item was modified or deleted by another user.");
+			throw new ConcurrencyException("The item was modified or deleted by another user.");
 		}
 	}
 
@@ -94,7 +104,7 @@ public partial class InvoiceService : IInvoiceService
 	
 	#region Read - Single
 	
-	public async Task<Result<Invoice>> GetById(Guid id)
+	public async Task<Invoice> GetById(Guid id)
 	{
 		var dbQuery = _db.Invoice.AsNoTracking();
 	
@@ -103,16 +113,16 @@ public partial class InvoiceService : IInvoiceService
 		var invoice = await dbQuery.FirstOrDefaultAsync();
 	
 		if (invoice is null)
-			return Result<Invoice>.NotFound($"Invoice not found");
+			throw new NotFoundException($"Invoice not found");
 	
-		return Result<Invoice>.Ok(invoice);
+		return invoice;
 	}
 	
 	#endregion
 	
 	#region Read - List
 	
-	public async Task<Result<List<Invoice>>> QueryByMemo(string memo)
+	public async Task<List<Invoice>> QueryByMemo(string memo)
 	{
 		var dbQuery = _db.Invoice.AsNoTracking();
 	
@@ -121,7 +131,7 @@ public partial class InvoiceService : IInvoiceService
 	
 		var data = await dbQuery.ToListAsync();
 	
-		return Result<List<Invoice>>.Ok(data);
+		return data;
 	}
 	
 	#endregion

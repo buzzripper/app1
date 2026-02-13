@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/12/2026 8:04 PM. Any changes made to it will be lost.
+// This file was auto-generated on 2/13/2026 8:31 AM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
@@ -10,19 +10,11 @@ using Microsoft.EntityFrameworkCore;
 using Dyvenix.App1.Common.Shared.Models;
 using Dyvenix.App1.Common.Data.Shared.Entities;
 using Dyvenix.App1.Common.Data;
+using Dyvenix.App1.Common.Shared.Exceptions;
+using Dyvenix.App1.Auth.Shared.Contracts.v1;
 using Dyvenix.App1.Auth.Shared.Requests.v1;
 
-namespace Dyvenix.App1.Auth.Services.v1;
-
-public interface IAppUserService
-{
-	Task<Result<Guid>> CreateAppUser(AppUser appUser);
-	Task<Result> DeleteAppUser(Guid id);
-	Task<Result> UpdateAppUser(AppUser appUser);
-	Task<Result> UpdateUsername(Guid id, string username);
-	Task<Result<AppUser>> GetById(Guid id);
-	Task<Result<List<AppUser>>> ReqByUsername(ReqByUsernameReq request);
-}
+namespace Dyvenix.App1.Auth.Api.Services.v1;
 
 public partial class AppUserService : IAppUserService
 {
@@ -37,18 +29,18 @@ public partial class AppUserService : IAppUserService
 
 	#region Create
 
-	public async Task<Result<Guid>> CreateAppUser(AppUser appUser)
+	public async Task CreateAppUser(AppUser appUser)
 	{
 		ArgumentNullException.ThrowIfNull(appUser);
 
 		try {
 			_db.Add(appUser);
 			await _db.SaveChangesAsync();
-
-			return Result<Guid>.Ok(appUser.Id);
-
-		} catch (DbUpdateConcurrencyException) {
-			return Result<Guid>.Conflict("The item was modified or deleted by another user.");
+			return;
+		}
+		catch (DbUpdateConcurrencyException)
+		{
+			throw new ConcurrencyException("The item was modified or deleted by another user.");
 		}
 	}
 
@@ -56,21 +48,19 @@ public partial class AppUserService : IAppUserService
 
 	#region Delete
 
-	public async Task<Result> DeleteAppUser(Guid id)
+	public async Task DeleteAppUser(Guid id)
 	{
 		var rowsAffected = await _db.AppUser.Where(a => a.Id == id).ExecuteDeleteAsync();
 
 		if (rowsAffected == 0)
-			return Result.NotFound($"AppUser {id} not found");
-
-		return Result.Ok();
+			throw new NotFoundException($"AppUser {id} not found");
 	}
 
 	#endregion
 
 	#region Update
 
-	public async Task<Result> UpdateAppUser(AppUser appUser)
+	public async Task UpdateAppUser(AppUser appUser)
 	{
 		ArgumentNullException.ThrowIfNull(appUser);
 
@@ -79,20 +69,21 @@ public partial class AppUserService : IAppUserService
 			_db.Entry(appUser).State = EntityState.Modified;
 			await _db.SaveChangesAsync();
 
-			return Result.Ok();
+			return;
+
 		} catch (DbUpdateConcurrencyException) {
-			return Result.Conflict("The item was modified or deleted by another user.");
+			throw new ConcurrencyException("The item was modified or deleted by another user.");
 		}
 	}
 
-	public async Task<Result> UpdateUsername(Guid id, string username)
+	public async Task UpdateUsername(UpdateUsernameReq request)
 	{
-		ArgumentNullException.ThrowIfNull(username);
+		ArgumentNullException.ThrowIfNull(request);
 
 		try {
 			var appUser = new AppUser {
-				Id = id,
-				Username = username,
+				Id = request.Id,
+				Username = request.Username,
 			};
 
 			_db.Attach(appUser);
@@ -100,10 +91,8 @@ public partial class AppUserService : IAppUserService
 
 			await _db.SaveChangesAsync();
 
-			return Result.Ok();
-
 		} catch (DbUpdateConcurrencyException) {
-			return Result.Conflict("The item was modified or deleted by another user.");
+			throw new ConcurrencyException("The item was modified or deleted by another user.");
 		}
 	}
 
@@ -111,7 +100,7 @@ public partial class AppUserService : IAppUserService
 	
 	#region Read - Single
 	
-	public async Task<Result<AppUser>> GetById(Guid id)
+	public async Task<AppUser> GetById(Guid id)
 	{
 		var dbQuery = _db.AppUser.AsNoTracking();
 	
@@ -120,16 +109,16 @@ public partial class AppUserService : IAppUserService
 		var appUser = await dbQuery.FirstOrDefaultAsync();
 	
 		if (appUser is null)
-			return Result<AppUser>.NotFound($"AppUser not found");
+			throw new NotFoundException($"AppUser not found");
 	
-		return Result<AppUser>.Ok(appUser);
+		return appUser;
 	}
 	
 	#endregion
 	
 	#region Read - List
 	
-	public async Task<Result<List<AppUser>>> ReqByUsername(ReqByUsernameReq request)
+	public async Task<List<AppUser>> ReqByUsername(ReqByUsernameReq request)
 	{
 		var dbQuery = _db.AppUser.AsNoTracking();
 	
@@ -138,7 +127,7 @@ public partial class AppUserService : IAppUserService
 	
 		var data = await dbQuery.ToListAsync();
 	
-		return Result<List<AppUser>>.Ok(data);
+		return data;
 	}
 	
 	#endregion

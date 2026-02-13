@@ -311,6 +311,21 @@
                     </updateProperties>
                   </updateMethodModel>
                 </serviceModelHasUpdateMethods>
+                <serviceModelHasUpdateMethods Id="07dedeb2-0dfc-4d11-9657-9ca3143b7a3e">
+                  <updateMethodModel Id="3684e247-7c07-4d89-9a10-824dc2d91b30" name="UpdateAmount" itemId="d96a33d2-e937-45ee-99c1-d505326725e4" displayOrder="1">
+                    <updateProperties>
+                      <updateMethodModelHasUpdateProperties Id="bc080a40-359b-4cef-84f9-23c4f969c588">
+                        <updatePropertyModel Id="91b6354c-8069-4346-824d-75ffdd953eca" isOptional="false">
+                          <propertyModel>
+                            <updatePropertyModelHasPropertyModel Id="3bf2951b-c62c-4c39-a928-f04163dfbd60">
+                              <propertyModelMoniker name="/App1/Invoice/Amount" />
+                            </updatePropertyModelHasPropertyModel>
+                          </propertyModel>
+                        </updatePropertyModel>
+                      </updateMethodModelHasUpdateProperties>
+                    </updateProperties>
+                  </updateMethodModel>
+                </serviceModelHasUpdateMethods>
               </updateMethods>
             </serviceModel>
           </entityModelHasServiceModels>

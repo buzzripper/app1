@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/12/2026 8:04 PM. Any changes made to it will be lost.
+// This file was auto-generated on 2/13/2026 8:31 AM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
@@ -10,32 +10,12 @@ using Microsoft.EntityFrameworkCore;
 using Dyvenix.App1.Common.Shared.Models;
 using Dyvenix.App1.Common.Data.Shared.Entities;
 using Dyvenix.App1.Common.Data;
+using Dyvenix.App1.Common.Shared.Exceptions;
+using Dyvenix.App1.App.Shared.Contracts.v1;
 using Dyvenix.App1.App.Shared.Requests.v1;
 using Dyvenix.App1.Common.Shared.Extensions;
 
-namespace Dyvenix.App1.App.Services.v1;
-
-public interface IPatientService
-{
-	Task<Result<Guid>> CreatePatient(Patient patient);
-	Task<Result> DeletePatient(Guid id);
-	Task<Result<byte[]>> UpdatePatient(Patient patient);
-	Task<Result<byte[]>> UpdateFirstName(Guid id, byte[] rowVersion, string firstName);
-	Task<Result<byte[]>> UpdateLastNameAndEmail(Guid id, byte[] rowVersion, string lastName, string email);
-	Task<Result<Patient>> GetById(Guid id);
-	Task<Result<Patient>> GetByEmail(string email);
-	Task<Result<Patient>> GetByIdWithInvoices(Guid id);
-	Task<Result<EntityList<Patient>>> GetAllPaging(GetAllPagingReq request);
-	Task<Result<EntityList<Patient>>> SearchByLastNamePaging(SearchByLastNamePagingReq request);
-	Task<Result<List<Patient>>> SearchByLastNameSorting(SearchByLastNameSortingReq request);
-	Task<Result<EntityList<Patient>>> SearchByLastNamePagingSorting(SearchByLastNamePagingSortingReq request);
-	Task<Result<List<Patient>>> GetAllSorting(GetAllSortingReq request);
-	Task<Result<List<Patient>>> SearchByLastEmailOpt(SearchByLastEmailOptReq request);
-	Task<Result<List<Patient>>> SearchByEmail(SearchByEmailReq request);
-	Task<Result<List<Patient>>> GetActive();
-	Task<Result<EntityList<Patient>>> GetAllPagingSorting(GetAllPagingSortingReq request);
-	Task<Result<List<Patient>>> SearchActiveLastName(string lastName);
-}
+namespace Dyvenix.App1.App.Api.Services.v1;
 
 public partial class PatientService : IPatientService
 {
@@ -50,18 +30,18 @@ public partial class PatientService : IPatientService
 
 	#region Create
 
-	public async Task<Result<Guid>> CreatePatient(Patient patient)
+	public async Task CreatePatient(Patient patient)
 	{
 		ArgumentNullException.ThrowIfNull(patient);
 
 		try {
 			_db.Add(patient);
 			await _db.SaveChangesAsync();
-
-			return Result<Guid>.Ok(patient.Id);
-
-		} catch (DbUpdateConcurrencyException) {
-			return Result<Guid>.Conflict("The item was modified or deleted by another user.");
+			return;
+		}
+		catch (DbUpdateConcurrencyException)
+		{
+			throw new ConcurrencyException("The item was modified or deleted by another user.");
 		}
 	}
 
@@ -69,21 +49,19 @@ public partial class PatientService : IPatientService
 
 	#region Delete
 
-	public async Task<Result> DeletePatient(Guid id)
+	public async Task DeletePatient(Guid id)
 	{
 		var rowsAffected = await _db.Patient.Where(a => a.Id == id).ExecuteDeleteAsync();
 
 		if (rowsAffected == 0)
-			return Result.NotFound($"Patient {id} not found");
-
-		return Result.Ok();
+			throw new NotFoundException($"Patient {id} not found");
 	}
 
 	#endregion
 
 	#region Update
 
-	public async Task<Result<byte[]>> UpdatePatient(Patient patient)
+	public async Task<byte[]> UpdatePatient(Patient patient)
 	{
 		ArgumentNullException.ThrowIfNull(patient);
 
@@ -92,22 +70,22 @@ public partial class PatientService : IPatientService
 			_db.Entry(patient).State = EntityState.Modified;
 			await _db.SaveChangesAsync();
 
-			return Result<byte[]>.Ok(patient.RowVersion);
+			return patient.RowVersion;
+
 		} catch (DbUpdateConcurrencyException) {
-			return Result<byte[]>.Conflict("The item was modified or deleted by another user.");
+			throw new ConcurrencyException("The item was modified or deleted by another user.");
 		}
 	}
 
-	public async Task<Result<byte[]>> UpdateFirstName(Guid id, byte[] rowVersion, string firstName)
+	public async Task<byte[]> UpdateFirstName(UpdateFirstNameReq request)
 	{
-		ArgumentNullException.ThrowIfNull(rowVersion);
-		ArgumentNullException.ThrowIfNull(firstName);
+		ArgumentNullException.ThrowIfNull(request);
 
 		try {
 			var patient = new Patient {
-				Id = id,
-				RowVersion = rowVersion,
-				FirstName = firstName,
+				Id = request.Id,
+				RowVersion = request.RowVersion,
+				FirstName = request.FirstName,
 			};
 
 			_db.Attach(patient);
@@ -115,25 +93,23 @@ public partial class PatientService : IPatientService
 
 			await _db.SaveChangesAsync();
 
-			return Result<byte[]>.Ok(patient.RowVersion);
+			return patient.RowVersion;
 
 		} catch (DbUpdateConcurrencyException) {
-			return Result<byte[]>.Conflict("The item was modified or deleted by another user.");
+			throw new ConcurrencyException("The item was modified or deleted by another user.");
 		}
 	}
 
-	public async Task<Result<byte[]>> UpdateLastNameAndEmail(Guid id, byte[] rowVersion, string lastName, string email)
+	public async Task<byte[]> UpdateLastNameAndEmail(UpdateLastNameAndEmailReq request)
 	{
-		ArgumentNullException.ThrowIfNull(rowVersion);
-		ArgumentNullException.ThrowIfNull(lastName);
-		ArgumentNullException.ThrowIfNull(email);
+		ArgumentNullException.ThrowIfNull(request);
 
 		try {
 			var patient = new Patient {
-				Id = id,
-				RowVersion = rowVersion,
-				LastName = lastName,
-				Email = email,
+				Id = request.Id,
+				RowVersion = request.RowVersion,
+				LastName = request.LastName,
+				Email = request.Email,
 			};
 
 			_db.Attach(patient);
@@ -142,10 +118,10 @@ public partial class PatientService : IPatientService
 
 			await _db.SaveChangesAsync();
 
-			return Result<byte[]>.Ok(patient.RowVersion);
+			return patient.RowVersion;
 
 		} catch (DbUpdateConcurrencyException) {
-			return Result<byte[]>.Conflict("The item was modified or deleted by another user.");
+			throw new ConcurrencyException("The item was modified or deleted by another user.");
 		}
 	}
 
@@ -153,7 +129,7 @@ public partial class PatientService : IPatientService
 	
 	#region Read - Single
 	
-	public async Task<Result<Patient>> GetById(Guid id)
+	public async Task<Patient> GetById(Guid id)
 	{
 		var dbQuery = _db.Patient.AsNoTracking();
 	
@@ -162,12 +138,12 @@ public partial class PatientService : IPatientService
 		var patient = await dbQuery.FirstOrDefaultAsync();
 	
 		if (patient is null)
-			return Result<Patient>.NotFound($"Patient not found");
+			throw new NotFoundException($"Patient not found");
 	
-		return Result<Patient>.Ok(patient);
+		return patient;
 	}
 	
-	public async Task<Result<Patient>> GetByEmail(string email)
+	public async Task<Patient> GetByEmail(string email)
 	{
 		var dbQuery = _db.Patient.AsNoTracking();
 	
@@ -177,12 +153,12 @@ public partial class PatientService : IPatientService
 		var patient = await dbQuery.FirstOrDefaultAsync();
 	
 		if (patient is null)
-			return Result<Patient>.NotFound($"Patient not found");
+			throw new NotFoundException($"Patient not found");
 	
-		return Result<Patient>.Ok(patient);
+		return patient;
 	}
 	
-	public async Task<Result<Patient>> GetByIdWithInvoices(Guid id)
+	public async Task<Patient> GetByIdWithInvoices(Guid id)
 	{
 		var dbQuery = _db.Patient.AsNoTracking();
 		dbQuery = dbQuery.Include(x => x.Invoices);
@@ -192,67 +168,75 @@ public partial class PatientService : IPatientService
 		var patient = await dbQuery.FirstOrDefaultAsync();
 	
 		if (patient is null)
-			return Result<Patient>.NotFound($"Patient not found");
+			throw new NotFoundException($"Patient not found");
 	
-		return Result<Patient>.Ok(patient);
+		return patient;
 	}
 	
 	#endregion
 	
 	#region Read - List
 	
-	public async Task<Result<EntityList<Patient>>> GetAllPaging(GetAllPagingReq request)
+	public async Task<ListPage<Patient>> GetAllPaging(GetAllPagingReq request)
 	{
 		var dbQuery = _db.Patient.AsNoTracking();
 	
-		var entityList = new EntityList<Patient>();
+		var listPage = new ListPage<Patient>();
 	
 		if (request.PageSize > 0)
 			dbQuery = dbQuery.Skip(request.PageOffset * request.PageSize).Take(request.PageSize);
 	
-		// Count (only when requested)
+		// Count (if requested)
 		if (request.RecalcRowCount || request.GetRowCountOnly)
 		{
-			entityList.TotalRowCount = await dbQuery.CountAsync();
-	
+			listPage.TotalRowCount = await dbQuery.CountAsync();
 			if (request.GetRowCountOnly)
-				return Result<EntityList<Patient>>.Ok(entityList);
+				return listPage;
+		}
+		else if (!request.RecalcRowCount && !request.GetRowCountOnly)
+		{
+			// Make it clear that row count is not calculated
+			listPage.TotalRowCount = -1;
 		}
 	
 		var data = await dbQuery.ToListAsync();
 	
-		return Result<EntityList<Patient>>.Ok(data.ToEntityList<Patient>());
+		return data.ToListPage<Patient>();
 	}
 	
-	public async Task<Result<EntityList<Patient>>> SearchByLastNamePaging(SearchByLastNamePagingReq request)
+	public async Task<ListPage<Patient>> SearchByLastNamePaging(SearchByLastNamePagingReq request)
 	{
 		var dbQuery = _db.Patient.AsNoTracking();
 	
 		if (!string.IsNullOrWhiteSpace(request.LastName))
 			dbQuery = dbQuery.Where(x => EF.Functions.Like(x.LastName, $"%{request.LastName}%"));
 	
-		var entityList = new EntityList<Patient>();
+		var listPage = new ListPage<Patient>();
 		// Stable ordering for paging
 		dbQuery = dbQuery.OrderBy(x => x.LastName).ThenBy(x => x.Id);
 	
 		if (request.PageSize > 0)
 			dbQuery = dbQuery.Skip(request.PageOffset * request.PageSize).Take(request.PageSize);
 	
-		// Count (only when requested)
+		// Count (if requested)
 		if (request.RecalcRowCount || request.GetRowCountOnly)
 		{
-			entityList.TotalRowCount = await dbQuery.CountAsync();
-	
+			listPage.TotalRowCount = await dbQuery.CountAsync();
 			if (request.GetRowCountOnly)
-				return Result<EntityList<Patient>>.Ok(entityList);
+				return listPage;
+		}
+		else if (!request.RecalcRowCount && !request.GetRowCountOnly)
+		{
+			// Make it clear that row count is not calculated
+			listPage.TotalRowCount = -1;
 		}
 	
 		var data = await dbQuery.ToListAsync();
 	
-		return Result<EntityList<Patient>>.Ok(data.ToEntityList<Patient>());
+		return data.ToListPage<Patient>();
 	}
 	
-	public async Task<Result<List<Patient>>> SearchByLastNameSorting(SearchByLastNameSortingReq request)
+	public async Task<List<Patient>> SearchByLastNameSorting(SearchByLastNameSortingReq request)
 	{
 		var dbQuery = _db.Patient.AsNoTracking();
 	
@@ -265,10 +249,10 @@ public partial class PatientService : IPatientService
 	
 		var data = await dbQuery.ToListAsync();
 	
-		return Result<List<Patient>>.Ok(data);
+		return data;
 	}
 	
-	public async Task<Result<EntityList<Patient>>> SearchByLastNamePagingSorting(SearchByLastNamePagingSortingReq request)
+	public async Task<ListPage<Patient>> SearchByLastNamePagingSorting(SearchByLastNamePagingSortingReq request)
 	{
 		var dbQuery = _db.Patient.AsNoTracking();
 	
@@ -279,28 +263,32 @@ public partial class PatientService : IPatientService
 		if (!string.IsNullOrWhiteSpace(request.SortBy))
 			this.AddSorting(ref dbQuery, request);
 	
-		var entityList = new EntityList<Patient>();
+		var listPage = new ListPage<Patient>();
 		// Stable ordering for paging
 		dbQuery = dbQuery.OrderBy(x => x.LastName).ThenBy(x => x.Id);
 	
 		if (request.PageSize > 0)
 			dbQuery = dbQuery.Skip(request.PageOffset * request.PageSize).Take(request.PageSize);
 	
-		// Count (only when requested)
+		// Count (if requested)
 		if (request.RecalcRowCount || request.GetRowCountOnly)
 		{
-			entityList.TotalRowCount = await dbQuery.CountAsync();
-	
+			listPage.TotalRowCount = await dbQuery.CountAsync();
 			if (request.GetRowCountOnly)
-				return Result<EntityList<Patient>>.Ok(entityList);
+				return listPage;
+		}
+		else if (!request.RecalcRowCount && !request.GetRowCountOnly)
+		{
+			// Make it clear that row count is not calculated
+			listPage.TotalRowCount = -1;
 		}
 	
 		var data = await dbQuery.ToListAsync();
 	
-		return Result<EntityList<Patient>>.Ok(data.ToEntityList<Patient>());
+		return data.ToListPage<Patient>();
 	}
 	
-	public async Task<Result<List<Patient>>> GetAllSorting(GetAllSortingReq request)
+	public async Task<List<Patient>> GetAllSorting(GetAllSortingReq request)
 	{
 		var dbQuery = _db.Patient.AsNoTracking();
 	
@@ -310,10 +298,10 @@ public partial class PatientService : IPatientService
 	
 		var data = await dbQuery.ToListAsync();
 	
-		return Result<List<Patient>>.Ok(data);
+		return data;
 	}
 	
-	public async Task<Result<List<Patient>>> SearchByLastEmailOpt(SearchByLastEmailOptReq request)
+	public async Task<List<Patient>> SearchByLastEmailOpt(SearchByLastEmailOptReq request)
 	{
 		var dbQuery = _db.Patient.AsNoTracking();
 	
@@ -326,10 +314,10 @@ public partial class PatientService : IPatientService
 	
 		var data = await dbQuery.ToListAsync();
 	
-		return Result<List<Patient>>.Ok(data);
+		return data;
 	}
 	
-	public async Task<Result<List<Patient>>> SearchByEmail(SearchByEmailReq request)
+	public async Task<List<Patient>> SearchByEmail(SearchByEmailReq request)
 	{
 		var dbQuery = _db.Patient.AsNoTracking();
 	
@@ -338,10 +326,10 @@ public partial class PatientService : IPatientService
 	
 		var data = await dbQuery.ToListAsync();
 	
-		return Result<List<Patient>>.Ok(data);
+		return data;
 	}
 	
-	public async Task<Result<List<Patient>>> GetActive()
+	public async Task<List<Patient>> GetActive()
 	{
 		var dbQuery = _db.Patient.AsNoTracking();
 	
@@ -350,10 +338,10 @@ public partial class PatientService : IPatientService
 	
 		var data = await dbQuery.ToListAsync();
 	
-		return Result<List<Patient>>.Ok(data);
+		return data;
 	}
 	
-	public async Task<Result<EntityList<Patient>>> GetAllPagingSorting(GetAllPagingSortingReq request)
+	public async Task<ListPage<Patient>> GetAllPagingSorting(GetAllPagingSortingReq request)
 	{
 		var dbQuery = _db.Patient.AsNoTracking();
 	
@@ -361,26 +349,30 @@ public partial class PatientService : IPatientService
 		if (!string.IsNullOrWhiteSpace(request.SortBy))
 			this.AddSorting(ref dbQuery, request);
 	
-		var entityList = new EntityList<Patient>();
+		var listPage = new ListPage<Patient>();
 	
 		if (request.PageSize > 0)
 			dbQuery = dbQuery.Skip(request.PageOffset * request.PageSize).Take(request.PageSize);
 	
-		// Count (only when requested)
+		// Count (if requested)
 		if (request.RecalcRowCount || request.GetRowCountOnly)
 		{
-			entityList.TotalRowCount = await dbQuery.CountAsync();
-	
+			listPage.TotalRowCount = await dbQuery.CountAsync();
 			if (request.GetRowCountOnly)
-				return Result<EntityList<Patient>>.Ok(entityList);
+				return listPage;
+		}
+		else if (!request.RecalcRowCount && !request.GetRowCountOnly)
+		{
+			// Make it clear that row count is not calculated
+			listPage.TotalRowCount = -1;
 		}
 	
 		var data = await dbQuery.ToListAsync();
 	
-		return Result<EntityList<Patient>>.Ok(data.ToEntityList<Patient>());
+		return data.ToListPage<Patient>();
 	}
 	
-	public async Task<Result<List<Patient>>> SearchActiveLastName(string lastName)
+	public async Task<List<Patient>> SearchActiveLastName(string lastName)
 	{
 		var dbQuery = _db.Patient.AsNoTracking();
 	
@@ -392,7 +384,7 @@ public partial class PatientService : IPatientService
 	
 		var data = await dbQuery.ToListAsync();
 	
-		return Result<List<Patient>>.Ok(data);
+		return data;
 	}
 	
 	#endregion

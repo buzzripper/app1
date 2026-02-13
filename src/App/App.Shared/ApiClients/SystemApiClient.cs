@@ -1,14 +1,16 @@
+using Dyvenix.App1.App.Shared.Contracts;
+using Dyvenix.App1.App.Shared.DTOs;
 using System.Net.Http.Json;
 
-namespace Dyvenix.App1.App.Shared.Proxies;
+namespace Dyvenix.App1.App.Shared.ApiClients;
 
-public class SystemServiceHttpClient : IAppSystemService
+public class SystemApiClient : IAppSystemService
 {
 	public const string cUrlPathRoot = $"api/app/system";
 
 	private readonly HttpClient _httpClient;
 
-	public SystemServiceHttpClient(HttpClient httpClient)
+	public SystemApiClient(HttpClient httpClient)
 	{
 		_httpClient = httpClient;
 	}

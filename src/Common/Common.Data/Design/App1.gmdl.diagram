@@ -21,7 +21,7 @@
         <elementListCompartment Id="bd089687-65de-4021-94e6-898e4ae36937" absoluteBounds="5.765, 6.0605773099263507, 1.4700000000000002, 0.44803197185198473" name="ServiceMethods" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector Id="73bf5660-eee9-4c89-b8fe-ee6496cec98b" edgePoints="[(4.375 : 5.42930464088917); (5.75 : 5.42930464088917)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector Id="73bf5660-eee9-4c89-b8fe-ee6496cec98b" edgePoints="[(4.375 : 5.42930464088917); (5.75 : 5.42930464088917)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <associationMoniker Id="5c4cedcc-7881-4ef0-8235-0adc258b2ba2" />
       <nodes>
         <classShapeMoniker Id="d4d9e2e7-9461-451f-ae69-0860097794d2" />
@@ -47,7 +47,7 @@
         <elementListCompartment Id="24f55642-c425-4604-b015-28ae2f5706c6" absoluteBounds="2.89, 2.6709017324447633, 1.4700000000000002, 0.2531941831111908" name="ServiceMethods" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector Id="4750c49d-d714-43bb-b185-3a50857d7cbf" edgePoints="[(3.625 : 3.02409591555595); (3.625 : 4.125)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector Id="4750c49d-d714-43bb-b185-3a50857d7cbf" edgePoints="[(3.625 : 3.02409591555595); (3.625 : 4.125)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <associationMoniker Id="f76c92fe-d885-4873-bf9c-bddbdf6785c8" />
       <nodes>
         <classShapeMoniker Id="f2526592-92a7-43a8-afa4-506239dd0fd8" />

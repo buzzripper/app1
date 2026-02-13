@@ -1,4 +1,4 @@
-using App1.App.Shared.Interfaces;
+using Dyvenix.App1.App.Shared.Contracts;
 using Dyvenix.App1.Common.Shared.DTOs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;

@@ -1,5 +1,5 @@
-using App1.App.Shared.DTOs;
-using App1.App.Shared.Interfaces;
+using Dyvenix.App1.App.Shared.Contracts;
+using Dyvenix.App1.App.Shared.DTOs;
 using Microsoft.Extensions.Logging;
 
 namespace Dyvenix.App1.App.Api.Services;

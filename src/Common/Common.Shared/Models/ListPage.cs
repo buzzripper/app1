@@ -1,13 +1,13 @@
 ﻿namespace Dyvenix.App1.Common.Shared.Models
 {
-	public class EntityList<T> where T : new()
+	public class ListPage<T> where T : new()
 	{
 		#region  Constructors
 
-		public EntityList()
+		public ListPage()
 		{ }
 
-		public EntityList(IEnumerable<T> entityList)
+		public ListPage(IEnumerable<T> entityList)
 		{
 			Items.AddRange(entityList);
 		}
