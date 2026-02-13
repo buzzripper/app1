@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/10/2026 4:33 PM. Any changes made to it will be lost.
+// This file was auto-generated on 2/12/2026 8:04 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
@@ -19,9 +19,9 @@ public interface IPatientService
 {
 	Task<Result<Guid>> CreatePatient(Patient patient);
 	Task<Result> DeletePatient(Guid id);
-	Task<Result> UpdatePatient(Patient patient);
-	Task<Result> UpdateFirstName(Guid id, string firstName);
-	Task<Result> UpdateLastNameAndEmail(Guid id, string lastName, string email);
+	Task<Result<byte[]>> UpdatePatient(Patient patient);
+	Task<Result<byte[]>> UpdateFirstName(Guid id, byte[] rowVersion, string firstName);
+	Task<Result<byte[]>> UpdateLastNameAndEmail(Guid id, byte[] rowVersion, string lastName, string email);
 	Task<Result<Patient>> GetById(Guid id);
 	Task<Result<Patient>> GetByEmail(string email);
 	Task<Result<Patient>> GetByIdWithInvoices(Guid id);
@@ -83,7 +83,7 @@ public partial class PatientService : IPatientService
 
 	#region Update
 
-	public async Task<Result> UpdatePatient(Patient patient)
+	public async Task<Result<byte[]>> UpdatePatient(Patient patient)
 	{
 		ArgumentNullException.ThrowIfNull(patient);
 
@@ -92,19 +92,21 @@ public partial class PatientService : IPatientService
 			_db.Entry(patient).State = EntityState.Modified;
 			await _db.SaveChangesAsync();
 
-		return Result.Ok();
+			return Result<byte[]>.Ok(patient.RowVersion);
 		} catch (DbUpdateConcurrencyException) {
-			return Result.Conflict("The item was modified or deleted by another user.");
+			return Result<byte[]>.Conflict("The item was modified or deleted by another user.");
 		}
 	}
 
-	public async Task<Result> UpdateFirstName(Guid id, string firstName)
+	public async Task<Result<byte[]>> UpdateFirstName(Guid id, byte[] rowVersion, string firstName)
 	{
+		ArgumentNullException.ThrowIfNull(rowVersion);
 		ArgumentNullException.ThrowIfNull(firstName);
 
 		try {
 			var patient = new Patient {
 				Id = id,
+				RowVersion = rowVersion,
 				FirstName = firstName,
 			};
 
@@ -113,21 +115,23 @@ public partial class PatientService : IPatientService
 
 			await _db.SaveChangesAsync();
 
-			return Result.Ok();
+			return Result<byte[]>.Ok(patient.RowVersion);
 
 		} catch (DbUpdateConcurrencyException) {
-			return Result.Conflict("The item was modified or deleted by another user.");
+			return Result<byte[]>.Conflict("The item was modified or deleted by another user.");
 		}
 	}
 
-	public async Task<Result> UpdateLastNameAndEmail(Guid id, string lastName, string email)
+	public async Task<Result<byte[]>> UpdateLastNameAndEmail(Guid id, byte[] rowVersion, string lastName, string email)
 	{
+		ArgumentNullException.ThrowIfNull(rowVersion);
 		ArgumentNullException.ThrowIfNull(lastName);
 		ArgumentNullException.ThrowIfNull(email);
 
 		try {
 			var patient = new Patient {
 				Id = id,
+				RowVersion = rowVersion,
 				LastName = lastName,
 				Email = email,
 			};
@@ -138,10 +142,10 @@ public partial class PatientService : IPatientService
 
 			await _db.SaveChangesAsync();
 
-			return Result.Ok();
+			return Result<byte[]>.Ok(patient.RowVersion);
 
 		} catch (DbUpdateConcurrencyException) {
-			return Result.Conflict("The item was modified or deleted by another user.");
+			return Result<byte[]>.Conflict("The item was modified or deleted by another user.");
 		}
 	}
 
@@ -393,43 +397,49 @@ public partial class PatientService : IPatientService
 	
 	#endregion
 	
-		private void AddSorting(ref IQueryable<Patient> dbQuery, ISortingRequest sortingRequest)
-		{
-			if (string.Equals(sortingRequest.SortBy, Patient.PropNames.Id, StringComparison.OrdinalIgnoreCase))
-				if (sortingRequest.SortDesc)
-					dbQuery.OrderByDescending(x => x.Id);
-				else
-					dbQuery.OrderBy(x => x.Id);
+	private void AddSorting(ref IQueryable<Patient> dbQuery, ISortingRequest sortingRequest)
+	{
+		if (string.Equals(sortingRequest.SortBy, Patient.PropNames.Id, StringComparison.OrdinalIgnoreCase))
+			if (sortingRequest.SortDesc)
+				dbQuery.OrderByDescending(x => x.Id);
+			else
+				dbQuery.OrderBy(x => x.Id);
 	
-			if (string.Equals(sortingRequest.SortBy, Patient.PropNames.FirstName, StringComparison.OrdinalIgnoreCase))
-				if (sortingRequest.SortDesc)
-					dbQuery.OrderByDescending(x => x.FirstName);
-				else
-					dbQuery.OrderBy(x => x.FirstName);
+		if (string.Equals(sortingRequest.SortBy, Patient.PropNames.FirstName, StringComparison.OrdinalIgnoreCase))
+			if (sortingRequest.SortDesc)
+				dbQuery.OrderByDescending(x => x.FirstName);
+			else
+				dbQuery.OrderBy(x => x.FirstName);
 	
-			if (string.Equals(sortingRequest.SortBy, Patient.PropNames.LastName, StringComparison.OrdinalIgnoreCase))
-				if (sortingRequest.SortDesc)
-					dbQuery.OrderByDescending(x => x.LastName);
-				else
-					dbQuery.OrderBy(x => x.LastName);
+		if (string.Equals(sortingRequest.SortBy, Patient.PropNames.LastName, StringComparison.OrdinalIgnoreCase))
+			if (sortingRequest.SortDesc)
+				dbQuery.OrderByDescending(x => x.LastName);
+			else
+				dbQuery.OrderBy(x => x.LastName);
 	
-			if (string.Equals(sortingRequest.SortBy, Patient.PropNames.Email, StringComparison.OrdinalIgnoreCase))
-				if (sortingRequest.SortDesc)
-					dbQuery.OrderByDescending(x => x.Email);
-				else
-					dbQuery.OrderBy(x => x.Email);
+		if (string.Equals(sortingRequest.SortBy, Patient.PropNames.Email, StringComparison.OrdinalIgnoreCase))
+			if (sortingRequest.SortDesc)
+				dbQuery.OrderByDescending(x => x.Email);
+			else
+				dbQuery.OrderBy(x => x.Email);
 	
-			if (string.Equals(sortingRequest.SortBy, Patient.PropNames.IsActive, StringComparison.OrdinalIgnoreCase))
-				if (sortingRequest.SortDesc)
-					dbQuery.OrderByDescending(x => x.IsActive);
-				else
-					dbQuery.OrderBy(x => x.IsActive);
+		if (string.Equals(sortingRequest.SortBy, Patient.PropNames.IsActive, StringComparison.OrdinalIgnoreCase))
+			if (sortingRequest.SortDesc)
+				dbQuery.OrderByDescending(x => x.IsActive);
+			else
+				dbQuery.OrderBy(x => x.IsActive);
 	
-			if (string.Equals(sortingRequest.SortBy, Patient.PropNames.PracticeId, StringComparison.OrdinalIgnoreCase))
-				if (sortingRequest.SortDesc)
-					dbQuery.OrderByDescending(x => x.PracticeId);
-				else
-					dbQuery.OrderBy(x => x.PracticeId);
-		}
+		if (string.Equals(sortingRequest.SortBy, Patient.PropNames.PracticeId, StringComparison.OrdinalIgnoreCase))
+			if (sortingRequest.SortDesc)
+				dbQuery.OrderByDescending(x => x.PracticeId);
+			else
+				dbQuery.OrderBy(x => x.PracticeId);
+	
+		if (string.Equals(sortingRequest.SortBy, Patient.PropNames.RowVersion, StringComparison.OrdinalIgnoreCase))
+			if (sortingRequest.SortDesc)
+				dbQuery.OrderByDescending(x => x.RowVersion);
+			else
+				dbQuery.OrderBy(x => x.RowVersion);
+	}
 	
 }

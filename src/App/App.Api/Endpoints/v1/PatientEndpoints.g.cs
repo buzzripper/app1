@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/10/2026 4:33 PM. Any changes made to it will be lost.
+// This file was auto-generated on 2/12/2026 8:04 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Dyvenix.App1.Common.Shared.Models;
 using Dyvenix.App1.Common.Data.Shared.Entities;
 using Dyvenix.App1.App.Services.v1;
-using Dyvenix.App1.App.Api.Extensions;
+using Dyvenix.App1.Common.Api.Extensions;
 using Dyvenix.App1.Common.Api.Filters;
 using Dyvenix.App1.Common.Shared.Requests;
 using Dyvenix.App1.App.Shared.Requests.v1;
@@ -58,47 +58,60 @@ public static class PatientEndpoints
 		
 		group.MapGet("GetById/{id}", GetById)
 			.Produces<Guid>(StatusCodes.Status200OK)
-			.Produces(StatusCodes.Status404NotFound);
+			.Produces(StatusCodes.Status404NotFound)
+			.Produces(StatusCodes.Status409Conflict);
 		
 		group.MapGet("GetByEmail/{email}", GetByEmail)
 			.Produces<Guid>(StatusCodes.Status200OK)
-			.Produces(StatusCodes.Status404NotFound);
+			.Produces(StatusCodes.Status404NotFound)
+			.Produces(StatusCodes.Status409Conflict);
 		
 		group.MapGet("GetByIdWithInvoices/{id}", GetByIdWithInvoices)
 			.Produces<Guid>(StatusCodes.Status200OK)
-			.Produces(StatusCodes.Status404NotFound);
+			.Produces(StatusCodes.Status404NotFound)
+			.Produces(StatusCodes.Status409Conflict);
 		
 		// Read - List
 		
 		group.MapPost("GetAllPaging", GetAllPaging)
-			.Produces<Guid>(StatusCodes.Status200OK);
+			.Produces<Guid>(StatusCodes.Status200OK)
+			.Produces(StatusCodes.Status409Conflict);
 		
 		group.MapPost("SearchByLastNamePaging", SearchByLastNamePaging)
-			.Produces<Guid>(StatusCodes.Status200OK);
+			.Produces<Guid>(StatusCodes.Status200OK)
+			.Produces(StatusCodes.Status409Conflict);
 		
 		group.MapPost("SearchByLastNameSorting", SearchByLastNameSorting)
-			.Produces<Guid>(StatusCodes.Status200OK);
+			.Produces<Guid>(StatusCodes.Status200OK)
+			.Produces(StatusCodes.Status409Conflict);
 		
 		group.MapPost("SearchByLastNamePagingSorting", SearchByLastNamePagingSorting)
-			.Produces<Guid>(StatusCodes.Status200OK);
+			.Produces<Guid>(StatusCodes.Status200OK)
+			.Produces(StatusCodes.Status409Conflict);
 		
 		group.MapPost("GetAllSorting", GetAllSorting)
-			.Produces<Guid>(StatusCodes.Status200OK);
+			.Produces<Guid>(StatusCodes.Status200OK)
+			.Produces(StatusCodes.Status409Conflict);
 		
 		group.MapPost("SearchByLastEmailOpt", SearchByLastEmailOpt)
-			.Produces<Guid>(StatusCodes.Status200OK);
+			.Produces<Guid>(StatusCodes.Status200OK)
+			.Produces(StatusCodes.Status409Conflict);
 		
 		group.MapPost("SearchByEmail", SearchByEmail)
-			.Produces<Guid>(StatusCodes.Status200OK);
+			.Produces<Guid>(StatusCodes.Status200OK)
+			.Produces(StatusCodes.Status409Conflict);
 		
 		group.MapGet("GetActive", GetActive)
-			.Produces<Guid>(StatusCodes.Status200OK);
+			.Produces<Guid>(StatusCodes.Status200OK)
+			.Produces(StatusCodes.Status409Conflict);
 		
 		group.MapPost("GetAllPagingSorting", GetAllPagingSorting)
-			.Produces<Guid>(StatusCodes.Status200OK);
+			.Produces<Guid>(StatusCodes.Status200OK)
+			.Produces(StatusCodes.Status409Conflict);
 		
 		group.MapGet("SearchActiveLastName/{lastName}", SearchActiveLastName)
-			.Produces<Guid>(StatusCodes.Status200OK);
+			.Produces<Guid>(StatusCodes.Status200OK)
+			.Produces(StatusCodes.Status409Conflict);
 	
 		return app;
 	}
@@ -133,13 +146,13 @@ public static class PatientEndpoints
 	
 	public static async Task<IResult> UpdateFirstName(IPatientService patientService, [FromBody] UpdateFirstNameReq request)
 	{
-		var result = await patientService.UpdateFirstName(request.Id, request.FirstName);
+		var result = await patientService.UpdateFirstName(request.Id, request.RowVersion, request.FirstName);
 		return result.ToHttpResult();
 	}
 	
 	public static async Task<IResult> UpdateLastNameAndEmail(IPatientService patientService, [FromBody] UpdateLastNameAndEmailReq request)
 	{
-		var result = await patientService.UpdateLastNameAndEmail(request.Id, request.LastName, request.Email);
+		var result = await patientService.UpdateLastNameAndEmail(request.Id, request.RowVersion, request.LastName, request.Email);
 		return result.ToHttpResult();
 	}
 

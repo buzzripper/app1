@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/10/2026 4:33 PM. Any changes made to it will be lost.
+// This file was auto-generated on 2/12/2026 8:04 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Microsoft.EntityFrameworkCore;
 using Dyvenix.App1.Common.Data.Shared.Entities;
@@ -33,6 +33,7 @@ public partial class App1Db : DbContext
 		{
 			entity.ToTable("Patient");
 			entity.HasKey(e => e.Id);
+			entity.Property(e => e.RowVersion).IsRowVersion();
 			entity.Property(e => e.PracticeId).IsRequired();
 			entity.Property(e => e.FirstName).IsRequired().HasMaxLength(50);
 			entity.Property(e => e.LastName).IsRequired().HasMaxLength(50);

@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <Compile Include="Endpoints\SystemEndpoints.cs" />
+    <Compile Include="Endpoints\v1\AppUserEndpoints.g.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,8 +41,6 @@
 
   <ItemGroup>
     <Folder Include="Config\" />
-    <Folder Include="Controllers\" />
-    <Folder Include="Endpoints\v1\" />
     <Folder Include="Services\v1\" />
   </ItemGroup>
 

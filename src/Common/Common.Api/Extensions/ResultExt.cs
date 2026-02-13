@@ -1,7 +1,7 @@
 using Dyvenix.App1.Common.Shared.Models;
 using Microsoft.AspNetCore.Http;
 
-namespace Dyvenix.App1.App.Api.Extensions;
+namespace Dyvenix.App1.Common.Api.Extensions;
 
 public static class ResultExt
 {

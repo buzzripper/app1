@@ -2,7 +2,7 @@
 <modelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="a05f92bc-4f04-4e80-b2f9-bcdc2d98c182" name="App1" entitiesOutputFolder="src\Common\Common.Data.Shared\Entities" entitiesNamespace="Dyvenix.App1.Common.Data.Shared.Entities" dbContextOutputFolder="src\Common\Common.Data\Context" dbContextNamespace="Dyvenix.App1.Common.Data" enumsOutputFolder="src\Common\Common.Data.Shared\Entities" enumsNamespace="Dyvenix.App1.Common.Data.Shared.Entities" editorSplitterPosition="725.00000000000034" permissions="Permission1|&#xA;Permission2|&#xA;Permission3|" dbContextName="App1Db" usings="Dyvenix.App1.Common.Shared.Models" commonNamespace="Dyvenix.App1.Common" intTestsOutputFolder="tests\Tests.Integration" intTestsNamespace="Dyvenix.App1.Tests.Integration" unitTestsOutputFolder="tests\Tests.Unit" unitTestsNamespace="Dyvenix.App1.Tests.Unit" intTestsEnabled="true" unitTestsEnabled="false" xmlns="http://schemas.microsoft.com/dsltools/GenIt">
   <types>
     <modelRootHasTypes Id="d8efa44d-a0be-4943-8724-d41966277579">
-      <entityModel Id="7e073b5a-ca06-4e53-b407-5153b99e78fe" name="Patient" auditable="false" inclRowVersion="false" module="App" enabled="false">
+      <entityModel Id="7e073b5a-ca06-4e53-b407-5153b99e78fe" name="Patient" auditable="false" inclRowVersion="true" module="App" enabled="false">
         <properties>
           <propertyModel Id="ed0af203-8ba4-4652-b270-da257df091d9" name="Id" description="Primary key" dataType="Guid" isPrimaryKey="true" isIndexed="true" isIndexUnique="true" isForeignKey="false" />
           <propertyModel Id="448786a9-ce1a-41ee-bba5-70b4732e2408" name="FirstName" length="50" isForeignKey="false" displayOrder="1" />
@@ -10,6 +10,7 @@
           <propertyModel Id="9a81e18e-146d-4e35-b744-7dab01f58f56" name="Email" length="50" isNullable="true" isIndexUnique="true" isForeignKey="false" displayOrder="2" />
           <propertyModel Id="4b893e3e-8720-41c9-a50a-4f6e58a3b6ec" name="IsActive" dataType="Boolean" length="50" isForeignKey="false" displayOrder="3" />
           <propertyModel Id="03f3bc12-aba6-47e4-b2b5-e488420a1af3" name="PracticeId" description="Foreign key to Practice" dataType="Guid" isForeignKey="true" displayOrder="1" />
+          <propertyModel Id="fdf28b81-a4a0-4981-95e6-0cafb68fc5f8" name="RowVersion" description="Concurrency token for optimistic locking" dataType="ByteArray" isForeignKey="false" isRowVersion="true" />
         </properties>
         <navigationProperties>
           <navigationProperty Id="1e4359ef-e624-4d1a-af13-199d54b67be3" name="Invoices" description="Navigation to Invoice" targetEntityName="Invoice" isCollection="true" />

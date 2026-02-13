@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/10/2026 4:33 PM. Any changes made to it will be lost.
+// This file was auto-generated on 2/12/2026 8:04 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Dyvenix.App1.Common.Shared.Models;
 using Dyvenix.App1.Common.Data.Shared.Entities;
 using Dyvenix.App1.App.Services.v1;
-using Dyvenix.App1.App.Api.Extensions;
+using Dyvenix.App1.Common.Api.Extensions;
 using Dyvenix.App1.Common.Api.Filters;
 using Dyvenix.App1.Common.Shared.Requests;
 using Dyvenix.App1.App.Shared.Requests.v1;

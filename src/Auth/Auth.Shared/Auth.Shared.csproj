@@ -23,6 +23,8 @@
 
   <ItemGroup>
     <Folder Include="ApiClients\" />
+    <Folder Include="ApiClients\v1\" />
+    <Folder Include="Requests\v1\" />
   </ItemGroup>
 
 </Project>
