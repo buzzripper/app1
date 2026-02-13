@@ -5,20 +5,20 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Dyvenix.App1.Auth.Shared.Extensions;
 
-public static class AuthClientExtensions
+public static class AuthSharedExtensions
 {
-	public static IServiceCollection AddAuthClients(this IServiceCollection services, IConfiguration configuration, bool inProcess)
+	public static IServiceCollection AddAuthSharedServices(this IServiceCollection services, IConfiguration configuration, bool inProcess)
 	{
-		var serviceConfig = configuration.GetSection("ServiceClients:Auth");
+		var serviceConfig = configuration.GetSection("ApiClients:Auth");
 
 		if (!inProcess)
 		{
 			// HTTP: Use HTTP client proxy
-			string? baseUrl = serviceConfig.GetValue<string>("Url");
+			string? baseUrl = serviceConfig.GetValue<string>("BaseUrl");
 			if (string.IsNullOrEmpty(baseUrl))
 			{
 				throw new InvalidOperationException(
-					"ServiceClients:Auth:Url is required when InProcess is false");
+					"ApiClients:Auth:BaseUrl is required when InProcess is false");
 			}
 
 			services.AddHttpClient<IAuthSystemService, SystemServiceHttpClient>(client =>

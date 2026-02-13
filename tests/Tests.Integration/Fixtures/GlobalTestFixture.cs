@@ -1,4 +1,5 @@
 ﻿using Aspire.Hosting;
+using Dyvenix.App1.Auth.Shared.Extensions;
 using Dyvenix.App1.Common.Data;
 using Dyvenix.App1.Common.Data.Config;
 using Dyvenix.App1.Tests.Integration.Data;
@@ -46,23 +47,26 @@ public class GlobalTestFixture : IAsyncLifetime
 		var services = new ServiceCollection();
 		services.AddSingleton(Configuration);
 
-		// --- Register test-specific services ---
-
 		// App1Db
 		var dataConfig = DataConfigBuilder.Build(Configuration);
 		services.AddDataServices(dataConfig);
-
 		services.AddSingleton<IDataManager>(sp =>
 		{
 			var db = sp.GetRequiredService<App1Db>();
 			return new DataManager(db);
 		});
 
-		Services = services.BuildServiceProvider();
+		// App module
+		services.AddAppSharedServices(Configuration, false);
+
+		// Auth module
+		services.AddAuthSharedServices(Configuration, false);
 
 		// Initialize test data
 		var dataManager = Services.GetRequiredService<IDataManager>();
 		await dataManager.Initialize();
+
+		Services = services.BuildServiceProvider();
 	}
 
 	public async ValueTask DisposeAsync()

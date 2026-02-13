@@ -4,8 +4,8 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <AssemblyName>App1.$(MSBuildProjectName)</AssemblyName>
-    <RootNamespace>App1.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <AssemblyName>Dyvenix.App1.App.Shared</AssemblyName>
+    <RootNamespace>Dyvenix.App1.App.Shared</RootNamespace>
     <Configurations>Debug;Release;Dbg-Ext</Configurations>
   </PropertyGroup>
 

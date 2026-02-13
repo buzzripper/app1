@@ -1,12 +1,10 @@
-using App1.App.Shared.DTOs;
-using App1.App.Shared.Interfaces;
 using System.Net.Http.Json;
 
-namespace App1.App.Shared.Proxies;
+namespace Dyvenix.App1.App.Shared.Proxies;
 
 public class SystemServiceHttpClient : IAppSystemService
 {
-	public const string cUrlPathRoot = $"api/app/v1/system";
+	public const string cUrlPathRoot = $"api/app/system";
 
 	private readonly HttpClient _httpClient;
 

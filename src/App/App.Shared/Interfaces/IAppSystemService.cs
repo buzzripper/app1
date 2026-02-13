@@ -1,6 +1,4 @@
-using App1.App.Shared.DTOs;
-
-namespace App1.App.Shared.Interfaces;
+namespace Dyvenix.App1.App.Shared.Interfaces;
 
 public interface IAppSystemService
 {

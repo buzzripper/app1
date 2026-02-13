@@ -1,3 +1,4 @@
+using Dyvenix.App1.App.Shared.ApiClients.v1;
 using Dyvenix.App1.Tests.Integration.Data;
 using Dyvenix.App1.Tests.Integration.DataSets;
 using Dyvenix.App1.Tests.Integration.Fixtures;
@@ -36,7 +37,7 @@ public class PatientReadTests : TestBase, IClassFixture<PatientReadTestFixture>
 		using var httpClient = _globalFixture.App.CreateHttpClient("app-server");
 
 		// Act
-		using var response = await httpClient.GetAsync("/api/app/v1/system/ping", TestContext.Current.CancellationToken);
+		using var response = await httpClient.GetAsync("/api/app/system/ping", TestContext.Current.CancellationToken);
 
 		// Assert
 		Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -58,6 +59,23 @@ public class PatientReadTests : TestBase, IClassFixture<PatientReadTestFixture>
 		TestContext.Current.TestOutputHelper?.WriteLine($"Patient count in db: {dbUserCount}");
 
 		Assert.Equal(testDataPatientCount, dbUserCount);
+
+	}
+
+	[Fact]
+	public async Task GetById_Success()
+	{
+		// Arrange
+		if (_db == null)
+			throw new InvalidOperationException("App1Db is not available from the test fixture.");
+		var patientId = _fixture.DataSet.PatientList.First().Id;
+
+		// Act
+		var patientSvcClient = _fixture.GlobalFixture.Services.GetRequiredService<IPatientApiClient>();
+		var patient = await patientSvcClient.GetById(patientId);
+
+		// Assert
+		Assert.Equal(patientId, patient.Id);
 
 	}
 }
