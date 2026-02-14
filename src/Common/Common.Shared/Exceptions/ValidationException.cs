@@ -2,13 +2,11 @@
 
 public class ValidationException : Exception
 {
-	public ValidationException(string message)
+	public ValidationException(string message, Dictionary<string, string[]> fieldErrors)
 		: base(message)
 	{
+		this.FieldErrors = fieldErrors;
 	}
 
-	public ValidationException(string message, Exception innerException)
-		: base(message, innerException)
-	{
-	}
+	public Dictionary<string, string[]>? FieldErrors;
 }

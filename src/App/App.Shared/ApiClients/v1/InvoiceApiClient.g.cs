@@ -1,24 +1,15 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/13/2026 8:31 AM. Any changes made to it will be lost.
+// This file was auto-generated on 2/14/2026 11:12 AM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Dyvenix.App1.Common.Shared.ApiClients;
 using Dyvenix.App1.Common.Shared.Requests;
 using Dyvenix.App1.Common.Data.Shared.Entities;
+using Dyvenix.App1.App.Shared.Contracts.v1;
 using Dyvenix.App1.App.Shared.Requests.v1;
 
 namespace Dyvenix.App1.App.Shared.ApiClients.v1;
 
-public interface IInvoiceApiClient
-{
-	Task<Guid> CreateInvoice(Invoice invoice);
-	Task<bool> DeleteInvoice(Guid id);
-	Task<byte[]> UpdateMemo(UpdateMemoReq request);
-	Task<byte[]> UpdateAmount(UpdateAmountReq request);
-	Task<Invoice> GetById(Guid id);
-	Task<List<Invoice>> QueryByMemo(string memo);
-}
-
-public partial class InvoiceApiClient : ApiClientBase, IInvoiceApiClient
+public partial class InvoiceApiClient : ApiClientBase, IInvoiceService
 {
 	public InvoiceApiClient(HttpClient httpClient) : base(httpClient)
 	{
@@ -26,38 +17,38 @@ public partial class InvoiceApiClient : ApiClientBase, IInvoiceApiClient
 	
 	#region Create
 	
-	public async Task<Guid> CreateInvoice(Invoice invoice)
+	public async Task CreateInvoice(Invoice invoice)
 	{
 		ArgumentNullException.ThrowIfNull(invoice);
 	
-		return await PostAsync<Guid>("api/v1/Invoice/CreateInvoice", invoice);
+		await PostAsync("api/v1/Invoice/CreateInvoice", invoice);
 	}
 	
 	#endregion
 	
 	#region Delete
 	
-	public async Task<bool> DeleteInvoice(Guid id)
+	public async Task DeleteInvoice(Guid id)
 	{
 		if (id == Guid.Empty)
 			throw new ArgumentNullException(nameof(id));
 	
 		var deleteReq = new DeleteReq { Id = id };	
-		return await DeleteAsync<bool>($"api/v1/Invoice/DeleteInvoice", deleteReq);
+		await DeleteAsync<bool>($"api/v1/Invoice/DeleteInvoice", deleteReq);
 	}
 	
 	#endregion
 
 	#region Updates
 	
-	public async Task<byte[]> UpdateMemo(UpdateMemoReq request)
+	public async Task UpdateMemo(UpdateMemoReq request)
 	{
-		return await PatchAsync<byte[]>($"api/v1/Invoice/UpdateMemo", request);
+		await PatchAsync($"api/v1/Invoice/UpdateMemo", request);
 	}
 	
-	public async Task<byte[]> UpdateAmount(UpdateAmountReq request)
+	public async Task UpdateAmount(UpdateAmountReq request)
 	{
-		return await PatchAsync<byte[]>($"api/v1/Invoice/UpdateAmount", request);
+		await PatchAsync($"api/v1/Invoice/UpdateAmount", request);
 	}
 
 	#endregion

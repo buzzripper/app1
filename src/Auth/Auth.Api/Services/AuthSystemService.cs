@@ -1,6 +1,6 @@
 using App1.Auth.Api;
+using Dyvenix.App1.Auth.Shared.Contracts;
 using Dyvenix.App1.Auth.Shared.DTOs;
-using Dyvenix.App1.Auth.Shared.Interfaces;
 using Microsoft.Extensions.Logging;
 
 namespace Dyvenix.App1.Auth.Api.Services;

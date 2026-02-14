@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/13/2026 8:31 AM. Any changes made to it will be lost.
+// This file was auto-generated on 2/14/2026 11:12 AM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -9,7 +9,7 @@ using cv1 = Dyvenix.App1.Auth.Shared.Contracts.v1;
 
 namespace Dyvenix.App1.Auth.Api.Extensions;
 
-public static partial class ServiceCollectionExt
+public static partial class AuthApiServiceCollExt
 {
 	static partial void AddGeneratedServices(IServiceCollection services)
 	{

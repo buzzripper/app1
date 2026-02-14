@@ -3,6 +3,7 @@ using Dyvenix.App1.App.Shared.Extensions;
 using Dyvenix.App1.Auth.Shared.Extensions;
 using Dyvenix.App1.Common.Data;
 using Dyvenix.App1.Common.Data.Config;
+using Dyvenix.App1.Common.Shared.Config;
 using Dyvenix.App1.Tests.Integration.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -57,17 +58,23 @@ public class GlobalTestFixture : IAsyncLifetime
 			return new DataManager(db);
 		});
 
-		// App module
-		services.AddAppSharedServices(Configuration, false);
+		// ApiClients
+		var apiClientsConfig = ApiClientsConfigBuilder.Build(Configuration);
+		services.AddSingleton(apiClientsConfig);
+		if (apiClientsConfig.TryGetValue("App", out var appApiClientConfig))
+		{
+			services.AddAppSharedServices(appApiClientConfig, false);
+		}
+		if (apiClientsConfig.TryGetValue("Auth", out var authApiClientConfig))
+		{
+			services.AddAuthSharedServices(authApiClientConfig, false);
+		}
 
-		// Auth module
-		services.AddAuthSharedServices(Configuration, false);
+		Services = services.BuildServiceProvider();
 
 		// Initialize test data
 		var dataManager = Services.GetRequiredService<IDataManager>();
 		await dataManager.Initialize();
-
-		Services = services.BuildServiceProvider();
 	}
 
 	public async ValueTask DisposeAsync()

@@ -1,4 +1,4 @@
-using Dyvenix.App1.App.Shared.ApiClients.v1;
+using Dyvenix.App1.App.Shared.Contracts.v1;
 using Dyvenix.App1.Tests.Integration.Data;
 using Dyvenix.App1.Tests.Integration.DataSets;
 using Dyvenix.App1.Tests.Integration.Fixtures;
@@ -71,7 +71,7 @@ public class PatientReadTests : TestBase, IClassFixture<PatientReadTestFixture>
 		var patientId = _fixture.DataSet.PatientList.First().Id;
 
 		// Act
-		var patientSvcClient = _fixture.GlobalFixture.Services.GetRequiredService<IPatientApiClient>();
+		var patientSvcClient = _fixture.GlobalFixture.Services.GetRequiredService<IPatientService>();
 		var patient = await patientSvcClient.GetById(patientId);
 
 		// Assert

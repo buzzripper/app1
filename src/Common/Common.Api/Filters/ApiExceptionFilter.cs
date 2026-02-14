@@ -27,12 +27,11 @@ public class ApiExceptionFilter<T> : IExceptionFilter
 
 		_logger.Error(context.Exception, _sourceClass, sourceMethod);
 
-		var statusCode = MapExceptionToStatusCode(context.Exception);
-		var apiResponse = Response.Fail(statusCode, context.Exception.GetBaseException().Message);
+		var result = MapExceptionToResult(context.Exception);
 
-		context.Result = new ObjectResult(apiResponse)
+		context.Result = new ObjectResult(result)
 		{
-			StatusCode = statusCode
+			StatusCode = (int)result.StatusCode
 		};
 
 		context.ExceptionHandled = true;
@@ -50,15 +49,23 @@ public class ApiExceptionFilter<T> : IExceptionFilter
 		return string.Empty;
 	}
 
-	private static int MapExceptionToStatusCode(Exception ex)
+	private static Result MapExceptionToResult(Exception ex)
 	{
 		if (ex is ValidationException)
-			return 400;
+			return Result.Validation(ex.GetBaseException().Message);
 
-		if (ex is ArgumentNullException)
-			return 404;
+		if (ex is UnauthorizedException)
+			return Result.Validation(ex.GetBaseException().Message);
 
-		// Default to 500
-		return 500;
+		if (ex is NotFoundException)
+			return Result.NotFound(ex.GetBaseException().Message);
+
+		if (ex is ConcurrencyException)
+			return Result.Conflict(ex.GetBaseException().Message);
+
+		if (ex is ConcurrencyException)
+			return Result.Conflict(ex.GetBaseException().Message);
+
+		return Result.Failure(ex.GetBaseException().Message);
 	}
 }

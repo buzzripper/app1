@@ -1,5 +1,5 @@
+using Dyvenix.App1.Auth.Shared.Contracts;
 using Dyvenix.App1.Auth.Shared.DTOs;
-using Dyvenix.App1.Auth.Shared.Interfaces;
 using System.Net.Http.Json;
 
 namespace Dyvenix.App1.Auth.Shared.Proxies;

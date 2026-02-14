@@ -1,36 +1,16 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/13/2026 8:31 AM. Any changes made to it will be lost.
+// This file was auto-generated on 2/14/2026 11:12 AM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Dyvenix.App1.Common.Shared.ApiClients;
 using Dyvenix.App1.Common.Shared.Requests;
 using Dyvenix.App1.Common.Data.Shared.Entities;
+using Dyvenix.App1.App.Shared.Contracts.v1;
 using Dyvenix.App1.App.Shared.Requests.v1;
+using Dyvenix.App1.Common.Shared.DTOs;
 
 namespace Dyvenix.App1.App.Shared.ApiClients.v1;
 
-public interface IPatientApiClient
-{
-	Task<Guid> CreatePatient(Patient patient);
-	Task<bool> DeletePatient(Guid id);
-	Task<byte[]> UpdatePatient(Patient patient);
-	Task<byte[]> UpdateFirstName(UpdateFirstNameReq request);
-	Task<byte[]> UpdateLastNameAndEmail(UpdateLastNameAndEmailReq request);
-	Task<Patient> GetById(Guid id);
-	Task<Patient> GetByEmail(string email);
-	Task<Patient> GetByIdWithInvoices(Guid id);
-	Task<List<Patient>> GetAllPaging(int pgSize = 0, int pgOffset = 0);
-	Task<List<Patient>> SearchByLastNamePaging(string lastName, int pgSize = 0, int pgOffset = 0);
-	Task<List<Patient>> SearchByLastNameSorting(string lastName);
-	Task<List<Patient>> SearchByLastNamePagingSorting(string lastName, int pgSize = 0, int pgOffset = 0);
-	Task<List<Patient>> GetAllSorting();
-	Task<List<Patient>> SearchByLastEmailOpt(string lastName, string? email = null);
-	Task<List<Patient>> SearchByEmail(string email);
-	Task<List<Patient>> GetActive();
-	Task<List<Patient>> GetAllPagingSorting(int pgSize = 0, int pgOffset = 0);
-	Task<List<Patient>> SearchActiveLastName(string lastName);
-}
-
-public partial class PatientApiClient : ApiClientBase, IPatientApiClient
+public partial class PatientApiClient : ApiClientBase, IPatientService
 {
 	public PatientApiClient(HttpClient httpClient) : base(httpClient)
 	{
@@ -38,24 +18,24 @@ public partial class PatientApiClient : ApiClientBase, IPatientApiClient
 	
 	#region Create
 	
-	public async Task<Guid> CreatePatient(Patient patient)
+	public async Task CreatePatient(Patient patient)
 	{
 		ArgumentNullException.ThrowIfNull(patient);
 	
-		return await PostAsync<Guid>("api/v1/Patient/CreatePatient", patient);
+		await PostAsync("api/v1/Patient/CreatePatient", patient);
 	}
 	
 	#endregion
 	
 	#region Delete
 	
-	public async Task<bool> DeletePatient(Guid id)
+	public async Task DeletePatient(Guid id)
 	{
 		if (id == Guid.Empty)
 			throw new ArgumentNullException(nameof(id));
 	
 		var deleteReq = new DeleteReq { Id = id };	
-		return await DeleteAsync<bool>($"api/v1/Patient/DeletePatient", deleteReq);
+		await DeleteAsync<bool>($"api/v1/Patient/DeletePatient", deleteReq);
 	}
 	
 	#endregion
@@ -101,39 +81,39 @@ public partial class PatientApiClient : ApiClientBase, IPatientApiClient
 
 	#region Read Methods - List
 	
-	public async Task<List<Patient>> GetAllPaging(int pgSize = 0, int pgOffset = 0)
+	public async Task<ListPage<Patient>> GetAllPaging(GetAllPagingReq request)
 	{
-		return await GetAsync<List<Patient>>($"api/v1/Patient/GetAllPaging?pgSize={pgSize}&pgOffset={pgOffset}");
+		return await GetAsync<ListPage<Patient>>($"api/v1/Patient/GetAllPaging");
 	}
 	
-	public async Task<List<Patient>> SearchByLastNamePaging(string lastName, int pgSize = 0, int pgOffset = 0)
+	public async Task<ListPage<Patient>> SearchByLastNamePaging(SearchByLastNamePagingReq request)
 	{
-		return await GetAsync<List<Patient>>($"api/v1/Patient/SearchByLastNamePaging/{lastName}?pgSize={pgSize}&pgOffset={pgOffset}");
+		return await GetAsync<ListPage<Patient>>($"api/v1/Patient/SearchByLastNamePaging");
 	}
 	
-	public async Task<List<Patient>> SearchByLastNameSorting(string lastName)
+	public async Task<List<Patient>> SearchByLastNameSorting(SearchByLastNameSortingReq request)
 	{
-		return await GetAsync<List<Patient>>($"api/v1/Patient/SearchByLastNameSorting/{lastName}");
+		return await GetAsync<List<Patient>>($"api/v1/Patient/SearchByLastNameSorting");
 	}
 	
-	public async Task<List<Patient>> SearchByLastNamePagingSorting(string lastName, int pgSize = 0, int pgOffset = 0)
+	public async Task<ListPage<Patient>> SearchByLastNamePagingSorting(SearchByLastNamePagingSortingReq request)
 	{
-		return await GetAsync<List<Patient>>($"api/v1/Patient/SearchByLastNamePagingSorting/{lastName}?pgSize={pgSize}&pgOffset={pgOffset}");
+		return await GetAsync<ListPage<Patient>>($"api/v1/Patient/SearchByLastNamePagingSorting");
 	}
 	
-	public async Task<List<Patient>> GetAllSorting()
+	public async Task<List<Patient>> GetAllSorting(GetAllSortingReq request)
 	{
 		return await GetAsync<List<Patient>>($"api/v1/Patient/GetAllSorting");
 	}
 	
-	public async Task<List<Patient>> SearchByLastEmailOpt(string lastName, string? email = null)
+	public async Task<List<Patient>> SearchByLastEmailOpt(SearchByLastEmailOptReq request)
 	{
-		return await GetAsync<List<Patient>>($"api/v1/Patient/SearchByLastEmailOpt/{lastName}?email={email}");
+		return await GetAsync<List<Patient>>($"api/v1/Patient/SearchByLastEmailOpt");
 	}
 	
-	public async Task<List<Patient>> SearchByEmail(string email)
+	public async Task<List<Patient>> SearchByEmail(SearchByEmailReq request)
 	{
-		return await GetAsync<List<Patient>>($"api/v1/Patient/SearchByEmail/{email}");
+		return await GetAsync<List<Patient>>($"api/v1/Patient/SearchByEmail");
 	}
 	
 	public async Task<List<Patient>> GetActive()
@@ -141,9 +121,9 @@ public partial class PatientApiClient : ApiClientBase, IPatientApiClient
 		return await GetAsync<List<Patient>>($"api/v1/Patient/GetActive");
 	}
 	
-	public async Task<List<Patient>> GetAllPagingSorting(int pgSize = 0, int pgOffset = 0)
+	public async Task<ListPage<Patient>> GetAllPagingSorting(GetAllPagingSortingReq request)
 	{
-		return await GetAsync<List<Patient>>($"api/v1/Patient/GetAllPagingSorting?pgSize={pgSize}&pgOffset={pgOffset}");
+		return await GetAsync<ListPage<Patient>>($"api/v1/Patient/GetAllPagingSorting");
 	}
 	
 	public async Task<List<Patient>> SearchActiveLastName(string lastName)

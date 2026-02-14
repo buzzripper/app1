@@ -1,4 +1,4 @@
-﻿namespace Dyvenix.App1.Common.Shared.Models
+﻿namespace Dyvenix.App1.Common.Shared.DTOs
 {
 	public class ListPage<T> where T : new()
 	{

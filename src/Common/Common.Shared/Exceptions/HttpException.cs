@@ -1,4 +1,6 @@
-﻿namespace Dyvenix.App1.Common.Shared.Exceptions;
+﻿using System.Net;
+
+namespace Dyvenix.App1.Common.Shared.Exceptions;
 
 public class HttpException : Exception
 {
@@ -8,15 +10,15 @@ public class HttpException : Exception
 
 	public HttpException(string message, Exception innerException) : base(message, innerException) { }
 
-	public HttpException(int statusCode)
+	public HttpException(HttpStatusCode statusCode)
 	{
 		StatusCode = statusCode;
 	}
 
-	public HttpException(int statusCode, string message) : this(message)
+	public HttpException(HttpStatusCode statusCode, string message) : this(message)
 	{
 		StatusCode = statusCode;
 	}
 
-	public int StatusCode { get; set; }
+	public HttpStatusCode StatusCode { get; set; }
 }

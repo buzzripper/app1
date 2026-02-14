@@ -1,4 +1,4 @@
-using Dyvenix.App1.Common.Shared.Models;
+using Dyvenix.App1.Common.Shared.DTOs;
 using Microsoft.AspNetCore.Http;
 
 namespace Dyvenix.App1.Common.Api.Extensions;

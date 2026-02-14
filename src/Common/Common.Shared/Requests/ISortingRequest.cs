@@ -1,4 +1,4 @@
-﻿namespace Dyvenix.App1.Common.Shared.Models;
+﻿namespace Dyvenix.App1.Common.Shared.Requests;
 
 public interface ISortingRequest
 {

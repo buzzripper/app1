@@ -1,5 +1,5 @@
 using App1.Auth.Api;
-using Dyvenix.App1.Auth.Shared.Interfaces;
+using Dyvenix.App1.Auth.Shared.Contracts;
 using Dyvenix.App1.Common.Shared.DTOs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;

@@ -1,17 +1,17 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/13/2026 8:31 AM. Any changes made to it will be lost.
+// This file was auto-generated on 2/14/2026 11:12 AM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Dyvenix.App1.Common.Shared.Models;
 using Dyvenix.App1.Common.Data.Shared.Entities;
 using Dyvenix.App1.Auth.Api.Services.v1;
 using Dyvenix.App1.Common.Api.Extensions;
 using Dyvenix.App1.Common.Api.Filters;
 using Dyvenix.App1.Common.Shared.Requests;
+using Dyvenix.App1.Common.Shared.DTOs;
 using Dyvenix.App1.Auth.Shared.Contracts.v1;
 using Dyvenix.App1.Auth.Shared.Requests.v1;
 
