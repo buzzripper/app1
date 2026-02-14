@@ -52,22 +52,35 @@ public class PatientReadTests : TestBase, IClassFixture<PatientReadTestFixture>
 	}
 
 	[Fact]
-	public async Task GetCount2()
+	public async Task GetAllPaging_Success()
 	{
 		// Arrange
-		var pgReq = new GetAllPagingReq
-		{
-			PageOffset = 0,
-			PageSize = 10
-		};
+
+		var totalCount = _fixture.DataSet.PatientList.Count;
+		if (totalCount < 6)
+			throw new InvalidOperationException($"Test data should contain at least 6 patients for this test. Current count: {totalCount}");
+
+		var request = new GetAllPagingReq();
+		request.PageSize = 3;
+		request.RecalcRowCount = true;
+		request.GetRowCountOnly = false;
+
+		var lastPgOffset = totalCount / 3;
+		if (totalCount % 3 == 0)
+			lastPgOffset -= 1; // Adjust if total count is an exact multiple of page size
+		var lastPgSize = totalCount - (lastPgOffset * 3);
 
 		// Act
-		using var httpClient = _globalFixture.App.CreateHttpClient("portal-server");
-		using var response = await httpClient.GetAsync("/api/app/system/ping", TestContext.Current.CancellationToken);
-		var pgList = await _patientApiClient.GetAllPaging(pgReq);
+		request.PageOffset = 0;
+		var firstPgList = await _patientApiClient.GetAllPaging(request);
+		request.PageOffset = lastPgOffset;
+		var lastPgList = await _patientApiClient.GetAllPaging(request);
 
 		// Assert
-		Assert.True(pgList.Items.Count > 0, "Expected at least one patient in the paged list.");
+		Assert.True(totalCount == firstPgList.TotalRowCount, $"First total count s/b {totalCount} but was {firstPgList.TotalRowCount}");
+		Assert.True(request.PageSize == firstPgList.Items.Count, $"First page size s/b {request.PageSize} but was {firstPgList.Items.Count}");
+		Assert.True(totalCount == lastPgList.TotalRowCount, $"Last total count s/b {totalCount} but was {firstPgList.TotalRowCount}");
+		Assert.True(lastPgSize == lastPgList.Items.Count, $"Last page size s/b {lastPgSize} but was {lastPgList.Items.Count}");
 	}
 
 	[Fact]

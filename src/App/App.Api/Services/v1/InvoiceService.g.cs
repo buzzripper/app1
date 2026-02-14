@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/14/2026 2:39 PM. Any changes made to it will be lost.
+// This file was auto-generated on 2/14/2026 5:02 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
@@ -128,9 +128,7 @@ public partial class InvoiceService : IInvoiceService
 		if (!string.IsNullOrWhiteSpace(memo))
 			dbQuery = dbQuery.Where(x => x.Memo == memo);
 	
-		var data = await dbQuery.ToListAsync();
-	
-		return data;
+		return await dbQuery.ToListAsync();
 	}
 	
 	#endregion

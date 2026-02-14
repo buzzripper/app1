@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/14/2026 2:39 PM. Any changes made to it will be lost.
+// This file was auto-generated on 2/14/2026 5:02 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
@@ -184,9 +184,6 @@ public partial class PatientService : IPatientService
 	
 		var listPage = new ListPage<Patient>();
 	
-		if (request.PageSize > 0)
-			dbQuery = dbQuery.Skip(request.PageOffset * request.PageSize).Take(request.PageSize);
-	
 		// Count (if requested)
 		if (request.RecalcRowCount || request.GetRowCountOnly)
 		{
@@ -196,13 +193,14 @@ public partial class PatientService : IPatientService
 		}
 		else if (!request.RecalcRowCount && !request.GetRowCountOnly)
 		{
-			// Make it clear that row count is not calculated
-			listPage.TotalRowCount = -1;
+			listPage.TotalRowCount = -1;  // Make it clear that row count was not calculated
 		}
 	
-		var data = await dbQuery.ToListAsync();
+		if (request.PageSize > 0)
+			dbQuery = dbQuery.Skip(request.PageOffset * request.PageSize).Take(request.PageSize);
 	
-		return data.ToListPage<Patient>();
+		listPage.Items = await dbQuery.ToListAsync();
+		return listPage;
 	}
 	
 	public async Task<ListPage<Patient>> SearchByLastNamePaging(SearchByLastNamePagingReq request)
@@ -216,9 +214,6 @@ public partial class PatientService : IPatientService
 		// Stable ordering for paging
 		dbQuery = dbQuery.OrderBy(x => x.LastName).ThenBy(x => x.Id);
 	
-		if (request.PageSize > 0)
-			dbQuery = dbQuery.Skip(request.PageOffset * request.PageSize).Take(request.PageSize);
-	
 		// Count (if requested)
 		if (request.RecalcRowCount || request.GetRowCountOnly)
 		{
@@ -228,13 +223,14 @@ public partial class PatientService : IPatientService
 		}
 		else if (!request.RecalcRowCount && !request.GetRowCountOnly)
 		{
-			// Make it clear that row count is not calculated
-			listPage.TotalRowCount = -1;
+			listPage.TotalRowCount = -1;  // Make it clear that row count was not calculated
 		}
 	
-		var data = await dbQuery.ToListAsync();
+		if (request.PageSize > 0)
+			dbQuery = dbQuery.Skip(request.PageOffset * request.PageSize).Take(request.PageSize);
 	
-		return data.ToListPage<Patient>();
+		listPage.Items = await dbQuery.ToListAsync();
+		return listPage;
 	}
 	
 	public async Task<List<Patient>> SearchByLastNameSorting(SearchByLastNameSortingReq request)
@@ -248,9 +244,7 @@ public partial class PatientService : IPatientService
 		if (!string.IsNullOrWhiteSpace(request.SortBy))
 			this.AddSorting(ref dbQuery, request);
 	
-		var data = await dbQuery.ToListAsync();
-	
-		return data;
+		return await dbQuery.ToListAsync();
 	}
 	
 	public async Task<ListPage<Patient>> SearchByLastNamePagingSorting(SearchByLastNamePagingSortingReq request)
@@ -268,9 +262,6 @@ public partial class PatientService : IPatientService
 		// Stable ordering for paging
 		dbQuery = dbQuery.OrderBy(x => x.LastName).ThenBy(x => x.Id);
 	
-		if (request.PageSize > 0)
-			dbQuery = dbQuery.Skip(request.PageOffset * request.PageSize).Take(request.PageSize);
-	
 		// Count (if requested)
 		if (request.RecalcRowCount || request.GetRowCountOnly)
 		{
@@ -280,13 +271,14 @@ public partial class PatientService : IPatientService
 		}
 		else if (!request.RecalcRowCount && !request.GetRowCountOnly)
 		{
-			// Make it clear that row count is not calculated
-			listPage.TotalRowCount = -1;
+			listPage.TotalRowCount = -1;  // Make it clear that row count was not calculated
 		}
 	
-		var data = await dbQuery.ToListAsync();
+		if (request.PageSize > 0)
+			dbQuery = dbQuery.Skip(request.PageOffset * request.PageSize).Take(request.PageSize);
 	
-		return data.ToListPage<Patient>();
+		listPage.Items = await dbQuery.ToListAsync();
+		return listPage;
 	}
 	
 	public async Task<List<Patient>> GetAllSorting(GetAllSortingReq request)
@@ -297,9 +289,7 @@ public partial class PatientService : IPatientService
 		if (!string.IsNullOrWhiteSpace(request.SortBy))
 			this.AddSorting(ref dbQuery, request);
 	
-		var data = await dbQuery.ToListAsync();
-	
-		return data;
+		return await dbQuery.ToListAsync();
 	}
 	
 	public async Task<List<Patient>> SearchByLastEmailOpt(SearchByLastEmailOptReq request)
@@ -313,9 +303,7 @@ public partial class PatientService : IPatientService
 		if (!string.IsNullOrWhiteSpace(request.Email))
 			dbQuery = dbQuery.Where(x => EF.Functions.Like(x.Email, $"%{request.Email}%"));
 	
-		var data = await dbQuery.ToListAsync();
-	
-		return data;
+		return await dbQuery.ToListAsync();
 	}
 	
 	public async Task<List<Patient>> SearchByEmail(SearchByEmailReq request)
@@ -325,9 +313,7 @@ public partial class PatientService : IPatientService
 		if (!string.IsNullOrWhiteSpace(request.Email))
 			dbQuery = dbQuery.Where(x => EF.Functions.Like(x.Email, $"%{request.Email}%"));
 	
-		var data = await dbQuery.ToListAsync();
-	
-		return data;
+		return await dbQuery.ToListAsync();
 	}
 	
 	public async Task<List<Patient>> GetActive()
@@ -337,9 +323,7 @@ public partial class PatientService : IPatientService
 		// Internal
 		dbQuery = dbQuery.Where(x => x.IsActive == true);
 	
-		var data = await dbQuery.ToListAsync();
-	
-		return data;
+		return await dbQuery.ToListAsync();
 	}
 	
 	public async Task<ListPage<Patient>> GetAllPagingSorting(GetAllPagingSortingReq request)
@@ -352,9 +336,6 @@ public partial class PatientService : IPatientService
 	
 		var listPage = new ListPage<Patient>();
 	
-		if (request.PageSize > 0)
-			dbQuery = dbQuery.Skip(request.PageOffset * request.PageSize).Take(request.PageSize);
-	
 		// Count (if requested)
 		if (request.RecalcRowCount || request.GetRowCountOnly)
 		{
@@ -364,13 +345,14 @@ public partial class PatientService : IPatientService
 		}
 		else if (!request.RecalcRowCount && !request.GetRowCountOnly)
 		{
-			// Make it clear that row count is not calculated
-			listPage.TotalRowCount = -1;
+			listPage.TotalRowCount = -1;  // Make it clear that row count was not calculated
 		}
 	
-		var data = await dbQuery.ToListAsync();
+		if (request.PageSize > 0)
+			dbQuery = dbQuery.Skip(request.PageOffset * request.PageSize).Take(request.PageSize);
 	
-		return data.ToListPage<Patient>();
+		listPage.Items = await dbQuery.ToListAsync();
+		return listPage;
 	}
 	
 	public async Task<List<Patient>> SearchActiveLastName(string lastName)
@@ -383,9 +365,7 @@ public partial class PatientService : IPatientService
 		// Internal
 		dbQuery = dbQuery.Where(x => x.IsActive == true);
 	
-		var data = await dbQuery.ToListAsync();
-	
-		return data;
+		return await dbQuery.ToListAsync();
 	}
 	
 	#endregion
