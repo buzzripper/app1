@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/14/2026 11:12 AM. Any changes made to it will be lost.
+// This file was auto-generated on 2/14/2026 2:39 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Dyvenix.App1.Common.Shared.ApiClients;
 using Dyvenix.App1.Common.Shared.Requests;
@@ -21,7 +21,7 @@ public partial class InvoiceApiClient : ApiClientBase, IInvoiceService
 	{
 		ArgumentNullException.ThrowIfNull(invoice);
 	
-		await PostAsync("api/v1/Invoice/CreateInvoice", invoice);
+		await PostAsync("api/App/v1/Invoice/CreateInvoice", invoice);
 	}
 	
 	#endregion
@@ -34,7 +34,7 @@ public partial class InvoiceApiClient : ApiClientBase, IInvoiceService
 			throw new ArgumentNullException(nameof(id));
 	
 		var deleteReq = new DeleteReq { Id = id };	
-		await DeleteAsync<bool>($"api/v1/Invoice/DeleteInvoice", deleteReq);
+		await DeleteAsync<bool>($"api/App/v1/Invoice/DeleteInvoice", deleteReq);
 	}
 	
 	#endregion
@@ -43,12 +43,12 @@ public partial class InvoiceApiClient : ApiClientBase, IInvoiceService
 	
 	public async Task UpdateMemo(UpdateMemoReq request)
 	{
-		await PatchAsync($"api/v1/Invoice/UpdateMemo", request);
+		await PatchAsync($"api/App/v1/Invoice/UpdateMemo", request);
 	}
 	
 	public async Task UpdateAmount(UpdateAmountReq request)
 	{
-		await PatchAsync($"api/v1/Invoice/UpdateAmount", request);
+		await PatchAsync($"api/App/v1/Invoice/UpdateAmount", request);
 	}
 
 	#endregion
@@ -57,7 +57,7 @@ public partial class InvoiceApiClient : ApiClientBase, IInvoiceService
 	
 	public async Task<Invoice> GetById(Guid id)
 	{
-		return await GetAsync<Invoice>($"api/v1/Invoice/GetById/{id}");
+		return await GetAsync<Invoice>($"api/App/v1/Invoice/GetById/{id}");
 	}
 
 	#endregion
@@ -66,7 +66,7 @@ public partial class InvoiceApiClient : ApiClientBase, IInvoiceService
 	
 	public async Task<List<Invoice>> QueryByMemo(string memo)
 	{
-		return await GetAsync<List<Invoice>>($"api/v1/Invoice/QueryByMemo/{memo}");
+		return await GetAsync<List<Invoice>>($"api/App/v1/Invoice/QueryByMemo/{memo}");
 	}
 
 	#endregion

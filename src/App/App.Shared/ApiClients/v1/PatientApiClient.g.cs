@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/14/2026 11:12 AM. Any changes made to it will be lost.
+// This file was auto-generated on 2/14/2026 2:39 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Dyvenix.App1.Common.Shared.ApiClients;
 using Dyvenix.App1.Common.Shared.Requests;
@@ -22,7 +22,7 @@ public partial class PatientApiClient : ApiClientBase, IPatientService
 	{
 		ArgumentNullException.ThrowIfNull(patient);
 	
-		await PostAsync("api/v1/Patient/CreatePatient", patient);
+		await PostAsync("api/App/v1/Patient/CreatePatient", patient);
 	}
 	
 	#endregion
@@ -35,7 +35,7 @@ public partial class PatientApiClient : ApiClientBase, IPatientService
 			throw new ArgumentNullException(nameof(id));
 	
 		var deleteReq = new DeleteReq { Id = id };	
-		await DeleteAsync<bool>($"api/v1/Patient/DeletePatient", deleteReq);
+		await DeleteAsync<bool>($"api/App/v1/Patient/DeletePatient", deleteReq);
 	}
 	
 	#endregion
@@ -45,17 +45,17 @@ public partial class PatientApiClient : ApiClientBase, IPatientService
 	public async Task<byte[]> UpdatePatient(Patient patient)
 	{
 		ArgumentNullException.ThrowIfNull(patient);
-		return await PutAsync<byte[]>("api/v1/Patient/UpdatePatient", patient);
+		return await PutAsync<byte[]>("api/App/v1/Patient/UpdatePatient", patient);
 	}
 	
 	public async Task<byte[]> UpdateFirstName(UpdateFirstNameReq request)
 	{
-		return await PatchAsync<byte[]>($"api/v1/Patient/UpdateFirstName", request);
+		return await PatchAsync<byte[]>($"api/App/v1/Patient/UpdateFirstName", request);
 	}
 	
 	public async Task<byte[]> UpdateLastNameAndEmail(UpdateLastNameAndEmailReq request)
 	{
-		return await PatchAsync<byte[]>($"api/v1/Patient/UpdateLastNameAndEmail", request);
+		return await PatchAsync<byte[]>($"api/App/v1/Patient/UpdateLastNameAndEmail", request);
 	}
 
 	#endregion
@@ -64,17 +64,17 @@ public partial class PatientApiClient : ApiClientBase, IPatientService
 	
 	public async Task<Patient> GetById(Guid id)
 	{
-		return await GetAsync<Patient>($"api/v1/Patient/GetById/{id}");
+		return await GetAsync<Patient>($"api/App/v1/Patient/GetById/{id}");
 	}
 	
 	public async Task<Patient> GetByEmail(string email)
 	{
-		return await GetAsync<Patient>($"api/v1/Patient/GetByEmail/{email}");
+		return await GetAsync<Patient>($"api/App/v1/Patient/GetByEmail/{email}");
 	}
 	
 	public async Task<Patient> GetByIdWithInvoices(Guid id)
 	{
-		return await GetAsync<Patient>($"api/v1/Patient/GetByIdWithInvoices/{id}");
+		return await GetAsync<Patient>($"api/App/v1/Patient/GetByIdWithInvoices/{id}");
 	}
 
 	#endregion
@@ -83,52 +83,52 @@ public partial class PatientApiClient : ApiClientBase, IPatientService
 	
 	public async Task<ListPage<Patient>> GetAllPaging(GetAllPagingReq request)
 	{
-		return await GetAsync<ListPage<Patient>>($"api/v1/Patient/GetAllPaging");
+		return await PostAsync<ListPage<Patient>>($"api/App/v1/Patient/GetAllPaging", request);
 	}
 	
 	public async Task<ListPage<Patient>> SearchByLastNamePaging(SearchByLastNamePagingReq request)
 	{
-		return await GetAsync<ListPage<Patient>>($"api/v1/Patient/SearchByLastNamePaging");
+		return await PostAsync<ListPage<Patient>>($"api/App/v1/Patient/SearchByLastNamePaging", request);
 	}
 	
 	public async Task<List<Patient>> SearchByLastNameSorting(SearchByLastNameSortingReq request)
 	{
-		return await GetAsync<List<Patient>>($"api/v1/Patient/SearchByLastNameSorting");
+		return await PostAsync<List<Patient>>($"api/App/v1/Patient/SearchByLastNameSorting", request);
 	}
 	
 	public async Task<ListPage<Patient>> SearchByLastNamePagingSorting(SearchByLastNamePagingSortingReq request)
 	{
-		return await GetAsync<ListPage<Patient>>($"api/v1/Patient/SearchByLastNamePagingSorting");
+		return await PostAsync<ListPage<Patient>>($"api/App/v1/Patient/SearchByLastNamePagingSorting", request);
 	}
 	
 	public async Task<List<Patient>> GetAllSorting(GetAllSortingReq request)
 	{
-		return await GetAsync<List<Patient>>($"api/v1/Patient/GetAllSorting");
+		return await PostAsync<List<Patient>>($"api/App/v1/Patient/GetAllSorting", request);
 	}
 	
 	public async Task<List<Patient>> SearchByLastEmailOpt(SearchByLastEmailOptReq request)
 	{
-		return await GetAsync<List<Patient>>($"api/v1/Patient/SearchByLastEmailOpt");
+		return await PostAsync<List<Patient>>($"api/App/v1/Patient/SearchByLastEmailOpt", request);
 	}
 	
 	public async Task<List<Patient>> SearchByEmail(SearchByEmailReq request)
 	{
-		return await GetAsync<List<Patient>>($"api/v1/Patient/SearchByEmail");
+		return await PostAsync<List<Patient>>($"api/App/v1/Patient/SearchByEmail", request);
 	}
 	
 	public async Task<List<Patient>> GetActive()
 	{
-		return await GetAsync<List<Patient>>($"api/v1/Patient/GetActive");
+		return await GetAsync<List<Patient>>($"api/App/v1/Patient/GetActive");
 	}
 	
 	public async Task<ListPage<Patient>> GetAllPagingSorting(GetAllPagingSortingReq request)
 	{
-		return await GetAsync<ListPage<Patient>>($"api/v1/Patient/GetAllPagingSorting");
+		return await PostAsync<ListPage<Patient>>($"api/App/v1/Patient/GetAllPagingSorting", request);
 	}
 	
 	public async Task<List<Patient>> SearchActiveLastName(string lastName)
 	{
-		return await GetAsync<List<Patient>>($"api/v1/Patient/SearchActiveLastName/{lastName}");
+		return await GetAsync<List<Patient>>($"api/App/v1/Patient/SearchActiveLastName/{lastName}");
 	}
 
 	#endregion

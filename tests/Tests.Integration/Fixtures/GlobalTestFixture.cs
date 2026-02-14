@@ -1,6 +1,12 @@
 ﻿using Aspire.Hosting;
-using Dyvenix.App1.App.Shared.Extensions;
-using Dyvenix.App1.Auth.Shared.Extensions;
+using Dyvenix.App1.App.Shared.ApiClients;
+using Dyvenix.App1.App.Shared.ApiClients.v1;
+using Dyvenix.App1.App.Shared.Contracts;
+using Dyvenix.App1.App.Shared.Contracts.v1;
+using Dyvenix.App1.Auth.Shared.ApiClients;
+using Dyvenix.App1.Auth.Shared.ApiClients.v1;
+using Dyvenix.App1.Auth.Shared.Contracts;
+using Dyvenix.App1.Auth.Shared.Contracts.v1;
 using Dyvenix.App1.Common.Data;
 using Dyvenix.App1.Common.Data.Config;
 using Dyvenix.App1.Common.Shared.Config;
@@ -63,11 +69,14 @@ public class GlobalTestFixture : IAsyncLifetime
 		services.AddSingleton(apiClientsConfig);
 		if (apiClientsConfig.TryGetValue("App", out var appApiClientConfig))
 		{
-			services.AddAppSharedServices(appApiClientConfig, false);
+			services.AddScoped<IAppSystemService>(_ => new AppSystemApiClient(App.CreateHttpClient("portal-server")));
+			services.AddScoped<IPatientService>(_ => new PatientApiClient(App.CreateHttpClient("portal-server")));
+			services.AddScoped<IInvoiceService>(_ => new InvoiceApiClient(App.CreateHttpClient("portal-server")));
 		}
 		if (apiClientsConfig.TryGetValue("Auth", out var authApiClientConfig))
 		{
-			services.AddAuthSharedServices(authApiClientConfig, false);
+			services.AddScoped<IAuthSystemService>(_ => new AuthSystemApiClient(App.CreateHttpClient("portal-server")));
+			services.AddScoped<IAppUserService>(_ => new AppUserApiClient(App.CreateHttpClient("portal-server")));
 		}
 
 		Services = services.BuildServiceProvider();

@@ -1,4 +1,5 @@
 using Dyvenix.App1.App.Shared.Contracts.v1;
+using Dyvenix.App1.App.Shared.Requests.v1;
 using Dyvenix.App1.Tests.Integration.Data;
 using Dyvenix.App1.Tests.Integration.DataSets;
 using Dyvenix.App1.Tests.Integration.Fixtures;
@@ -23,6 +24,7 @@ public sealed class PatientReadTestFixture(GlobalTestFixture globalFixture) : IA
 public class PatientReadTests : TestBase, IClassFixture<PatientReadTestFixture>
 {
 	private readonly PatientReadTestFixture _fixture;
+	private IPatientService _patientApiClient = default!;
 
 	public PatientReadTests(GlobalTestFixture globalFixture, PatientReadTestFixture fixture)
 		: base(globalFixture)
@@ -30,17 +32,42 @@ public class PatientReadTests : TestBase, IClassFixture<PatientReadTestFixture>
 		_fixture = fixture;
 	}
 
+	public override async ValueTask InitializeAsync()
+	{
+		await base.InitializeAsync();
+		_patientApiClient = _scope.ServiceProvider.GetRequiredService<IPatientService>();
+	}
+
 	[Fact]
 	public async Task Ping()
 	{
 		// Arrange
-		using var httpClient = _globalFixture.App.CreateHttpClient("app-server");
+		using var httpClient = _globalFixture.App.CreateHttpClient("portal-server");
 
 		// Act
 		using var response = await httpClient.GetAsync("/api/app/system/ping", TestContext.Current.CancellationToken);
 
 		// Assert
 		Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+	}
+
+	[Fact]
+	public async Task GetCount2()
+	{
+		// Arrange
+		var pgReq = new GetAllPagingReq
+		{
+			PageOffset = 0,
+			PageSize = 10
+		};
+
+		// Act
+		using var httpClient = _globalFixture.App.CreateHttpClient("portal-server");
+		using var response = await httpClient.GetAsync("/api/app/system/ping", TestContext.Current.CancellationToken);
+		var pgList = await _patientApiClient.GetAllPaging(pgReq);
+
+		// Assert
+		Assert.True(pgList.Items.Count > 0, "Expected at least one patient in the paged list.");
 	}
 
 	[Fact]

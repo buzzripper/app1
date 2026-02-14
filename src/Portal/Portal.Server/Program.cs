@@ -110,7 +110,8 @@ services.AddAppApiServices(isInProcess: true);
 // Configure YARP for API proxying (Auth/App when running out-of-process)
 services.AddSingleton<IProxyConfigProvider>(
 	new DynamicProxyConfigProvider(configuration, authInProcess, appInProcess));
-services.AddReverseProxy();
+services.AddReverseProxy()
+.AddServiceDiscoveryDestinationResolver();
 
 // Register service clients (proxies)
 #if AUTH_INPROCESS

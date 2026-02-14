@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/14/2026 11:12 AM. Any changes made to it will be lost.
+// This file was auto-generated on 2/14/2026 2:39 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Dyvenix.App1.Common.Shared.ApiClients;
 using Dyvenix.App1.Common.Shared.Requests;
@@ -21,7 +21,7 @@ public partial class AppUserApiClient : ApiClientBase, IAppUserService
 	{
 		ArgumentNullException.ThrowIfNull(appUser);
 	
-		await PostAsync("api/v1/AppUser/CreateAppUser", appUser);
+		await PostAsync("api/Auth/v1/AppUser/CreateAppUser", appUser);
 	}
 	
 	#endregion
@@ -34,7 +34,7 @@ public partial class AppUserApiClient : ApiClientBase, IAppUserService
 			throw new ArgumentNullException(nameof(id));
 	
 		var deleteReq = new DeleteReq { Id = id };	
-		await DeleteAsync<bool>($"api/v1/AppUser/DeleteAppUser", deleteReq);
+		await DeleteAsync<bool>($"api/Auth/v1/AppUser/DeleteAppUser", deleteReq);
 	}
 	
 	#endregion
@@ -44,12 +44,12 @@ public partial class AppUserApiClient : ApiClientBase, IAppUserService
 	public async Task UpdateAppUser(AppUser appUser)
 	{
 		ArgumentNullException.ThrowIfNull(appUser);
-		await PutAsync("api/v1/AppUser/UpdateAppUser", appUser);
+		await PutAsync("api/Auth/v1/AppUser/UpdateAppUser", appUser);
 	}
 	
 	public async Task UpdateUsername(UpdateUsernameReq request)
 	{
-		await PatchAsync($"api/v1/AppUser/UpdateUsername", request);
+		await PatchAsync($"api/Auth/v1/AppUser/UpdateUsername", request);
 	}
 
 	#endregion
@@ -58,7 +58,7 @@ public partial class AppUserApiClient : ApiClientBase, IAppUserService
 	
 	public async Task<AppUser> GetById(Guid id)
 	{
-		return await GetAsync<AppUser>($"api/v1/AppUser/GetById/{id}");
+		return await GetAsync<AppUser>($"api/Auth/v1/AppUser/GetById/{id}");
 	}
 
 	#endregion
@@ -67,7 +67,7 @@ public partial class AppUserApiClient : ApiClientBase, IAppUserService
 	
 	public async Task<List<AppUser>> ReqByUsername(ReqByUsernameReq request)
 	{
-		return await GetAsync<List<AppUser>>($"api/v1/AppUser/ReqByUsername");
+		return await PostAsync<List<AppUser>>($"api/Auth/v1/AppUser/ReqByUsername", request);
 	}
 
 	#endregion

@@ -1,5 +1,6 @@
 using Dyvenix.App1.Common.Shared.Exceptions;
 using System.Net;
+using System.Text.Json.Serialization;
 
 namespace Dyvenix.App1.Common.Shared.DTOs;
 
@@ -8,10 +9,13 @@ namespace Dyvenix.App1.Common.Shared.DTOs;
 /// </summary>
 public class Result
 {
+	[JsonConstructor]
 	protected Result() { }
 
+	[JsonInclude]
 	public bool IsSuccess { get; protected init; }
 	public bool IsFailure => !IsSuccess;
+	[JsonInclude]
 	public ResultError? Error { get; protected init; }
 	public HttpStatusCode StatusCode => (HttpStatusCode)(Error?.Kind ?? ResultErrorKind.Failure);
 
@@ -87,8 +91,10 @@ public class Result
 /// </summary>
 public class Result<T> : Result
 {
+	[JsonConstructor]
 	private Result() { }
 
+	[JsonInclude]
 	public T? Data { get; private init; }
 
 	public static Result<T> Ok(T value) => new()

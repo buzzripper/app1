@@ -21,7 +21,7 @@ public static partial class AuthSharedServiceCollExt
 					"BaseUrl is missing from Auth configuration. It is required when InProcess is false");
 			}
 
-			services.AddHttpClient<IAuthSystemService, SystemApiClient>(client =>
+			services.AddHttpClient<IAuthSystemService, AuthSystemApiClient>(client =>
 			{
 				client.BaseAddress = new Uri(baseUrl);
 			});

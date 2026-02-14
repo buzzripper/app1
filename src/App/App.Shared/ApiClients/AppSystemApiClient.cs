@@ -1,16 +1,16 @@
-using Dyvenix.App1.Auth.Shared.Contracts;
-using Dyvenix.App1.Auth.Shared.DTOs;
+using Dyvenix.App1.App.Shared.Contracts;
+using Dyvenix.App1.App.Shared.DTOs;
 using System.Net.Http.Json;
 
-namespace Dyvenix.App1.Auth.Shared.ApiClients;
+namespace Dyvenix.App1.App.Shared.ApiClients;
 
-public class SystemApiClient : IAuthSystemService
+public class AppSystemApiClient : IAppSystemService
 {
 	public const string cUrlPathRoot = $"api/auth/system";
 
 	private readonly HttpClient _httpClient;
 
-	public SystemApiClient(HttpClient httpClient)
+	public AppSystemApiClient(HttpClient httpClient)
 	{
 		_httpClient = httpClient;
 	}
@@ -22,11 +22,11 @@ public class SystemApiClient : IAuthSystemService
 		return await response.Content.ReadAsStringAsync();
 	}
 
-	public async Task<AuthHealthStatus> Health()
+	public async Task<AppHealthStatus> Health()
 	{
 		var response = await _httpClient.GetAsync($"{cUrlPathRoot}/health");
 		response.EnsureSuccessStatusCode();
-		return await response.Content.ReadFromJsonAsync<AuthHealthStatus>()
+		return await response.Content.ReadFromJsonAsync<AppHealthStatus>()
 			?? throw new InvalidOperationException("Failed to deserialize health status");
 	}
 }
