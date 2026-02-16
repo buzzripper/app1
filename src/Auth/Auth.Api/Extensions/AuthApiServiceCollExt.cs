@@ -1,3 +1,4 @@
+using Dyvenix.App1.Auth.Api.Endpoints;
 using Dyvenix.App1.Auth.Api.Services;
 using Dyvenix.App1.Auth.Shared.Contracts;
 using Microsoft.AspNetCore.Builder;
@@ -11,6 +12,7 @@ public static partial class AuthApiServiceCollExt
 {
 	// Declaration of partial method for code-generated services
 	static partial void AddGeneratedServices(IServiceCollection services);
+	private static partial void MapGeneratedEndpoints(IEndpointRouteBuilder app);
 
 	/// <summary>
 	/// Registers Auth API services.
@@ -31,6 +33,18 @@ public static partial class AuthApiServiceCollExt
 		AddGeneratedServices(services);
 
 		return services;
+	}
+
+	/// <summary> 
+	/// Maps endpoints
+	/// </summary>
+	public static IEndpointRouteBuilder MapEndpoints(this IEndpointRouteBuilder app)
+	{
+		app.MapAuthSystemEndpoints();
+
+		MapGeneratedEndpoints(app);
+
+		return app;
 	}
 
 	/// <summary>

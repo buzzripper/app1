@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<modelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="a05f92bc-4f04-4e80-b2f9-bcdc2d98c182" name="App1" entitiesOutputFolder="src\Common\Common.Data.Shared\Entities" entitiesNamespace="Dyvenix.App1.Common.Data.Shared.Entities" dbContextOutputFolder="src\Common\Common.Data\Context" dbContextNamespace="Dyvenix.App1.Common.Data" enumsOutputFolder="src\Common\Common.Data.Shared\Entities" enumsNamespace="Dyvenix.App1.Common.Data.Shared.Entities" editorSplitterPosition="725.00000000000034" permissions="Permission1|&#xA;Permission2|&#xA;Permission3|" dbContextName="App1Db" commonNamespace="Dyvenix.App1.Common" intTestsOutputFolder="tests\Tests.Integration" intTestsNamespace="Dyvenix.App1.Tests.Integration" unitTestsOutputFolder="tests\Tests.Unit" unitTestsNamespace="Dyvenix.App1.Tests.Unit" intTestsEnabled="true" unitTestsEnabled="false" xmlns="http://schemas.microsoft.com/dsltools/GenIt">
+<modelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="a05f92bc-4f04-4e80-b2f9-bcdc2d98c182" name="App1" entitiesOutputFolder="src\Common\Common.Data.Shared\Entities" entitiesNamespace="Dyvenix.App1.Common.Data.Shared.Entities" dbContextOutputFolder="src\Common\Common.Data\Context" dbContextNamespace="Dyvenix.App1.Common.Data" enumsOutputFolder="src\Common\Common.Data.Shared\Entities" enumsNamespace="Dyvenix.App1.Common.Data.Shared.Entities" editorSplitterPosition="550.00000000000034" permissions="Permission1|&#xA;Permission2|&#xA;Permission3|" dbContextName="App1Db" commonNamespace="Dyvenix.App1.Common" intTestsRootFolder="tests\Tests.Integration" intTestsNamespace="Dyvenix.App1.Tests.Integration" unitTestsRootFolder="tests\Tests.Unit" unitTestsNamespace="Dyvenix.App1.Tests.Unit" intTestsEnabled="true" unitTestsEnabled="false" xmlns="http://schemas.microsoft.com/dsltools/GenIt">
   <types>
     <modelRootHasTypes Id="d8efa44d-a0be-4943-8724-d41966277579">
       <entityModel Id="7e073b5a-ca06-4e53-b407-5153b99e78fe" name="Patient" auditable="false" inclRowVersion="true" module="App" enabled="false">
@@ -60,10 +60,10 @@
                 <serviceModelHasReadMethodModels Id="d7d661c2-57f0-4601-9c2a-1a48f87a424d">
                   <readMethodModel Id="c2684939-a84b-47bf-aba8-fb05d165fb08" name="SearchByLastNamePaging" itemId="263f6d8f-26f2-4063-8091-0130b77e6036" inclPaging="true" useRequest="true" inclSorting="false" displayOrder="7">
                     <filterProperties>
-                      <readMethodModelHasFilterProperties Id="f1c86d35-c953-4bf8-b562-a60985669b57">
-                        <filterPropertyModel Id="0dfedd90-c251-4fe2-b7d8-95bfead20ae7" isOptional="false" isInternal="false" isPartialMatch="true">
+                      <readMethodModelHasFilterProperties Id="2b22df4b-8d2a-4c32-8c49-6e114170eb65">
+                        <filterPropertyModel Id="29cfaf2b-3e68-463c-a3d1-27258cf645ef" isOptional="false" isInternal="false" isPartialMatch="true">
                           <propertyModel>
-                            <filterPropertyModelHasProperty Id="3f1e4853-2dba-4c1b-a31d-ef08adcbb972">
+                            <filterPropertyModelHasProperty Id="757052a2-0f79-4fc8-bddb-0d9a72c73dae">
                               <propertyModelMoniker name="/App1/Patient/LastName" />
                             </filterPropertyModelHasProperty>
                           </propertyModel>
@@ -293,6 +293,9 @@
                       </readMethodModelHasFilterProperties>
                     </filterProperties>
                   </readMethodModel>
+                </serviceModelHasReadMethodModels>
+                <serviceModelHasReadMethodModels Id="ef3a0dee-8638-463b-8c57-45a44adc3aca">
+                  <readMethodModel Id="bb69f172-2253-4ef6-a650-735fb40d2d75" name="GetAll" itemId="09508cdc-5e52-4671-bd6a-b49c3f72a240" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="2" />
                 </serviceModelHasReadMethodModels>
               </readMethods>
               <updateMethods>

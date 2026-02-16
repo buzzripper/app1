@@ -1,5 +1,5 @@
+using Dyvenix.App1.App.Api.Endpoints;
 using Dyvenix.App1.App.Api.Services;
-using Dyvenix.App1.App.Endpoints.v1;
 using Dyvenix.App1.App.Shared.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
@@ -10,8 +10,9 @@ namespace Dyvenix.App1.App.Api.Extensions;
 
 public static partial class AppApiServiceCollExt
 {
-	// Declaration of partial method for code-generated services
-	static partial void AddGeneratedServices(IServiceCollection services);
+	// Declaration of partial methods for code-generated services
+	private static partial void AddGeneratedServices(IServiceCollection services);
+	private static partial void MapGeneratedEndpoints(IEndpointRouteBuilder app);
 
 	/// <summary>
 	/// Registers App API services.
@@ -35,13 +36,23 @@ public static partial class AppApiServiceCollExt
 	}
 
 	/// <summary> 
+	/// Maps endpoints
+	/// </summary>
+	public static IEndpointRouteBuilder MapEndpoints(this IEndpointRouteBuilder app)
+	{
+		app.MapAppSystemEndpoints();
+
+		MapGeneratedEndpoints(app);
+
+		return app;
+	}
+
+	/// <summary> 
 	/// Maps OpenAPI and Scalar API documentation endpoints for Auth API.
 	/// Call this in development or when you want to expose API documentation.
 	/// </summary>
 	public static IEndpointRouteBuilder MapAppApiDocumentation(this IEndpointRouteBuilder app)
 	{
-		app.MapPatientEndpoints();
-
 		app.MapOpenApi();
 		app.MapScalarApiReference(options =>
 		{

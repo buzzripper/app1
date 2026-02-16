@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/14/2026 5:02 PM. Any changes made to it will be lost.
+// This file was auto-generated on 2/15/2026 7:07 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Dyvenix.App1.Common.Shared.ApiClients;
 using Dyvenix.App1.Common.Shared.Requests;
@@ -58,6 +58,11 @@ public partial class InvoiceApiClient : ApiClientBase, IInvoiceService
 	public async Task<Invoice> GetById(Guid id)
 	{
 		return await GetAsync<Invoice>($"api/App/v1/Invoice/GetById/{id}");
+	}
+	
+	public async Task<Invoice> GetAll()
+	{
+		return await GetAsync<Invoice>($"api/App/v1/Invoice/GetAll");
 	}
 
 	#endregion

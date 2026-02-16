@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/14/2026 5:02 PM. Any changes made to it will be lost.
+// This file was auto-generated on 2/15/2026 7:07 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
@@ -109,12 +109,14 @@ public partial class InvoiceService : IInvoiceService
 	
 		dbQuery = dbQuery.Where(x => x.Id == id);
 	
-		var invoice = await dbQuery.FirstOrDefaultAsync();
+		return await dbQuery.FirstOrDefaultAsync();
+	}
 	
-		if (invoice is null)
-			throw new NotFoundException($"Invoice not found");
+	public async Task<Invoice> GetAll()
+	{
+		var dbQuery = _db.Invoice.AsNoTracking();
 	
-		return invoice;
+		return await dbQuery.FirstOrDefaultAsync();
 	}
 	
 	#endregion

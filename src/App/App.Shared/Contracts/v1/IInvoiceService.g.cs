@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/14/2026 5:02 PM. Any changes made to it will be lost.
+// This file was auto-generated on 2/15/2026 7:07 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
@@ -22,5 +22,6 @@ public interface IInvoiceService
 	Task UpdateMemo(UpdateMemoReq request);
 	Task UpdateAmount(UpdateAmountReq request);
 	Task<Invoice> GetById(Guid id);
+	Task<Invoice> GetAll();
 	Task<List<Invoice>> QueryByMemo(string memo);
 }

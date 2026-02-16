@@ -1,4 +1,3 @@
-using Dyvenix.App1.Auth.Api.Endpoints;
 using Dyvenix.App1.Auth.Api.Extensions;
 using Dyvenix.App1.Common.Api.Extensions;
 using Dyvenix.App1.Common.Data.Config;
@@ -24,11 +23,11 @@ var app = builder.Build();
 // Configure the HTTP request pipeline
 app.UseStandardApiPipeline();
 
+app.MapEndpoints();
+app.MapDefaultEndpoints();
+
 // Enable API documentation in development
 if (app.Environment.IsDevelopment())
 	app.MapAuthApiDocumentation();
-
-app.MapAuthSystemEndpoints();
-app.MapDefaultEndpoints();
 
 app.Run();

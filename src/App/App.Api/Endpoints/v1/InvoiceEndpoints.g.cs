@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/14/2026 5:02 PM. Any changes made to it will be lost.
+// This file was auto-generated on 2/15/2026 7:07 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
@@ -49,6 +49,10 @@ public static class InvoiceEndpoints
 		// Read - Single
 		
 		group.MapGet("GetById/{id}", GetById)
+			.Produces<Guid>(StatusCodes.Status200OK)
+			.Produces(StatusCodes.Status404NotFound);
+		
+		group.MapGet("GetAll", GetAll)
 			.Produces<Guid>(StatusCodes.Status200OK)
 			.Produces(StatusCodes.Status404NotFound);
 		
@@ -102,6 +106,12 @@ public static class InvoiceEndpoints
 	public static async Task<Result<Invoice>> GetById(IInvoiceService invoiceService, Guid id)
 	{
 		var invoice = await invoiceService.GetById(id);
+		return Result<Invoice>.Ok(invoice);
+	}
+	
+	public static async Task<Result<Invoice>> GetAll(IInvoiceService invoiceService)
+	{
+		var invoice = await invoiceService.GetAll();
 		return Result<Invoice>.Ok(invoice);
 	}
 

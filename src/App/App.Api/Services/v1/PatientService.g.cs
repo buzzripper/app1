@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/14/2026 5:02 PM. Any changes made to it will be lost.
+// This file was auto-generated on 2/15/2026 7:07 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
@@ -136,12 +136,7 @@ public partial class PatientService : IPatientService
 	
 		dbQuery = dbQuery.Where(x => x.Id == id);
 	
-		var patient = await dbQuery.FirstOrDefaultAsync();
-	
-		if (patient is null)
-			throw new NotFoundException($"Patient not found");
-	
-		return patient;
+		return await dbQuery.FirstOrDefaultAsync();
 	}
 	
 	public async Task<Patient> GetByEmail(string email)
@@ -151,12 +146,7 @@ public partial class PatientService : IPatientService
 		if (!string.IsNullOrWhiteSpace(email))
 			dbQuery = dbQuery.Where(x => x.Email == email);
 	
-		var patient = await dbQuery.FirstOrDefaultAsync();
-	
-		if (patient is null)
-			throw new NotFoundException($"Patient not found");
-	
-		return patient;
+		return await dbQuery.FirstOrDefaultAsync();
 	}
 	
 	public async Task<Patient> GetByIdWithInvoices(Guid id)
@@ -166,12 +156,7 @@ public partial class PatientService : IPatientService
 	
 		dbQuery = dbQuery.Where(x => x.Id == id);
 	
-		var patient = await dbQuery.FirstOrDefaultAsync();
-	
-		if (patient is null)
-			throw new NotFoundException($"Patient not found");
-	
-		return patient;
+		return await dbQuery.FirstOrDefaultAsync();
 	}
 	
 	#endregion
@@ -196,10 +181,13 @@ public partial class PatientService : IPatientService
 			listPage.TotalRowCount = -1;  // Make it clear that row count was not calculated
 		}
 	
+		dbQuery = dbQuery.OrderBy(x => x.Id);  // Stable ordering for paging
+	
 		if (request.PageSize > 0)
 			dbQuery = dbQuery.Skip(request.PageOffset * request.PageSize).Take(request.PageSize);
 	
 		listPage.Items = await dbQuery.ToListAsync();
+	
 		return listPage;
 	}
 	
@@ -211,8 +199,6 @@ public partial class PatientService : IPatientService
 			dbQuery = dbQuery.Where(x => EF.Functions.Like(x.LastName, $"%{request.LastName}%"));
 	
 		var listPage = new ListPage<Patient>();
-		// Stable ordering for paging
-		dbQuery = dbQuery.OrderBy(x => x.LastName).ThenBy(x => x.Id);
 	
 		// Count (if requested)
 		if (request.RecalcRowCount || request.GetRowCountOnly)
@@ -226,10 +212,13 @@ public partial class PatientService : IPatientService
 			listPage.TotalRowCount = -1;  // Make it clear that row count was not calculated
 		}
 	
+		dbQuery = dbQuery.OrderBy(x => x.Id);  // Stable ordering for paging
+	
 		if (request.PageSize > 0)
 			dbQuery = dbQuery.Skip(request.PageOffset * request.PageSize).Take(request.PageSize);
 	
 		listPage.Items = await dbQuery.ToListAsync();
+	
 		return listPage;
 	}
 	
@@ -242,7 +231,7 @@ public partial class PatientService : IPatientService
 	
 		// Sorting
 		if (!string.IsNullOrWhiteSpace(request.SortBy))
-			this.AddSorting(ref dbQuery, request);
+			dbQuery = this.AddSorting(ref dbQuery, request);
 	
 		return await dbQuery.ToListAsync();
 	}
@@ -254,13 +243,7 @@ public partial class PatientService : IPatientService
 		if (!string.IsNullOrWhiteSpace(request.LastName))
 			dbQuery = dbQuery.Where(x => EF.Functions.Like(x.LastName, $"%{request.LastName}%"));
 	
-		// Sorting
-		if (!string.IsNullOrWhiteSpace(request.SortBy))
-			this.AddSorting(ref dbQuery, request);
-	
 		var listPage = new ListPage<Patient>();
-		// Stable ordering for paging
-		dbQuery = dbQuery.OrderBy(x => x.LastName).ThenBy(x => x.Id);
 	
 		// Count (if requested)
 		if (request.RecalcRowCount || request.GetRowCountOnly)
@@ -274,10 +257,15 @@ public partial class PatientService : IPatientService
 			listPage.TotalRowCount = -1;  // Make it clear that row count was not calculated
 		}
 	
+		// Sorting
+		if (!string.IsNullOrWhiteSpace(request.SortBy))
+			dbQuery = this.AddSorting(ref dbQuery, request);
+	
 		if (request.PageSize > 0)
 			dbQuery = dbQuery.Skip(request.PageOffset * request.PageSize).Take(request.PageSize);
 	
 		listPage.Items = await dbQuery.ToListAsync();
+	
 		return listPage;
 	}
 	
@@ -287,7 +275,7 @@ public partial class PatientService : IPatientService
 	
 		// Sorting
 		if (!string.IsNullOrWhiteSpace(request.SortBy))
-			this.AddSorting(ref dbQuery, request);
+			dbQuery = this.AddSorting(ref dbQuery, request);
 	
 		return await dbQuery.ToListAsync();
 	}
@@ -330,10 +318,6 @@ public partial class PatientService : IPatientService
 	{
 		var dbQuery = _db.Patient.AsNoTracking();
 	
-		// Sorting
-		if (!string.IsNullOrWhiteSpace(request.SortBy))
-			this.AddSorting(ref dbQuery, request);
-	
 		var listPage = new ListPage<Patient>();
 	
 		// Count (if requested)
@@ -348,10 +332,15 @@ public partial class PatientService : IPatientService
 			listPage.TotalRowCount = -1;  // Make it clear that row count was not calculated
 		}
 	
+		// Sorting
+		if (!string.IsNullOrWhiteSpace(request.SortBy))
+			dbQuery = this.AddSorting(ref dbQuery, request);
+	
 		if (request.PageSize > 0)
 			dbQuery = dbQuery.Skip(request.PageOffset * request.PageSize).Take(request.PageSize);
 	
 		listPage.Items = await dbQuery.ToListAsync();
+	
 		return listPage;
 	}
 	
@@ -370,49 +359,50 @@ public partial class PatientService : IPatientService
 	
 	#endregion
 	
-	private void AddSorting(ref IQueryable<Patient> dbQuery, ISortingRequest sortingRequest)
+	private IQueryable<Patient> AddSorting(ref IQueryable<Patient> dbQuery, ISortingRequest sortingRequest)
 	{
 		if (string.Equals(sortingRequest.SortBy, Patient.PropNames.Id, StringComparison.OrdinalIgnoreCase))
 			if (sortingRequest.SortDesc)
-				dbQuery.OrderByDescending(x => x.Id);
+				return dbQuery.OrderByDescending(x => x.Id);
 			else
-				dbQuery.OrderBy(x => x.Id);
+				return dbQuery.OrderBy(x => x.Id);
 	
 		if (string.Equals(sortingRequest.SortBy, Patient.PropNames.FirstName, StringComparison.OrdinalIgnoreCase))
 			if (sortingRequest.SortDesc)
-				dbQuery.OrderByDescending(x => x.FirstName);
+				return dbQuery.OrderByDescending(x => x.FirstName);
 			else
-				dbQuery.OrderBy(x => x.FirstName);
+				return dbQuery.OrderBy(x => x.FirstName);
 	
 		if (string.Equals(sortingRequest.SortBy, Patient.PropNames.LastName, StringComparison.OrdinalIgnoreCase))
 			if (sortingRequest.SortDesc)
-				dbQuery.OrderByDescending(x => x.LastName);
+				return dbQuery.OrderByDescending(x => x.LastName);
 			else
-				dbQuery.OrderBy(x => x.LastName);
+				return dbQuery.OrderBy(x => x.LastName);
 	
 		if (string.Equals(sortingRequest.SortBy, Patient.PropNames.Email, StringComparison.OrdinalIgnoreCase))
 			if (sortingRequest.SortDesc)
-				dbQuery.OrderByDescending(x => x.Email);
+				return dbQuery.OrderByDescending(x => x.Email);
 			else
-				dbQuery.OrderBy(x => x.Email);
+				return dbQuery.OrderBy(x => x.Email);
 	
 		if (string.Equals(sortingRequest.SortBy, Patient.PropNames.IsActive, StringComparison.OrdinalIgnoreCase))
 			if (sortingRequest.SortDesc)
-				dbQuery.OrderByDescending(x => x.IsActive);
+				return dbQuery.OrderByDescending(x => x.IsActive);
 			else
-				dbQuery.OrderBy(x => x.IsActive);
+				return dbQuery.OrderBy(x => x.IsActive);
 	
 		if (string.Equals(sortingRequest.SortBy, Patient.PropNames.PracticeId, StringComparison.OrdinalIgnoreCase))
 			if (sortingRequest.SortDesc)
-				dbQuery.OrderByDescending(x => x.PracticeId);
+				return dbQuery.OrderByDescending(x => x.PracticeId);
 			else
-				dbQuery.OrderBy(x => x.PracticeId);
+				return dbQuery.OrderBy(x => x.PracticeId);
 	
 		if (string.Equals(sortingRequest.SortBy, Patient.PropNames.RowVersion, StringComparison.OrdinalIgnoreCase))
 			if (sortingRequest.SortDesc)
-				dbQuery.OrderByDescending(x => x.RowVersion);
+				return dbQuery.OrderByDescending(x => x.RowVersion);
 			else
-				dbQuery.OrderBy(x => x.RowVersion);
+				return dbQuery.OrderBy(x => x.RowVersion);
+		return dbQuery;
 	}
 	
 }

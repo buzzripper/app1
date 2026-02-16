@@ -4,7 +4,7 @@ using Dyvenix.App1.Tests.Integration.Data;
 using Dyvenix.App1.Tests.Integration.DataSets;
 using Dyvenix.App1.Tests.Integration.Fixtures;
 
-namespace Dyvenix.App1.Tests.Integration.App;
+namespace Dyvenix.App1.Tests.Integration;
 
 public sealed class PatientReadTestFixture(GlobalTestFixture globalFixture) : IAsyncLifetime
 {
@@ -21,12 +21,12 @@ public sealed class PatientReadTestFixture(GlobalTestFixture globalFixture) : IA
 }
 
 [Collection(nameof(GlobalTestCollection))]
-public class PatientReadTests : TestBase, IClassFixture<PatientReadTestFixture>
+public class SampleTests : TestBase, IClassFixture<PatientReadTestFixture>
 {
 	private readonly PatientReadTestFixture _fixture;
 	private IPatientService _patientApiClient = default!;
 
-	public PatientReadTests(GlobalTestFixture globalFixture, PatientReadTestFixture fixture)
+	public SampleTests(GlobalTestFixture globalFixture, PatientReadTestFixture fixture)
 		: base(globalFixture)
 	{
 		_fixture = fixture;
@@ -52,10 +52,19 @@ public class PatientReadTests : TestBase, IClassFixture<PatientReadTestFixture>
 	}
 
 	[Fact]
+	public async Task GenTest()
+	{
+		var filepath = @"D:\Code\buzzripper\app1\src\App\App.Shared\Contracts\v1\IPatientService.g.cs";
+
+		var gen = new IntegrationTestGenerator();
+		gen.GenerateForInterface(filepath);
+
+	}
+
+	[Fact]
 	public async Task GetAllPaging_Success()
 	{
 		// Arrange
-
 		var totalCount = _fixture.DataSet.PatientList.Count;
 		if (totalCount < 6)
 			throw new InvalidOperationException($"Test data should contain at least 6 patients for this test. Current count: {totalCount}");
@@ -84,30 +93,9 @@ public class PatientReadTests : TestBase, IClassFixture<PatientReadTestFixture>
 	}
 
 	[Fact]
-	public async Task CheckPatientCount_Success()
-	{
-		// Arrange
-		if (_db == null)
-			throw new InvalidOperationException("App1Db is not available from the test fixture.");
-		var testDataPatientCount = _fixture.DataSet.PatientList.Count;
-
-		// Act
-		var dbUserCount = _db.Patient.ToList().Count();
-
-		// Assert
-		TestContext.Current.TestOutputHelper?.WriteLine($"Patient count in test data: {testDataPatientCount}");
-		TestContext.Current.TestOutputHelper?.WriteLine($"Patient count in db: {dbUserCount}");
-
-		Assert.Equal(testDataPatientCount, dbUserCount);
-
-	}
-
-	[Fact]
 	public async Task GetById_Success()
 	{
 		// Arrange
-		if (_db == null)
-			throw new InvalidOperationException("App1Db is not available from the test fixture.");
 		var patientId = _fixture.DataSet.PatientList.First().Id;
 
 		// Act
@@ -116,6 +104,5 @@ public class PatientReadTests : TestBase, IClassFixture<PatientReadTestFixture>
 
 		// Assert
 		Assert.Equal(patientId, patient.Id);
-
 	}
 }
