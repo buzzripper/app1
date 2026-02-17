@@ -11,8 +11,8 @@ namespace Dyvenix.App1.Auth.Api.Extensions;
 public static partial class AuthApiServiceCollExt
 {
 	// Declaration of partial method for code-generated services
-	static partial void AddGeneratedServices(IServiceCollection services);
-	private static partial void MapGeneratedEndpoints(IEndpointRouteBuilder app);
+	public static partial void AddGeneratedServices(IServiceCollection services);
+	public static partial void MapGeneratedEndpoints(IEndpointRouteBuilder app);
 
 	/// <summary>
 	/// Registers Auth API services.
