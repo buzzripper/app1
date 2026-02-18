@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/16/2026 9:37 PM. Any changes made to it will be lost.
+// This file was auto-generated on 2/18/2026 7:27 AM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Dyvenix.App1.Common.Shared.ApiClients;
 using Dyvenix.App1.Common.Shared.Requests;
@@ -18,11 +18,11 @@ public partial class PatientApiClient : ApiClientBase, IPatientService
 	
 	#region Create
 	
-	public async Task CreatePatient(Patient patient)
+	public async Task<byte[]> CreatePatient(Patient patient)
 	{
 		ArgumentNullException.ThrowIfNull(patient);
 	
-		await PostAsync("api/App/v1/Patient/CreatePatient", patient);
+		return await PostAsyncWithReturn<byte[]>("api/App/v1/Patient/CreatePatient", patient);
 	}
 	
 	#endregion

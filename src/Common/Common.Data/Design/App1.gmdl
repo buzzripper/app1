@@ -22,7 +22,7 @@
         </targets>
         <serviceModels>
           <entityModelHasServiceModels Id="88c3cd3f-0f3a-4be1-b211-4c906b95bd70">
-            <serviceModel Id="c81b98fa-64fa-4c53-b008-21153ff3b25f" name="ServiceModel1" inclCreate="true" inclUpdate="true" inclDelete="true" version="v1" createPermissions="Permission1,Permission2" updatePermissions="Permission2" deletePermissions="Permission3">
+            <serviceModel Id="c81b98fa-64fa-4c53-b008-21153ff3b25f" name="ServiceModel1" inclCreate="true" inclUpdate="true" inclDelete="true" version="v1">
               <readMethods>
                 <serviceModelHasReadMethodModels Id="dbf1f6c3-3c28-4bd1-a949-41bb642d5d77">
                   <readMethodModel Id="92ad72f2-6aef-4b5d-9db5-b470085b7b58" name="GetById" itemId="ce7c841e-cedd-481d-8d30-98b0ea8aed37" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="0">

@@ -73,6 +73,17 @@ public abstract class ApiClientBase
 		return await CallAsyncStr(MethodType.Post, uri, payload);
 	}
 
+	protected async Task<TResult> PostAsyncWithReturn<TResult>(string uri, object payload)
+	{
+		var resultJson = await CallAsyncStr(MethodType.Post, uri, payload);
+
+		var result = JsonSerializer.Deserialize<TResult>(resultJson, _jsonSerializerOptionsGet);
+		if (result is null)
+			throw new HttpDeserializationException("Failed to deserialize the response.");
+
+		return result;
+	}
+
 	#endregion
 
 	#region Delete

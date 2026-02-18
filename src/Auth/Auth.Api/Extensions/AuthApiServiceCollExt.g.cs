@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/16/2026 9:37 PM. Any changes made to it will be lost.
+// This file was auto-generated on 2/18/2026 7:27 AM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -17,7 +17,7 @@ public static partial class AuthApiServiceCollExt
 	{
 		// AppUserService
 		services.AddScoped<cv1.IAppUserService, sv1.AppUserService>();
-		services.AddScoped<ApiExceptionFilter< sv1.AppUserService>>();
+		services.AddScoped<ApiExceptionFilter<sv1.AppUserService>>();
 	}
 
 	public static partial void MapGeneratedEndpoints(IEndpointRouteBuilder app)
