@@ -10,9 +10,11 @@ using Dyvenix.App1.Auth.Shared.Contracts.v1;
 using Dyvenix.App1.Common.Data;
 using Dyvenix.App1.Common.Data.Config;
 using Dyvenix.App1.Common.Shared.Config;
+using Dyvenix.App1.Tests.Integration.Authorization;
 using Dyvenix.App1.Tests.Integration.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using System.Net.Http.Headers;
 
 namespace Dyvenix.App1.Tests.Integration.Fixtures;
 
@@ -54,6 +56,7 @@ public class GlobalTestFixture : IAsyncLifetime
 
 		var services = new ServiceCollection();
 		services.AddSingleton(Configuration);
+		services.AddScoped<TestAuthContext>();
 
 		// App1Db
 		var dataConfig = DataConfigBuilder.Build(Configuration);
@@ -69,14 +72,14 @@ public class GlobalTestFixture : IAsyncLifetime
 		services.AddSingleton(apiClientsConfig);
 		if (apiClientsConfig.TryGetValue("App", out var appApiClientConfig))
 		{
-			services.AddScoped<IAppSystemService>(_ => new AppSystemApiClient(App.CreateHttpClient("portal-server")));
-			services.AddScoped<IPatientService>(_ => new PatientApiClient(App.CreateHttpClient("portal-server")));
-			services.AddScoped<IInvoiceService>(_ => new InvoiceApiClient(App.CreateHttpClient("portal-server")));
+			services.AddScoped<IAppSystemService>(sp => new AppSystemApiClient(CreateAuthorizedClient(sp)));
+			services.AddScoped<IPatientService>(sp => new PatientApiClient(CreateAuthorizedClient(sp)));
+			services.AddScoped<IInvoiceService>(sp => new InvoiceApiClient(CreateAuthorizedClient(sp)));
 		}
 		if (apiClientsConfig.TryGetValue("Auth", out var authApiClientConfig))
 		{
-			services.AddScoped<IAuthSystemService>(_ => new AuthSystemApiClient(App.CreateHttpClient("portal-server")));
-			services.AddScoped<IAppUserService>(_ => new AppUserApiClient(App.CreateHttpClient("portal-server")));
+			services.AddScoped<IAuthSystemService>(sp => new AuthSystemApiClient(CreateAuthorizedClient(sp)));
+			services.AddScoped<IAppUserService>(sp => new AppUserApiClient(CreateAuthorizedClient(sp)));
 		}
 
 		Services = services.BuildServiceProvider();
@@ -90,5 +93,16 @@ public class GlobalTestFixture : IAsyncLifetime
 	{
 		if (App != null)
 			await App.DisposeAsync();
+	}
+
+	private HttpClient CreateAuthorizedClient(IServiceProvider serviceProvider)
+	{
+		var client = App.CreateHttpClient("portal-server");
+		var token = serviceProvider.GetRequiredService<TestAuthContext>().CreateToken();
+
+		if (!string.IsNullOrWhiteSpace(token))
+			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+		return client;
 	}
 }

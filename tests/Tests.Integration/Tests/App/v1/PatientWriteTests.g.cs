@@ -55,6 +55,7 @@ public class PatientWriteTests : TestBase, IClassFixture<PatientWriteTestFixture
 		newEntity.PracticeId = Guid.NewGuid();
 
 		// Act
+		SetPermissions("Permission1", "Permission2");
 		var rowVersion = await _patientService.CreatePatient(newEntity);
 
 		// Assert

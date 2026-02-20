@@ -11,7 +11,12 @@ builder.AddServiceDefaults();
 var dataConfig = DataConfigBuilder.Build(builder.Configuration);
 
 // Add services to the container
-builder.Services.AddStandardJwtAuthentication(builder.Configuration);
+if (builder.Environment.IsEnvironment("Testing"))
+    builder.Services.AddTestJwtAuthentication();
+else
+    builder.Services.AddStandardJwtAuthentication(builder.Configuration);
+
+builder.Services.AddPermissionAuthorization();
 builder.Services.AddAuthApiServices(false);
 builder.Services.AddStandardApiVersioning();
 builder.Services.AddDataServices(dataConfig);
@@ -28,6 +33,6 @@ app.MapDefaultEndpoints();
 
 // Enable API documentation in development
 if (app.Environment.IsDevelopment())
-	app.MapAuthApiDocumentation();
+    app.MapAuthApiDocumentation();
 
 app.Run();

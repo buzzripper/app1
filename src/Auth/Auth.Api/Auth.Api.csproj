@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Endpoints\IntTestSts.cs" />
     <Compile Include="Endpoints\SystemEndpoints.cs" />
     <Compile Include="Endpoints\v1\AppUserEndpoints.g.cs" />
   </ItemGroup>
