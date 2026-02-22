@@ -1,0 +1,437 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<modelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="a05f92bc-4f04-4e80-b2f9-bcdc2d98c182" name="App1" entitiesOutputFolder="src\Common\Common.Data.Shared\Entities" entitiesNamespace="Dyvenix.App1.Common.Data.Shared.Entities" dbContextOutputFolder="src\Common\Common.Data\Context" dbContextNamespace="Dyvenix.App1.Common.Data" enumsOutputFolder="src\Common\Common.Data.Shared\Entities" enumsNamespace="Dyvenix.App1.Common.Data.Shared.Entities" editorSplitterPosition="550.00000000000034" permissions="Permission1|&#xA;Permission2|&#xA;Permission3|" dbContextName="App1Db" commonNamespace="Dyvenix.App1.Common" intTestsRootFolder="tests\Tests.Integration" intTestsNamespace="Dyvenix.App1.Tests.Integration" unitTestsRootFolder="tests\Tests.Unit" unitTestsNamespace="Dyvenix.App1.Tests.Unit" intTestsEnabled="true" unitTestsEnabled="false" xmlns="http://schemas.microsoft.com/dsltools/GenIt">
+  <types>
+    <modelRootHasTypes Id="d8efa44d-a0be-4943-8724-d41966277579">
+      <entityModel Id="7e073b5a-ca06-4e53-b407-5153b99e78fe" name="Patient" auditable="false" inclRowVersion="true" module="App" enabled="false">
+        <properties>
+          <propertyModel Id="ed0af203-8ba4-4652-b270-da257df091d9" name="Id" description="Primary key" dataType="Guid" isPrimaryKey="true" isIndexed="true" isIndexUnique="true" isForeignKey="false" />
+          <propertyModel Id="448786a9-ce1a-41ee-bba5-70b4732e2408" name="FirstName" length="50" isForeignKey="false" displayOrder="1" />
+          <propertyModel Id="37e3e8e5-d88a-4998-9f22-22b48fbf218a" name="LastName" length="50" isForeignKey="false" displayOrder="2" />
+          <propertyModel Id="9a81e18e-146d-4e35-b744-7dab01f58f56" name="Email" length="50" isNullable="true" isIndexUnique="true" isForeignKey="false" displayOrder="2" />
+          <propertyModel Id="4b893e3e-8720-41c9-a50a-4f6e58a3b6ec" name="IsActive" dataType="Boolean" length="50" isForeignKey="false" displayOrder="3" />
+          <propertyModel Id="03f3bc12-aba6-47e4-b2b5-e488420a1af3" name="PracticeId" description="Foreign key to Practice" dataType="Guid" isForeignKey="true" displayOrder="1" />
+          <propertyModel Id="fdf28b81-a4a0-4981-95e6-0cafb68fc5f8" name="RowVersion" description="Concurrency token for optimistic locking" dataType="ByteArray" isForeignKey="false" isRowVersion="true" />
+        </properties>
+        <navigationProperties>
+          <navigationProperty Id="1e4359ef-e624-4d1a-af13-199d54b67be3" name="Invoices" description="Navigation to Invoice" targetEntityName="Invoice" isCollection="true" />
+        </navigationProperties>
+        <targets>
+          <association Id="5c4cedcc-7881-4ef0-8235-0adc258b2ba2" sourceMultiplicity="1" sourceRoleName="Invoices" targetMultiplicity="*" fkPropertyName="PatientId">
+            <entityModelMoniker name="/App1/Invoice" />
+          </association>
+        </targets>
+        <serviceModels>
+          <entityModelHasServiceModels Id="88c3cd3f-0f3a-4be1-b211-4c906b95bd70">
+            <serviceModel Id="c81b98fa-64fa-4c53-b008-21153ff3b25f" name="ServiceModel1" inclCreate="true" inclUpdate="true" inclDelete="true" version="v1">
+              <readMethods>
+                <serviceModelHasReadMethodModels Id="dbf1f6c3-3c28-4bd1-a949-41bb642d5d77">
+                  <readMethodModel Id="92ad72f2-6aef-4b5d-9db5-b470085b7b58" name="GetById" itemId="ce7c841e-cedd-481d-8d30-98b0ea8aed37" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="0">
+                    <filterProperties>
+                      <readMethodModelHasFilterProperties Id="39f8066d-103b-4b4c-9d6f-38b4150e13aa">
+                        <filterPropertyModel Id="be6b0f2e-e6ee-4e4c-b093-be37b890306c" isOptional="false" isInternal="false" isPartialMatch="false">
+                          <propertyModel>
+                            <filterPropertyModelHasProperty Id="7575a92e-0daf-47e5-b4dc-fc3afdea427a">
+                              <propertyModelMoniker name="/App1/Patient/Id" />
+                            </filterPropertyModelHasProperty>
+                          </propertyModel>
+                        </filterPropertyModel>
+                      </readMethodModelHasFilterProperties>
+                    </filterProperties>
+                  </readMethodModel>
+                </serviceModelHasReadMethodModels>
+                <serviceModelHasReadMethodModels Id="d6b1e065-18b5-4285-b26c-3a2510b149ee">
+                  <readMethodModel Id="beeeb9e9-ee66-43a7-99d4-499c00cc31f1" name="GetByEmail" itemId="61431ff3-e00d-4e4b-a360-6dcf0df3414b" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="2">
+                    <filterProperties>
+                      <readMethodModelHasFilterProperties Id="51d25c93-414a-4376-83fc-15f81d8ffcb8">
+                        <filterPropertyModel Id="ecdcd024-5803-4310-ad47-35475e782852" isOptional="false" isInternal="false" isPartialMatch="false">
+                          <propertyModel>
+                            <filterPropertyModelHasProperty Id="4c18e77d-a222-421e-b253-bacc638771dc">
+                              <propertyModelMoniker name="/App1/Patient/Email" />
+                            </filterPropertyModelHasProperty>
+                          </propertyModel>
+                        </filterPropertyModel>
+                      </readMethodModelHasFilterProperties>
+                    </filterProperties>
+                  </readMethodModel>
+                </serviceModelHasReadMethodModels>
+                <serviceModelHasReadMethodModels Id="4a794641-c1e6-4fe0-988a-8d6535dbe60c">
+                  <readMethodModel Id="f680141a-1b5f-45bf-bcae-bfe155583c45" name="GetAllPaging" itemId="b3ed96ad-8fe4-4f5a-82a3-b876c49c9027" inclPaging="true" useRequest="true" inclSorting="false" displayOrder="4" />
+                </serviceModelHasReadMethodModels>
+                <serviceModelHasReadMethodModels Id="d7d661c2-57f0-4601-9c2a-1a48f87a424d">
+                  <readMethodModel Id="c2684939-a84b-47bf-aba8-fb05d165fb08" name="SearchByLastNamePaging" itemId="263f6d8f-26f2-4063-8091-0130b77e6036" inclPaging="true" useRequest="true" inclSorting="false" displayOrder="7">
+                    <filterProperties>
+                      <readMethodModelHasFilterProperties Id="2b22df4b-8d2a-4c32-8c49-6e114170eb65">
+                        <filterPropertyModel Id="29cfaf2b-3e68-463c-a3d1-27258cf645ef" isOptional="false" isInternal="false" isPartialMatch="true">
+                          <propertyModel>
+                            <filterPropertyModelHasProperty Id="757052a2-0f79-4fc8-bddb-0d9a72c73dae">
+                              <propertyModelMoniker name="/App1/Patient/LastName" />
+                            </filterPropertyModelHasProperty>
+                          </propertyModel>
+                        </filterPropertyModel>
+                      </readMethodModelHasFilterProperties>
+                    </filterProperties>
+                  </readMethodModel>
+                </serviceModelHasReadMethodModels>
+                <serviceModelHasReadMethodModels Id="d8668327-82d4-4f1a-8625-918b25411da6">
+                  <readMethodModel Id="0c0f2a30-e152-4a05-b3bb-407133a42636" name="SearchByLastNameSorting" itemId="5f88da37-2969-406a-a9ca-e0f695811423" inclPaging="false" useRequest="true" inclSorting="true" displayOrder="8">
+                    <filterProperties>
+                      <readMethodModelHasFilterProperties Id="b4fbd538-6495-41db-9bcb-aed7983df468">
+                        <filterPropertyModel Id="84cb3583-f5db-4e3e-af13-f3acde9fb63b" isOptional="false" isInternal="false" isPartialMatch="true">
+                          <propertyModel>
+                            <filterPropertyModelHasProperty Id="bab48532-04ed-4642-b8c2-f6597127f6d8">
+                              <propertyModelMoniker name="/App1/Patient/LastName" />
+                            </filterPropertyModelHasProperty>
+                          </propertyModel>
+                        </filterPropertyModel>
+                      </readMethodModelHasFilterProperties>
+                    </filterProperties>
+                  </readMethodModel>
+                </serviceModelHasReadMethodModels>
+                <serviceModelHasReadMethodModels Id="75185eb5-a358-417b-ad91-3f0ab1a5dc39">
+                  <readMethodModel Id="8f7839f0-69af-4ecd-afc1-21740c915d50" name="SearchByLastNamePagingSorting" itemId="9d238c08-62be-49cb-b638-51a8d48fc791" inclPaging="true" useRequest="true" inclSorting="true" displayOrder="9">
+                    <filterProperties>
+                      <readMethodModelHasFilterProperties Id="ee7bce1a-9340-4bba-89d3-94fbcdeafc68">
+                        <filterPropertyModel Id="41b1bf07-af30-4fb4-9e12-241605662d63" isOptional="false" isInternal="false" isPartialMatch="true">
+                          <propertyModel>
+                            <filterPropertyModelHasProperty Id="f7ac727e-3413-4714-9d94-e5d6c5b6cb13">
+                              <propertyModelMoniker name="/App1/Patient/LastName" />
+                            </filterPropertyModelHasProperty>
+                          </propertyModel>
+                        </filterPropertyModel>
+                      </readMethodModelHasFilterProperties>
+                    </filterProperties>
+                  </readMethodModel>
+                </serviceModelHasReadMethodModels>
+                <serviceModelHasReadMethodModels Id="4de6294a-ed0a-4dbc-ae2a-0c14ce25cdc2">
+                  <readMethodModel Id="c865d13a-ad6c-453a-a5f2-ea4a417759dc" name="GetByIdWithInvoices" itemId="23e5b02c-94c5-4432-a63a-482c8a5e3fce" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="1" inclNavProperties="Invoices">
+                    <filterProperties>
+                      <readMethodModelHasFilterProperties Id="5cd28a4c-86cf-4615-b84f-2374c1ccac84">
+                        <filterPropertyModel Id="4fe8b451-2fac-420a-a012-3b69929ca69b" isOptional="false" isInternal="false" isPartialMatch="false">
+                          <propertyModel>
+                            <filterPropertyModelHasProperty Id="79dace2f-5ee3-47eb-b558-488f660174de">
+                              <propertyModelMoniker name="/App1/Patient/Id" />
+                            </filterPropertyModelHasProperty>
+                          </propertyModel>
+                        </filterPropertyModel>
+                      </readMethodModelHasFilterProperties>
+                    </filterProperties>
+                  </readMethodModel>
+                </serviceModelHasReadMethodModels>
+                <serviceModelHasReadMethodModels Id="9e4fbee7-67e0-4d4a-841f-29c4678bbdb7">
+                  <readMethodModel Id="e23e3581-d116-45bc-82b3-7083342b8ab5" name="GetAllSorting" itemId="3ebaa079-aad3-4f6e-87f4-8294015848a3" inclPaging="false" useRequest="true" inclSorting="true" displayOrder="6" />
+                </serviceModelHasReadMethodModels>
+                <serviceModelHasReadMethodModels Id="4f982d6f-0e3c-4b66-a8f1-8f48244da474">
+                  <readMethodModel Id="34c14d0d-57e3-4b2b-a94b-6722c477b46c" name="SearchByLastEmailOpt" itemId="2ca8c12d-a059-4629-b06e-5e4cf0ee2a14" inclPaging="false" useRequest="true" inclSorting="false" displayOrder="10">
+                    <filterProperties>
+                      <readMethodModelHasFilterProperties Id="ca5ef643-4562-4c7c-bc31-da0e68af55f8">
+                        <filterPropertyModel Id="239e3a34-0fb6-4f70-a9a0-4c0e8b405e6e" isOptional="false" isInternal="false" isPartialMatch="true">
+                          <propertyModel>
+                            <filterPropertyModelHasProperty Id="11687b92-e49b-4273-9429-6ded832a603f">
+                              <propertyModelMoniker name="/App1/Patient/LastName" />
+                            </filterPropertyModelHasProperty>
+                          </propertyModel>
+                        </filterPropertyModel>
+                      </readMethodModelHasFilterProperties>
+                      <readMethodModelHasFilterProperties Id="0491968d-abfc-4c40-81b2-e754d290e149">
+                        <filterPropertyModel Id="617385ca-88b2-4ab0-b64b-77e442859535" isOptional="true" isInternal="false" isPartialMatch="true">
+                          <propertyModel>
+                            <filterPropertyModelHasProperty Id="17724327-605d-42d2-badd-d2b43ed39e6b">
+                              <propertyModelMoniker name="/App1/Patient/Email" />
+                            </filterPropertyModelHasProperty>
+                          </propertyModel>
+                        </filterPropertyModel>
+                      </readMethodModelHasFilterProperties>
+                    </filterProperties>
+                  </readMethodModel>
+                </serviceModelHasReadMethodModels>
+                <serviceModelHasReadMethodModels Id="12b93bea-372c-4593-a282-f58ac7245e16">
+                  <readMethodModel Id="4f8e29bb-4303-4010-8667-bee46b21ca0f" name="SearchByEmail" itemId="5ad05855-19b8-4b4a-b5ee-0c6ad426230f" inclPaging="false" useRequest="true" inclSorting="false" displayOrder="3">
+                    <filterProperties>
+                      <readMethodModelHasFilterProperties Id="3b29a62a-6eab-4174-b615-55131e249323">
+                        <filterPropertyModel Id="2b4ba2aa-5c0c-41e1-a26f-8c1bd82dfade" isOptional="false" isInternal="false" isPartialMatch="true">
+                          <propertyModel>
+                            <filterPropertyModelHasProperty Id="7560136f-7371-48ee-99aa-767524a9fb87">
+                              <propertyModelMoniker name="/App1/Patient/Email" />
+                            </filterPropertyModelHasProperty>
+                          </propertyModel>
+                        </filterPropertyModel>
+                      </readMethodModelHasFilterProperties>
+                    </filterProperties>
+                  </readMethodModel>
+                </serviceModelHasReadMethodModels>
+                <serviceModelHasReadMethodModels Id="0ac374d6-e502-4514-8c7b-dd49c1a7abed">
+                  <readMethodModel Id="1c68214d-79e1-4e15-8ea6-5729c140a343" name="GetActive" itemId="3cdc4acd-f98e-41df-b237-ad09539da826" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="11">
+                    <filterProperties>
+                      <readMethodModelHasFilterProperties Id="d1d30e2c-444d-470c-aaf8-f97df1fa96fc">
+                        <filterPropertyModel Id="4e8ca4a6-e298-48d0-9321-ffb5073c8025" isOptional="false" isInternal="true" internalValue="true" isPartialMatch="false">
+                          <propertyModel>
+                            <filterPropertyModelHasProperty Id="522a6477-204c-486c-b26f-3fb63af93eca">
+                              <propertyModelMoniker name="/App1/Patient/IsActive" />
+                            </filterPropertyModelHasProperty>
+                          </propertyModel>
+                        </filterPropertyModel>
+                      </readMethodModelHasFilterProperties>
+                    </filterProperties>
+                  </readMethodModel>
+                </serviceModelHasReadMethodModels>
+                <serviceModelHasReadMethodModels Id="e0f83a6f-7067-428e-8ca6-a6a64adfa187">
+                  <readMethodModel Id="6cfd7224-6aad-4e3e-af64-0aacb37074d3" name="GetAllPagingSorting" itemId="d81e0d2a-01d3-45e4-b950-4a852f9daf7d" inclPaging="true" useRequest="true" inclSorting="true" displayOrder="5" />
+                </serviceModelHasReadMethodModels>
+                <serviceModelHasReadMethodModels Id="f77d958a-6d0e-4c70-9655-5b53eb971240">
+                  <readMethodModel Id="8fd60cb4-301a-46e7-ba13-80de4cdb82ff" name="SearchActiveLastName" itemId="965427f5-d565-4296-a2f4-9cc44238139c" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="12">
+                    <filterProperties>
+                      <readMethodModelHasFilterProperties Id="04febaf2-a8b2-4493-9019-bdc32e58511e">
+                        <filterPropertyModel Id="2bfa9a45-73d2-462b-8741-42761f84e74f" isOptional="false" isInternal="true" internalValue="true" isPartialMatch="false">
+                          <propertyModel>
+                            <filterPropertyModelHasProperty Id="df811332-05f5-4b4a-87c2-b119c24eebf8">
+                              <propertyModelMoniker name="/App1/Patient/IsActive" />
+                            </filterPropertyModelHasProperty>
+                          </propertyModel>
+                        </filterPropertyModel>
+                      </readMethodModelHasFilterProperties>
+                      <readMethodModelHasFilterProperties Id="47437b59-422d-46f7-bf54-b2641e6bb662">
+                        <filterPropertyModel Id="c253678f-3e1c-4f6c-837e-4e3ee8bfbf23" isOptional="false" isInternal="false" isPartialMatch="true">
+                          <propertyModel>
+                            <filterPropertyModelHasProperty Id="02f992b2-9ddb-4c91-979a-5dbaca45a9f7">
+                              <propertyModelMoniker name="/App1/Patient/LastName" />
+                            </filterPropertyModelHasProperty>
+                          </propertyModel>
+                        </filterPropertyModel>
+                      </readMethodModelHasFilterProperties>
+                    </filterProperties>
+                  </readMethodModel>
+                </serviceModelHasReadMethodModels>
+              </readMethods>
+              <updateMethods>
+                <serviceModelHasUpdateMethods Id="0f9eef4e-fc99-4461-9f53-178f4a8a3dbb">
+                  <updateMethodModel Id="d5a065ef-5d2c-45e5-b8f5-c694fcbbadcc" name="UpdateFirstName" itemId="bb6ea927-2bce-49d0-b31f-7f512227527b">
+                    <updateProperties>
+                      <updateMethodModelHasUpdateProperties Id="7bd0a67c-3c3e-4802-8b7a-9d92bccf7df2">
+                        <updatePropertyModel Id="86fbe275-976a-4714-adc7-1de6728ee3eb" isOptional="false">
+                          <propertyModel>
+                            <updatePropertyModelHasPropertyModel Id="11203ffc-e5cc-4d0a-ab15-e9290080147d">
+                              <propertyModelMoniker name="/App1/Patient/FirstName" />
+                            </updatePropertyModelHasPropertyModel>
+                          </propertyModel>
+                        </updatePropertyModel>
+                      </updateMethodModelHasUpdateProperties>
+                    </updateProperties>
+                  </updateMethodModel>
+                </serviceModelHasUpdateMethods>
+                <serviceModelHasUpdateMethods Id="f8623ab9-4200-47d1-8ffb-2c459e9d5607">
+                  <updateMethodModel Id="e5bf5ea8-c84d-4098-9bb5-66c3be233180" name="UpdateLastNameAndEmail" itemId="db096714-c545-4662-8c47-5f4c440fb15d" displayOrder="1">
+                    <updateProperties>
+                      <updateMethodModelHasUpdateProperties Id="27d1d035-2713-4218-b5b6-f8a25f6138a0">
+                        <updatePropertyModel Id="c0c60c13-9317-4d24-b37b-26b10c3ee6d3" isOptional="false">
+                          <propertyModel>
+                            <updatePropertyModelHasPropertyModel Id="bc5ce579-2b3c-43fa-a9ec-0647defd4c20">
+                              <propertyModelMoniker name="/App1/Patient/LastName" />
+                            </updatePropertyModelHasPropertyModel>
+                          </propertyModel>
+                        </updatePropertyModel>
+                      </updateMethodModelHasUpdateProperties>
+                      <updateMethodModelHasUpdateProperties Id="306d3a06-c2c9-49b0-bfdf-d30643c0a56a">
+                        <updatePropertyModel Id="42b50c71-c1b8-4b65-bcc8-a008644aecd6" isOptional="false">
+                          <propertyModel>
+                            <updatePropertyModelHasPropertyModel Id="ba3d1af7-aa1e-4bff-9481-85e6d397e34a">
+                              <propertyModelMoniker name="/App1/Patient/Email" />
+                            </updatePropertyModelHasPropertyModel>
+                          </propertyModel>
+                        </updatePropertyModel>
+                      </updateMethodModelHasUpdateProperties>
+                    </updateProperties>
+                  </updateMethodModel>
+                </serviceModelHasUpdateMethods>
+              </updateMethods>
+            </serviceModel>
+          </entityModelHasServiceModels>
+        </serviceModels>
+      </entityModel>
+    </modelRootHasTypes>
+    <modelRootHasTypes Id="7e24eceb-adee-494e-b8b2-9b32679d2333">
+      <moduleModel Id="8bda6b6b-6510-4c24-b586-a36348a1a586" name="Auth" rootFolder="src\Auth" namespace="Dyvenix.App1.Auth" dtoNamespace="Dyvenix.App1.Auth.Shared.DTOs" requestNamespace="Dyvenix.App1.Auth.Shared.Requests" />
+    </modelRootHasTypes>
+    <modelRootHasTypes Id="b7d95ea9-5de9-4935-b2f2-3908a8df42af">
+      <entityModel Id="efc53c38-8d23-4550-b3f9-051e21f54dce" name="Invoice" attributes="Authorize" auditable="false" inclRowVersion="false" module="App" enabled="false">
+        <properties>
+          <propertyModel Id="0bf2e864-25ed-4184-bedb-9e2da3f52128" name="Id" description="Primary key" dataType="Guid" isPrimaryKey="true" isIndexed="true" isIndexUnique="true" isForeignKey="false" />
+          <propertyModel Id="66831d5a-1700-4bea-a548-85ba4a597719" name="PatientId" description="Foreign key to Person" dataType="Guid" isForeignKey="true" displayOrder="2" />
+          <propertyModel Id="b10191ba-b8b5-4f3d-880f-dd753ad2bb44" name="Amount" dataType="Decimal" length="50" isIndexed="true" isForeignKey="false" displayOrder="3" />
+          <propertyModel Id="c66300ce-6a24-465b-87d0-637ffe45ac2a" name="Memo" length="200" isForeignKey="false" displayOrder="4" />
+          <propertyModel Id="dec323df-f387-403a-ac80-c422e7f89233" name="CategoryId" description="Foreign key to Category" dataType="Guid" isForeignKey="true" displayOrder="1" />
+        </properties>
+        <serviceModels>
+          <entityModelHasServiceModels Id="bc9c6a10-214c-424c-ae04-978264d6139d">
+            <serviceModel Id="2b2f477f-5368-40b0-83ec-595ab0484f9a" name="ServiceModel1" inclCreate="true" inclUpdate="false" inclDelete="true" version="v1">
+              <readMethods>
+                <serviceModelHasReadMethodModels Id="18d61036-a234-4312-aa0b-e8388076e335">
+                  <readMethodModel Id="36c23ce7-0ccf-4ca0-bbf8-f757b3a7efb2" name="GetById" itemId="b9cfb217-c3a6-45ce-8d00-af95607f0c49" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="0">
+                    <filterProperties>
+                      <readMethodModelHasFilterProperties Id="5f559d62-7752-4425-9fca-8475bff219e6">
+                        <filterPropertyModel Id="f6fbaf25-d8e5-495a-826c-e95b42c60d12" isOptional="false" isInternal="false" isPartialMatch="false">
+                          <propertyModel>
+                            <filterPropertyModelHasProperty Id="a4848cbe-e5e2-4d30-b42d-0f0d7e6aa81a">
+                              <propertyModelMoniker name="/App1/Invoice/Id" />
+                            </filterPropertyModelHasProperty>
+                          </propertyModel>
+                        </filterPropertyModel>
+                      </readMethodModelHasFilterProperties>
+                    </filterProperties>
+                  </readMethodModel>
+                </serviceModelHasReadMethodModels>
+                <serviceModelHasReadMethodModels Id="2ba0f74a-8070-41cc-a406-c2ee64fed225">
+                  <readMethodModel Id="003e43a4-8fff-4bf8-9614-f58260afa6b4" name="QueryByMemo" itemId="c2bd307b-8039-45bb-974c-68ae2136dafb" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="1">
+                    <filterProperties>
+                      <readMethodModelHasFilterProperties Id="766c1dd1-aefa-4131-bbd2-52ddc1bf23f1">
+                        <filterPropertyModel Id="03b99dde-02c2-4643-ac68-709c51841acc" isOptional="false" isInternal="false" isPartialMatch="false">
+                          <propertyModel>
+                            <filterPropertyModelHasProperty Id="fe0cb56a-4eed-425c-a830-8f6ad9a32708">
+                              <propertyModelMoniker name="/App1/Invoice/Memo" />
+                            </filterPropertyModelHasProperty>
+                          </propertyModel>
+                        </filterPropertyModel>
+                      </readMethodModelHasFilterProperties>
+                    </filterProperties>
+                  </readMethodModel>
+                </serviceModelHasReadMethodModels>
+                <serviceModelHasReadMethodModels Id="ef3a0dee-8638-463b-8c57-45a44adc3aca">
+                  <readMethodModel Id="bb69f172-2253-4ef6-a650-735fb40d2d75" name="GetAll" itemId="09508cdc-5e52-4671-bd6a-b49c3f72a240" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="2" />
+                </serviceModelHasReadMethodModels>
+              </readMethods>
+              <updateMethods>
+                <serviceModelHasUpdateMethods Id="a2a8a1d6-eb92-42fb-a4e7-3d12020baf5a">
+                  <updateMethodModel Id="87ceff5e-2915-470f-92a7-757c042b3dbd" name="UpdateMemo" itemId="b2443f97-1897-4cb3-9d51-517eccf63d74">
+                    <updateProperties>
+                      <updateMethodModelHasUpdateProperties Id="9f1ba1e0-d887-4485-a299-9ef4b9414967">
+                        <updatePropertyModel Id="11ec6552-1dc0-4d0b-9c42-cda07002755f" isOptional="false">
+                          <propertyModel>
+                            <updatePropertyModelHasPropertyModel Id="3e1683f8-45f8-4a53-9ec1-68de8c2efeab">
+                              <propertyModelMoniker name="/App1/Invoice/Memo" />
+                            </updatePropertyModelHasPropertyModel>
+                          </propertyModel>
+                        </updatePropertyModel>
+                      </updateMethodModelHasUpdateProperties>
+                    </updateProperties>
+                  </updateMethodModel>
+                </serviceModelHasUpdateMethods>
+                <serviceModelHasUpdateMethods Id="07dedeb2-0dfc-4d11-9657-9ca3143b7a3e">
+                  <updateMethodModel Id="3684e247-7c07-4d89-9a10-824dc2d91b30" name="UpdateAmount" itemId="d96a33d2-e937-45ee-99c1-d505326725e4" displayOrder="1">
+                    <updateProperties>
+                      <updateMethodModelHasUpdateProperties Id="bc080a40-359b-4cef-84f9-23c4f969c588">
+                        <updatePropertyModel Id="91b6354c-8069-4346-824d-75ffdd953eca" isOptional="false">
+                          <propertyModel>
+                            <updatePropertyModelHasPropertyModel Id="3bf2951b-c62c-4c39-a928-f04163dfbd60">
+                              <propertyModelMoniker name="/App1/Invoice/Amount" />
+                            </updatePropertyModelHasPropertyModel>
+                          </propertyModel>
+                        </updatePropertyModel>
+                      </updateMethodModelHasUpdateProperties>
+                    </updateProperties>
+                  </updateMethodModel>
+                </serviceModelHasUpdateMethods>
+              </updateMethods>
+            </serviceModel>
+          </entityModelHasServiceModels>
+        </serviceModels>
+      </entityModel>
+    </modelRootHasTypes>
+    <modelRootHasTypes Id="92d4d5b8-2bb5-4af1-a731-e2aa2d4c93d6">
+      <moduleModel Id="df3dc907-3fd4-4ce4-b560-883e96a3efbe" name="App" rootFolder="src\App" namespace="Dyvenix.App1.App" permissionsStorage="invoce.read&#xA;invoice.write&#xA;admin" dtoNamespace="Dyvenix.App1.App.Shared.DTOs" requestNamespace="Dyvenix.App1.App.Shared.Requests" />
+    </modelRootHasTypes>
+    <modelRootHasTypes Id="a8097145-a7cc-491b-b268-91476a8cf47d">
+      <entityModel Id="5bd2d97c-7645-4147-a381-b43512adfb2e" name="AppUser" auditable="false" inclRowVersion="false" module="Auth" enabled="false">
+        <properties>
+          <propertyModel Id="e4747ff3-cb26-4e74-8950-967ee83dedd2" name="Id" description="Primary key" dataType="Guid" isPrimaryKey="true" isIndexed="true" isIndexUnique="true" isForeignKey="false" />
+          <propertyModel Id="326dbb8b-5c7c-498a-9cd6-063effa7a9ba" name="Username" length="50" isForeignKey="false" />
+        </properties>
+        <serviceModels>
+          <entityModelHasServiceModels Id="9ab946e2-441a-407c-9fbe-c031e4a965d9">
+            <serviceModel Id="95a8a254-ec39-4ffe-8ecf-09f7dec4a9db" name="ServiceModel1" inclCreate="true" inclUpdate="true" inclDelete="true" version="v1">
+              <readMethods>
+                <serviceModelHasReadMethodModels Id="06f610d2-ccf4-4213-b3d2-62f948e5e958">
+                  <readMethodModel Id="d416d053-c73c-4bba-9fa7-634c26c6c36e" name="GetById" itemId="31bdd49a-e537-4e05-95d0-4bc3d59d160b" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="0">
+                    <filterProperties>
+                      <readMethodModelHasFilterProperties Id="aea30313-3a49-4757-89d9-9bdcee85eecd">
+                        <filterPropertyModel Id="9b167b25-6f95-43da-9554-2a48792b2b8f" isOptional="false" isInternal="false" isPartialMatch="false">
+                          <propertyModel>
+                            <filterPropertyModelHasProperty Id="b4182ad1-5d2d-4b7f-8f9d-d03bd81dba7f">
+                              <propertyModelMoniker name="/App1/AppUser/Id" />
+                            </filterPropertyModelHasProperty>
+                          </propertyModel>
+                        </filterPropertyModel>
+                      </readMethodModelHasFilterProperties>
+                    </filterProperties>
+                  </readMethodModel>
+                </serviceModelHasReadMethodModels>
+                <serviceModelHasReadMethodModels Id="cd95c00c-d1aa-4ed4-9319-28ee60825225">
+                  <readMethodModel Id="2a0955b1-0e60-4fbf-979f-0ebb960c2584" name="ReqByUsername" itemId="c15ed7a0-c213-426d-b2d3-7e16a9fef47f" inclPaging="false" useRequest="true" inclSorting="false" displayOrder="1">
+                    <filterProperties>
+                      <readMethodModelHasFilterProperties Id="f3637d05-caef-43bc-9d53-c7042541c7fb">
+                        <filterPropertyModel Id="98971d2e-9606-4336-b738-01bda15b78db" isOptional="false" isInternal="false" isPartialMatch="false">
+                          <propertyModel>
+                            <filterPropertyModelHasProperty Id="0736ce01-f1b8-4eb6-ab32-2a386b2b0c6d">
+                              <propertyModelMoniker name="/App1/AppUser/Username" />
+                            </filterPropertyModelHasProperty>
+                          </propertyModel>
+                        </filterPropertyModel>
+                      </readMethodModelHasFilterProperties>
+                    </filterProperties>
+                  </readMethodModel>
+                </serviceModelHasReadMethodModels>
+              </readMethods>
+              <updateMethods>
+                <serviceModelHasUpdateMethods Id="832e273f-bfe5-466a-b42c-d97847006b2c">
+                  <updateMethodModel Id="fbbf39ad-58b0-4531-9105-90823ce90a55" name="UpdateUsername" itemId="9b93280f-d8b5-46f6-8c77-114adba233f2">
+                    <updateProperties>
+                      <updateMethodModelHasUpdateProperties Id="6b887390-e4a7-4143-b6f7-50e5480af791">
+                        <updatePropertyModel Id="91f29125-fcb2-4dc8-89ae-1daa78e2436d" isOptional="false">
+                          <propertyModel>
+                            <updatePropertyModelHasPropertyModel Id="0a1d4510-6eb1-47fa-aa87-5b2644d2143a">
+                              <propertyModelMoniker name="/App1/AppUser/Username" />
+                            </updatePropertyModelHasPropertyModel>
+                          </propertyModel>
+                        </updatePropertyModel>
+                      </updateMethodModelHasUpdateProperties>
+                    </updateProperties>
+                  </updateMethodModel>
+                </serviceModelHasUpdateMethods>
+              </updateMethods>
+            </serviceModel>
+          </entityModelHasServiceModels>
+        </serviceModels>
+      </entityModel>
+    </modelRootHasTypes>
+    <modelRootHasTypes Id="adbfa296-237b-4109-9270-f172870f552a">
+      <entityModel Id="511806a7-cf24-4caa-9e00-8eadd017ec51" name="Practice" auditable="false" inclRowVersion="false" module="App" enabled="false">
+        <properties>
+          <propertyModel Id="0c6057c7-2eda-48f3-9caf-8676056bb2cd" name="Id" description="Primary key" dataType="Guid" isPrimaryKey="true" isIndexed="true" isIndexUnique="true" isForeignKey="false" />
+          <propertyModel Id="e05a15d4-e16a-4e29-b180-fe831b656e30" name="Name" length="50" isForeignKey="false" />
+        </properties>
+        <navigationProperties>
+          <navigationProperty Id="4e266fe8-90a7-485b-8678-f20d2b11f32a" name="Patients" description="Navigation to Patient" targetEntityName="Patient" isCollection="true" />
+        </navigationProperties>
+        <targets>
+          <association Id="f76c92fe-d885-4873-bf9c-bddbdf6785c8" sourceMultiplicity="1" sourceRoleName="Patients" targetMultiplicity="*" fkPropertyName="PracticeId">
+            <entityModelMoniker name="/App1/Patient" />
+          </association>
+        </targets>
+      </entityModel>
+    </modelRootHasTypes>
+    <modelRootHasTypes Id="e3e08e85-48a1-47d3-83a3-515ed20d215c">
+      <entityModel Id="945bf8d0-8893-49f5-94a0-e8549532eefb" name="Category" auditable="false" inclRowVersion="false" module="App" enabled="false">
+        <properties>
+          <propertyModel Id="d649e3c0-5bba-4c4d-afad-772faf959dd9" name="Id" description="Primary key" dataType="Guid" isPrimaryKey="true" isIndexed="true" isIndexUnique="true" isForeignKey="false" />
+          <propertyModel Id="8a051618-4771-4e96-8384-b6914154cd63" name="Name" length="50" isForeignKey="false" />
+        </properties>
+        <navigationProperties>
+          <navigationProperty Id="b36a40d3-58f6-4fbf-89cd-b3f970289391" name="Invoice" description="Navigation to Invoice" targetEntityName="Invoice" isCollection="true" />
+        </navigationProperties>
+        <targets>
+          <association Id="947fcfee-a935-4d5c-8d92-3fc170a3dcd4" sourceMultiplicity="1" sourceRoleName="Invoice" targetMultiplicity="*" fkPropertyName="CategoryId">
+            <entityModelMoniker name="/App1/Invoice" />
+          </association>
+        </targets>
+      </entityModel>
+    </modelRootHasTypes>
+  </types>
+</modelRoot>

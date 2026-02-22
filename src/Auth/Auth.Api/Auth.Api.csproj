@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <AssemblyName>Dyvenix.App1.Auth.Api</AssemblyName>
+    <RootNamespace>Dyvenix.App1.Auth.Api</RootNamespace>
+    <Configurations>Debug;Release;Dbg-Ext</Configurations>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Endpoints\**" />
+    <EmbeddedResource Remove="Endpoints\**" />
+    <None Remove="Endpoints\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Endpoints\IntTestSts.cs" />
+    <Compile Include="Endpoints\SystemEndpoints.cs" />
+    <Compile Include="Endpoints\v1\AppUserEndpoints.g.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Asp.Versioning.Mvc" Version="8.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.2" />
+    <PackageReference Include="Scalar.AspNetCore" Version="2.11.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\Common.Api\Common.Api.csproj" />
+    <ProjectReference Include="..\..\Common\Common.Data.Shared\Common.Data.Shared.csproj" />
+    <ProjectReference Include="..\..\Common\Common.Data\Common.Data.csproj" />
+    <ProjectReference Include="..\..\Common\Common.Shared\Common.Shared.csproj" />
+    <ProjectReference Include="..\Auth.Shared\Auth.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Config\" />
+    <Folder Include="Services\v1\" />
+  </ItemGroup>
+
+</Project>
