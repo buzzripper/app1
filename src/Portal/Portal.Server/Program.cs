@@ -10,6 +10,7 @@ using Dyvenix.App1.Common.Api.Extensions;
 using Dyvenix.App1.Common.Api.Filters;
 using Dyvenix.App1.Portal.Server.Logging;
 using Dyvenix.App1.Portal.Server.Services;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using System.Net.Http.Headers;
 using Yarp.ReverseProxy.Configuration;
 using Yarp.ReverseProxy.Transforms;
@@ -62,46 +63,82 @@ services.AddScoped<ApiExceptionFilter<PortalSystemService>>();
 services.AddHttpClient();
 services.AddOptions();
 
-// Load downstream API scopes
-var downstreamApiScopes = configuration.GetValue<string>("DownstreamApi:Scopes")
-	?.Split(' ', StringSplitOptions.RemoveEmptyEntries) ?? [];
+// Token cache infrastructure (backed by IDistributedCache — swap to Redis/SQL later via DI)
+services.AddDistributedMemoryCache();
+services.AddScoped<ITokenRefreshService, TokenRefreshService>();
+services.AddScoped<ITokenCacheService, TokenCacheService>();
 
-services.AddMicrosoftIdentityWebAppAuthentication(configuration, "MicrosoftEntraID")
-	.EnableTokenAcquisitionToCallDownstreamApi(downstreamApiScopes)
-	.AddInMemoryTokenCaches();
-
-// Configure OpenID Connect to save tokens (including id_token) for logout
-services.Configure<OpenIdConnectOptions>(OpenIdConnectDefaults.AuthenticationScheme, options =>
+// Authentication: Cookie + OpenID Connect against OpeniddictServer
+services.AddAuthentication(options =>
 {
-	options.SaveTokens = true; // Required for id_token_hint in logout
-
-	options.Events ??= new OpenIdConnectEvents();
-	var existingOnTokenValidated = options.Events.OnTokenValidated;
-	options.Events.OnTokenValidated = async context =>
-	{
-		// Breakpoint here to inspect claims after Entra login
-		var claims = context.Principal?.Claims.Select(c => $"{c.Type} = {c.Value}").ToList();
-		var accessToken = context.TokenEndpointResponse?.AccessToken;
-
-		if (existingOnTokenValidated != null)
-			await existingOnTokenValidated(context);
-	};
-});
-
-// If using downstream APIs and in memory cache, you need to reset the cookie session if the cache is missing
-// If you use persistent cache, you do not require this.
-// You can also return the 403 with the required scopes, this needs special handling for ajax calls
-if (downstreamApiScopes.Length > 0)
-{
-	services.Configure<CookieAuthenticationOptions>(CookieAuthenticationDefaults.AuthenticationScheme,
-		options => options.Events = new RejectSessionCookieWhenAccountNotInCacheEvents(downstreamApiScopes));
-}
-
-// Configure cookie settings for cross-origin Angular app
-services.Configure<CookieAuthenticationOptions>(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+	options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+	options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+})
+.AddCookie(options =>
 {
 	options.Cookie.SameSite = SameSiteMode.Lax;
 	options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+	options.Cookie.HttpOnly = true;
+})
+.AddOpenIdConnect(options =>
+{
+	options.Authority = configuration["OpenIddict:Authority"];
+	options.ClientId = configuration["OpenIddict:ClientId"];
+	options.ClientSecret = configuration["OpenIddict:ClientSecret"];
+	options.ResponseType = OpenIdConnectResponseType.Code;
+	options.UsePkce = true;
+	options.SaveTokens = false;
+
+	options.Scope.Clear();
+	foreach (var scope in (configuration["OpenIddict:Scopes"] ?? "openid profile email roles app1-api")
+		.Split(' ', StringSplitOptions.RemoveEmptyEntries))
+	{
+		options.Scope.Add(scope);
+	}
+
+	options.CallbackPath = configuration["OpenIddict:CallbackPath"] ?? "/signin-oidc";
+	options.SignedOutCallbackPath = configuration["OpenIddict:SignedOutCallbackPath"] ?? "/signout-callback-oidc";
+
+	options.MapInboundClaims = false;
+	options.TokenValidationParameters.NameClaimType = "name";
+	options.TokenValidationParameters.RoleClaimType = "role";
+
+	options.Events = new OpenIdConnectEvents
+	{
+		OnTokenValidated = async context =>
+		{
+			var tokenResponse = context.TokenEndpointResponse;
+			if (tokenResponse is null)
+				return;
+
+			var accessToken = tokenResponse.AccessToken;
+			var refreshToken = tokenResponse.RefreshToken;
+			var idToken = tokenResponse.IdToken;
+			var expiresIn = tokenResponse.ExpiresIn;
+
+			if (string.IsNullOrEmpty(accessToken))
+				return;
+
+			var expiry = string.IsNullOrEmpty(expiresIn)
+				? DateTimeOffset.UtcNow.AddMinutes(60)
+				: DateTimeOffset.UtcNow.AddSeconds(int.Parse(expiresIn));
+
+			// Generate a unique session ID and store it as a claim
+			var sessionId = Guid.NewGuid().ToString("N");
+			var identity = (ClaimsIdentity?)context.Principal?.Identity;
+			identity?.AddClaim(new Claim("token_session_id", sessionId));
+
+			// Store tokens server-side
+			var tokenCache = context.HttpContext.RequestServices.GetRequiredService<ITokenCacheService>();
+			await tokenCache.StoreTokensAsync(sessionId, new Dyvenix.App1.Portal.Server.Models.TokenCacheEntry
+			{
+				AccessToken = accessToken,
+				RefreshToken = refreshToken ?? "",
+				IdToken = idToken,
+				ExpiresAt = expiry
+			});
+		}
+	};
 });
 
 services.AddControllers();
@@ -134,20 +171,22 @@ services.AddReverseProxy()
 			if (user?.Identity?.IsAuthenticated != true)
 				return;
 
-			try
+			var sessionId = user.FindFirstValue("token_session_id");
+			if (string.IsNullOrEmpty(sessionId))
+				return;
+
+			var tokenCache = transformContext.HttpContext.RequestServices
+				.GetRequiredService<ITokenCacheService>();
+
+			var accessToken = await tokenCache.GetAccessTokenAsync(sessionId);
+			if (!string.IsNullOrEmpty(accessToken))
 			{
-				var tokenAcquisition = transformContext.HttpContext.RequestServices
-					.GetRequiredService<ITokenAcquisition>();
-
-				var accessToken = await tokenAcquisition.GetAccessTokenForUserAsync(downstreamApiScopes);
-
 				transformContext.ProxyRequest.Headers.Authorization =
 					new AuthenticationHeaderValue("Bearer", accessToken);
 			}
-			catch (MicrosoftIdentityWebChallengeUserException)
+			else
 			{
-				// Token cache miss — the cookie session will be rejected by
-				// RejectSessionCookieWhenAccountNotInCacheEvents on the next request
+				// Token cache miss or refresh failed — force re-authentication
 				transformContext.HttpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
 			}
 		});

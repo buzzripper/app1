@@ -1,28 +1,28 @@
-﻿namespace App1.App1.Portal.Server.Controllers;
+﻿using Dyvenix.App1.Portal.Server.Services;
+
+namespace App1.App1.Portal.Server.Controllers;
 
 [Route("api/[controller]")]
 public class AccountController : ControllerBase
 {
 	private readonly ILogger<AccountController> _logger;
 	private readonly IConfiguration _configuration;
+	private readonly ITokenCacheService _tokenCacheService;
 
-	public AccountController(ILogger<AccountController> logger, IConfiguration configuration)
+	public AccountController(
+		ILogger<AccountController> logger,
+		IConfiguration configuration,
+		ITokenCacheService tokenCacheService)
 	{
 		_logger = logger;
 		_configuration = configuration;
+		_tokenCacheService = tokenCacheService;
 	}
 
 	[HttpGet("Login")]
-	public ActionResult Login(string? returnUrl, string? claimsChallenge)
+	public ActionResult Login(string? returnUrl)
 	{
 		var properties = GetAuthProperties(returnUrl);
-
-		if (claimsChallenge != null)
-		{
-			string jsonString = claimsChallenge.Replace("\\", "").Trim('"');
-			properties.Items["claims"] = jsonString;
-		}
-
 		return Challenge(properties);
 	}
 
@@ -31,32 +31,21 @@ public class AccountController : ControllerBase
 	public async Task<IActionResult> Logout(string? returnUrl)
 	{
 		var redirectUri = GetSafeRedirectUri(returnUrl, "/");
-
 		var properties = new AuthenticationProperties { RedirectUri = redirectUri };
 
-		// Get id_token from authentication properties to skip account selection prompt
-		var authenticateResult = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-		var idToken = authenticateResult?.Properties?.GetTokenValue("id_token");
-
-		if (!string.IsNullOrEmpty(idToken))
+		// Retrieve id_token from server-side cache for id_token_hint
+		var sessionId = User.FindFirst("token_session_id")?.Value;
+		if (!string.IsNullOrEmpty(sessionId))
 		{
-			properties.Parameters["id_token_hint"] = idToken;
-			_logger.LogInformation("Logout with id_token_hint");
-
-			// Also add logout_hint as a fallback/additional hint
-			var email = User.FindFirst("preferred_username")?.Value
-					 ?? User.FindFirst("email")?.Value
-					 ?? User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress")?.Value;
-
-			if (!string.IsNullOrEmpty(email))
+			var idToken = await _tokenCacheService.GetIdTokenAsync(sessionId);
+			if (!string.IsNullOrEmpty(idToken))
 			{
-				properties.Parameters["logout_hint"] = email;
-				_logger.LogInformation("Also adding logout_hint: {Email}", email);
+				properties.Parameters["id_token_hint"] = idToken;
+				_logger.LogInformation("Logout with id_token_hint");
 			}
-		}
-		else
-		{
-			_logger.LogWarning("id_token not found in authentication properties");
+
+			// Clear cached tokens
+			await _tokenCacheService.RemoveTokensAsync(sessionId);
 		}
 
 		return SignOut(
