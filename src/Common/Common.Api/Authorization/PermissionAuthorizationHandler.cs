@@ -9,7 +9,7 @@ public sealed class PermissionAuthorizationHandler : AuthorizationHandler<Permis
 		if (context.User?.Identity?.IsAuthenticated != true)
 			return Task.CompletedTask;
 
-		var permissions = context.User.FindAll("permissions")
+		var permissions = context.User.FindAll("perm")
 			.SelectMany(claim => claim.Value.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
 			.ToHashSet(StringComparer.OrdinalIgnoreCase);
 

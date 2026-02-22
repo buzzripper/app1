@@ -10,7 +10,9 @@ using Dyvenix.App1.Common.Api.Extensions;
 using Dyvenix.App1.Common.Api.Filters;
 using Dyvenix.App1.Portal.Server.Logging;
 using Dyvenix.App1.Portal.Server.Services;
+using System.Net.Http.Headers;
 using Yarp.ReverseProxy.Configuration;
+using Yarp.ReverseProxy.Transforms;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -60,27 +62,39 @@ services.AddScoped<ApiExceptionFilter<PortalSystemService>>();
 services.AddHttpClient();
 services.AddOptions();
 
-var scopes = configuration.GetValue<string>("DownstreamApi:Scopes");
-string[] initialScopes = scopes?.Split(' ') ?? Array.Empty<string>();
+// Load downstream API scopes
+var downstreamApiScopes = configuration.GetValue<string>("DownstreamApi:Scopes")
+	?.Split(' ', StringSplitOptions.RemoveEmptyEntries) ?? [];
 
 services.AddMicrosoftIdentityWebAppAuthentication(configuration, "MicrosoftEntraID")
-	.EnableTokenAcquisitionToCallDownstreamApi(initialScopes)
+	.EnableTokenAcquisitionToCallDownstreamApi(downstreamApiScopes)
 	.AddInMemoryTokenCaches();
 
 // Configure OpenID Connect to save tokens (including id_token) for logout
 services.Configure<OpenIdConnectOptions>(OpenIdConnectDefaults.AuthenticationScheme, options =>
 {
 	options.SaveTokens = true; // Required for id_token_hint in logout
+
+	options.Events ??= new OpenIdConnectEvents();
+	var existingOnTokenValidated = options.Events.OnTokenValidated;
+	options.Events.OnTokenValidated = async context =>
+	{
+		// Breakpoint here to inspect claims after Entra login
+		var claims = context.Principal?.Claims.Select(c => $"{c.Type} = {c.Value}").ToList();
+		var accessToken = context.TokenEndpointResponse?.AccessToken;
+
+		if (existingOnTokenValidated != null)
+			await existingOnTokenValidated(context);
+	};
 });
 
 // If using downstream APIs and in memory cache, you need to reset the cookie session if the cache is missing
 // If you use persistent cache, you do not require this.
 // You can also return the 403 with the required scopes, this needs special handling for ajax calls
-// The check is only for single scopes
-if (initialScopes.Length > 0)
+if (downstreamApiScopes.Length > 0)
 {
 	services.Configure<CookieAuthenticationOptions>(CookieAuthenticationDefaults.AuthenticationScheme,
-		options => options.Events = new RejectSessionCookieWhenAccountNotInCacheEvents(initialScopes));
+		options => options.Events = new RejectSessionCookieWhenAccountNotInCacheEvents(downstreamApiScopes));
 }
 
 // Configure cookie settings for cross-origin Angular app
@@ -111,7 +125,33 @@ services.AddAppApiServices(isInProcess: true);
 services.AddSingleton<IProxyConfigProvider>(
 	new DynamicProxyConfigProvider(configuration, authInProcess, appInProcess));
 services.AddReverseProxy()
-.AddServiceDiscoveryDestinationResolver();
+	.AddServiceDiscoveryDestinationResolver()
+	.AddTransforms(builderContext =>
+	{
+		builderContext.AddRequestTransform(async transformContext =>
+		{
+			var user = transformContext.HttpContext.User;
+			if (user?.Identity?.IsAuthenticated != true)
+				return;
+
+			try
+			{
+				var tokenAcquisition = transformContext.HttpContext.RequestServices
+					.GetRequiredService<ITokenAcquisition>();
+
+				var accessToken = await tokenAcquisition.GetAccessTokenForUserAsync(downstreamApiScopes);
+
+				transformContext.ProxyRequest.Headers.Authorization =
+					new AuthenticationHeaderValue("Bearer", accessToken);
+			}
+			catch (MicrosoftIdentityWebChallengeUserException)
+			{
+				// Token cache miss — the cookie session will be rejected by
+				// RejectSessionCookieWhenAccountNotInCacheEvents on the next request
+				transformContext.HttpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
+			}
+		});
+	});
 
 // Register service clients (proxies)
 #if AUTH_INPROCESS

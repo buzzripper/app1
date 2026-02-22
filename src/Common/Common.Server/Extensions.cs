@@ -1,10 +1,8 @@
 using Asp.Versioning;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
+using Microsoft.Identity.Web;
 
 namespace Dyvenix.App1.Common.Server;
 
@@ -14,28 +12,12 @@ namespace Dyvenix.App1.Common.Server;
 public static class Extensions
 {
 	/// <summary>
-	/// Configures JWT Bearer authentication using settings from the "JwtSettings" configuration section.
+	/// Configures JWT Bearer authentication using Microsoft Entra ID token validation.
+	/// Reads settings from the "MicrosoftEntraID" configuration section.
 	/// </summary>
-	public static IServiceCollection AddStandardJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
+	public static IServiceCollection AddEntraIdApiAuthentication(this IServiceCollection services, IConfiguration configuration)
 	{
-		var jwtSettings = configuration.GetSection("JwtSettings");
-		var secretKey = jwtSettings["SecretKey"] ?? throw new InvalidOperationException("JWT SecretKey is required");
-
-		services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-			.AddJwtBearer(options =>
-			{
-				options.TokenValidationParameters = new TokenValidationParameters
-				{
-					ValidateIssuer = true,
-					ValidateAudience = true,
-					ValidateLifetime = true,
-					ValidateIssuerSigningKey = true,
-					ValidIssuer = jwtSettings["Issuer"],
-					ValidAudience = jwtSettings["Audience"],
-					IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
-				};
-			});
-
+		services.AddMicrosoftIdentityWebApiAuthentication(configuration, "MicrosoftEntraID");
 		services.AddAuthorization();
 
 		return services;

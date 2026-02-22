@@ -14,7 +14,7 @@ var dataConfig = DataConfigBuilder.Build(builder.Configuration);
 if (builder.Environment.IsEnvironment("Testing"))
     builder.Services.AddTestJwtAuthentication();
 else
-    builder.Services.AddStandardJwtAuthentication(builder.Configuration);
+    builder.Services.AddEntraIdApiAuthentication(builder.Configuration);
 
 builder.Services.AddPermissionAuthorization();
 builder.Services.AddAppApiServices(false);
