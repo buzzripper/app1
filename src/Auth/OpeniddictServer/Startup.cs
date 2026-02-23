@@ -4,13 +4,11 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Logging;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
-using Microsoft.IdentityModel.Tokens;
 using OpeniddictServer.Data;
 using Quartz;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 
 namespace OpeniddictServer;
@@ -106,49 +104,14 @@ public class Startup
         // Register the Quartz.NET service and configure it to block shutdown until jobs are complete.
         services.AddQuartzHostedService(options => options.WaitForJobsToComplete = true);
 
-        services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-            .AddOpenIdConnect("KeyCloak", "KeyCloak", options =>
-            {
-                options.SignInScheme = "Identity.External";
-                //Keycloak server
-                options.Authority = Configuration.GetSection("Keycloak")["ServerRealm"];
-                //Keycloak client ID
-                options.ClientId = Configuration.GetSection("Keycloak")["ClientId"];
-                //Keycloak client secret in user secrets for dev
-                options.ClientSecret = Configuration.GetSection("Keycloak")["ClientSecret"];
-                //Keycloak .wellknown config origin to fetch config
-                options.MetadataAddress = Configuration.GetSection("Keycloak")["Metadata"];
-                //Require keycloak to use SSL
+        services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme);
 
-                options.GetClaimsFromUserInfoEndpoint = true;
-                options.Scope.Add("openid");
-                options.Scope.Add("profile");
-                options.SaveTokens = true;
-                options.ResponseType = OpenIdConnectResponseType.Code;
-                options.RequireHttpsMetadata = false; //dev
+        // Required so that dynamically-registered OpenIdConnect schemes (see Worker)
+        // get their StringDataFormat, Backchannel, etc. initialised by post-configure.
+        services.TryAddEnumerable(
+            ServiceDescriptor.Singleton<IPostConfigureOptions<OpenIdConnectOptions>, OpenIdConnectPostConfigureOptions>());
 
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    NameClaimType = "name",
-                    RoleClaimType = ClaimTypes.Role,
-                    ValidateIssuer = true
-                };
-            })
-            .AddOpenIdConnect("EntraID", "EntraID", oidcOptions =>
-            {
-                oidcOptions.SignInScheme = "entraidcookie";
-                oidcOptions.Scope.Add(OpenIdConnectScope.OpenIdProfile);
-                oidcOptions.Scope.Add("user.read");
-                oidcOptions.Scope.Add(OpenIdConnectScope.OfflineAccess);
-                oidcOptions.Authority = $"https://login.microsoftonline.com/{Configuration["AzureAd:TenantId"]}/v2.0/";
-                oidcOptions.ClientId = Configuration["AzureAd:ClientId"];
-                oidcOptions.ClientSecret = Configuration["AzureAd:ClientSecret"];
-                oidcOptions.ResponseType = OpenIdConnectResponseType.Code;
-                oidcOptions.MapInboundClaims = false;
-                oidcOptions.SaveTokens = true;
-                oidcOptions.TokenValidationParameters.NameClaimType = JwtRegisteredClaimNames.Name;
-                oidcOptions.TokenValidationParameters.RoleClaimType = "role";
-            });
+        // External OIDC schemes are registered dynamically by Worker after tenant seeding.
 
         services.AddOpenIddict()
             .AddCore(options =>

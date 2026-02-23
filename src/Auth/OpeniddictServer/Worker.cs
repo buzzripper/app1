@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using OpenIddict.Abstractions;
 using OpeniddictServer.Data;
 using static OpenIddict.Abstractions.OpenIddictConstants;
@@ -22,6 +26,7 @@ namespace OpeniddictServer
 
             await SeedTenantsAsync(context);
             await SeedTestUsersAsync(scope.ServiceProvider);
+            await RegisterExternalSchemesAsync(scope.ServiceProvider, context);
             await RegisterApplicationsAsync(scope.ServiceProvider);
             await RegisterScopesAsync(scope.ServiceProvider);
 
@@ -47,13 +52,15 @@ namespace OpeniddictServer
                     {
                         new Uri("https://localhost:5001/signout-callback-oidc"),
                         new Uri("https://acme.localhost:5001/signout-callback-oidc"),
-                        new Uri("https://contoso.localhost:5001/signout-callback-oidc")
+                        new Uri("https://contoso.localhost:5001/signout-callback-oidc"),
+                        new Uri("https://fabrikam.localhost:5001/signout-callback-oidc")
                     },
                     RedirectUris =
                     {
                         new Uri("https://localhost:5001/signin-oidc"),
                         new Uri("https://acme.localhost:5001/signin-oidc"),
-                        new Uri("https://contoso.localhost:5001/signin-oidc")
+                        new Uri("https://contoso.localhost:5001/signin-oidc"),
+                        new Uri("https://fabrikam.localhost:5001/signin-oidc")
                     },
                     Permissions =
                     {
@@ -130,6 +137,7 @@ namespace OpeniddictServer
             {
                 var acmeId = Guid.Parse("A1000000-0000-0000-0000-000000000001");
                 var contosoId = Guid.Parse("A1000000-0000-0000-0000-000000000002");
+                var fabrikamId = Guid.Parse("A1000000-0000-0000-0000-000000000003");
 
                 if (!await context.Tenants.AnyAsync(t => t.Id == acmeId))
                 {
@@ -150,6 +158,23 @@ namespace OpeniddictServer
                         Name = "Contoso",
                         Slug = "contoso",
                         AuthMethod = "Local"
+                    });
+                }
+
+                // External IdP test tenant — update these values with a real IdP to test federation.
+                // For example, Google: Authority = "https://accounts.google.com"
+                // Auth0: Authority = "https://YOUR_DOMAIN.auth0.com"
+                if (!await context.Tenants.AnyAsync(t => t.Id == fabrikamId))
+                {
+                    context.Tenants.Add(new Tenant
+                    {
+                        Id = fabrikamId,
+                        Name = "Fabrikam (External)",
+                        Slug = "fabrikam",
+                        AuthMethod = "ExternalOidc",
+                        ExternalAuthority = "https://YOUR-IDP.example.com",
+                        ExternalClientId = "YOUR_CLIENT_ID",
+                        ExternalClientSecret = "YOUR_CLIENT_SECRET"
                     });
                 }
 
@@ -180,6 +205,64 @@ namespace OpeniddictServer
                         };
                         await userManager.CreateAsync(user, "Test1234!");
                     }
+                }
+            }
+
+            /// <summary>
+            /// Dynamically registers an OIDC authentication scheme per external tenant.
+            /// Runs AFTER seeding so the tenants exist in the DB.
+            /// </summary>
+            static async Task RegisterExternalSchemesAsync(IServiceProvider provider, ApplicationDbContext context)
+            {
+                var externalTenants = await context.Tenants
+                    .Where(t => t.AuthMethod == "ExternalOidc" && t.IsActive)
+                    .ToListAsync();
+
+                if (externalTenants.Count == 0)
+                    return;
+
+                var schemeProvider = provider.GetRequiredService<IAuthenticationSchemeProvider>();
+                var optionsCache = provider.GetRequiredService<IOptionsMonitorCache<OpenIdConnectOptions>>();
+                var postConfigures = provider.GetServices<IPostConfigureOptions<OpenIdConnectOptions>>();
+
+                foreach (var tenant in externalTenants)
+                {
+                    var schemeName = $"oidc-{tenant.Slug}";
+
+                    // Skip if already registered (e.g. from a previous run without restart)
+                    if (await schemeProvider.GetSchemeAsync(schemeName) is not null)
+                        continue;
+
+                    // Build and post-configure the options
+                    var options = new OpenIdConnectOptions
+                    {
+                        SignInScheme = IdentityConstants.ExternalScheme,
+                        Authority = tenant.ExternalAuthority,
+                        ClientId = tenant.ExternalClientId,
+                        ClientSecret = tenant.ExternalClientSecret,
+                        ResponseType = OpenIdConnectResponseType.Code,
+                        CallbackPath = $"/signin-oidc-{tenant.Slug}",
+                        MapInboundClaims = false
+                    };
+
+                    options.Scope.Clear();
+                    options.Scope.Add("openid");
+                    options.Scope.Add("profile");
+                    options.Scope.Add("email");
+
+                    options.TokenValidationParameters.NameClaimType = "name";
+                    options.TokenValidationParameters.RoleClaimType = "role";
+
+                    // Run ASP.NET Core's post-configuration (sets up backchannel handler, etc.)
+                    foreach (var pc in postConfigures)
+                    {
+                        pc.PostConfigure(schemeName, options);
+                    }
+
+                    optionsCache.TryAdd(schemeName, options);
+
+                    schemeProvider.AddScheme(new AuthenticationScheme(
+                        schemeName, tenant.Name, typeof(OpenIdConnectHandler)));
                 }
             }
         }

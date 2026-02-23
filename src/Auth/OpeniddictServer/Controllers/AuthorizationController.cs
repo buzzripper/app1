@@ -68,12 +68,7 @@ public class AuthorizationController : Controller
 
             parameters.Add(KeyValuePair.Create(Parameters.Prompt, new StringValues(prompt)));
 
-            return Challenge(
-                authenticationSchemes: IdentityConstants.ApplicationScheme,
-                properties: new AuthenticationProperties
-                {
-                    RedirectUri = Request.PathBase + Request.Path + QueryString.Create(parameters)
-                });
+            return ChallengeForTenant(parameters);
         }
 
         // Retrieve the user principal stored in the authentication cookie.
@@ -96,13 +91,8 @@ public class AuthorizationController : Controller
                     }));
             }
 
-            return Challenge(
-                authenticationSchemes: IdentityConstants.ApplicationScheme,
-                properties: new AuthenticationProperties
-                {
-                    RedirectUri = Request.PathBase + Request.Path + QueryString.Create(
-                        Request.HasFormContentType ? Request.Form.ToList() : Request.Query.ToList())
-                });
+            return ChallengeForTenant(
+                Request.HasFormContentType ? Request.Form.ToList() : Request.Query.ToList());
         }
 
         // Retrieve the profile of the logged in user.
@@ -114,13 +104,8 @@ public class AuthorizationController : Controller
         {
             await _signInManager.SignOutAsync();
 
-            return Challenge(
-                authenticationSchemes: IdentityConstants.ApplicationScheme,
-                properties: new AuthenticationProperties
-                {
-                    RedirectUri = Request.PathBase + Request.Path + QueryString.Create(
-                        Request.HasFormContentType ? Request.Form.ToList() : Request.Query.ToList())
-                });
+            return ChallengeForTenant(
+                Request.HasFormContentType ? Request.Form.ToList() : Request.Query.ToList());
         }
 
         // Retrieve the application details from the database.
@@ -416,6 +401,29 @@ public class AuthorizationController : Controller
     {
         var identity = (ClaimsIdentity)principal.Identity!;
         identity.AddClaim(new Claim("tenant_id", user.TenantId.ToString()));
+    }
+
+    /// <summary>
+    /// Challenges the user with the appropriate authentication scheme based on the current tenant.
+    /// Local tenants ? Identity login page. External tenants ? redirect to their external IdP,
+    /// with a callback to ExternalLoginCallback that finishes the Identity sign-in.
+    /// </summary>
+    private IActionResult ChallengeForTenant(IList<KeyValuePair<string, StringValues>> queryParams)
+    {
+        var authorizeUrl = Request.PathBase + Request.Path + QueryString.Create(queryParams);
+        var tenant = _tenantContext.Tenant;
+
+        if (tenant?.AuthMethod == "ExternalOidc")
+        {
+            var schemeName = $"oidc-{tenant.Slug}";
+            var callbackUrl = $"/Identity/Account/ExternalLoginCallback?returnUrl={Uri.EscapeDataString(authorizeUrl)}";
+            var properties = _signInManager.ConfigureExternalAuthenticationProperties(schemeName, callbackUrl);
+            return Challenge(properties, schemeName);
+        }
+
+        return Challenge(
+            authenticationSchemes: IdentityConstants.ApplicationScheme,
+            properties: new AuthenticationProperties { RedirectUri = authorizeUrl });
     }
 
     private IEnumerable<string> GetDestinations(Claim claim, ClaimsPrincipal principal)
