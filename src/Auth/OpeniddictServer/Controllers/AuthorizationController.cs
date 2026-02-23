@@ -28,19 +28,22 @@ public class AuthorizationController : Controller
     private readonly IOpenIddictScopeManager _scopeManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly ITenantContext _tenantContext;
 
     public AuthorizationController(
         IOpenIddictApplicationManager applicationManager,
         IOpenIddictAuthorizationManager authorizationManager,
         IOpenIddictScopeManager scopeManager,
         SignInManager<ApplicationUser> signInManager,
-        UserManager<ApplicationUser> userManager)
+        UserManager<ApplicationUser> userManager,
+        ITenantContext tenantContext)
     {
         _applicationManager = applicationManager;
         _authorizationManager = authorizationManager;
         _scopeManager = scopeManager;
         _signInManager = signInManager;
         _userManager = userManager;
+        _tenantContext = tenantContext;
     }
 
     [HttpGet("~/connect/authorize")]
@@ -103,8 +106,22 @@ public class AuthorizationController : Controller
         }
 
         // Retrieve the profile of the logged in user.
-        var user = await _userManager.GetUserAsync(result.Principal) ??
-            throw new InvalidOperationException("The user details cannot be retrieved.");
+        // If the user is authenticated but doesn't belong to the current tenant
+        // (e.g. they have a session cookie from a different tenant), sign them out
+        // and redirect to the login page for the correct tenant.
+        var user = await _userManager.GetUserAsync(result.Principal);
+        if (user is null)
+        {
+            await _signInManager.SignOutAsync();
+
+            return Challenge(
+                authenticationSchemes: IdentityConstants.ApplicationScheme,
+                properties: new AuthenticationProperties
+                {
+                    RedirectUri = Request.PathBase + Request.Path + QueryString.Create(
+                        Request.HasFormContentType ? Request.Form.ToList() : Request.Query.ToList())
+                });
+        }
 
         // Retrieve the application details from the database.
         var application = await _applicationManager.FindByClientIdAsync(request.ClientId) ??
@@ -138,6 +155,8 @@ public class AuthorizationController : Controller
             case ConsentTypes.External when authorizations.Any():
             case ConsentTypes.Explicit when authorizations.Any() && !request.HasPromptValue(PromptValues.Consent):
                 var principal = await _signInManager.CreateUserPrincipalAsync(user);
+
+                AddTenantClaim(principal, user);
 
                 // Note: in this sample, the granted scopes match the requested scope
                 // but you may want to allow the user to uncheck specific scopes.
@@ -229,6 +248,8 @@ public class AuthorizationController : Controller
         }
 
         var principal = await _signInManager.CreateUserPrincipalAsync(user);
+
+        AddTenantClaim(principal, user);
 
         // Note: in this sample, the granted scopes match the requested scope
         // but you may want to allow the user to uncheck specific scopes.
@@ -391,6 +412,12 @@ public class AuthorizationController : Controller
         return SignIn(principal, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
     }
 
+    private static void AddTenantClaim(ClaimsPrincipal principal, ApplicationUser user)
+    {
+        var identity = (ClaimsIdentity)principal.Identity!;
+        identity.AddClaim(new Claim("tenant_id", user.TenantId.ToString()));
+    }
+
     private IEnumerable<string> GetDestinations(Claim claim, ClaimsPrincipal principal)
     {
         // Note: by default, claims are NOT automatically included in the access and identity tokens.
@@ -421,6 +448,11 @@ public class AuthorizationController : Controller
                 if (principal.HasScope(Scopes.Roles))
                     yield return Destinations.IdentityToken;
 
+                yield break;
+
+            case "tenant_id":
+                yield return Destinations.AccessToken;
+                yield return Destinations.IdentityToken;
                 yield break;
 
             // Never include the security stamp in the access and identity tokens, as it's a secret value.

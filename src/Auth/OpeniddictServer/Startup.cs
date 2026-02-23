@@ -27,6 +27,9 @@ public class Startup
         services.AddControllersWithViews();
         services.AddRazorPages();
 
+        // Tenant context (scoped per request, set by TenantResolutionMiddleware)
+        services.AddScoped<ITenantContext, TenantContext>();
+
         services.AddDbContext<ApplicationDbContext>(options =>
         {
             // Configure the context to use Microsoft SQL Server.
@@ -218,6 +221,9 @@ public class Startup
         app.UseRouting();
 
         app.UseCors("AllowAllOrigins");
+
+        // Resolve tenant from acr_values before authentication
+        app.UseMiddleware<TenantResolutionMiddleware>();
 
         app.UseAuthentication();
         app.UseAuthorization();
