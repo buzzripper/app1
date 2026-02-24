@@ -144,6 +144,7 @@ builder.Services.AddHostedService<Worker>();
 // Auth.Api services (system endpoints, health, documentation)
 builder.Services.AddPermissionAuthorization();
 builder.Services.AddAuthApiServices(false);
+builder.Services.AddBrandImgRepository(builder.Configuration);
 builder.Services.AddStandardApiVersioning();
 
 //----------------------------------------------------------------------------------------------

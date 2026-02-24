@@ -1,8 +1,11 @@
+using Dyvenix.App1.Auth.Api.Config;
 using Dyvenix.App1.Auth.Api.Endpoints;
+using Dyvenix.App1.Auth.Api.Repositories;
 using Dyvenix.App1.Auth.Api.Services;
 using Dyvenix.App1.Auth.Shared.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Scalar.AspNetCore;
 
@@ -22,6 +25,7 @@ public static partial class AuthApiServiceCollExt
 	{
 		// Register business logic services
 		services.AddScoped<IAuthSystemService, AuthSystemService>();
+		services.AddScoped<BrandImgService>();
 
 		if (!isInProcess)
 		{
@@ -41,6 +45,7 @@ public static partial class AuthApiServiceCollExt
 	public static IEndpointRouteBuilder MapEndpoints(this IEndpointRouteBuilder app)
 	{
 		app.MapAuthSystemEndpoints();
+		app.MapBrandImgEndpoints();
 
 		MapGeneratedEndpoints(app);
 
@@ -62,5 +67,22 @@ public static partial class AuthApiServiceCollExt
 		});
 
 		return app;
+	}
+
+	/// <summary>
+	/// Registers the brand image repository based on configuration.
+	/// Call after AddAuthApiServices.
+	/// </summary>
+	public static IServiceCollection AddBrandImgRepository(this IServiceCollection services, IConfiguration configuration)
+	{
+		services.Configure<BrandImgOptions>(configuration.GetSection("BrandImg"));
+
+		var provider = configuration.GetValue<string>("BrandImg:Provider") ?? "File";
+		if (provider.Equals("AzureBlob", StringComparison.OrdinalIgnoreCase))
+			services.AddScoped<IBrandImgRepository, AzureBlobBrandImgRepository>();
+		else
+			services.AddScoped<IBrandImgRepository, FileBrandImgRepository>();
+
+		return services;
 	}
 }

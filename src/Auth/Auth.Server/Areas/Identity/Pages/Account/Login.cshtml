@@ -1,5 +1,6 @@
 ﻿@page
 @model LoginModel
+@inject Dyvenix.App1.Auth.Server.Data.ITenantContext TenantContext
 
 @{
     ViewData["Title"] = "Log in";
@@ -18,10 +19,21 @@
 <body class="d-flex align-items-center justify-content-center min-vh-100">
 
 <div class="col-md-4">
+    @if (!string.IsNullOrEmpty(TenantContext.TenantSlug))
+    {
+        <div class="text-center mb-4">
+            <img src="/api/auth/brand-img/@TenantContext.TenantSlug"
+                 alt="Brand Logo"
+                 width="300" height="200"
+                 style="object-fit:contain;"
+                 onerror="this.style.display='none'" />
+        </div>
+    }
     <h1 class="text-center mb-4">@ViewData["Title"]</h1>
     <section>
         <form id="account" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
 
             <div class="mb-3">
                 <label asp-for="Input.Email" class="form-label"></label>
