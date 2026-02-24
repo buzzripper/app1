@@ -108,9 +108,19 @@ namespace OpeniddictServer.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
+                var user = await _signInManager.UserManager.FindByEmailAsync(Input.Email);
+                if (user == null)
+                {
+                    _logger.LogWarning("Login failed: no user found for {Email} in current tenant scope.", Input.Email);
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    return Page();
+                }
+
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(user, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                _logger.LogInformation("PasswordSignIn for {Email}: Succeeded={Succeeded}, IsLockedOut={Locked}, RequiresTwoFactor={TwoFactor}, IsNotAllowed={NotAllowed}",
+                    Input.Email, result.Succeeded, result.IsLockedOut, result.RequiresTwoFactor, result.IsNotAllowed);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");

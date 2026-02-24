@@ -27,12 +27,26 @@ namespace OpeniddictServer
             await SeedTenantsAsync(context);
             await SeedTestUsersAsync(scope.ServiceProvider);
             await RegisterExternalSchemesAsync(scope.ServiceProvider, context);
-            await RegisterApplicationsAsync(scope.ServiceProvider);
+            await RegisterApplicationsAsync(scope.ServiceProvider, context);
             await RegisterScopesAsync(scope.ServiceProvider);
 
-            static async Task RegisterApplicationsAsync(IServiceProvider provider)
+            static async Task RegisterApplicationsAsync(IServiceProvider provider, ApplicationDbContext context)
             {
                 var manager = provider.GetRequiredService<IOpenIddictApplicationManager>();
+
+                // Build redirect URIs dynamically from tenant slugs
+                var tenantSlugs = await context.Tenants
+                    .Select(t => t.Slug)
+                    .ToListAsync();
+
+                var redirectUris = new HashSet<Uri> { new("https://localhost:5001/signin-oidc") };
+                var postLogoutUris = new HashSet<Uri> { new("https://localhost:5001/signout-callback-oidc") };
+
+                foreach (var slug in tenantSlugs)
+                {
+                    redirectUris.Add(new Uri($"https://{slug}.localhost:5001/signin-oidc"));
+                    postLogoutUris.Add(new Uri($"https://{slug}.localhost:5001/signout-callback-oidc"));
+                }
 
                 // Portal BFF (confidential client, authorization code + refresh token)
                 // Delete and recreate to ensure redirect URIs stay in sync with tenant list.
@@ -42,26 +56,12 @@ namespace OpeniddictServer
                     await manager.DeleteAsync(portalBff);
                 }
 
-                await manager.CreateAsync(new OpenIddictApplicationDescriptor
+                var descriptor = new OpenIddictApplicationDescriptor
                 {
                     ClientId = "portal-bff",
                     ClientSecret = "portal-bff-secret",
                     ConsentType = ConsentTypes.Implicit,
                     DisplayName = "Portal BFF",
-                    PostLogoutRedirectUris =
-                    {
-                        new Uri("https://localhost:5001/signout-callback-oidc"),
-                        new Uri("https://acme.localhost:5001/signout-callback-oidc"),
-                        new Uri("https://contoso.localhost:5001/signout-callback-oidc"),
-                        new Uri("https://fabrikam.localhost:5001/signout-callback-oidc")
-                    },
-                    RedirectUris =
-                    {
-                        new Uri("https://localhost:5001/signin-oidc"),
-                        new Uri("https://acme.localhost:5001/signin-oidc"),
-                        new Uri("https://contoso.localhost:5001/signin-oidc"),
-                        new Uri("https://fabrikam.localhost:5001/signin-oidc")
-                    },
                     Permissions =
                     {
                         Permissions.Endpoints.Authorization,
@@ -80,7 +80,12 @@ namespace OpeniddictServer
                     {
                         Requirements.Features.ProofKeyForCodeExchange
                     }
-                });
+                };
+
+                foreach (var uri in redirectUris) descriptor.RedirectUris.Add(uri);
+                foreach (var uri in postLogoutUris) descriptor.PostLogoutRedirectUris.Add(uri);
+
+                await manager.CreateAsync(descriptor);
 
                 // Client credentials (for future machine-to-machine / partner integrations)
                 if (await manager.FindByClientIdAsync("CC") is null)

@@ -98,7 +98,8 @@ export class AuthService {
                     )?.value || 'User';
 
                     const email = profile.claims?.find(
-                        c => c.type === 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'
+                        c => c.type === 'email'
+                            || c.type === 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'
                     )?.value || '';
 
                     this._userService.user = {
