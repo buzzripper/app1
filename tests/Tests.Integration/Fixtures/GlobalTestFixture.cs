@@ -4,9 +4,7 @@ using Dyvenix.App1.App.Shared.ApiClients.v1;
 using Dyvenix.App1.App.Shared.Contracts;
 using Dyvenix.App1.App.Shared.Contracts.v1;
 using Dyvenix.App1.Auth.Shared.ApiClients;
-using Dyvenix.App1.Auth.Shared.ApiClients.v1;
 using Dyvenix.App1.Auth.Shared.Contracts;
-using Dyvenix.App1.Auth.Shared.Contracts.v1;
 using Dyvenix.App1.Common.Data;
 using Dyvenix.App1.Common.Data.Config;
 using Dyvenix.App1.Common.Shared.Config;
@@ -79,7 +77,6 @@ public class GlobalTestFixture : IAsyncLifetime
 		if (apiClientsConfig.TryGetValue("Auth", out var authApiClientConfig))
 		{
 			services.AddScoped<IAuthSystemService>(sp => new AuthSystemApiClient(CreateAuthorizedClient(sp)));
-			services.AddScoped<IAppUserService>(sp => new AppUserApiClient(CreateAuthorizedClient(sp)));
 		}
 
 		Services = services.BuildServiceProvider();

@@ -49,6 +49,7 @@
 	  <Folder Include="Tests\App\v1\" />
 	  <Folder Include="Tests\Auth\" />
 	  <Folder Include="TestData\Default\" />
+	  <Folder Include="Tests\Auth\v1\" />
 	</ItemGroup>
 
 </Project>

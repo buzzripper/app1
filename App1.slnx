@@ -32,9 +32,6 @@
     <Project Path="src/Auth/Auth.Api/Auth.Api.csproj" />
     <Project Path="src/Auth/Auth.Server/Auth.Server.csproj" />
     <Project Path="src/Auth/Auth.Shared/Auth.Shared.csproj" />
-    <Project Path="src/Auth/OpeniddictServer/OpeniddictServer.csproj">
-      <BuildType Solution="Dbg-Ext|*" Project="Release" />
-    </Project>
   </Folder>
   <Folder Name="/src/Common/">
     <Project Path="src/Common/Common.Api/Common.Api.csproj" Id="4c238e5c-16c2-46d7-a162-2ff2f6633bc9">
