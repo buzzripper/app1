@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<AssemblyName>Dyvenix.App1.AdAgent.Api</AssemblyName>
+		<RootNamespace>Dyvenix.App1.AdAgent.Api</RootNamespace>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Folder Include="Config\" />
+		<Folder Include="Endpoints\" />
+		<Folder Include="Extensions\" />
+		<Folder Include="Services\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\Common\Common.Api\Common.Api.csproj" />
+		<ProjectReference Include="..\AdAgent.Shared\AdAgent.Shared.csproj" />
+	</ItemGroup>
+
+</Project>

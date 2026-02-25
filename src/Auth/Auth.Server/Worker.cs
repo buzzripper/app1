@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using Dyvenix.App1.Auth.Data;
+using Dyvenix.App1.Auth.Data.Entities;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using OpenIddict.Abstractions;
-using Dyvenix.App1.Auth.Data;
-using Dyvenix.App1.Auth.Server.Data;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 
 namespace Dyvenix.App1.Auth.Server

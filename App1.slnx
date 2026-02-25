@@ -18,6 +18,17 @@
     <File Path="scripts/TestData.sql" />
   </Folder>
   <Folder Name="/src/" />
+  <Folder Name="/src/AdAgent/">
+    <Project Path="src/AdAgent/AdAgent.Api/AdAgent.Api.csproj" Id="a728c647-b257-43e1-a860-96085900fa52">
+      <BuildType Solution="Dbg-Ext|*" Project="Release" />
+    </Project>
+    <Project Path="src/AdAgent/AdAgent.Server/AdAgent.Server.csproj">
+      <BuildType Solution="Dbg-Ext|*" Project="Release" />
+    </Project>
+    <Project Path="src/AdAgent/AdAgent.Shared/AdAgent.Shared.csproj" Id="7950dc12-2bdd-4785-b5ea-bf9d2ac0b964">
+      <BuildType Solution="Dbg-Ext|*" Project="Release" />
+    </Project>
+  </Folder>
   <Folder Name="/src/App/">
     <Project Path="src/App/App.Api/App.Api.csproj" />
     <Project Path="src/App/App.Server/App.Server.csproj" />

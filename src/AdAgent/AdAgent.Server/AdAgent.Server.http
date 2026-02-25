@@ -1,0 +1,6 @@
+@AdAgent.Server_HostAddress = http://localhost:5022
+
+GET {{AdAgent.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
