@@ -1,4 +1,4 @@
-using Dyvenix.App1.AdAgent.Shared.Contracts;
+using Dyvenix.App1.Common.Shared.Contracts;
 using Dyvenix.App1.Common.Shared.DTOs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -21,6 +21,9 @@ public static class AdAgentSystemEndpoints
         group.MapGet("health", Health)
             .Produces<object>(StatusCodes.Status200OK);
 
+        group.MapGet("getserviceinfo", GetServiceInfo)
+            .Produces<object>(StatusCodes.Status200OK);
+
         return app;
     }
 
@@ -30,9 +33,15 @@ public static class AdAgentSystemEndpoints
         return Results.Ok(new PingResult(AdAgentConstants.ModuleId, "System"));
     }
 
-    private static async Task<IResult> Health(IAdAgentSystemService systemService)
+    private static async Task<IResult> Health(ISystemService systemService)
     {
         var healthStatus = await systemService.Health();
         return Results.Ok(healthStatus);
+    }
+
+    private static async Task<IResult> GetServiceInfo(ISystemService adAgentSystemService)
+    {
+        var serviceInfo = await adAgentSystemService.GetServiceInfo();
+        return Results.Ok(serviceInfo);
     }
 }

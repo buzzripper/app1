@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace Dyvenix.App1.Common.Shared.DTOs;
 
 public class ServiceInfo
@@ -9,6 +11,7 @@ public class ServiceInfo
     public string HostName { get; set; } = string.Empty;
 
     // Health
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public StatusLevel Status { get; set; }
     public string? StatusMessage { get; set; }
 

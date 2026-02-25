@@ -1,11 +1,10 @@
-using Dyvenix.App1.App.Shared.Contracts;
 using Dyvenix.App1.Common.Shared.Contracts;
 using Dyvenix.App1.Common.Shared.DTOs;
 using Microsoft.Extensions.Logging;
 
 namespace Dyvenix.App1.App.Api.Services;
 
-public class AppSystemService : IAppSystemService, IManagedService
+public class AppSystemService : ISystemService
 {
     private readonly ILogger<AppSystemService> _logger;
 
@@ -18,7 +17,7 @@ public class AppSystemService : IAppSystemService, IManagedService
     {
         return Task.FromResult(new HealthStatus
         {
-            Status = StatusLevel.Success,
+            Status = StatusLevel.Ok,
             Message = $"{AppConstants.ModuleId} module is healthy",
             Timestamp = DateTime.UtcNow
         });
@@ -32,11 +31,11 @@ public class AppSystemService : IAppSystemService, IManagedService
             Environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Unknown",
             Version = typeof(AppSystemService).Assembly.GetName().Version?.ToString() ?? "0.0.0",
             HostName = Environment.MachineName,
-            Status = StatusLevel.Success,
+            Status = StatusLevel.Ok,
             StartTimeUtc = DateTime.UtcNow.AddHours(-1), // Example start time
             Uptime = TimeSpan.FromHours(1) // Example uptime
         };
         return Task.FromResult(info);
-	}
+    }
 }
 

@@ -19,7 +19,7 @@ public class PortalSystemService : IPortalSystemService
     {
         return Task.FromResult(new PortalHealthStatus
         {
-            Status = StatusLevel.Success,
+            Status = StatusLevel.Ok,
             Message = $"{PortalConstants.ModuleId} module is healthy",
             Timestamp = DateTime.UtcNow
         });

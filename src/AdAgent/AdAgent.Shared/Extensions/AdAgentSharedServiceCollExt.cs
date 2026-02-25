@@ -1,6 +1,6 @@
 using Dyvenix.App1.AdAgent.Shared.ApiClients;
-using Dyvenix.App1.AdAgent.Shared.Contracts;
 using Dyvenix.App1.Common.Shared.Config;
+using Dyvenix.App1.Common.Shared.Contracts;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Dyvenix.App1.AdAgent.Shared.Extensions;
@@ -21,7 +21,7 @@ public static partial class AdAgentSharedServiceCollExt
                     "BaseUrl is missing from Auth configuration. It is required when InProcess is false");
             }
 
-            services.AddHttpClient<IAdAgentSystemService, AdAgentSystemApiClient>(client =>
+            services.AddHttpClient<ISystemService, AdAgentSystemApiClient>(client =>
             {
                 client.BaseAddress = new Uri(baseUrl);
             });

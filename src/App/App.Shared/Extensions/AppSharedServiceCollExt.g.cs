@@ -14,8 +14,6 @@ public static partial class AppSharedServiceCollExt
 {
 	static partial void AddGeneratedServices(IServiceCollection services)
 	{
-		services.AddHttpClient<IAppSystemService, AppSystemApiClient>();
-		
 		// PatientService
 		services.AddHttpClient<cv1.IPatientService, sv1.PatientApiClient>();
 		// InvoiceService

@@ -1,12 +1,14 @@
 {
-  "profiles": {
-    "AdAgent.Server": {
-      "commandName": "Project",
-      "launchBrowser": true,
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "applicationUrl": "https://localhost:59591;http://localhost:59592"
+    "$schema": "https://json.schemastore.org/launchsettings.json",
+    "profiles": {
+        "Start": {
+            "commandName": "Project",
+            "dotnetRunMessages": true,
+            "launchBrowser": false,
+            "applicationUrl": "https://localhost:5004",
+            "environmentVariables": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            }
+        }
     }
-  }
 }

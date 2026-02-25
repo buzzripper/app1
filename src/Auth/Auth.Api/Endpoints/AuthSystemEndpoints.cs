@@ -1,5 +1,5 @@
 using App1.Auth.Api;
-using Dyvenix.App1.Auth.Shared.Contracts;
+using Dyvenix.App1.Common.Shared.Contracts;
 using Dyvenix.App1.Common.Shared.DTOs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -29,7 +29,7 @@ public static class AuthSystemEndpoints
         return Results.Ok(new PingResult(AuthConstants.ModuleId, "System"));
     }
 
-    private static async Task<IResult> Health(IAuthSystemService systemService)
+    private static async Task<IResult> Health(ISystemService systemService)
     {
         var healthStatus = await systemService.Health();
         return Results.Ok(healthStatus);

@@ -3,7 +3,7 @@ namespace Dyvenix.App1.Common.Shared.DTOs;
 
 public enum StatusLevel
 {
-    Success,
+    Ok,
     Info,
     Warning,
     Error,

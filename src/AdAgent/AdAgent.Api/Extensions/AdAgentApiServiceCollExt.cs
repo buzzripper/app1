@@ -1,6 +1,6 @@
 using Dyvenix.App1.AdAgent.Api.Endpoints;
-using Dyvenix.App1.AdAgent.Shared.Contracts;
 using Dyvenix.App1.App.Api.Services;
+using Dyvenix.App1.Common.Shared.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,7 +21,7 @@ public static partial class AdAgentApiServiceCollExt
     public static IServiceCollection AddAdAgentApiServices(this IServiceCollection services, bool isInProcess)
     {
         // Register business logic services
-        services.AddScoped<IAdAgentSystemService, AdAgentSystemService>();
+        services.AddScoped<ISystemService, AdAgentSystemService>();
         // Add code-generated services
         AddGeneratedServices(services);
 

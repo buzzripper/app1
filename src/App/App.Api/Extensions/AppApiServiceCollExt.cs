@@ -1,6 +1,6 @@
 using Dyvenix.App1.App.Api.Endpoints;
 using Dyvenix.App1.App.Api.Services;
-using Dyvenix.App1.App.Shared.Contracts;
+using Dyvenix.App1.Common.Shared.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,16 +21,16 @@ public static partial class AppApiServiceCollExt
     public static IServiceCollection AddAppApiServices(this IServiceCollection services, bool isInProcess)
     {
         // Register business logic services
-        services.AddScoped<IAppSystemService, AppSystemService>();
+        services.AddScoped<ISystemService, AppSystemService>();
+
+        // Add code-generated services
+        AddGeneratedServices(services);
 
         if (!isInProcess)
         {
             // Add OpenAPI support
             services.AddOpenApi();
         }
-
-        // Add code-generated services
-        AddGeneratedServices(services);
 
         return services;
     }
