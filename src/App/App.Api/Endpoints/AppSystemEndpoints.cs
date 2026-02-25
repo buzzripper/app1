@@ -21,7 +21,7 @@ public static class AppSystemEndpoints
         group.MapGet("health", Health)
             .Produces<object>(StatusCodes.Status200OK);
 
-        group.MapGet("getserviceinfo", GetServiceInfo)
+        group.MapPost("getserviceinfo", GetServiceInfo)
             .Produces<object>(StatusCodes.Status200OK);
 
         return app;
@@ -39,9 +39,9 @@ public static class AppSystemEndpoints
         return Results.Ok(healthStatus);
     }
 
-    private static async Task<IResult> GetServiceInfo(ISystemService adAgentSystemService)
+    private static async Task<IResult> GetServiceInfo(ISystemService systemService)
     {
-        var serviceInfo = await adAgentSystemService.GetServiceInfo();
+        var serviceInfo = await systemService.GetServiceInfo();
         return Results.Ok(serviceInfo);
     }
 }

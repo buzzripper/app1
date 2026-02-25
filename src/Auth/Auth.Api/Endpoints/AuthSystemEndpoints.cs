@@ -21,6 +21,9 @@ public static class AuthSystemEndpoints
         group.MapGet("health", Health)
             .Produces<object>(StatusCodes.Status200OK);
 
+        group.MapPost("getserviceinfo", GetServiceInfo)
+            .Produces<object>(StatusCodes.Status200OK);
+
         return app;
     }
 
@@ -33,5 +36,11 @@ public static class AuthSystemEndpoints
     {
         var healthStatus = await systemService.Health();
         return Results.Ok(healthStatus);
+    }
+
+    private static async Task<IResult> GetServiceInfo(ISystemService systemService)
+    {
+        var serviceInfo = await systemService.GetServiceInfo();
+        return Results.Ok(serviceInfo);
     }
 }

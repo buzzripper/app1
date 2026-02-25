@@ -9,6 +9,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\..\AdAgent\AdAgent.Server\AdAgent.Server.csproj" />
 	  <ProjectReference Include="..\..\App\App.Server\App.Server.csproj" />
 	  <ProjectReference Include="..\..\Auth\Auth.Server\Auth.Server.csproj" />
 	  <ProjectReference Include="..\..\Portal\Portal.Server\Portal.Server.csproj" />
