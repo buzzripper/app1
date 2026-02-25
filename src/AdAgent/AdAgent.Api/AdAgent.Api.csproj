@@ -9,10 +9,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Folder Include="Config\" />
-		<Folder Include="Endpoints\" />
+		<PackageReference Include="System.DirectoryServices.Protocols" Version="10.0.3" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Folder Include="Extensions\" />
-		<Folder Include="Services\" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -17,10 +17,7 @@
 
 	<ItemGroup>
 		<Folder Include="ApiClients\" />
-		<Folder Include="Contracts\" />
-		<Folder Include="DTOs\" />
 		<Folder Include="Extensions\" />
-		<Folder Include="Requests\" />
 	</ItemGroup>
 
 	<ItemGroup>
