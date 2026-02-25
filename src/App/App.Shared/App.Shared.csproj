@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <Folder Include="Contracts\v1\" />
+    <Folder Include="DTOs\" />
     <Folder Include="Requests\" />
   </ItemGroup>
 

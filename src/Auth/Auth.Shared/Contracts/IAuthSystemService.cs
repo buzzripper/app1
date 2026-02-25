@@ -1,8 +1,9 @@
-using Dyvenix.App1.Auth.Shared.DTOs;
+
+using Dyvenix.App1.Common.Shared.DTOs;
 
 namespace Dyvenix.App1.Auth.Shared.Contracts;
 
 public interface IAuthSystemService
 {
-	Task<AuthHealthStatus> Health();
+    Task<HealthStatus> Health();
 }

@@ -1,14 +1,14 @@
-using Dyvenix.App1.App.Api.Endpoints;
+using Dyvenix.App1.AdAgent.Api.Endpoints;
+using Dyvenix.App1.AdAgent.Shared.Contracts;
 using Dyvenix.App1.App.Api.Services;
-using Dyvenix.App1.App.Shared.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Scalar.AspNetCore;
 
-namespace Dyvenix.App1.App.Api.Extensions;
+namespace Dyvenix.App1.AdAgent.Api.Extensions;
 
-public static partial class AppApiServiceCollExt
+public static partial class AdAgentApiServiceCollExt
 {
     // Declaration of partial methods for code-generated services
     public static partial void AddGeneratedServices(IServiceCollection services);
@@ -18,19 +18,18 @@ public static partial class AppApiServiceCollExt
     /// Registers App API services.
     /// Call this when hosting App services (standalone or in-process).
     /// </summary>
-    public static IServiceCollection AddAppApiServices(this IServiceCollection services, bool isInProcess)
+    public static IServiceCollection AddAdAgentApiServices(this IServiceCollection services, bool isInProcess)
     {
         // Register business logic services
-        services.AddScoped<IAppSystemService, AppSystemService>();
+        services.AddScoped<IAdAgentSystemService, AdAgentSystemService>();
+        // Add code-generated services
+        AddGeneratedServices(services);
 
         if (!isInProcess)
         {
             // Add OpenAPI support
             services.AddOpenApi();
         }
-
-        // Add code-generated services
-        AddGeneratedServices(services);
 
         return services;
     }
@@ -40,7 +39,7 @@ public static partial class AppApiServiceCollExt
     /// </summary>
     public static IEndpointRouteBuilder MapEndpoints(this IEndpointRouteBuilder app)
     {
-        app.MapAppSystemEndpoints();
+        app.MapAdAgentSystemEndpoints();
 
         MapGeneratedEndpoints(app);
 
@@ -51,7 +50,7 @@ public static partial class AppApiServiceCollExt
     /// Maps OpenAPI and Scalar API documentation endpoints for Auth API.
     /// Call this in development or when you want to expose API documentation.
     /// </summary>
-    public static IEndpointRouteBuilder MapAppApiDocumentation(this IEndpointRouteBuilder app)
+    public static IEndpointRouteBuilder MapAdAgentApiDocumentation(this IEndpointRouteBuilder app)
     {
         app.MapOpenApi();
         app.MapScalarApiReference(options =>

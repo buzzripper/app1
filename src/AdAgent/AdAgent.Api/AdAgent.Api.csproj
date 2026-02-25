@@ -9,15 +9,15 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Asp.Versioning.Mvc" Version="8.1.0" />
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.1" />
+		<PackageReference Include="Scalar.AspNetCore" Version="2.11.6" />
 		<PackageReference Include="System.DirectoryServices.Protocols" Version="10.0.3" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Extensions\" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<ProjectReference Include="..\..\Common\Common.Api\Common.Api.csproj" />
+		<ProjectReference Include="..\..\Common\Common.Shared\Common.Shared.csproj" />
 		<ProjectReference Include="..\AdAgent.Shared\AdAgent.Shared.csproj" />
 	</ItemGroup>
 

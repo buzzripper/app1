@@ -1,17 +1,17 @@
-using Dyvenix.App1.App.Shared.Contracts;
+using Dyvenix.App1.AdAgent.Shared.Contracts;
 using Dyvenix.App1.Common.Shared.DTOs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using System.Security.Claims;
 
-namespace Dyvenix.App1.App.Api.Endpoints;
+namespace Dyvenix.App1.AdAgent.Api.Endpoints;
 
-public static class SystemEndpoints
+public static class AdAgentSystemEndpoints
 {
-    public static IEndpointRouteBuilder MapAppSystemEndpoints(this IEndpointRouteBuilder app)
+    public static IEndpointRouteBuilder MapAdAgentSystemEndpoints(this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("api/app/system")
+        var group = app.MapGroup("api/adagent/system")
             .WithTags("System")
             .AllowAnonymous();
 
@@ -27,10 +27,10 @@ public static class SystemEndpoints
     private static IResult Ping(ClaimsPrincipal user)
     {
         var claims = user.Claims.Select(c => $"{c.Type} = {c.Value}").ToList();
-        return Results.Ok(new PingResult(AppConstants.ModuleId, "System"));
+        return Results.Ok(new PingResult(AdAgentConstants.ModuleId, "System"));
     }
 
-    private static async Task<IResult> Health(IAppSystemService systemService)
+    private static async Task<IResult> Health(IAdAgentSystemService systemService)
     {
         var healthStatus = await systemService.Health();
         return Results.Ok(healthStatus);

@@ -27,5 +27,7 @@ public static partial class AppApiServiceCollExt
 	{
 		app.MapPatientEndpoints();
 		app.MapInvoiceEndpoints();
+
+		ServiceRuntime.Start();
 	}
 }

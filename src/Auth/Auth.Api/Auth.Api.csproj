@@ -18,7 +18,7 @@
   <ItemGroup>
     <Compile Include="Endpoints\BrandImgEndpoints.cs" />
     <Compile Include="Endpoints\IntTestSts.cs" />
-    <Compile Include="Endpoints\SystemEndpoints.cs" />
+    <Compile Include="Endpoints\AuthSystemEndpoints.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -8,7 +8,7 @@ namespace Dyvenix.App1.AdAgent.Api.Endpoints.v1;
 
 public static class AdEndpoints
 {
-    public static IEndpointRouteBuilder MapInvoiceEndpoints(this IEndpointRouteBuilder app)
+    public static IEndpointRouteBuilder MapAdEndpoints(this IEndpointRouteBuilder app)
     {
         var group = app.MapGroup("api/adagent/v1/ad")
             .WithTags("AdService");
@@ -21,8 +21,8 @@ public static class AdEndpoints
 
     public static async Task<IResult> AuthenticateUser(IAdService adService, AuthenticateUserReq request)
     {
-        await adService.AuthenticateUser(request.UserUpnOrDomainUser, request.Password);
-        return Results.Ok();
+        var result = await adService.AuthenticateUser(request.UserUpnOrDomainUser, request.Password);
+        return Results.Ok(result);
     }
 
 }

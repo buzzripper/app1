@@ -5,8 +5,9 @@ using System.Net;
 
 namespace Dyvenix.App1.AdAgent.Api.Services.v1;
 
-public class AdService(string _dcHost) : IAdService
+public class AdService() : IAdService
 {
+    private string _dcHost = "adcorp1dc";
     private const int LdapPort = 389;
     private bool validated = false;
     private string _baseDn = "DC=adcorp1,DC=local";

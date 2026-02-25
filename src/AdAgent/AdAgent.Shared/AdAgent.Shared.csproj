@@ -16,8 +16,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="ApiClients\" />
-		<Folder Include="Extensions\" />
+		<Folder Include="ApiClients\v1\" />
 	</ItemGroup>
 
 	<ItemGroup>

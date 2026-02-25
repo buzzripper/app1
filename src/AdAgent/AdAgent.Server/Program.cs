@@ -1,41 +1,37 @@
+using Dyvenix.App1.AdAgent.Api.Extensions;
+using Dyvenix.App1.Common.Api.Extensions;
+using Dyvenix.App1.Common.Server;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+// Add service defaults (telemetry, health checks, resilience)
+builder.AddServiceDefaults();
+
+//var dataConfig = DataConfigBuilder.Build(builder.Configuration);
+
+// Add services to the container
+if (builder.Environment.IsEnvironment("Testing"))
+    builder.Services.AddTestJwtAuthentication();
+else
+    builder.Services.AddJwtBearerAuthentication(builder.Configuration);
+
+builder.Services.AddPermissionAuthorization();
+builder.Services.AddAdAgentApiServices(false);
+builder.Services.AddStandardApiVersioning();
+//builder.Services.AddDataServices(dataConfig);
+
+//----------------------------------------------------------------------------------------------
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configure the HTTP request pipeline
+app.UseStandardApiPipeline();
+
+app.MapEndpoints();
+app.MapDefaultEndpoints();
+
+// Enable API documentation in development
 if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
-
-app.UseHttpsRedirection();
-
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+    app.MapAdAgentApiDocumentation();
 
 app.Run();
-
-internal record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

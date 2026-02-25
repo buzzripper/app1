@@ -1,9 +1,9 @@
-﻿using Dyvenix.App1.App.Shared.DTOs;
+using Dyvenix.App1.Common.Shared.DTOs;
 
 namespace Dyvenix.App1.App.Shared.Contracts
 {
-	public interface IAppSystemService
-	{
-		Task<AppHealthStatus> Health();
-	}
+    public interface IAppSystemService
+    {
+        Task<HealthStatus> Health();
+    }
 }

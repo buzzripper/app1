@@ -1,25 +1,18 @@
-using Dyvenix.App1.App.Shared.Contracts;
+using Dyvenix.App1.AdAgent.Shared.Contracts;
 using Dyvenix.App1.Common.Shared.DTOs;
 using System.Net.Http.Json;
 
-namespace Dyvenix.App1.App.Shared.ApiClients;
+namespace Dyvenix.App1.AdAgent.Shared.ApiClients;
 
-public class AppSystemApiClient : IAppSystemService
+public class AdAgentSystemApiClient : IAdAgentSystemService
 {
-    public const string cUrlPathRoot = $"api/app/system";
+    public const string cUrlPathRoot = $"api/adagent/system";
 
     private readonly HttpClient _httpClient;
 
-    public AppSystemApiClient(HttpClient httpClient)
+    public AdAgentSystemApiClient(HttpClient httpClient)
     {
         _httpClient = httpClient;
-    }
-
-    public async Task<string> Ping()
-    {
-        var response = await _httpClient.GetAsync($"{cUrlPathRoot}/ping");
-        response.EnsureSuccessStatusCode();
-        return await response.Content.ReadAsStringAsync();
     }
 
     public async Task<HealthStatus> Health()
