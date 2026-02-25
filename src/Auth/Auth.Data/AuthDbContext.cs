@@ -1,3 +1,4 @@
+using Dyvenix.App1.Auth.Data.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

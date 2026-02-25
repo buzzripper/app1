@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Dyvenix.App1.Auth.Server.Migrations
+namespace Dyvenix.App1.Auth.Data.Migrations
 {
     /// <inheritdoc />
     public partial class UpdateNet10 : Migration

@@ -1,3 +1,5 @@
+using Dyvenix.App1.Auth.Data.Entities;
+
 namespace Dyvenix.App1.Auth.Data;
 
 public interface ITenantContext

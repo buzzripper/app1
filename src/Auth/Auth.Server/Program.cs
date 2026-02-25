@@ -30,7 +30,8 @@ builder.Services.AddScoped<ITenantContext, TenantContext>();
 // Entity Framework + SQL Server + OpenIddict entity sets
 builder.Services.AddDbContext<AuthServerDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+        b => b.MigrationsAssembly("Dyvenix.App1.Auth.Data"));
     options.UseOpenIddict();
 });
 builder.Services.AddScoped<AuthDbContext>(sp => sp.GetRequiredService<AuthServerDbContext>());
