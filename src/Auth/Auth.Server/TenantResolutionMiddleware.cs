@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using Dyvenix.App1.Auth.Server.Data;
+using Dyvenix.App1.Auth.Data;
 
 namespace Dyvenix.App1.Auth.Server;
 
@@ -10,7 +10,7 @@ namespace Dyvenix.App1.Auth.Server;
 /// </summary>
 public class TenantResolutionMiddleware(RequestDelegate next)
 {
-	public async Task InvokeAsync(HttpContext context, ApplicationDbContext dbContext, ITenantContext tenantContext)
+	public async Task InvokeAsync(HttpContext context, AuthDbContext dbContext, ITenantContext tenantContext)
 	{
 		var tenantSlug = ExtractTenantSlug(context);
 

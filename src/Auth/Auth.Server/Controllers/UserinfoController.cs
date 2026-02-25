@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OpenIddict.Abstractions;
 using OpenIddict.Server.AspNetCore;
-using Dyvenix.App1.Auth.Server.Data;
+using Dyvenix.App1.Auth.Data;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 
 namespace Dyvenix.App1.Auth.Server.Controllers;

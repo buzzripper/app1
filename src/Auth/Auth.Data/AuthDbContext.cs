@@ -1,27 +1,34 @@
-﻿using Dyvenix.App1.Auth.Server.Fido2;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Dyvenix.App1.Auth.Server.Data;
+namespace Dyvenix.App1.Auth.Data;
 
-public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+public class AuthDbContext : IdentityDbContext<ApplicationUser>
 {
     private readonly ITenantContext? _tenantContext;
 
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, ITenantContext? tenantContext = null)
+    /// <summary>
+    /// Constructor for direct use (no derived context).
+    /// </summary>
+    public AuthDbContext(DbContextOptions<AuthDbContext> options, ITenantContext? tenantContext = null)
         : base(options)
     {
         _tenantContext = tenantContext;
     }
 
-    public DbSet<FidoStoredCredential> FidoStoredCredential => Set<FidoStoredCredential>();
+    /// <summary>
+    /// Constructor for derived contexts (e.g. AuthServerDbContext in Auth.Server).
+    /// </summary>
+    protected AuthDbContext(DbContextOptions options, ITenantContext? tenantContext = null)
+        : base(options)
+    {
+        _tenantContext = tenantContext;
+    }
 
     public DbSet<Tenant> Tenants => Set<Tenant>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        builder.Entity<FidoStoredCredential>().HasKey(m => m.Id);
-
         builder.Entity<Tenant>(b =>
         {
             b.HasKey(t => t.Id);

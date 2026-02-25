@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Dyvenix.App1.Auth.Server.Data;
+using Dyvenix.App1.Auth.Data;
 
 namespace Dyvenix.App1.Auth.Server.Fido2;
 

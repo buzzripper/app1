@@ -1,4 +1,4 @@
-using Dyvenix.App1.Auth.Server.Data;
+using Dyvenix.App1.Auth.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

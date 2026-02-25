@@ -3,7 +3,7 @@ using Fido2NetLib.Objects;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Dyvenix.App1.Auth.Server.Data;
+using Dyvenix.App1.Auth.Data;
 using System.Text;
 using static Fido2NetLib.Fido2;
 

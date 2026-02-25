@@ -13,7 +13,7 @@ using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
 using OpenIddict.Abstractions;
 using OpenIddict.Server.AspNetCore;
-using Dyvenix.App1.Auth.Server.Data;
+using Dyvenix.App1.Auth.Data;
 using Dyvenix.App1.Auth.Server.Helpers;
 using Dyvenix.App1.Auth.Server.ViewModels.Authorization;
 using System.Security.Claims;

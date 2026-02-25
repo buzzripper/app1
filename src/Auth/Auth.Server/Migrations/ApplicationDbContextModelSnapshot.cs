@@ -10,7 +10,7 @@ using Dyvenix.App1.Auth.Server.Data;
 
 namespace Dyvenix.App1.Auth.Server.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(AuthServerDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

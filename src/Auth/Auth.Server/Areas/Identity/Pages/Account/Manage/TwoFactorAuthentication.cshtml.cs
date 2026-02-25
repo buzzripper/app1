@@ -5,7 +5,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Dyvenix.App1.Auth.Server.Data;
+using Dyvenix.App1.Auth.Data;
 
 namespace Dyvenix.App1.Auth.Server.Areas.Identity.Pages.Account.Manage
 {

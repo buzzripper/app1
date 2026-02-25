@@ -1,4 +1,5 @@
 using Dyvenix.App1.Auth.Api.Extensions;
+using Dyvenix.App1.Auth.Data;
 using Dyvenix.App1.Auth.Server;
 using Dyvenix.App1.Auth.Server.Data;
 using Dyvenix.App1.Auth.Server.Fido2;
@@ -27,17 +28,18 @@ builder.Services.AddRazorPages();
 builder.Services.AddScoped<ITenantContext, TenantContext>();
 
 // Entity Framework + SQL Server + OpenIddict entity sets
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
+builder.Services.AddDbContext<AuthServerDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
     options.UseOpenIddict();
 });
+builder.Services.AddScoped<AuthDbContext>(sp => sp.GetRequiredService<AuthServerDbContext>());
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 // ASP.NET Core Identity
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>()
+.AddEntityFrameworkStores<AuthServerDbContext>()
     .AddDefaultTokenProviders()
     .AddDefaultUI()
     .AddTokenProvider<Fido2UserTwoFactorTokenProvider>("FIDO2");
@@ -101,7 +103,7 @@ builder.Services.AddOpenIddict()
     .AddCore(options =>
     {
         options.UseEntityFrameworkCore()
-               .UseDbContext<ApplicationDbContext>();
+               .UseDbContext<AuthServerDbContext>();
         options.UseQuartz();
     })
     .AddServer(options =>

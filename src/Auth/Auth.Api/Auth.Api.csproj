@@ -32,12 +32,13 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.2" />
     <PackageReference Include="Scalar.AspNetCore" Version="2.11.6" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.7" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Common.Api\Common.Api.csproj" />
     <ProjectReference Include="..\..\Common\Common.Shared\Common.Shared.csproj" />
+    <ProjectReference Include="..\Auth.Data\Auth.Data.csproj" />
     <ProjectReference Include="..\Auth.Shared\Auth.Shared.csproj" />
   </ItemGroup>
 

@@ -11,7 +11,7 @@ using Dyvenix.App1.Auth.Server.Data;
 
 namespace Dyvenix.App1.Auth.Server.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(AuthServerDbContext))]
     [Migration("20251129153838_UpdateNet10")]
     partial class UpdateNet10
     {

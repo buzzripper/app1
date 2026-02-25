@@ -11,7 +11,7 @@ using Dyvenix.App1.Auth.Server.Data;
 
 namespace Dyvenix.App1.Auth.Server.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(AuthServerDbContext))]
     [Migration("20260222224228_AddMultiTenancy")]
     partial class AddMultiTenancy
     {

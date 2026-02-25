@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using OpenIddict.Abstractions;
+using Dyvenix.App1.Auth.Data;
 using Dyvenix.App1.Auth.Server.Data;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 
@@ -21,7 +22,7 @@ namespace Dyvenix.App1.Auth.Server
         {
             using var scope = _serviceProvider.CreateScope();
 
-            var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            var context = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
             await context.Database.EnsureCreatedAsync(cancellationToken);
 
             await SeedTenantsAsync(context);
@@ -30,7 +31,7 @@ namespace Dyvenix.App1.Auth.Server
             await RegisterApplicationsAsync(scope.ServiceProvider, context);
             await RegisterScopesAsync(scope.ServiceProvider);
 
-            static async Task RegisterApplicationsAsync(IServiceProvider provider, ApplicationDbContext context)
+            static async Task RegisterApplicationsAsync(IServiceProvider provider, AuthDbContext context)
             {
                 var manager = provider.GetRequiredService<IOpenIddictApplicationManager>();
 
@@ -138,7 +139,7 @@ namespace Dyvenix.App1.Auth.Server
                 }
             }
 
-            static async Task SeedTenantsAsync(ApplicationDbContext context)
+            static async Task SeedTenantsAsync(AuthDbContext context)
             {
                 var acmeId = Guid.Parse("A1000000-0000-0000-0000-000000000001");
                 var contosoId = Guid.Parse("A1000000-0000-0000-0000-000000000002");
@@ -217,7 +218,7 @@ namespace Dyvenix.App1.Auth.Server
             /// Dynamically registers an OIDC authentication scheme per external tenant.
             /// Runs AFTER seeding so the tenants exist in the DB.
             /// </summary>
-            static async Task RegisterExternalSchemesAsync(IServiceProvider provider, ApplicationDbContext context)
+            static async Task RegisterExternalSchemesAsync(IServiceProvider provider, AuthDbContext context)
             {
                 var externalTenants = await context.Tenants
                     .Where(t => t.AuthMethod == "ExternalOidc" && t.IsActive)

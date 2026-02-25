@@ -3,6 +3,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\Common\Common.Server\Common.Server.csproj" />
 		<ProjectReference Include="..\Auth.Api\Auth.Api.csproj" />
+		<ProjectReference Include="..\Auth.Data\Auth.Data.csproj" />
 	</ItemGroup>
 
 	<PropertyGroup>
