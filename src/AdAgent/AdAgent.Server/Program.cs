@@ -1,3 +1,4 @@
+using Dyvenix.App1.AdAgent.Api.Config;
 using Dyvenix.App1.AdAgent.Api.Extensions;
 using Dyvenix.App1.Common.Api.Extensions;
 using Dyvenix.App1.Common.Server;
@@ -7,8 +8,6 @@ var builder = WebApplication.CreateBuilder(args);
 // Add service defaults (telemetry, health checks, resilience)
 builder.AddServiceDefaults();
 
-//var dataConfig = DataConfigBuilder.Build(builder.Configuration);
-
 // Add services to the container
 if (builder.Environment.IsEnvironment("Testing"))
     builder.Services.AddTestJwtAuthentication();
@@ -16,9 +15,11 @@ else
     builder.Services.AddJwtBearerAuthentication(builder.Configuration);
 
 builder.Services.AddPermissionAuthorization();
-builder.Services.AddAdAgentApiServices(false);
 builder.Services.AddStandardApiVersioning();
-//builder.Services.AddDataServices(dataConfig);
+
+var configRepo = new ConfigRepository();
+var adAgentConfig = configRepo.GetConfig();
+builder.Services.AddAdAgentApiServices(adAgentConfig);
 
 //----------------------------------------------------------------------------------------------
 

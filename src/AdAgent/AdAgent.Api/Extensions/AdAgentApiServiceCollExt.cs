@@ -1,3 +1,4 @@
+using Dyvenix.App1.AdAgent.Api.Config;
 using Dyvenix.App1.AdAgent.Api.Endpoints;
 using Dyvenix.App1.App.Api.Services;
 using Dyvenix.App1.Common.Shared.Contracts;
@@ -18,18 +19,18 @@ public static partial class AdAgentApiServiceCollExt
     /// Registers App API services.
     /// Call this when hosting App services (standalone or in-process).
     /// </summary>
-    public static IServiceCollection AddAdAgentApiServices(this IServiceCollection services, bool isInProcess)
+    public static IServiceCollection AddAdAgentApiServices(this IServiceCollection services, AdAgentConfig adAgentConfig)
     {
         // Register business logic services
         services.AddScoped<ISystemService, AdAgentSystemService>();
+        services.AddScoped<IConfigRepository, ConfigRepository>();
+        services.AddSingleton(adAgentConfig);
+
         // Add code-generated services
         AddGeneratedServices(services);
 
-        if (!isInProcess)
-        {
-            // Add OpenAPI support
-            services.AddOpenApi();
-        }
+        // Add OpenAPI support
+        services.AddOpenApi();
 
         return services;
     }

@@ -1,3 +1,4 @@
+using Dyvenix.App1.AdAgent.Api.Config;
 using Dyvenix.App1.AdAgent.Shared.Contracts.v1;
 using Dyvenix.App1.AdAgent.Shared.DTOs;
 using System.DirectoryServices.Protocols;
@@ -5,14 +6,8 @@ using System.Net;
 
 namespace Dyvenix.App1.AdAgent.Api.Services.v1;
 
-public class AdService() : IAdService
+public class AdService(AdAgentConfig _config) : IAdService
 {
-    private string _dcHost = "adcorp1dc";
-    private const int LdapPort = 389;
-    private string _baseDn = "DC=adcorp1,DC=local";
-    private string _serviceUsername = "AdAgentService";
-    private string _servicePassword = "Toto;55";
-
     public async Task<AdAuthResult> AuthenticateUser(string userUpnOrDomainUser, string password, CancellationToken ct = default)
     {
         // First check the credentials
@@ -33,9 +28,17 @@ public class AdService() : IAdService
         // Login succeeded, now get the unique identifier for the user - objectGuid
         try
         {
-            var serviceCredentials = new NetworkCredential(_serviceUsername, _servicePassword);
+            // Don't supply svc credentials if we're using Kerberos auth - it should use the machine account, which hopefully has permissions to read user info.
+            // If we're using LDAP auth, then we need to use the service account credentials to read user info.
+            NetworkCredential? serviceCredentials = null;
+            if (_config.AuthMode == AdAgentAuthMode.Ldap)
+            {
+                if (_config.AuthConfig == null)
+                    return new AdAuthResult(AdAuthStatus.InternalError, $"AuthMode is set to {AdAgentAuthMode.Ldap}, but the AuthConfig is missing.");
+                serviceCredentials = new NetworkCredential(_config.AuthConfig.ServiceUsername, _config.AuthConfig.ServicePassword, _config.Domain);
+            }
 
-            var objectGuid = await GetUserObjectGuidAsync(_baseDn, _serviceUsername, serviceCredentials);
+            var objectGuid = await GetUserObjectGuidAsync(userUpnOrDomainUser, serviceCredentials);
             if (objectGuid == null)
                 return new AdAuthResult(AdAuthStatus.UserNotFound, "User not found");
 
@@ -52,21 +55,21 @@ public class AdService() : IAdService
         }
     }
 
-    private async Task<bool> ValidateUserCredentials(string userUpnOrDomainUser, string password, CancellationToken ct = default)
+    private async Task<bool> ValidateUserCredentials(string userPrincipalName, string password, CancellationToken ct = default)
     {
-        if (string.IsNullOrWhiteSpace(userUpnOrDomainUser))
-            throw new ArgumentException("Email/username required", nameof(userUpnOrDomainUser));
+        if (string.IsNullOrWhiteSpace(userPrincipalName))
+            throw new ArgumentException("Email/username required", nameof(userPrincipalName));
 
         if (string.IsNullOrWhiteSpace(password))
             throw new ArgumentException("Password required", nameof(password));
 
         return await Task.Run(() =>
         {
-            var id = new LdapDirectoryIdentifier(_dcHost, LdapPort);
+            var id = new LdapDirectoryIdentifier(_config.DcHost, _config.LdapPort);
             using var conn = new LdapConnection(id) { AuthType = AuthType.Negotiate };
             conn.SessionOptions.ProtocolVersion = 3;
 
-            conn.Bind(new NetworkCredential(userUpnOrDomainUser, password));
+            conn.Bind(new NetworkCredential(userPrincipalName, password));
             return true;
         }, ct);
     }
@@ -94,22 +97,26 @@ public class AdService() : IAdService
         return new AdAuthResult(AdAuthStatus.UnknownError, ex.Message);
     }
 
-    public async Task<Guid?> GetUserObjectGuidAsync(
-        string baseDn,                 // e.g. "DC=ahs,DC=local"
-        string samAccountName,          // e.g. "jdoe"
-        NetworkCredential serviceCred,  // e.g. new("svc-ldap-reader","pwd","AHS")
-        CancellationToken ct = default)
+    public async Task<Guid?> GetUserObjectGuidAsync(string userPrincipalName, NetworkCredential? serviceCred, CancellationToken ct = default)
     {
         return await Task.Run(() =>
         {
-            var id = new LdapDirectoryIdentifier(_dcHost, LdapPort);
+            var id = new LdapDirectoryIdentifier(_config.DcHost, _config.LdapPort);
             using var conn = new LdapConnection(id) { AuthType = AuthType.Negotiate };
             conn.SessionOptions.ProtocolVersion = 3;
 
-            conn.Bind(serviceCred);
+            if (serviceCred != null)
+                conn.Bind(serviceCred);
+            else
+                conn.Bind(); // Use machine account credentials
 
-            var filter = $"(sAMAccountName={EscapeLdapFilterValue(samAccountName)})";
-            var req = new SearchRequest(baseDn, filter, SearchScope.Subtree, "objectGUID");
+            var filter = $"(userPrincipalName={EscapeLdapFilterValue(userPrincipalName)})";
+
+            var req = new SearchRequest(
+                _config.BaseDn,
+                filter,
+                SearchScope.Subtree,
+                "objectGuid");
 
             var resp = (SearchResponse)conn.SendRequest(req);
 

@@ -9,6 +9,8 @@
   </Configurations>
   <Folder Name="/design/" />
   <Folder Name="/docs/">
+    <File Path="docs/adagent_auth.json" />
+    <File Path="docs/adagent_config.json" />
     <File Path="docs/AzureDeploymentGuide.md" />
   </Folder>
   <Folder Name="/scripts/">

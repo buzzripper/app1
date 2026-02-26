@@ -9,5 +9,6 @@ public enum AdAuthStatus
     AccountLocked,
     PasswordExpired,
     DomainUnavailable,
+    InternalError,
     UnknownError
 }
