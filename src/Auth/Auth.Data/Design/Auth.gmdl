@@ -80,9 +80,6 @@
           <propertyModel Id="2717407e-1538-46b6-aed9-72318410441a" name="TenantId" description="Foreign key to Tenant" dataType="Guid" isForeignKey="true" />
           <propertyModel Id="36e4e1ca-4e53-49e4-923b-89d1a95a4d55" name="BaseDn" length="300" isForeignKey="false" displayOrder="4" />
         </properties>
-        <navigationProperties>
-          <navigationProperty Id="d56e2faf-5546-4e90-87f4-1e7f7e426a3e" name="DcHost" />
-        </navigationProperties>
       </entityModel>
     </modelRootHasTypes>
   </types>
