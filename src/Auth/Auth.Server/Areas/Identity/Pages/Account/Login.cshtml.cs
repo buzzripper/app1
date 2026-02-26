@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Dyvenix.App1.Auth.Data;
 using System.ComponentModel.DataAnnotations;
 
 namespace Dyvenix.App1.Auth.Server.Areas.Identity.Pages.Account
@@ -16,14 +17,17 @@ namespace Dyvenix.App1.Auth.Server.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly Fido2Store _fido2Store;
+        private readonly ITenantContext _tenantContext;
         private readonly ILogger<LoginModel> _logger;
 
         public LoginModel(SignInManager<ApplicationUser> signInManager,
             Fido2Store fido2Store,
+            ITenantContext tenantContext,
             ILogger<LoginModel> logger)
         {
             _signInManager = signInManager;
             _fido2Store = fido2Store;
+            _tenantContext = tenantContext;
             _logger = logger;
         }
 
@@ -103,6 +107,8 @@ namespace Dyvenix.App1.Auth.Server.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
+
+            var tenantId = _tenantContext.TenantId;
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 

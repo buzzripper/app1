@@ -1,4 +1,5 @@
 using Dyvenix.App1.Auth.Data;
+using Dyvenix.App1.Auth.Data.Context;
 using Dyvenix.App1.Auth.Server.Fido2;
 using Microsoft.EntityFrameworkCore;
 

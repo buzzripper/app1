@@ -1,5 +1,6 @@
 using Dyvenix.App1.Auth.Api.Extensions;
 using Dyvenix.App1.Auth.Data;
+using Dyvenix.App1.Auth.Data.Context;
 using Dyvenix.App1.Auth.Server;
 using Dyvenix.App1.Auth.Server.Data;
 using Dyvenix.App1.Auth.Server.Fido2;
@@ -59,7 +60,7 @@ builder.Services.AddSession(options =>
     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
 });
 
-// Identity options — use OpenIddict JWT claim types
+// Identity options â€” use OpenIddict JWT claim types
 builder.Services.Configure<IdentityOptions>(options =>
 {
     options.ClaimsIdentity.UserNameClaimType = Claims.Name;
@@ -91,7 +92,7 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Authentication — cookie-based default for Identity pages
+// Authentication â€” cookie-based default for Identity pages
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme);
 
 // Required so that dynamically-registered OpenIdConnect schemes (see Worker)

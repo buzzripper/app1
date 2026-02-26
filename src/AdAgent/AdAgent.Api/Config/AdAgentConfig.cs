@@ -2,20 +2,20 @@ using System.Text.Json.Serialization;
 
 namespace Dyvenix.App1.AdAgent.Api.Config
 {
-    public class AdAgentConfig
-    {
-        [JsonConverter(typeof(JsonStringEnumConverter))]
-        public AdAgentAuthMode AuthMode { get; set; }
-        public string? DcHost { get; set; }
-        public string? Domain { get; set; }
-        public int LdapPort { get; set; } = 389;
-        public string? BaseDn { get; set; }
-        public AdAgentAuthConfig? AuthConfig { get; set; }
-    }
+	public class AdAgentConfig
+	{
+		[JsonConverter(typeof(JsonStringEnumConverter))]
+		public AdAgentAuthMode AuthMode { get; set; }
+		public string? DcHost { get; set; }
+		public string? Domain { get; set; }
+		public int LdapPort { get; set; } = 389;
+		public string? BaseDn { get; set; }
+		public AdAgentAuthConfig? AuthConfig { get; set; }
+	}
 
-    public enum AdAgentAuthMode
-    {
-        Ldap = 0,
-        Kerberos = 1
-    }
+	public enum AdAgentAuthMode
+	{
+		Ldap = 0,
+		Kerberos = 1
+	}
 }

@@ -1,4 +1,5 @@
-﻿using Dyvenix.App1.Auth.Data;
+using Dyvenix.App1.Auth.Data;
+using Dyvenix.App1.Auth.Data.Context;
 using Dyvenix.App1.Auth.Data.Entities;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
