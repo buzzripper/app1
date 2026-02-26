@@ -80,6 +80,29 @@
           <propertyModel Id="2717407e-1538-46b6-aed9-72318410441a" name="TenantId" description="Foreign key to Tenant" dataType="Guid" isForeignKey="true" />
           <propertyModel Id="36e4e1ca-4e53-49e4-923b-89d1a95a4d55" name="BaseDn" length="300" isForeignKey="false" displayOrder="4" />
         </properties>
+        <serviceModels>
+          <entityModelHasServiceModels Id="434a202d-994b-4c05-b9b9-e26090f99a5b">
+            <serviceModel Id="a795d765-a3dd-47fc-b99c-bf8d4228456d" name="ServiceModel1" inclCreate="true" inclUpdate="true" inclDelete="true" version="v1">
+              <readMethods>
+                <serviceModelHasReadMethodModels Id="2623de33-033e-4f87-8382-bcb1b460133e">
+                  <readMethodModel Id="a36cfc32-e610-4c43-9b6e-5c74581cde66" name="GetForTenant" itemId="911d7b1f-a6e3-4f58-a65b-f1597d11f281" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="0">
+                    <filterProperties>
+                      <readMethodModelHasFilterProperties Id="bfabbd27-0a5c-4c69-a41f-2cf4ebcb9480">
+                        <filterPropertyModel Id="3f6357ed-2228-4c04-a9e2-393616e4033e" isOptional="false" isInternal="false" isPartialMatch="false">
+                          <propertyModel>
+                            <filterPropertyModelHasProperty Id="dfcf10e2-0173-4f4d-953c-458486ca4e4e">
+                              <propertyModelMoniker name="/App1/TenantAD/TenantId" />
+                            </filterPropertyModelHasProperty>
+                          </propertyModel>
+                        </filterPropertyModel>
+                      </readMethodModelHasFilterProperties>
+                    </filterProperties>
+                  </readMethodModel>
+                </serviceModelHasReadMethodModels>
+              </readMethods>
+            </serviceModel>
+          </entityModelHasServiceModels>
+        </serviceModels>
       </entityModel>
     </modelRootHasTypes>
   </types>
