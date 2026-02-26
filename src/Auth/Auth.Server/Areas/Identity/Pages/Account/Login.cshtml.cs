@@ -1,13 +1,13 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
+using Dyvenix.App1.Auth.Data;
 using Dyvenix.App1.Auth.Server.Fido2;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Dyvenix.App1.Auth.Data;
 using System.ComponentModel.DataAnnotations;
 
 namespace Dyvenix.App1.Auth.Server.Areas.Identity.Pages.Account

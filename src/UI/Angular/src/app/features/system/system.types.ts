@@ -1,8 +1,8 @@
 export interface SystemTileStatus {
-    module: 'auth' | 'app' | 'portal';
+    module: 'auth' | 'app' | 'portal' | 'adagent';
     title: string;
-    pingStatus: 'unknown' | 'success' | 'error';
-    healthStatus: 'unknown' | 'success' | 'error';
+    pingStatus: string;
+    healthStatus: string;
     pingMessage?: string;
     healthMessage?: string;
 }

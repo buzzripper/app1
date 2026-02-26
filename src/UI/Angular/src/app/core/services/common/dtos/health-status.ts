@@ -1,5 +1,7 @@
+import { StatusLevel } from "./status-level";
+
 export interface HealthStatus {
-    isHealthy: boolean;
+    status: StatusLevel;
     message: string;
     timestamp: string;
 }

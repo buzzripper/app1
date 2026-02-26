@@ -9,7 +9,6 @@ public class AdService() : IAdService
 {
     private string _dcHost = "adcorp1dc";
     private const int LdapPort = 389;
-    private bool validated = false;
     private string _baseDn = "DC=adcorp1,DC=local";
     private string _serviceUsername = "AdAgentService";
     private string _servicePassword = "Toto;55";

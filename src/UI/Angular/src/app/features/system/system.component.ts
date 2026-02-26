@@ -12,6 +12,7 @@ import { SystemTileStatus } from './system.types';
 import { AuthSystemService } from 'app/core/services/auth/system.service';
 import { AppSystemService } from 'app/core/services/app/system.service';
 import { PortalSystemService } from 'app/core/services/portal/system.service';
+import {StatusLevel} from 'app/core/services/common/dtos';
 
 @Component({
     selector: 'system',
@@ -40,6 +41,12 @@ export class SystemComponent implements OnInit {
             pingStatus: 'unknown',
             healthStatus: 'unknown',
         },
+        {
+            module: 'adagent',
+            title: 'AD Agent',
+            pingStatus: 'unknown',
+            healthStatus: 'unknown',
+        }
     ]);
 
     constructor(
@@ -50,7 +57,7 @@ export class SystemComponent implements OnInit {
 
     ngOnInit(): void {}
 
-    callPing(module: 'auth' | 'app' | 'portal'): void {
+    callPing(module: 'auth' | 'app' | 'portal' | 'adagent'): void {
         const service =
             module === 'auth'
                 ? this._authSystemService
@@ -73,7 +80,7 @@ export class SystemComponent implements OnInit {
         });
     }
 
-    callHealth(module: 'auth' | 'app' | 'portal'): void {
+    callHealth(module: 'auth' | 'app' | 'portal' | 'adagent'): void {
         const service =
             module === 'auth'
                 ? this._authSystemService
@@ -86,7 +93,7 @@ export class SystemComponent implements OnInit {
                 this.updateTileStatus(
                     module,
                     'health',
-                    response.isHealthy ? 'success' : 'error',
+                    StatusLevel[response.status],
                     response.message
                 );
             },
@@ -97,14 +104,15 @@ export class SystemComponent implements OnInit {
                     'error',
                     error.message || 'Health check failed'
                 );
+
             },
         });
     }
 
     private updateTileStatus(
-        module: 'auth' | 'app' | 'portal',
+        module: 'auth' | 'app' | 'portal' | 'adagent',
         type: 'ping' | 'health',
-        status: 'unknown' | 'success' | 'error',
+        status: string,
         message?: string
     ): void {
         this.tiles.update((tiles) =>

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'environments/environment';
-import { PortalHealthStatus, PingResult } from './system.types';
+import { HealthStatus, PingResult } from '../common/dtos';
 
 @Injectable({ providedIn: 'root' })
 export class PortalSystemService {
@@ -13,7 +13,7 @@ export class PortalSystemService {
         return this._httpClient.get<PingResult>(`${this._baseUrl}/ping`);
     }
 
-    health(): Observable<PortalHealthStatus> {
-        return this._httpClient.get<PortalHealthStatus>(`${this._baseUrl}/health`);
+    health(): Observable<HealthStatus> {
+        return this._httpClient.get<HealthStatus>(`${this._baseUrl}/health`);
     }
 }
