@@ -10,21 +10,17 @@
           <propertyModel Id="e4747ff3-cb26-4e74-8950-967ee83dedd2" name="Id" description="Primary key" dataType="Guid" isPrimaryKey="true" isIndexed="true" isIndexUnique="true" isForeignKey="false" />
           <propertyModel Id="326dbb8b-5c7c-498a-9cd6-063effa7a9ba" name="Name" length="200" isForeignKey="false" />
           <propertyModel Id="84946237-2f31-483d-806a-076688a7a771" name="Slug" length="100" isForeignKey="false" displayOrder="1" />
-          <propertyModel Id="0b1283ac-4906-48ae-8bd9-77717dac731b" name="AuthMethod" length="50" isForeignKey="false" displayOrder="2" />
-          <propertyModel Id="01e2870e-b013-4cfc-b2f6-7bc309adb428" name="ExternalAuthority" length="500" isForeignKey="false" displayOrder="3" />
-          <propertyModel Id="7ce82c9c-5e39-44c0-aaf1-261de4aa356a" name="ExternalClientId" length="200" isForeignKey="false" displayOrder="4" />
-          <propertyModel Id="192e3387-9b30-4799-8fda-ef96d7477ccc" name="ExternalClientSecret" length="500" isForeignKey="false" displayOrder="5" />
+          <propertyModel Id="0b1283ac-4906-48ae-8bd9-77717dac731b" name="AuthMode" dataType="AuthMode" length="50" isForeignKey="false" displayOrder="2" />
           <propertyModel Id="2c3e48bd-a522-4588-950e-f5f7512c00c9" name="IsActive" dataType="Boolean" length="50" isForeignKey="false" displayOrder="6" />
-          <propertyModel Id="fae7558d-de8e-4bab-8cd2-930c5e067d02" name="CreatedAt" dataType="DateTime" length="50" isForeignKey="false" displayOrder="7" />
+          <propertyModel Id="fae7558d-de8e-4bab-8cd2-930c5e067d02" name="CreatedAt" dataType="DateTime" length="50" isForeignKey="false" displayOrder="12" />
+          <propertyModel Id="a640e554-647c-4279-b2cc-bd04f58600ad" name="ExternalAuthority" length="500" isNullable="true" isForeignKey="false" displayOrder="5" />
+          <propertyModel Id="845b6e33-86b5-4fb5-aae1-b14545de9355" name="ExternalClientId" length="200" isNullable="true" isForeignKey="false" displayOrder="6" />
+          <propertyModel Id="1c5dac69-1b5f-44ed-b5bc-07cb06e71ea3" name="ExternalClientSecret" length="500" isNullable="true" isForeignKey="false" displayOrder="7" />
+          <propertyModel Id="4d2896c0-d2a2-4274-9864-4c699927b10c" name="ADDcHost" length="200" isNullable="true" isForeignKey="false" displayOrder="8" />
+          <propertyModel Id="2ffc7750-9338-44ec-a704-e2f9d574e419" name="ADDomain" length="200" isNullable="true" isForeignKey="false" displayOrder="9" />
+          <propertyModel Id="1e32d6c6-e09f-490a-ad40-89f06ce248d3" name="ADLdapPort" dataType="Int32" length="50" isNullable="true" isForeignKey="false" displayOrder="10" />
+          <propertyModel Id="36eb3a60-ae01-4116-91ca-3aa23db6b520" name="ADBaseDn" length="200" isNullable="true" isForeignKey="false" displayOrder="11" />
         </properties>
-        <navigationProperties>
-          <navigationProperty Id="ec972f12-e997-4dd5-8c58-02b76dbcb353" name="TenantADs" description="Navigation to TenantAd" targetEntityName="TenantAD" isCollection="true" />
-        </navigationProperties>
-        <targets>
-          <association Id="e38a7955-0206-468d-b7e4-425eed627c79" sourceMultiplicity="1" sourceRoleName="TenantADs" targetMultiplicity="*" fkPropertyName="TenantId">
-            <entityModelMoniker name="/App1/TenantAD" />
-          </association>
-        </targets>
         <serviceModels>
           <entityModelHasServiceModels Id="9ab946e2-441a-407c-9fbe-c031e4a965d9">
             <serviceModel Id="95a8a254-ec39-4ffe-8ecf-09f7dec4a9db" name="ServiceModel1" inclCreate="true" inclUpdate="true" inclDelete="true" version="v1">
@@ -65,45 +61,53 @@
                   </updateMethodModel>
                 </serviceModelHasUpdateMethods>
               </updateMethods>
+              <dtoModels>
+                <serviceModelHasDtoModels Id="ed1e640e-72bc-48a0-95d2-e4d612dad10c">
+                  <dtoModel Id="85e6cbb2-cee4-44d4-b865-7e4a487ce8fb" name="Dto1">
+                    <propertyModels>
+                      <dtoModelReferencesPropertyModels Id="3b18ea51-3c0f-47d8-95db-281fe704810a">
+                        <propertyModelMoniker name="/App1/Tenant/Id" />
+                      </dtoModelReferencesPropertyModels>
+                      <dtoModelReferencesPropertyModels Id="800d53b6-386d-41c5-a304-58b446d6d2ac">
+                        <propertyModelMoniker name="/App1/Tenant/Name" />
+                      </dtoModelReferencesPropertyModels>
+                      <dtoModelReferencesPropertyModels Id="ac380a0d-25f8-4474-ad1a-2b282a1715a7">
+                        <propertyModelMoniker name="/App1/Tenant/Slug" />
+                      </dtoModelReferencesPropertyModels>
+                    </propertyModels>
+                  </dtoModel>
+                </serviceModelHasDtoModels>
+                <serviceModelHasDtoModels Id="1af44168-c58f-49ad-8dc9-b9ed0e2760a7">
+                  <dtoModel Id="b707326c-9868-422e-a343-bc2cbf33b7c1" name="Dto2">
+                    <propertyModels>
+                      <dtoModelReferencesPropertyModels Id="38e92c3a-f27c-48c5-b564-c00d0160bd06">
+                        <propertyModelMoniker name="/App1/Tenant/AuthMode" />
+                      </dtoModelReferencesPropertyModels>
+                    </propertyModels>
+                  </dtoModel>
+                </serviceModelHasDtoModels>
+              </dtoModels>
             </serviceModel>
           </entityModelHasServiceModels>
         </serviceModels>
+        <dtoModels>
+          <entityModelReferencesDtoModels Id="a3ddfd78-8215-480e-ad4a-794fa45a0c42">
+            <dtoModelMoniker Id="85e6cbb2-cee4-44d4-b865-7e4a487ce8fb" />
+          </entityModelReferencesDtoModels>
+          <entityModelReferencesDtoModels Id="7d04f483-7ef7-4965-8a13-84f99c2e5468">
+            <dtoModelMoniker Id="b707326c-9868-422e-a343-bc2cbf33b7c1" />
+          </entityModelReferencesDtoModels>
+        </dtoModels>
       </entityModel>
     </modelRootHasTypes>
-    <modelRootHasTypes Id="0a5a44c6-7c32-4a71-b9d3-678d9432583c">
-      <entityModel Id="0db8e260-9962-4c6e-b3c4-feb79031e1ff" name="TenantAD" auditable="false" inclRowVersion="false" enabled="false">
-        <properties>
-          <propertyModel Id="f0b5b748-1cc8-4ed0-b998-7b5112bd79d3" name="Id" description="Primary key" dataType="Guid" isPrimaryKey="true" isIndexed="true" isIndexUnique="true" isForeignKey="false" />
-          <propertyModel Id="996aadc3-4714-41ca-87fd-6718ff6b2a90" name="DcHost" length="100" isForeignKey="false" displayOrder="1" />
-          <propertyModel Id="eb533753-866c-471a-b7df-1bbfb7bd1917" name="Domain" length="200" isForeignKey="false" displayOrder="2" />
-          <propertyModel Id="e4e7fe12-4e41-4418-bc4c-d704e44b4aa1" name="LdapPort" dataType="Int32" length="50" isForeignKey="false" displayOrder="3" />
-          <propertyModel Id="2717407e-1538-46b6-aed9-72318410441a" name="TenantId" description="Foreign key to Tenant" dataType="Guid" isForeignKey="true" />
-          <propertyModel Id="36e4e1ca-4e53-49e4-923b-89d1a95a4d55" name="BaseDn" length="300" isForeignKey="false" displayOrder="4" />
-        </properties>
-        <serviceModels>
-          <entityModelHasServiceModels Id="434a202d-994b-4c05-b9b9-e26090f99a5b">
-            <serviceModel Id="a795d765-a3dd-47fc-b99c-bf8d4228456d" name="ServiceModel1" inclCreate="true" inclUpdate="true" inclDelete="true" version="v1">
-              <readMethods>
-                <serviceModelHasReadMethodModels Id="2623de33-033e-4f87-8382-bcb1b460133e">
-                  <readMethodModel Id="a36cfc32-e610-4c43-9b6e-5c74581cde66" name="GetForTenant" itemId="911d7b1f-a6e3-4f58-a65b-f1597d11f281" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="0">
-                    <filterProperties>
-                      <readMethodModelHasFilterProperties Id="bfabbd27-0a5c-4c69-a41f-2cf4ebcb9480">
-                        <filterPropertyModel Id="3f6357ed-2228-4c04-a9e2-393616e4033e" isOptional="false" isInternal="false" isPartialMatch="false">
-                          <propertyModel>
-                            <filterPropertyModelHasProperty Id="dfcf10e2-0173-4f4d-953c-458486ca4e4e">
-                              <propertyModelMoniker name="/App1/TenantAD/TenantId" />
-                            </filterPropertyModelHasProperty>
-                          </propertyModel>
-                        </filterPropertyModel>
-                      </readMethodModelHasFilterProperties>
-                    </filterProperties>
-                  </readMethodModel>
-                </serviceModelHasReadMethodModels>
-              </readMethods>
-            </serviceModel>
-          </entityModelHasServiceModels>
-        </serviceModels>
-      </entityModel>
+    <modelRootHasTypes Id="d0ea9fe4-94ed-4e44-8e18-ee411e3d9fbc">
+      <enumModel Id="ca43d1c2-2682-4e77-aa7c-cb95b9b028e2" name="AuthMode">
+        <members>
+          <enumMember Id="4485f475-4e6f-4868-bcdf-010bb359942a" name="Local" />
+          <enumMember Id="5efb6647-a25e-44da-a254-ada520cee4f2" name="AD" />
+          <enumMember Id="0349ac1b-3045-4a58-8e27-5eeb5bcfb5a5" name="ExternalOidc" />
+        </members>
+      </enumModel>
     </modelRootHasTypes>
   </types>
 </modelRoot>
