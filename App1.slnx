@@ -82,12 +82,15 @@
   <Folder Name="/tests/">
     <Project Path="tests/Tests.Common/Tests.Common.csproj">
       <BuildType Solution="Dbg-Ext|*" Project="Release" />
+      <Build Solution="Debug|Any CPU" Project="false" />
     </Project>
     <Project Path="tests/Tests.Integration/Tests.Integration.csproj">
       <BuildType Solution="Dbg-Ext|*" Project="Release" />
+      <Build Solution="Debug|Any CPU" Project="false" />
     </Project>
     <Project Path="tests/Tests.Unit/Tests.Unit.csproj" Id="77c35258-707f-4b22-a708-b6f4d788c639">
       <BuildType Solution="Dbg-Ext|*" Project="Release" />
+      <Build Solution="Debug|Any CPU" Project="false" />
     </Project>
   </Folder>
 </Solution>

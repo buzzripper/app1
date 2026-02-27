@@ -26,7 +26,7 @@ public class AuthDbContext : IdentityDbContext<ApplicationUser>
 		_tenantContext = tenantContext;
 	}
 
-	public DbSet<Tenant> Tenants => Set<Tenant>();
+	public DbSet<Tenant> Tenant => Set<Tenant>();
 
 	protected override void OnModelCreating(ModelBuilder builder)
 	{
@@ -36,7 +36,7 @@ public class AuthDbContext : IdentityDbContext<ApplicationUser>
 			b.HasIndex(t => t.Slug).IsUnique();
 			b.Property(t => t.Name).HasMaxLength(200).IsRequired();
 			b.Property(t => t.Slug).HasMaxLength(100).IsRequired();
-			b.Property(t => t.AuthMethod).HasMaxLength(50).IsRequired();
+			b.Property(t => t.AuthMode).IsRequired();
 			b.Property(t => t.ExternalAuthority).HasMaxLength(500);
 			b.Property(t => t.ExternalClientId).HasMaxLength(200);
 			b.Property(t => t.ExternalClientSecret).HasMaxLength(500);

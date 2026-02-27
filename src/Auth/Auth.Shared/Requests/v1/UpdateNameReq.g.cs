@@ -1,12 +1,13 @@
 //------------------------------------------------------------------------------------------------------------
 // This file was auto-generated on 2/27/2026 4:53 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
-using Dyvenix.App1.Auth.Data.Entities;
-using Dyvenix.Auth.Tests.Integration.Data;
 
-namespace Dyvenix.Auth.Tests.Integration.DataSets;
+namespace Dyvenix.App1.Auth.Shared.Requests.v1;
 
-public class TestDataSet
+public class UpdateNameReq
 {
-	public List<Tenant> TenantList { get; set; } = null!;
+	public Guid Id { get; set; }
+
+	// Required properties
+	public string Name { get; set; }
 }

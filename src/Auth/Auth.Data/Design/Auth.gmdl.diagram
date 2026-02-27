@@ -2,7 +2,7 @@
 <genItDiagram dslVersion="1.0.0.0" Id="a9222bfb-a70d-45d8-af2e-94e688d79980" absoluteBounds="0, 0, 11, 8.5" name="App1">
   <modelRootMoniker name="/App1" />
   <nestedChildShapes>
-    <moduleShape Id="768a9db0-6650-43bf-b5fa-8441547ec91d" absoluteBounds="1, 0.5, 1.875, 0.375">
+    <moduleShape Id="768a9db0-6650-43bf-b5fa-8441547ec91d" absoluteBounds="1, 0.5, 2, 0.375">
       <moduleModelMoniker name="/App1/Auth" />
     </moduleShape>
     <classShape Id="6e28f8ac-3569-4b7d-b176-c6418e0dda44" absoluteBounds="1, 2, 2, 3.917311591704685">

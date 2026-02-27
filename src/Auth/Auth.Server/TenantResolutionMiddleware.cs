@@ -18,7 +18,7 @@ public class TenantResolutionMiddleware(RequestDelegate next)
 		if (!string.IsNullOrEmpty(tenantSlug))
 		{
 			// Query without the global filter to resolve the tenant itself
-			var tenant = await dbContext.Tenants
+			var tenant = await dbContext.Tenant
 				.AsNoTracking()
 				.FirstOrDefaultAsync(t => t.Slug == tenantSlug && t.IsActive);
 

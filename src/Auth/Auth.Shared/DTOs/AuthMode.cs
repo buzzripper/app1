@@ -1,12 +1,12 @@
 //------------------------------------------------------------------------------------------------------------
 // This file was auto-generated on 2/27/2026 4:53 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
-using Dyvenix.App1.Auth.Data.Entities;
-using Dyvenix.Auth.Tests.Integration.Data;
 
-namespace Dyvenix.Auth.Tests.Integration.DataSets;
+namespace Dyvenix.App1.Auth.Shared.DTOs;
 
-public class TestDataSet
+public enum AuthMode
 {
-	public List<Tenant> TenantList { get; set; } = null!;
+	Local,
+	AD,
+	ExternalOidc
 }

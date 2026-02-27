@@ -19,4 +19,8 @@
     <Folder Include="Design\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Auth.Shared\Auth.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<modelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="a05f92bc-4f04-4e80-b2f9-bcdc2d98c182" name="App1" entitiesOutputFolder="src\Auth\Auth.Data\Entities" entitiesNamespace="Dyvenix.App1.Auth.Data.Entities" dbContextNamespace="Dyvenix.App1.Auth.Data.Context" enumsOutputFolder="src\Auth\Auth.Data\Entities" enumsNamespace="Dyvenix.App1.Auth.Data.Entities" dbContextEnabled="false" editorSplitterPosition="550.00000000000034" permissions="Permission1|&#xA;Permission2|&#xA;Permission3|" dbContextName="AuthDbContext" commonNamespace="Dyvenix.App1.Common" intTestsRootFolder="tests\Tests.Integration" intTestsNamespace="Dyvenix.Auth.Tests.Integration" unitTestsRootFolder="tests\Tests.Unit" unitTestsNamespace="Dyvenix.App1.Tests.Unit" intTestsEnabled="true" unitTestsEnabled="false" xmlns="http://schemas.microsoft.com/dsltools/GenIt">
+<modelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="a05f92bc-4f04-4e80-b2f9-bcdc2d98c182" name="App1" entitiesOutputFolder="src\Auth\Auth.Data\Entities" entitiesNamespace="Dyvenix.App1.Auth.Data.Entities" dbContextNamespace="Dyvenix.App1.Auth.Data.Context" enumsOutputFolder="src\Auth\Auth.Shared\DTOs" enumsNamespace="Dyvenix.App1.Auth.Shared.DTOs" dbContextEnabled="false" editorSplitterPosition="550.00000000000034" permissions="Permission1|&#xA;Permission2|&#xA;Permission3|" dbContextName="AuthDbContext" commonNamespace="Dyvenix.App1.Common" intTestsRootFolder="tests\Tests.Integration" intTestsNamespace="Dyvenix.Auth.Tests.Integration" unitTestsRootFolder="tests\Tests.Unit" unitTestsNamespace="Dyvenix.App1.Tests.Unit" intTestsEnabled="true" unitTestsEnabled="false" xmlns="http://schemas.microsoft.com/dsltools/GenIt">
   <types>
     <modelRootHasTypes Id="7e24eceb-adee-494e-b8b2-9b32679d2333">
-      <moduleModel Id="8bda6b6b-6510-4c24-b586-a36348a1a586" name="Auth" rootFolder="src\Auth" namespace="Dyvenix.App1.Auth" dtoNamespace="Dyvenix.App1.Auth.Shared.DTOs" requestNamespace="Dyvenix.App1.Auth.Shared.Requests" />
+      <moduleModel Id="8bda6b6b-6510-4c24-b586-a36348a1a586" name="Auth" rootFolder="src\Auth" namespace="Dyvenix.App1.Auth" dtoNamespace="Dyvenix.App1.Auth.Shared.DTOs" requestNamespace="Dyvenix.App1.Auth.Shared.Requests" dtoOuputFolder="src\Auth\Auth.Shared\DTOs" />
     </modelRootHasTypes>
     <modelRootHasTypes Id="a8097145-a7cc-491b-b268-91476a8cf47d">
       <entityModel Id="5bd2d97c-7645-4147-a381-b43512adfb2e" name="Tenant" auditable="false" inclRowVersion="false" module="Auth" enabled="false" tableName="Tenant">
@@ -38,15 +38,26 @@
                         </filterPropertyModel>
                       </readMethodModelHasFilterProperties>
                     </filterProperties>
+                    <returnDto>
+                      <readMethodModelReferencesReturnDto Id="6253a086-477d-47f4-be38-caa8ae307484">
+                        <dtoModelMoniker Id="b707326c-9868-422e-a343-bc2cbf33b7c1" />
+                      </readMethodModelReferencesReturnDto>
+                    </returnDto>
                   </readMethodModel>
                 </serviceModelHasReadMethodModels>
                 <serviceModelHasReadMethodModels Id="cd95c00c-d1aa-4ed4-9319-28ee60825225">
-                  <readMethodModel Id="2a0955b1-0e60-4fbf-979f-0ebb960c2584" name="GetAll" itemId="c15ed7a0-c213-426d-b2d3-7e16a9fef47f" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="0" />
+                  <readMethodModel Id="2a0955b1-0e60-4fbf-979f-0ebb960c2584" name="GetAll" itemId="c15ed7a0-c213-426d-b2d3-7e16a9fef47f" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="0">
+                    <returnDto>
+                      <readMethodModelReferencesReturnDto Id="93ebce6c-3850-4105-bc69-b0976cbbf398">
+                        <dtoModelMoniker Id="85e6cbb2-cee4-44d4-b865-7e4a487ce8fb" />
+                      </readMethodModelReferencesReturnDto>
+                    </returnDto>
+                  </readMethodModel>
                 </serviceModelHasReadMethodModels>
               </readMethods>
               <updateMethods>
                 <serviceModelHasUpdateMethods Id="832e273f-bfe5-466a-b42c-d97847006b2c">
-                  <updateMethodModel Id="fbbf39ad-58b0-4531-9105-90823ce90a55" name="UpdateUsername" itemId="9b93280f-d8b5-46f6-8c77-114adba233f2">
+                  <updateMethodModel Id="fbbf39ad-58b0-4531-9105-90823ce90a55" name="UpdateName" itemId="9b93280f-d8b5-46f6-8c77-114adba233f2">
                     <updateProperties>
                       <updateMethodModelHasUpdateProperties Id="6b887390-e4a7-4143-b6f7-50e5480af791">
                         <updatePropertyModel Id="91f29125-fcb2-4dc8-89ae-1daa78e2436d" isOptional="false">
@@ -74,6 +85,15 @@
                       <dtoModelReferencesPropertyModels Id="ac380a0d-25f8-4474-ad1a-2b282a1715a7">
                         <propertyModelMoniker name="/App1/Tenant/Slug" />
                       </dtoModelReferencesPropertyModels>
+                      <dtoModelReferencesPropertyModels Id="5b0be9eb-af89-45aa-8e87-48ad327185fe">
+                        <propertyModelMoniker name="/App1/Tenant/ExternalClientId" />
+                      </dtoModelReferencesPropertyModels>
+                      <dtoModelReferencesPropertyModels Id="ee58e2cd-bf01-4883-b049-809fc2eca026">
+                        <propertyModelMoniker name="/App1/Tenant/ExternalClientSecret" />
+                      </dtoModelReferencesPropertyModels>
+                      <dtoModelReferencesPropertyModels Id="93c5d1e0-8ae1-4c6e-b195-ca53179c3a43">
+                        <propertyModelMoniker name="/App1/Tenant/ADDcHost" />
+                      </dtoModelReferencesPropertyModels>
                     </propertyModels>
                   </dtoModel>
                 </serviceModelHasDtoModels>
@@ -82,6 +102,21 @@
                     <propertyModels>
                       <dtoModelReferencesPropertyModels Id="38e92c3a-f27c-48c5-b564-c00d0160bd06">
                         <propertyModelMoniker name="/App1/Tenant/AuthMode" />
+                      </dtoModelReferencesPropertyModels>
+                      <dtoModelReferencesPropertyModels Id="28cfc2b3-3ea5-41fa-bc2c-70f015ce9e38">
+                        <propertyModelMoniker name="/App1/Tenant/IsActive" />
+                      </dtoModelReferencesPropertyModels>
+                      <dtoModelReferencesPropertyModels Id="a1da9518-122e-4186-bcdd-cdc9909bd8e0">
+                        <propertyModelMoniker name="/App1/Tenant/CreatedAt" />
+                      </dtoModelReferencesPropertyModels>
+                      <dtoModelReferencesPropertyModels Id="454fcb84-4438-4568-b245-31420d402fda">
+                        <propertyModelMoniker name="/App1/Tenant/ExternalAuthority" />
+                      </dtoModelReferencesPropertyModels>
+                      <dtoModelReferencesPropertyModels Id="6f85c044-b6e7-4d3a-971e-4b96f202e29b">
+                        <propertyModelMoniker name="/App1/Tenant/ExternalClientSecret" />
+                      </dtoModelReferencesPropertyModels>
+                      <dtoModelReferencesPropertyModels Id="24b683f3-8976-427e-a21d-d4c9f4b7f39e">
+                        <propertyModelMoniker name="/App1/Tenant/ADDomain" />
                       </dtoModelReferencesPropertyModels>
                     </propertyModels>
                   </dtoModel>
