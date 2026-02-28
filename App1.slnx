@@ -11,6 +11,8 @@
   <Folder Name="/docs/">
     <File Path="docs/adagent_auth.json" />
     <File Path="docs/adagent_config.json" />
+    <File Path="docs/AuthTest.gmdl" />
+    <File Path="docs/AuthTest.gmdl.diagram" />
     <File Path="docs/AzureDeploymentGuide.md" />
   </Folder>
   <Folder Name="/scripts/">
