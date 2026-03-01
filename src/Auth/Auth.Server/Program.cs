@@ -2,11 +2,9 @@ using Dyvenix.App1.Auth.Api.Extensions;
 using Dyvenix.App1.Auth.Data;
 using Dyvenix.App1.Auth.Data.Context;
 using Dyvenix.App1.Auth.Server;
-using Dyvenix.App1.Auth.Server.Data;
 using Dyvenix.App1.Auth.Server.Fido2;
 using Dyvenix.App1.Common.Api.Extensions;
 using Dyvenix.App1.Common.Server;
-using Fido2NetLib;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Identity;
@@ -19,7 +17,11 @@ using static OpenIddict.Abstractions.OpenIddictConstants;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add Aspire service defaults (telemetry, health checks, resilience)
-builder.AddServiceDefaults();
+// NOTE: Requires Aspire AppHost orchestration; comment out for standalone runs.
+//builder.AddServiceDefaults();
+
+// Register health check services (normally done by AddServiceDefaults)
+builder.AddDefaultHealthChecks();
 
 // MVC + Razor Pages
 builder.Services.AddControllersWithViews();
@@ -29,67 +31,66 @@ builder.Services.AddRazorPages();
 builder.Services.AddScoped<ITenantContext, TenantContext>();
 
 // Entity Framework + SQL Server + OpenIddict entity sets
-builder.Services.AddDbContext<AuthServerDbContext>(options =>
+builder.Services.AddDbContext<AuthDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
-        b => b.MigrationsAssembly("Dyvenix.App1.Auth.Data"));
-    options.UseOpenIddict();
+	options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+		b => b.MigrationsAssembly("Dyvenix.App1.Auth.Data"));
+	options.UseOpenIddict();
 });
-builder.Services.AddScoped<AuthDbContext>(sp => sp.GetRequiredService<AuthServerDbContext>());
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 // ASP.NET Core Identity
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-.AddEntityFrameworkStores<AuthServerDbContext>()
-    .AddDefaultTokenProviders()
-    .AddDefaultUI()
-    .AddTokenProvider<Fido2UserTwoFactorTokenProvider>("FIDO2");
+.AddEntityFrameworkStores<AuthDbContext>()
+	.AddDefaultTokenProviders()
+	.AddDefaultUI()
+	.AddTokenProvider<Fido2UserTwoFactorTokenProvider>("FIDO2");
 
-// FIDO2/WebAuthn
-builder.Services.Configure<Fido2Configuration>(builder.Configuration.GetSection("fido2"));
-builder.Services.AddScoped<Fido2Store>();
+//// FIDO2/WebAuthn
+//builder.Services.Configure<Fido2Configuration>(builder.Configuration.GetSection("fido2"));
+//builder.Services.AddScoped<Fido2Store>();
 
 // Session
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(2);
-    options.Cookie.HttpOnly = true;
-    options.Cookie.SameSite = SameSiteMode.None;
-    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+	options.IdleTimeout = TimeSpan.FromMinutes(2);
+	options.Cookie.HttpOnly = true;
+	options.Cookie.SameSite = SameSiteMode.None;
+	options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
 });
 
 // Identity options — use OpenIddict JWT claim types
 builder.Services.Configure<IdentityOptions>(options =>
 {
-    options.ClaimsIdentity.UserNameClaimType = Claims.Name;
-    options.ClaimsIdentity.UserIdClaimType = Claims.Subject;
-    options.ClaimsIdentity.RoleClaimType = Claims.Role;
-    options.ClaimsIdentity.EmailClaimType = Claims.Email;
-    options.SignIn.RequireConfirmedAccount = false;
+	options.ClaimsIdentity.UserNameClaimType = Claims.Name;
+	options.ClaimsIdentity.UserIdClaimType = Claims.Subject;
+	options.ClaimsIdentity.RoleClaimType = Claims.Role;
+	options.ClaimsIdentity.EmailClaimType = Claims.Email;
+	options.SignIn.RequireConfirmedAccount = false;
 });
 
 // Quartz.NET for scheduled tasks (OpenIddict token pruning)
-builder.Services.AddQuartz(options =>
-{
-    options.UseSimpleTypeLoader();
-    options.UseInMemoryStore();
-});
-builder.Services.AddQuartzHostedService(options => options.WaitForJobsToComplete = true);
+//builder.Services.AddQuartz(options =>
+//{
+//	options.UseSimpleTypeLoader();
+//	options.UseInMemoryStore();
+//});
+//builder.Services.AddQuartzHostedService(options => options.WaitForJobsToComplete = true);
 
 // CORS
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAllOrigins", policy =>
-    {
-        policy
-            .AllowCredentials()
-            .WithOrigins("https://localhost:4200", "https://localhost:4204", "https://localhost:5001")
-            .SetIsOriginAllowedToAllowWildcardSubdomains()
-            .AllowAnyHeader()
-            .AllowAnyMethod();
-    });
+	options.AddPolicy("AllowAllOrigins", policy =>
+	{
+		policy
+			.AllowCredentials()
+			.WithOrigins("https://localhost:4200", "https://localhost:4204", "https://localhost:5001")
+			.SetIsOriginAllowedToAllowWildcardSubdomains()
+			.AllowAnyHeader()
+			.AllowAnyMethod();
+	});
 });
 
 // Authentication — cookie-based default for Identity pages
@@ -97,50 +98,49 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 // Required so that dynamically-registered OpenIdConnect schemes (see Worker)
 // get their StringDataFormat, Backchannel, etc. initialised by post-configure.
-builder.Services.TryAddEnumerable(
-    ServiceDescriptor.Singleton<IPostConfigureOptions<OpenIdConnectOptions>, OpenIdConnectPostConfigureOptions>());
+builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<IPostConfigureOptions<OpenIdConnectOptions>, OpenIdConnectPostConfigureOptions>());
 
 // OpenIddict
 builder.Services.AddOpenIddict()
-    .AddCore(options =>
-    {
-        options.UseEntityFrameworkCore()
-               .UseDbContext<AuthServerDbContext>();
-        options.UseQuartz();
-    })
-    .AddServer(options =>
-    {
-        options.SetAuthorizationEndpointUris("connect/authorize")
-               .SetIntrospectionEndpointUris("connect/introspect")
-               .SetEndSessionEndpointUris("connect/logout")
-               .SetTokenEndpointUris("connect/token")
-               .SetUserInfoEndpointUris("connect/userinfo")
-               .SetEndUserVerificationEndpointUris("connect/verify");
+	.AddCore(options =>
+	{
+		options.UseEntityFrameworkCore()
+			   .UseDbContext<AuthDbContext>();
+		//options.UseQuartz();
+	})
+	.AddServer(options =>
+	{
+		options.SetAuthorizationEndpointUris("connect/authorize")
+			   .SetIntrospectionEndpointUris("connect/introspect")
+			   .SetEndSessionEndpointUris("connect/logout")
+			   .SetTokenEndpointUris("connect/token")
+			   .SetUserInfoEndpointUris("connect/userinfo")
+			   .SetEndUserVerificationEndpointUris("connect/verify");
 
-        options.AllowAuthorizationCodeFlow()
-               .AllowHybridFlow()
-               .AllowClientCredentialsFlow()
-               .AllowRefreshTokenFlow();
+		options.AllowAuthorizationCodeFlow()
+			   .AllowHybridFlow()
+			   .AllowClientCredentialsFlow()
+			   .AllowRefreshTokenFlow();
 
-        options.RegisterScopes(Scopes.Email, Scopes.Profile, Scopes.Roles, "app1-api");
+		options.RegisterScopes(Scopes.Email, Scopes.Profile, Scopes.Roles, "app1-api");
 
-        options.AddDevelopmentEncryptionCertificate()
-               .AddDevelopmentSigningCertificate();
+		options.AddDevelopmentEncryptionCertificate()
+			   .AddDevelopmentSigningCertificate();
 
-        options.UseAspNetCore()
-               .EnableAuthorizationEndpointPassthrough()
-               .EnableEndSessionEndpointPassthrough()
-               .EnableTokenEndpointPassthrough()
-               .EnableUserInfoEndpointPassthrough()
-               .EnableStatusCodePagesIntegration();
+		options.UseAspNetCore()
+			   .EnableAuthorizationEndpointPassthrough()
+			   .EnableEndSessionEndpointPassthrough()
+			   .EnableTokenEndpointPassthrough()
+			   .EnableUserInfoEndpointPassthrough()
+			   .EnableStatusCodePagesIntegration();
 
-        options.DisableAccessTokenEncryption();
-    })
-    .AddValidation(options =>
-    {
-        options.UseLocalServer();
-        options.UseAspNetCore();
-    });
+		options.DisableAccessTokenEncryption();
+	})
+	.AddValidation(options =>
+	{
+		options.UseLocalServer();
+		options.UseAspNetCore();
+	});
 
 // Worker (seeds tenants, users, registers external OIDC schemes and OpenIddict applications)
 builder.Services.AddHostedService<Worker>();
@@ -158,12 +158,12 @@ var app = builder.Build();
 // Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())
 {
-    app.UseDeveloperExceptionPage();
-    app.UseMigrationsEndPoint();
+	app.UseDeveloperExceptionPage();
+	app.UseMigrationsEndPoint();
 }
 else
 {
-    app.UseStatusCodePagesWithReExecute("~/error");
+	app.UseStatusCodePagesWithReExecute("~/error");
 }
 
 app.UseHttpsRedirection();
@@ -189,6 +189,6 @@ app.MapDefaultEndpoints();
 
 // Enable API documentation in development
 if (app.Environment.IsDevelopment())
-    app.MapAuthApiDocumentation();
+	app.MapAuthApiDocumentation();
 
 app.Run();

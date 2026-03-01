@@ -1,58 +1,58 @@
+//------------------------------------------------------------------------------------------------------------
+// This file was auto-generated on 2/28/2026 11:36 AM. Any changes made to it will be lost.
+//------------------------------------------------------------------------------------------------------------
 using Dyvenix.App1.Auth.Data.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Dyvenix.App1.Auth.Data.Context;
 
-public class AuthDbContext : IdentityDbContext<ApplicationUser>
+public partial class AuthDbContext : IdentityDbContext<ApplicationUser>
 {
-	private readonly ITenantContext? _tenantContext;
+	partial void OnModelCreatingExt(ModelBuilder builder);
 
-	/// <summary>
-	/// Constructor for direct use (no derived context).
-	/// </summary>
-	public AuthDbContext(DbContextOptions<AuthDbContext> options, ITenantContext? tenantContext = null)
+	public AuthDbContext(DbContextOptions<AuthDbContext> options)
 		: base(options)
 	{
-		_tenantContext = tenantContext;
 	}
 
-	/// <summary>
-	/// Constructor for derived contexts (e.g. AuthServerDbContext in Auth.Server).
-	/// </summary>
-	protected AuthDbContext(DbContextOptions options, ITenantContext? tenantContext = null)
-		: base(options)
-	{
-		_tenantContext = tenantContext;
-	}
+	#region Properties
 
-	public DbSet<Tenant> Tenant => Set<Tenant>();
+	public DbSet<Tenant> Tenant { get; set; }
 
-	protected override void OnModelCreating(ModelBuilder builder)
+	#endregion
+
+	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
-		builder.Entity<Tenant>(b =>
+		base.OnModelCreating(modelBuilder);
+		this.OnModelCreatingExt(modelBuilder);
+
+		#region Tenant
+
+		modelBuilder.Entity<Tenant>(entity =>
 		{
-			b.HasKey(t => t.Id);
-			b.HasIndex(t => t.Slug).IsUnique();
-			b.Property(t => t.Name).HasMaxLength(200).IsRequired();
-			b.Property(t => t.Slug).HasMaxLength(100).IsRequired();
-			b.Property(t => t.AuthMode).IsRequired();
-			b.Property(t => t.ExternalAuthority).HasMaxLength(500);
-			b.Property(t => t.ExternalClientId).HasMaxLength(200);
-			b.Property(t => t.ExternalClientSecret).HasMaxLength(500);
+			entity.ToTable("Tenant");
+			entity.HasKey(e => e.Id);
+			entity.Property(e => e.Name).IsRequired().HasMaxLength(200);
+			entity.Property(e => e.Slug).IsRequired().HasMaxLength(100);
+			entity.Property(e => e.AuthMode).IsRequired();
+			entity.Property(e => e.ExternalAuthority).HasMaxLength(500);
+			entity.Property(e => e.ExternalClientId).HasMaxLength(200);
+			entity.Property(e => e.ExternalClientSecret).HasMaxLength(500);
+			entity.Property(e => e.ADDcHost).HasMaxLength(200);
+			entity.Property(e => e.ADDomain).HasMaxLength(200);
+			entity.Property(e => e.ADLdapPort);
+			entity.Property(e => e.ADBaseDn).HasMaxLength(200);
+			entity.Property(e => e.IsActive).IsRequired();
+			entity.Property(e => e.CreatedAt).IsRequired();
+
+			entity.HasIndex(e => e.Id, "IX_Tenant_Id");
 		});
 
-		builder.Entity<ApplicationUser>(b =>
-		{
-			b.HasIndex(u => new { u.TenantId, u.Email });
-			b.HasOne<Tenant>().WithMany().HasForeignKey(u => u.TenantId).OnDelete(DeleteBehavior.Restrict);
+		#endregion
 
-			// Global query filter: all Identity queries are scoped to the current tenant
-			b.HasQueryFilter(u => _tenantContext == null
-				|| _tenantContext.TenantId == Guid.Empty
-				|| u.TenantId == _tenantContext.TenantId);
-		});
-
-		base.OnModelCreating(builder);
+		OnModelCreatingPartial(modelBuilder);
 	}
+
+	partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }

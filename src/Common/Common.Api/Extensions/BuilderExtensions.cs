@@ -26,7 +26,7 @@ public static class BuilderExtensions
 	/// </summary>
 	public static TBuilder AddServiceDefaults<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
 	{
-		builder.ConfigureOpenTelemetry();
+		//builder.ConfigureOpenTelemetry();
 
 		builder.AddDefaultHealthChecks();
 
@@ -95,7 +95,7 @@ public static class BuilderExtensions
 			});
 
 		// Add OTLP exporter if endpoint is configured (Aspire Dashboard or external collector)
-		builder.AddOpenTelemetryExporters();
+		//builder.AddOpenTelemetryExporters();
 
 		return builder;
 	}

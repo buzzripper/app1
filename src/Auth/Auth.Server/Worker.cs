@@ -13,25 +13,27 @@ using static OpenIddict.Abstractions.OpenIddictConstants;
 
 namespace Dyvenix.App1.Auth.Server
 {
-	public class Worker : IHostedService
+	public class Worker(IServiceProvider serviceProvider, ILogger<Worker> logger) : BackgroundService
 	{
-		private readonly IServiceProvider _serviceProvider;
-
-		public Worker(IServiceProvider serviceProvider)
-			=> _serviceProvider = serviceProvider;
-
-		public async Task StartAsync(CancellationToken cancellationToken)
+		protected override async Task ExecuteAsync(CancellationToken stoppingToken)
 		{
-			using var scope = _serviceProvider.CreateScope();
+			try
+			{
+				using var scope = serviceProvider.CreateScope();
 
-			var context = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
-			await context.Database.EnsureCreatedAsync(cancellationToken);
+				var context = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
+				await context.Database.EnsureCreatedAsync(stoppingToken);
 
-			await SeedTenantsAsync(context);
-			await SeedTestUsersAsync(scope.ServiceProvider);
-			await RegisterExternalSchemesAsync(scope.ServiceProvider, context);
-			await RegisterApplicationsAsync(scope.ServiceProvider, context);
-			await RegisterScopesAsync(scope.ServiceProvider);
+				await SeedTenantsAsync(context);
+				await SeedTestUsersAsync(scope.ServiceProvider);
+				await RegisterExternalSchemesAsync(scope.ServiceProvider, context);
+				await RegisterApplicationsAsync(scope.ServiceProvider, context);
+				await RegisterScopesAsync(scope.ServiceProvider);
+			}
+			catch (Exception ex)
+			{
+				logger.LogError(ex, "Worker failed during startup seeding");
+			}
 
 			static async Task RegisterApplicationsAsync(IServiceProvider provider, AuthDbContext context)
 			{
@@ -274,7 +276,5 @@ namespace Dyvenix.App1.Auth.Server
 				}
 			}
 		}
-
-		public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
 	}
 }

@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/27/2026 4:53 PM. Any changes made to it will be lost.
+// This file was auto-generated on 2/28/2026 11:36 AM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
@@ -26,80 +26,4 @@ public partial class TenantService : ITenantService
 		_db = db;
 		_logger = logger;
 	}
-
-	#region Delete
-
-	public async Task DeleteTenant(Guid id)
-	{
-		var rowsAffected = await _db.Tenant.Where(a => a.Id == id).ExecuteDeleteAsync();
-
-		if (rowsAffected == 0)
-			throw new NotFoundException($"Tenant {id} not found");
-	}
-
-	#endregion
-
-	#region Update
-
-	public async Task UpdateName(UpdateNameReq request)
-	{
-		ArgumentNullException.ThrowIfNull(request);
-
-		try {
-			var tenant = new Tenant {
-				Id = request.Id,
-				Name = request.Name,
-			};
-
-			_db.Attach(tenant);
-			_db.Entry(tenant).Property(u => u.Name).IsModified = true;
-
-			await _db.SaveChangesAsync();
-
-		} catch (DbUpdateConcurrencyException) {
-			throw new ConcurrencyException("The item was modified or deleted by another user.");
-		}
-	}
-
-	#endregion
-	
-	#region Read - Single
-	
-	public async Task<Dto2> GetById(Guid id)
-	{
-		var dbQuery = _db.Tenant.AsNoTracking();
-	
-		dbQuery = dbQuery.Where(x => x.Id == id);
-	
-		return await dbQuery.Select(e => new Dto2(
-			e.AuthMode,
-			e.IsActive,
-			e.CreatedAt,
-			e.ExternalAuthority,
-			e.ExternalClientSecret,
-			e.ADDomain
-		))
-		.SingleOrDefaultAsync();
-	}
-	
-	#endregion
-	
-	#region Read - List
-	
-	public async Task<IReadOnlyList<Dto1>> GetAll()
-	{
-		var dbQuery = _db.Tenant.AsNoTracking();
-	
-		return await dbQuery.Select(e => new Dto1(
-			e.Id,
-			e.Name,
-			e.Slug,
-			e.ExternalClientId,
-			e.ExternalClientSecret,
-			e.ADDcHost
-		))
-		.ToListAsync();
-	}
-	
-	#endregion
 }
