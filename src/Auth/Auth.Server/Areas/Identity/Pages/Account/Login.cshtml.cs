@@ -4,6 +4,7 @@
 
 using Dyvenix.App1.Auth.Data;
 using Dyvenix.App1.Auth.Data.Fido2;
+using Dyvenix.App1.Auth.Shared.DTOs;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -121,35 +122,42 @@ namespace Dyvenix.App1.Auth.Server.Areas.Identity.Pages.Account
 					return Page();
 				}
 
-				// This doesn't count login failures towards account lockout
-				// To enable password failures to trigger account lockout, set lockoutOnFailure: true
-				var result = await _signInManager.PasswordSignInAsync(user, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-				_logger.LogInformation("PasswordSignIn for {Email}: Succeeded={Succeeded}, IsLockedOut={Locked}, RequiresTwoFactor={TwoFactor}, IsNotAllowed={NotAllowed}",
-					Input.Email, result.Succeeded, result.IsLockedOut, result.RequiresTwoFactor, result.IsNotAllowed);
-				if (result.Succeeded)
+				if (_tenantContext.Tenant.AuthMode == AuthMode.AD)
 				{
-					_logger.LogInformation("User logged in.");
-					return LocalRedirect(returnUrl);
-				}
-				if (result.RequiresTwoFactor)
-				{
-					var fido2ItemExistsForUser = await _fido2Store.GetCredentialsByUserNameAsync(Input.Email);
-					if (fido2ItemExistsForUser.Count > 0)
-					{
-						return RedirectToPage("./LoginFido2Mfa", new { ReturnUrl = returnUrl, Input.RememberMe });
-					}
 
-					return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
-				}
-				if (result.IsLockedOut)
-				{
-					_logger.LogWarning("User account locked out.");
-					return RedirectToPage("./Lockout");
 				}
 				else
 				{
-					ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-					return Page();
+					// This doesn't count login failures towards account lockout
+					// To enable password failures to trigger account lockout, set lockoutOnFailure: true
+					var result = await _signInManager.PasswordSignInAsync(user, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+					_logger.LogInformation("PasswordSignIn for {Email}: Succeeded={Succeeded}, IsLockedOut={Locked}, RequiresTwoFactor={TwoFactor}, IsNotAllowed={NotAllowed}",
+						Input.Email, result.Succeeded, result.IsLockedOut, result.RequiresTwoFactor, result.IsNotAllowed);
+					if (result.Succeeded)
+					{
+						_logger.LogInformation("User logged in.");
+						return LocalRedirect(returnUrl);
+					}
+					if (result.RequiresTwoFactor)
+					{
+						var fido2ItemExistsForUser = await _fido2Store.GetCredentialsByUserNameAsync(Input.Email);
+						if (fido2ItemExistsForUser.Count > 0)
+						{
+							return RedirectToPage("./LoginFido2Mfa", new { ReturnUrl = returnUrl, Input.RememberMe });
+						}
+
+						return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+					}
+					if (result.IsLockedOut)
+					{
+						_logger.LogWarning("User account locked out.");
+						return RedirectToPage("./Lockout");
+					}
+					else
+					{
+						ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+						return Page();
+					}
 				}
 			}
 
