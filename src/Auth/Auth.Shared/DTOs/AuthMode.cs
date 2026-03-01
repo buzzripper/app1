@@ -4,7 +4,7 @@
 
 namespace Dyvenix.App1.Auth.Shared.DTOs;
 
-public enum AuthMode
+public enum AuthMode : byte
 {
 	Local,
 	AD,

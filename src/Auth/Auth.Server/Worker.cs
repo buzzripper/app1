@@ -152,23 +152,25 @@ namespace Dyvenix.App1.Auth.Server
 				if (!await context.Tenant.AnyAsync(t => t.Id == acmeId))
 				{
 					context.Tenant.Add(new Tenant
-					{
-						Id = acmeId,
-						Name = "Acme Corp",
-						Slug = "acme",
-						AuthMode = AuthMode.Local
-					});
+						{
+							Id = acmeId,
+							Name = "Acme Corp",
+							Slug = "acme",
+							AuthMode = AuthMode.Local,
+							IsActive = true
+						});
 				}
 
 				if (!await context.Tenant.AnyAsync(t => t.Id == contosoId))
 				{
 					context.Tenant.Add(new Tenant
-					{
-						Id = contosoId,
-						Name = "Contoso",
-						Slug = "contoso",
-						AuthMode = AuthMode.Local
-					});
+						{
+							Id = contosoId,
+							Name = "Contoso",
+							Slug = "contoso",
+							AuthMode = AuthMode.Local,
+							IsActive = true
+						});
 				}
 
 				// External IdP test tenant — update these values with a real IdP to test federation.
@@ -177,15 +179,16 @@ namespace Dyvenix.App1.Auth.Server
 				if (!await context.Tenant.AnyAsync(t => t.Id == fabrikamId))
 				{
 					context.Tenant.Add(new Tenant
-					{
-						Id = fabrikamId,
-						Name = "Fabrikam (External)",
-						Slug = "fabrikam",
-						AuthMode = AuthMode.ExternalOidc,
-						ExternalAuthority = "https://YOUR-IDP.example.com",
-						ExternalClientId = "YOUR_CLIENT_ID",
-						ExternalClientSecret = "YOUR_CLIENT_SECRET"
-					});
+						{
+							Id = fabrikamId,
+							Name = "Fabrikam (External)",
+							Slug = "fabrikam",
+							AuthMode = AuthMode.ExternalOidc,
+							ExternalAuthority = "https://YOUR-IDP.example.com",
+							ExternalClientId = "YOUR_CLIENT_ID",
+							ExternalClientSecret = "YOUR_CLIENT_SECRET",
+							IsActive = true
+						});
 				}
 
 				await context.SaveChangesAsync();

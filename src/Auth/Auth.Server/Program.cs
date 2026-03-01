@@ -1,10 +1,12 @@
 using Dyvenix.App1.Auth.Api.Extensions;
 using Dyvenix.App1.Auth.Data;
 using Dyvenix.App1.Auth.Data.Context;
+using Dyvenix.App1.Auth.Data.Fido2;
 using Dyvenix.App1.Auth.Server;
 using Dyvenix.App1.Auth.Server.Fido2;
 using Dyvenix.App1.Common.Api.Extensions;
 using Dyvenix.App1.Common.Server;
+using Fido2NetLib;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Identity;
@@ -48,8 +50,8 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 	.AddTokenProvider<Fido2UserTwoFactorTokenProvider>("FIDO2");
 
 //// FIDO2/WebAuthn
-//builder.Services.Configure<Fido2Configuration>(builder.Configuration.GetSection("fido2"));
-//builder.Services.AddScoped<Fido2Store>();
+builder.Services.Configure<Fido2Configuration>(builder.Configuration.GetSection("fido2"));
+builder.Services.AddScoped<Fido2Store>();
 
 // Session
 builder.Services.AddDistributedMemoryCache();
