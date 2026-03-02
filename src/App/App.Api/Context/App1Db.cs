@@ -1,29 +1,51 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/18/2026 7:27 AM. Any changes made to it will be lost.
+// This file was auto-generated on 3/1/2026 10:25 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Microsoft.EntityFrameworkCore;
+using Dyvenix.App1.App.Api.Entities;
 
 namespace Dyvenix.App1.App.Api.Context;
 
 public partial class App1Db : DbContext
 {
-    public App1Db(DbContextOptions<App1Db> options)
-        : base(options)
-    {
-    }
+	partial void OnModelCreatingExt(ModelBuilder builder);
 
-    #region Properties
+	public App1Db(DbContextOptions<App1Db> options)
+		: base(options)
+	{
+	}
 
+	# region Properties
 
-    #endregion
+	public DbSet<Client> Client { get; set; }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        base.OnModelCreating(modelBuilder);
+	# endregion
 
+	protected override void OnModelCreating(ModelBuilder modelBuilder)
+	{
+		base.OnModelCreating(modelBuilder);
+		this.OnModelCreatingExt(modelBuilder);
 
-        OnModelCreatingPartial(modelBuilder);
-    }
+		#region Client
 
-    partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+		modelBuilder.Entity<Client>(entity =>
+		{
+			entity.ToTable("Client");
+			entity.HasKey(e => e.Id);
+			entity.Property(e => e.RowVersion).IsRowVersion();
+			entity.Property(e => e.Key).IsRequired().HasMaxLength(50);
+			entity.Property(e => e.Name).IsRequired().HasMaxLength(100);
+			entity.Property(e => e.BaseUrl).HasMaxLength(300);
+
+			entity.HasIndex(e => e.Id, "IX_Client_Id").IsUnique();
+			entity.HasIndex(e => e.Key, "IX_Client_Key").IsUnique();
+			entity.HasIndex(e => e.Name, "IX_Client_Name").IsUnique();
+		});
+
+		#endregion
+
+		OnModelCreatingPartial(modelBuilder);
+	}
+
+	partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }

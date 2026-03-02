@@ -4,6 +4,7 @@
 
 using Dyvenix.App1.Auth.Data;
 using Dyvenix.App1.Auth.Data.Fido2;
+using Dyvenix.App1.Auth.Server.Services;
 using Dyvenix.App1.Auth.Shared.DTOs;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
@@ -19,16 +20,19 @@ namespace Dyvenix.App1.Auth.Server.Areas.Identity.Pages.Account
 		private readonly Fido2Store _fido2Store;
 		private readonly ITenantContext _tenantContext;
 		private readonly ILogger<LoginModel> _logger;
+		private readonly IClientRouter _clientRouter;
 
 		public LoginModel(SignInManager<ApplicationUser> signInManager,
 			Fido2Store fido2Store,
 			ITenantContext tenantContext,
-			ILogger<LoginModel> logger)
+			ILogger<LoginModel> logger,
+			IClientRouter clientRouter)
 		{
 			_signInManager = signInManager;
 			_fido2Store = fido2Store;
 			_tenantContext = tenantContext;
 			_logger = logger;
+			_clientRouter = clientRouter;
 		}
 
 		/// <summary>
@@ -108,7 +112,7 @@ namespace Dyvenix.App1.Auth.Server.Areas.Identity.Pages.Account
 		{
 			returnUrl ??= Url.Content("~/");
 
-			var tenantId = _tenantContext.TenantId;
+			var tenant = _tenantContext.Tenant;
 
 			ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
@@ -122,9 +126,9 @@ namespace Dyvenix.App1.Auth.Server.Areas.Identity.Pages.Account
 					return Page();
 				}
 
-				if (_tenantContext.Tenant.AuthMode == AuthMode.AD)
+				if (tenant.AuthMode == AuthMode.AD)
 				{
-
+					var baseUrl = _clientRouter.GetClientBaseUrl(tenant.Slug);
 				}
 				else
 				{

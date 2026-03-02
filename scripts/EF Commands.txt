@@ -2,6 +2,16 @@
 Entity Framework Commands
 ---------------------------------
 
+// App
+Add-Migration <migration name> -Project App.Api -StartupProject App.Server
+Update-Database -Project App.Api -StartupProject App.Server -Context App1Db -Connection "Data Source=localhost;Initial Catalog=App1;Integrated Security=True;Encrypt=False;"
+
+// Auth
+Add-Migration <migration name> -Project Auth.Data -StartupProject Auth.Server -Connection "Data Source=localhost;Initial Catalog=Auth;Integrated Security=True;Encrypt=False;"
+Update-Database -Project Auth.Data -StartupProject Auth.Server -Context AuthDbContext -Connection "Data Source=localhost;Initial Catalog=Auth;Integrated Security=True;Encrypt=False;"
+
+
+
 cd /src/Common/Common.Data
 
 dotnet ef migrations add <MIGRATION NAME>
@@ -29,3 +39,4 @@ Update-Database -Project app1.data -Connection "Password=dyv_pwd1;User ID=dyveni
 
 // Auth Db
 dotnet ef migrations add <Name> --project src/Auth/Auth.Data --startup-project src/Auth/Auth.Server --context AuthDbContext
+

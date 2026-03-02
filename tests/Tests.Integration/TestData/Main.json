@@ -1,79 +1,34 @@
 {
-	"TenantList": [
+	"ClientList": [
 		{
-			"Id": "12f26b5c-dad5-4b86-8027-c05566b31687",
-			"Name": "XyeVZ6mD1bM99ZMQiEYjmn0cLQUnQF3dqQoCX2iqVEeiTUqijEopk0rKHcjil9XwhITsKk3pwHyRjSt0ALdmqO2zzO5VSaeVR",
-			"Slug": "aka7H9K83MCJBYStRJ6KgDQt36oiHvDM9BSjZCedMrUq7ZngczsEZhLGEReLUCBHj0K9fJD",
-			"AuthMode": 0,
-			"IsActive": true,
-			"CreatedAt": "2026-12-01T17:05:08.5678926-05:00",
-			"ExternalAuthority": "SAweTifhd8W20lOiyCsk0nghonaC6d87jWYeva2MwuEldRj34u0dJX8FtoZFhMl99ZSdxKXyKQXFS5dHdhILn5xvXsUgkwFTjFlo9fGuHCC3aCXylsCaeJVdBxpf0QnoldwnTYI7LndVDEvuFw423EPJTiWL0AE1ooS6gJOwUEz0GaK7b4JDVvuQyXDLc6hkTlGoWzo5RIizfYcTHYK50af34bHtgdtYxohuDvlMQOWnm4KKUUdnvmtTfNtU15ZNoub0QSqlN7omn2Q9B7JwagCk5yoZcBUVYj822T3bE1Kx7gFn6us4vDNi105sDAjmnDxe4XgRdH1iFenY2b2Ri0zvF0acYKIdSykDSAsinL0YLFMXNgABHBdwecIdXe3C8YAh3UfBTUEH9KUaonySkgGqu",
-			"ExternalClientId": "Q2oviSyZXeE33a8SX7GxErHZJQks1sjWfvzJEyvZLU75TuFRmyStYB3yuyWCHf8F5SYHLyozLRVUuMgp",
-			"ExternalClientSecret": null,
-			"ADDcHost": "DJ08OBapfL3rFWCabF8g",
-			"ADDomain": "tShPjdRsHse9E5fUkfKiiXSzq72LfTmwst",
-			"ADLdapPort": null,
-			"ADBaseDn": null
+			"Id": "daaa12ac-4929-43ec-aeb9-8c95bdaca1f9",
+			"Key": "aROihEB4AaPFP",
+			"Name": "KIOnI5tHzlh4qaz7Lsh7eCbqghhzd",
+			"BaseUrl": "WlISMOkl95DrDbmoBFCyxxRnhGxhBY4DHBvTRsXtBhhcLkIp33P4LCwyDvKfqdUlb9UcPDGjRj7ppOM68hoHi92ee7pwRRcxw6bMAFJzwGmBFgiYSOhiZncbgP7SokCagJ3tNaFCHYkMXBJ7YANcJ4Ij4aFVI1kmelu5nYlSiPKacAnOf93XGzAmbTyNET4QO8HLgOU9p434tHhDW0QI7wPPVh3DAI"
 		},
 		{
-			"Id": "31dac068-9e86-4342-a26a-3a353342c358",
-			"Name": "8r6HXeLmFrG5qv2FObG9RzllgmXfSRlQ63lXOLvShmUQwQYyt0NrSiiJgVBKrFEXgZ8xkf1dQY2FOFYAxzW2e48YVMR3jUBMS6JHRBoo9JK4pN4K6bm1SMTm0jMHx836wqXS5rS6lI2EteJhRh6iHJ3fmxQHZQ0aQOH8ZmOPsq",
-			"Slug": "kTp2WKE0qbUyWxRFIKkhFR2XOGKsFDq0r3Tv7E37vZK85pULhQgehjlC1Bnq9luXV4h3N",
-			"AuthMode": 1,
-			"IsActive": true,
-			"CreatedAt": "2025-04-05T17:05:08.5678926-04:00",
-			"ExternalAuthority": "WPh32zV9kYwmSiSrEFqM8jFWnai17Vidw4wGu8JYFabGAIm9kw1cWeoMkuP1q3byPtZXVm6G6Ch7h8wPYiQL4gqsQTwasRHL8M0gSyo8z",
-			"ExternalClientId": "u6qFl8acinzEJdHhb06n",
-			"ExternalClientSecret": null,
-			"ADDcHost": "9Fip6z4RlJa6vzokbsOzyJhqdlrmiDh1zAr9dSeNnFn5JgmSWP45JEizx1lUiSJSCiG4hphtobm3vmR79JADJlr5s1LlGtFF6FDAJrKHH",
-			"ADDomain": "IspekkoVIsfjq1LMpN5W4GR7ZTqxR8257ESNcXBbrH6n0wmJ8Ov3MYWbKspA31eKzjlWi7JCm4EwKDgCHRycM9tjRQcUHahADvYQlAAaf3RRtzBglW3mCb7A0bfB5Y4lWe3oPArgqy7Tr",
-			"ADLdapPort": 8305,
-			"ADBaseDn": null
+			"Id": "db967a3d-2d13-4b8d-83bc-53433c8a0a27",
+			"Key": "yU3wd3MIBp3I",
+			"Name": "FG3DM50NdvTrs208UqJRPEjzldKjsoteYdjooz1FRLuzkfVaWJR8t16awDsIuQ",
+			"BaseUrl": "cOCpSLTuyeaejUogsJxTHuU7gj2VhtkarFxFMFslZwKo020LomqUtKsR4FiJS8mf39XOxSEWrm4kUFgosqH5cAQQnPLgwTC1kEv1emoFSDCgQh7zz3qBBrdDtgAShxzIUcapkpjgcbnI7K9fRlRDCaA2B1H8VGxue4wNhSpjUkzzeEFSgub5P6fTMiXsRluFO2Ednv886HSrKaX7wZ1AEBPhZNb956CI03VmaCFVwc9inXjLu052t3bmm"
 		},
 		{
-			"Id": "a6903a0a-2a96-4d3e-8e12-b2d39f36fa86",
-			"Name": "5JVg48CxyZjv8fq9F5pGmBVFW6eeoiomXmapif1fB1rKhVrtQU",
-			"Slug": "QJUcEYqt84xjpL7HWfa0AdjfvjkxbOUxExIMckFB2V3ldRc9knFoP3uNAPQvN2suj9O2cuFMJJ8Pj",
-			"AuthMode": 2,
-			"IsActive": false,
-			"CreatedAt": "2026-06-13T17:05:08.5678926-04:00",
-			"ExternalAuthority": null,
-			"ExternalClientId": null,
-			"ExternalClientSecret": null,
-			"ADDcHost": "GRLc5mwDkY9CJcdcj60S2Og5ODCOco",
-			"ADDomain": "EkMrdZhiijyV8nK57L7pweq1LQxCUSA6xt7yzV9uZRKTqv6B2GQBrmtz4UQxBPyzSCxPpmFlLMAPEGLqT6Jnb9PkaIDOfL2jtkbY7rmQbFZOWN5yjzNFfkxSWnOQS0f9UqvtEXtC",
-			"ADLdapPort": 8948,
-			"ADBaseDn": null
+			"Id": "d69e0994-d502-46b6-b3ff-fc6df3c0cdca",
+			"Key": "oKu9d9ekBQpL64tgeCC",
+			"Name": "4bEzPeaKo62J9Nn5Aw99ddwCvS3bInZITPCmg4u88E5FXQMtQyPRCD",
+			"BaseUrl": "Pbe6l9bbhtZtlbZGcbaIh0OPgKvkHigqmLHe0yX9C3yD1siPJjPBC4SYwyZLO1D9nIhJEUPOoagoCkXXBPLyCPXr3SRBIlvLAzqslJlYDamBYEvmKbj8pfGHUZPVcogcPEXd4FM2EW4CCwDyxF0Gcwvu3SHv3zWp4kWtQrrfzqDCldfywqyHxJ9siDkl7r9faPHrJjSfnVhV33jZNi8Mbo1ulDkmhgiiryBFFXYmIttMCnzpuvHYswdVXngg9F8"
 		},
 		{
-			"Id": "115377a0-6dbe-41f6-a208-760f7751e2b8",
-			"Name": "jbywMfFP7weiXsbUMF7kzZ3FsL3wglVm90JVYrdMvzcxlmGmVI0o5ahth2ebmiJWL2j6Tq6uBuZ9XGtffRLHvHq8TpN5ncAm0pWtdKCEMF",
-			"Slug": "LliFLJ85FHbBdLlmDNagy4NiITacFoh4ZVPXKTbwpg5PYXTS2x91LyxRI972I5ArAgMr6yMTLO1s87",
-			"AuthMode": 0,
-			"IsActive": true,
-			"CreatedAt": "2025-03-03T17:05:08.5678926-05:00",
-			"ExternalAuthority": null,
-			"ExternalClientId": null,
-			"ExternalClientSecret": null,
-			"ADDcHost": null,
-			"ADDomain": null,
-			"ADLdapPort": 4267,
-			"ADBaseDn": "oKWjXtQOoSlBVEVqp7HfSKQn1rVsckXl48jb6B1HLuTLIJGPw8aw2spO4JsFHxLe49HWuUtYfaDx1eOsUg6ekBtLTEgxjv9oTOQJcTuMOlq2Y2XZ59VBBH4DQ5d0N5OTapOmyeqbVtz8kBW0RrCjKIXmUn2gPE9TGG1JoKB0TTQhh5spimiwDFjCCCBkmjvquQ"
+			"Id": "fe423600-9cdf-45d1-8a11-bfeb950fb7ae",
+			"Key": "N8EEBNt",
+			"Name": "tWdS5p27d42VIt05uQSsQSndul9DT4YRbREFsvZIvjdeMmJtiJkV4akLIaxUqyoiglT1YuM80k7GPjAiLPvjU",
+			"BaseUrl": null
 		},
 		{
-			"Id": "72236773-e7f7-496f-8bf2-a0ec91d0b238",
-			"Name": "OJmMgZLz01PeY5M7DwMpbxyhVjqOJyAXAEOP6KcG1fsKWxNpJm24RAzqkf07J7ZCB1Nur7b2tgy5eXuyFbexGFgae",
-			"Slug": "F0Te73p0j5Ts7Mk9KKcElwUCBH3B55UNp3Ckjp",
-			"AuthMode": 0,
-			"IsActive": false,
-			"CreatedAt": "2026-07-05T17:05:08.5678926-04:00",
-			"ExternalAuthority": null,
-			"ExternalClientId": "OndCnG5G7KligrNzaY4nlgddk9ZvBHY7SvXoEAozaoPOSte2LTD1uBoIj9snQJezWozUDz5JJFm6Ayv04",
-			"ExternalClientSecret": "Sd6NqhoeEiaSBkq2E3uymX4sYoriVOBsT0vv0KiMpuBBIXVWkF16KJG5jNYcZgt0QS9KY4c3VRi2wCTbDF8pWFSjtAlmWgXjbKU0Yk7pD7l3BOIQ4WJuhedl9ZrySZgO491VS3nsHSVZtZRO1Fs9HCb6HI083JHN0H8BXX8aJqWzso1khMGnHhgB74ojcpz8kh8W0q1eGrAqPMOsRQ0qdufTAHE2JY8u1Yokqeu1UCQqQZWvp5Cwyi4ZbowtV8FRsgz0xDcMv8FLNZdKUiMOwM5S3yibRbfW697KA58W2ZazMtmmlWINv1vQkQ68va4u2TOO2CjZk0VGLFfKm605DCAfNqAT89A15QG3PHuSMSDFfYfO",
-			"ADDcHost": "Vzk90AtIaLbA1kA4L48m4PLhsU94aZlWiLobR5ZgJhGSRm1selmkPyBfXcQgByIlAprp5ymPf",
-			"ADDomain": "Xj2Ag3Q0YNagTkioOpTPlIvsB4LwQ8GfWWN64LJmUITHziHeXkHAvnBpYK9lrtj0g5u7GmucQG4MZX3swGJGAgTJuyiuMx4By2ADYKIKZETZtYzaQQZUTNzamUNie",
-			"ADLdapPort": null,
-			"ADBaseDn": "MCn6wAEW88Q5w4pF9hN6IjRVDArd7AGZeBn0LCOqmcWU6DOsFhi7wDTCUBD6"
+			"Id": "3d1472fe-f430-4e5a-903f-7cbef059bb1a",
+			"Key": "bG27s8fr6547BDSEY6l4UdN6zJoiKdexdySu5wua",
+			"Name": "2aLUl8P3kGmJib836IST6Q30G4dUyIBMkk2cblnKJoAG1Y5wUA9YLqYlhVnq54FLfKy8j52VuikR",
+			"BaseUrl": null
 		}
 	]
 }

@@ -14,7 +14,6 @@ public class Result
 
 	[JsonInclude]
 	public bool IsSuccess { get; protected init; }
-	public bool IsFailure => !IsSuccess;
 	[JsonInclude]
 	public ResultError? Error { get; protected init; }
 	public HttpStatusCode StatusCode => (HttpStatusCode)(Error?.Kind ?? ResultErrorKind.Failure);
@@ -65,7 +64,7 @@ public class Result
 
 	public void ThrowIfFailure()
 	{
-		if (IsFailure)
+		if (!IsSuccess)
 		{
 			switch (Error!.Kind)
 			{

@@ -1,12 +1,12 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/27/2026 4:53 PM. Any changes made to it will be lost.
+// This file was auto-generated on 3/1/2026 10:25 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
-using Dyvenix.App1.Auth.Data.Context;
-using Dyvenix.Auth.Tests.Integration.DataSets;
+using Dyvenix.App1.App.Api.Context;
+using Dyvenix.App1.Tests.Integration.DataSets;
 
-namespace Dyvenix.Auth.Tests.Integration.Data;
+namespace Dyvenix.App1.Tests.Integration.Data;
 
 public interface IDataManager : IDisposable
 {
@@ -17,9 +17,9 @@ public interface IDataManager : IDisposable
 
 public class DataManager : IDataManager
 {
-	private readonly AuthDbContext _db;
+	private readonly App1Db _db;
 
-	public DataManager(AuthDbContext db)
+	public DataManager(App1Db db)
 	{
 		_db = db;
 	}
@@ -75,12 +75,12 @@ public class DataManager : IDataManager
 
 	private async Task DeleteAllData()
 	{
-		await _db.Tenant.ExecuteDeleteAsync();
+		await _db.Client.ExecuteDeleteAsync();
 	}
 
 	private async Task InsertAllData(TestDataSet dataSet)
 	{
-		await _db.Tenant.AddRangeAsync(dataSet.TenantList);
+		await _db.Client.AddRangeAsync(dataSet.ClientList);
 		await _db.SaveChangesAsync();
 	}
 }
