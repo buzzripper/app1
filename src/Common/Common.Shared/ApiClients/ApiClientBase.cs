@@ -7,199 +7,203 @@ using System.Text.Json.Serialization;
 
 namespace Dyvenix.App1.Common.Shared.ApiClients;
 
-public abstract class ApiClientBase
+public interface IApiClientBase
 {
-    #region Fields
+}
 
-    private readonly HttpClient _httpClient;
-    private readonly JsonSerializerOptions _jsonSerializerOptionsGet = new JsonSerializerOptions
-    {
-        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-        PropertyNameCaseInsensitive = true
-    };
-    private readonly JsonSerializerOptions _jsonSerializerOptionsPost = new JsonSerializerOptions
-    {
-        WriteIndented = true,
-        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-    };
+public abstract class ApiClientBase : IApiClientBase
+{
+	#region Fields
 
-    #endregion
+	private readonly HttpClient _httpClient;
+	private readonly JsonSerializerOptions _jsonSerializerOptionsGet = new JsonSerializerOptions
+	{
+		DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+		PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+		PropertyNameCaseInsensitive = true
+	};
+	private readonly JsonSerializerOptions _jsonSerializerOptionsPost = new JsonSerializerOptions
+	{
+		WriteIndented = true,
+		PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+	};
 
-    #region Ctors / Init
+	#endregion
 
-    public ApiClientBase(HttpClient httpClient)
-    {
-        _httpClient = httpClient;
-        _jsonSerializerOptionsGet.Converters.Add(new JsonStringEnumConverter());
-    }
+	#region Ctors / Init
 
-    #endregion
+	public ApiClientBase(HttpClient httpClient)
+	{
+		_httpClient = httpClient;
+		_jsonSerializerOptionsGet.Converters.Add(new JsonStringEnumConverter());
+	}
 
-    #region Methods
+	#endregion
 
-    protected async Task<TResult> GetAsync<TResult>(string uri)
-    {
-        var httpResponse = await _httpClient.GetAsync(uri);
+	#region Methods
 
-        if (!httpResponse.IsSuccessStatusCode)
-            throw new HttpException(httpResponse.StatusCode, $"{httpResponse.Content.ReadAsStringAsync()}");
+	protected async Task<TResult> GetAsync<TResult>(string uri)
+	{
+		var httpResponse = await _httpClient.GetAsync(uri);
 
-        if (httpResponse.StatusCode == HttpStatusCode.NoContent)
-            return default!;
+		if (!httpResponse.IsSuccessStatusCode)
+			throw new HttpException(httpResponse.StatusCode, $"{httpResponse.Content.ReadAsStringAsync()}");
 
-        var responseString = await httpResponse.Content.ReadAsStringAsync();
-        var response = JsonSerializer.Deserialize<Result<TResult>>(responseString, _jsonSerializerOptionsGet);
-        if (response is null)
-            throw new HttpDeserializationException("Failed to deserialize the response.");
+		if (httpResponse.StatusCode == HttpStatusCode.NoContent)
+			return default!;
 
-        return response.Data!;
-    }
+		var responseString = await httpResponse.Content.ReadAsStringAsync();
+		var response = JsonSerializer.Deserialize<Result<TResult>>(responseString, _jsonSerializerOptionsGet);
+		if (response is null)
+			throw new HttpDeserializationException("Failed to deserialize the response.");
 
-    #region Post
+		return response.Data!;
+	}
 
-    protected async Task PostAsync(string uri, object payload)
-    {
-        await CallAsync(MethodType.Post, uri, payload);
-    }
+	#region Post
 
-    protected async Task<TResult> PostAsync<TResult>(string uri, object payload)
-    {
-        return await CallAsync<TResult>(MethodType.Post, uri, payload);
-    }
+	protected async Task PostAsync(string uri, object payload)
+	{
+		await CallAsync(MethodType.Post, uri, payload);
+	}
 
-    protected async Task<string> PostAsyncStr(string uri, object payload)
-    {
-        return await CallAsyncStr(MethodType.Post, uri, payload);
-    }
+	protected async Task<TResult> PostAsync<TResult>(string uri, object payload)
+	{
+		return await CallAsync<TResult>(MethodType.Post, uri, payload);
+	}
 
-    protected async Task<TResult> PostAsyncWithReturn<TResult>(string uri, object payload)
-    {
-        var resultJson = await CallAsyncStr(MethodType.Post, uri, payload);
+	protected async Task<string> PostAsyncStr(string uri, object payload)
+	{
+		return await CallAsyncStr(MethodType.Post, uri, payload);
+	}
 
-        var result = JsonSerializer.Deserialize<TResult>(resultJson, _jsonSerializerOptionsGet);
-        if (result is null)
-            throw new HttpDeserializationException("Failed to deserialize the response.");
+	protected async Task<TResult> PostAsyncWithReturn<TResult>(string uri, object payload)
+	{
+		var resultJson = await CallAsyncStr(MethodType.Post, uri, payload);
 
-        return result;
-    }
+		var result = JsonSerializer.Deserialize<TResult>(resultJson, _jsonSerializerOptionsGet);
+		if (result is null)
+			throw new HttpDeserializationException("Failed to deserialize the response.");
 
-    #endregion
+		return result;
+	}
 
-    #region Delete
+	#endregion
 
-    protected async Task DeleteAsync(string uri, object payload)
-    {
-        await CallAsync(MethodType.Delete, uri, payload);
-    }
+	#region Delete
 
-    protected async Task<TResult> DeleteAsync<TResult>(string uri, object payload)
-    {
-        return await CallAsync<TResult>(MethodType.Delete, uri, payload);
-    }
+	protected async Task DeleteAsync(string uri, object payload)
+	{
+		await CallAsync(MethodType.Delete, uri, payload);
+	}
 
-    protected async Task<string> DeleteAsyncStr(string uri, object payload)
-    {
-        return await CallAsyncStr(MethodType.Delete, uri, payload);
-    }
+	protected async Task<TResult> DeleteAsync<TResult>(string uri, object payload)
+	{
+		return await CallAsync<TResult>(MethodType.Delete, uri, payload);
+	}
 
-    #endregion
+	protected async Task<string> DeleteAsyncStr(string uri, object payload)
+	{
+		return await CallAsyncStr(MethodType.Delete, uri, payload);
+	}
 
-    #region Put
+	#endregion
 
-    protected async Task PutAsync(string uri, object payload)
-    {
-        await CallAsync(MethodType.Put, uri, payload);
-    }
+	#region Put
 
-    protected async Task<TResult> PutAsync<TResult>(string uri, object payload)
-    {
-        return await CallAsync<TResult>(MethodType.Put, uri, payload);
-    }
+	protected async Task PutAsync(string uri, object payload)
+	{
+		await CallAsync(MethodType.Put, uri, payload);
+	}
 
-    protected async Task<string> PutAsyncStr(string uri, object payload)
-    {
-        return await CallAsyncStr(MethodType.Put, uri, payload);
-    }
+	protected async Task<TResult> PutAsync<TResult>(string uri, object payload)
+	{
+		return await CallAsync<TResult>(MethodType.Put, uri, payload);
+	}
 
-    #endregion
+	protected async Task<string> PutAsyncStr(string uri, object payload)
+	{
+		return await CallAsyncStr(MethodType.Put, uri, payload);
+	}
 
-    #region Patch
+	#endregion
 
-    protected async Task PatchAsync(string uri, object payload)
-    {
-        await CallAsync(MethodType.Patch, uri, payload);
-    }
+	#region Patch
 
-    protected async Task<TResult> PatchAsync<TResult>(string uri, object payload)
-    {
-        return await CallAsync<TResult>(MethodType.Patch, uri, payload);
-    }
+	protected async Task PatchAsync(string uri, object payload)
+	{
+		await CallAsync(MethodType.Patch, uri, payload);
+	}
 
-    protected async Task<string> PatchAsyncStr(string uri, object payload)
-    {
-        return await CallAsyncStr(MethodType.Patch, uri, payload);
-    }
+	protected async Task<TResult> PatchAsync<TResult>(string uri, object payload)
+	{
+		return await CallAsync<TResult>(MethodType.Patch, uri, payload);
+	}
 
-    #endregion
+	protected async Task<string> PatchAsyncStr(string uri, object payload)
+	{
+		return await CallAsyncStr(MethodType.Patch, uri, payload);
+	}
 
-    #region Call
+	#endregion
 
-    protected async Task CallAsync(MethodType methodType, string uri, object payload)
-    {
-        var responseString = await CallAsyncStr(methodType, uri, payload);
+	#region Call
 
-        var response = JsonSerializer.Deserialize<Result>(responseString, _jsonSerializerOptionsGet);
-        if (response is null)
-            throw new HttpDeserializationException("Failed to deserialize the response.");
-    }
+	protected async Task CallAsync(MethodType methodType, string uri, object payload)
+	{
+		var responseString = await CallAsyncStr(methodType, uri, payload);
 
-    protected async Task<T> CallAsync<T>(MethodType methodType, string uri, object payload)
-    {
-        var responseString = await CallAsyncStr(methodType, uri, payload);
+		var response = JsonSerializer.Deserialize<Result>(responseString, _jsonSerializerOptionsGet);
+		if (response is null)
+			throw new HttpDeserializationException("Failed to deserialize the response.");
+	}
 
-        var response = JsonSerializer.Deserialize<Result<T>>(responseString, _jsonSerializerOptionsGet);
-        if (response is null)
-            throw new HttpDeserializationException("Failed to deserialize the response.");
+	protected async Task<T> CallAsync<T>(MethodType methodType, string uri, object payload)
+	{
+		var responseString = await CallAsyncStr(methodType, uri, payload);
 
-        return response.Data!;
-    }
+		var response = JsonSerializer.Deserialize<Result<T>>(responseString, _jsonSerializerOptionsGet);
+		if (response is null)
+			throw new HttpDeserializationException("Failed to deserialize the response.");
 
-    protected async Task<string> CallAsyncStr(MethodType methodType, string uri, object payload)
-    {
-        var json = JsonSerializer.Serialize(payload, _jsonSerializerOptionsPost);
-        using var stringContent = new StringContent(json, Encoding.UTF8, "application/json");
+		return response.Data!;
+	}
 
-        HttpResponseMessage httpResponse;
+	protected async Task<string> CallAsyncStr(MethodType methodType, string uri, object payload)
+	{
+		var json = JsonSerializer.Serialize(payload, _jsonSerializerOptionsPost);
+		using var stringContent = new StringContent(json, Encoding.UTF8, "application/json");
 
-        switch (methodType)
-        {
-            case MethodType.Post:
-                httpResponse = await _httpClient.PostAsync(uri, stringContent);
-                break;
-            case MethodType.Put:
-                httpResponse = await _httpClient.PutAsync(uri, stringContent);
-                break;
-            default:
-                httpResponse = await _httpClient.PatchAsync(uri, stringContent);
-                break;
-        }
+		HttpResponseMessage httpResponse;
 
-        if (!httpResponse.IsSuccessStatusCode)
-            throw new HttpException(httpResponse.StatusCode, $"{httpResponse.Content.ReadAsStringAsync()}");
+		switch (methodType)
+		{
+			case MethodType.Post:
+				httpResponse = await _httpClient.PostAsync(uri, stringContent);
+				break;
+			case MethodType.Put:
+				httpResponse = await _httpClient.PutAsync(uri, stringContent);
+				break;
+			default:
+				httpResponse = await _httpClient.PatchAsync(uri, stringContent);
+				break;
+		}
 
-        return await httpResponse.Content.ReadAsStringAsync();
-    }
+		if (!httpResponse.IsSuccessStatusCode)
+			throw new HttpException(httpResponse.StatusCode, $"{httpResponse.Content.ReadAsStringAsync()}");
 
-    #endregion
+		return await httpResponse.Content.ReadAsStringAsync();
+	}
 
-    #endregion
+	#endregion
 
-    public enum MethodType
-    {
-        Post,
-        Delete,
-        Put,
-        Patch
-    }
+	#endregion
+
+	public enum MethodType
+	{
+		Post,
+		Delete,
+		Put,
+		Patch
+	}
 }

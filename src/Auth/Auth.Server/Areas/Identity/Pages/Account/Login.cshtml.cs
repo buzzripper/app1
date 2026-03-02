@@ -2,6 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
+using Dyvenix.App1.AdAgent.Shared.ApiClients.v1;
+using Dyvenix.App1.AdAgent.Shared.DTOs;
 using Dyvenix.App1.Auth.Data;
 using Dyvenix.App1.Auth.Data.Fido2;
 using Dyvenix.App1.Auth.Server.Services;
@@ -128,7 +130,22 @@ namespace Dyvenix.App1.Auth.Server.Areas.Identity.Pages.Account
 
 				if (tenant.AuthMode == AuthMode.AD)
 				{
-					var baseUrl = _clientRouter.GetClientBaseUrl(tenant.Slug);
+					var httpClient = await _clientRouter.GetHttpClient(tenant.Slug);
+					var adApiClient = new AdApiClient(httpClient);
+					var adAuthResult = await adApiClient.AuthenticateUser(Input.Email, Input.Password);
+					if (adAuthResult.Status == AdAuthStatus.Success)
+					{
+						// AD authentication succeeded, sign in the user locally
+						await _signInManager.SignInAsync(user, Input.RememberMe);
+						_logger.LogInformation("User logged in with AD authentication.");
+						return LocalRedirect(returnUrl);
+					}
+					else
+					{
+						_logger.LogWarning("AD authentication failed for {Email}.", Input.Email);
+						ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+						return Page();
+					}
 				}
 				else
 				{

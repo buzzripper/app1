@@ -1,9 +1,12 @@
+using Dyvenix.App1.App.Shared.ApiClients.v1;
+using Dyvenix.App1.App.Shared.Contracts.v1;
 using Dyvenix.App1.Auth.Api.Extensions;
 using Dyvenix.App1.Auth.Data;
 using Dyvenix.App1.Auth.Data.Context;
 using Dyvenix.App1.Auth.Data.Fido2;
 using Dyvenix.App1.Auth.Server;
 using Dyvenix.App1.Auth.Server.Fido2;
+using Dyvenix.App1.Auth.Server.Services;
 using Dyvenix.App1.Common.Api.Extensions;
 using Dyvenix.App1.Common.Server;
 using Fido2NetLib;
@@ -152,6 +155,13 @@ builder.Services.AddPermissionAuthorization();
 builder.Services.AddAuthApiServices(false);
 builder.Services.AddBrandImgRepository(builder.Configuration);
 builder.Services.AddStandardApiVersioning();
+
+builder.Services.AddScoped<IClientRouter, ClientRouter>();
+builder.Services.AddHttpClient<IClientService, ClientApiClient>();
+builder.Services.AddHttpClient<IClientService, ClientApiClient>(client =>
+{
+	client.BaseAddress = new Uri("https://localhost:5003");
+});
 
 //----------------------------------------------------------------------------------------------
 

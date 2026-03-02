@@ -4,7 +4,7 @@ namespace Dyvenix.App1.Auth.Server.Services
 {
 	public interface IClientRouter
 	{
-		Task<string?> GetClientBaseUrl(string clientKey);
+		Task<HttpClient> GetHttpClient(string clientKey);
 	}
 
 	public class ClientRouter : IClientRouter
@@ -20,12 +20,15 @@ namespace Dyvenix.App1.Auth.Server.Services
 			_clientService = clientService;
 		}
 
-		public async Task<string?> GetClientBaseUrl(string clientKey)
+		public async Task<HttpClient> GetHttpClient(string clientKey)
 		{
 			if (_expirationTimeUtc.CompareTo(DateTime.UtcNow) < 0)
 				await this.RefreshCache();
 
-			return _cache.TryGetValue(clientKey, out var baseUrl) ? baseUrl : null;
+			if (!_cache.TryGetValue(clientKey, out var baseUrl))
+				throw new Exception($"Client with key '{clientKey}' not found.");
+
+			return new HttpClient { BaseAddress = new Uri(baseUrl) };
 		}
 
 		private async Task RefreshCache()
