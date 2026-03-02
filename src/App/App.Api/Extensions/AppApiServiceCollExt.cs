@@ -11,8 +11,8 @@ namespace Dyvenix.App1.App.Api.Extensions;
 public static partial class AppApiServiceCollExt
 {
     // Declaration of partial methods for code-generated services
-    public static partial void AddGeneratedServices(IServiceCollection services);
-    public static partial void MapGeneratedEndpoints(IEndpointRouteBuilder app);
+    static partial void AddGeneratedServices(IServiceCollection services);
+    static partial void MapGeneratedEndpoints(IEndpointRouteBuilder app);
 
     /// <summary>
     /// Registers App API services.

@@ -1,4 +1,4 @@
-﻿namespace Dyvenix.App1.Common.Shared.Config;
+namespace Dyvenix.App1.Common.Shared.Config;
 
 public class ApiClientsConfig : Dictionary<string, ApiClientConfig>
 {
@@ -6,6 +6,6 @@ public class ApiClientsConfig : Dictionary<string, ApiClientConfig>
 
 public class ApiClientConfig
 {
-	public string BaseUrl { get; set; }
-	public int TimeoutSecs { get; set; }
+    public string BaseUrl { get; set; } = null!;
+    public int TimeoutSecs { get; set; }
 }
