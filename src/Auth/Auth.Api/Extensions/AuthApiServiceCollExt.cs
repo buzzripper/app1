@@ -1,8 +1,14 @@
+using Dyvenix.App1.Auth.Api.Context;
 using Dyvenix.App1.Auth.Api.Endpoints;
+using Dyvenix.App1.Auth.Api.Endpoints.v1;
 using Dyvenix.App1.Auth.Api.Services;
+using Dyvenix.App1.Auth.Api.Services.v1;
 using Dyvenix.App1.Auth.Shared.Contracts;
+using Dyvenix.App1.Auth.Shared.Contracts.v1;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Scalar.AspNetCore;
 
@@ -32,6 +38,33 @@ public static partial class AuthApiServiceCollExt
 		// Add code-generated services
 		AddGeneratedServices(services);
 
+		// Register User and Role services (ASP.NET Identity)
+		services.AddScoped<IUserService, UserService>();
+		services.AddScoped<IRoleService, RoleService>();
+
+		return services;
+	}
+
+	/// <summary>
+	/// Configures the AuthIdentityDb and ASP.NET Identity services.
+	/// Call this with the connection string for the Identity database.
+	/// </summary>
+	public static IServiceCollection AddAuthIdentityServices(this IServiceCollection services, string connectionString)
+	{
+		services.AddDbContext<AuthIdentityDb>(options =>
+			options.UseSqlServer(connectionString));
+
+		services.AddIdentityCore<IdentityUser>(options =>
+		{
+			options.Password.RequireDigit = true;
+			options.Password.RequiredLength = 8;
+			options.Password.RequireNonAlphanumeric = false;
+			options.Password.RequireUppercase = true;
+			options.Password.RequireLowercase = true;
+		})
+		.AddRoles<IdentityRole>()
+		.AddEntityFrameworkStores<AuthIdentityDb>();
+
 		return services;
 	}
 
@@ -43,6 +76,9 @@ public static partial class AuthApiServiceCollExt
 		app.MapAuthSystemEndpoints();
 
 		MapGeneratedEndpoints(app);
+
+		app.MapUserEndpoints();
+		app.MapRoleEndpoints();
 
 		return app;
 	}
@@ -64,3 +100,4 @@ public static partial class AuthApiServiceCollExt
 		return app;
 	}
 }
+

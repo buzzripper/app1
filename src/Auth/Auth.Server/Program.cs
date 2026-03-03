@@ -18,6 +18,7 @@ else
 
 builder.Services.AddPermissionAuthorization();
 builder.Services.AddAuthApiServices(false);
+builder.Services.AddAuthIdentityServices(dataConfig.ConnectionString);
 builder.Services.AddStandardApiVersioning();
 builder.Services.AddDataServices(dataConfig);
 

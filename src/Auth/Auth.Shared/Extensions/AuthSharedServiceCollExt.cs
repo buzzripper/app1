@@ -1,5 +1,7 @@
 using Dyvenix.App1.Auth.Shared.ApiClients;
+using Dyvenix.App1.Auth.Shared.ApiClients.v1;
 using Dyvenix.App1.Auth.Shared.Contracts;
+using Dyvenix.App1.Auth.Shared.Contracts.v1;
 using Dyvenix.App1.Common.Shared.Config;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -22,6 +24,16 @@ public static partial class AuthSharedServiceCollExt
 			}
 
 			services.AddHttpClient<IAuthSystemService, AuthSystemApiClient>(client =>
+			{
+				client.BaseAddress = new Uri(baseUrl);
+			});
+
+			services.AddHttpClient<IUserService, UserApiClient>(client =>
+			{
+				client.BaseAddress = new Uri(baseUrl);
+			});
+
+			services.AddHttpClient<IRoleService, RoleApiClient>(client =>
 			{
 				client.BaseAddress = new Uri(baseUrl);
 			});
