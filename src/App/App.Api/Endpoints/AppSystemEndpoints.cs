@@ -1,9 +1,11 @@
+using Dyvenix.App1.App.Shared.Authorization;
 using Dyvenix.App1.Common.Shared.Contracts;
 using Dyvenix.App1.Common.Shared.DTOs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using System.Security.Claims;
+using System.Text;
 
 namespace Dyvenix.App1.App.Api.Endpoints;
 
@@ -12,24 +14,30 @@ public static class AppSystemEndpoints
     public static IEndpointRouteBuilder MapAppSystemEndpoints(this IEndpointRouteBuilder app)
     {
         var group = app.MapGroup("api/app/system")
-            .WithTags("System")
-            .AllowAnonymous();
+            .WithTags("System");
 
         group.MapGet("ping", Ping)
-            .Produces<PingResult>(StatusCodes.Status200OK);
+            .Produces<PingResult>(StatusCodes.Status200OK)
+            .AllowAnonymous();
 
         group.MapGet("health", Health)
-            .Produces<object>(StatusCodes.Status200OK);
+            .Produces<object>(StatusCodes.Status200OK)
+            .RequireAuthorization(AppPermissions.Write);
 
         group.MapPost("getserviceinfo", GetServiceInfo)
-            .Produces<object>(StatusCodes.Status200OK);
+            .Produces<object>(StatusCodes.Status200OK)
+            .AllowAnonymous();
 
         return app;
     }
 
     private static IResult Ping(ClaimsPrincipal user)
     {
-        var claims = user.Claims.Select(c => $"{c.Type} = {c.Value}").ToList();
+        var sb = new StringBuilder();
+        foreach (var claim in user.Claims.Select(c => $"{c.Type} = {c.Value}"))
+            sb.AppendLine(claim);
+        File.WriteAllText(@"D:\Active\Claims.txt", sb.ToString());
+
         return Results.Ok(new PingResult(AppConstants.ModuleId, "System"));
     }
 

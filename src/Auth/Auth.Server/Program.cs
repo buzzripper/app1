@@ -7,6 +7,8 @@ using Dyvenix.App1.Auth.Data.Fido2;
 using Dyvenix.App1.Auth.Server;
 using Dyvenix.App1.Auth.Server.Fido2;
 using Dyvenix.App1.Auth.Server.Services;
+using Dyvenix.App1.Auth.Shared.Authorization;
+using Dyvenix.App1.Common.Api.Authorization;
 using Dyvenix.App1.Common.Api.Extensions;
 using Dyvenix.App1.Common.Server;
 using Fido2NetLib;
@@ -163,9 +165,15 @@ builder.Services.AddHttpClient<IClientService, ClientApiClient>(client =>
 	client.BaseAddress = new Uri("https://localhost:5003");
 });
 
+builder.Services.AddSingleton<PermissionRegistry>();
+
 //----------------------------------------------------------------------------------------------
 
 var app = builder.Build();
+
+// Register this module's permissions
+app.Services.GetRequiredService<PermissionRegistry>()
+	.Register(AuthPermissions.Hierarchy);
 
 // Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())

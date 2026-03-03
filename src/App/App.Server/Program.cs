@@ -1,5 +1,7 @@
 using Dyvenix.App1.App.Api.Config;
 using Dyvenix.App1.App.Api.Extensions;
+using Dyvenix.App1.App.Shared.Authorization;
+using Dyvenix.App1.Common.Api.Authorization;
 using Dyvenix.App1.Common.Api.Extensions;
 using Dyvenix.App1.Common.Server;
 
@@ -12,9 +14,9 @@ var dataConfig = DataConfigBuilder.Build(builder.Configuration);
 
 // Add services to the container
 if (builder.Environment.IsEnvironment("Testing"))
-    builder.Services.AddTestJwtAuthentication();
+	builder.Services.AddTestJwtAuthentication();
 else
-    builder.Services.AddJwtBearerAuthentication(builder.Configuration);
+	builder.Services.AddJwtBearerAuthentication(builder.Configuration);
 
 builder.Services.AddPermissionAuthorization();
 builder.Services.AddAppApiServices(false);
@@ -33,6 +35,9 @@ app.MapDefaultEndpoints();
 
 // Enable API documentation in development
 if (app.Environment.IsDevelopment())
-    app.MapAppApiDocumentation();
+	app.MapAppApiDocumentation();
+
+app.Services.GetRequiredService<PermissionRegistry>()
+	.Register(AppPermissions.Hierarchy);
 
 app.Run();
