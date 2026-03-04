@@ -1,4 +1,3 @@
-using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -19,34 +18,38 @@ namespace Dyvenix.App1.Auth.Data.Migrations
                 defaultValue: new Guid("00000000-0000-0000-0000-000000000000"));
 
             migrationBuilder.CreateTable(
-                name: "Tenants",
+                name: "Tenant",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Slug = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    AuthMethod = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    AuthMode = table.Column<int>(type: "int", nullable: false),
                     ExternalAuthority = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     ExternalClientId = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     ExternalClientSecret = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    ADDcHost = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    ADDomain = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    ADLdapPort = table.Column<int>(type: "int", nullable: true),
+                    ADBaseDn = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tenants", x => x.Id);
+                    table.PrimaryKey("PK_Tenant", x => x.Id);
                 });
 
-            // Seed the default tenant so existing users can be assigned to it before the FK is enforced.
-            migrationBuilder.Sql(@"
-                INSERT INTO [Tenants] ([Id], [Name], [Slug], [AuthMethod], [IsActive], [CreatedAt])
-                VALUES ('A1000000-0000-0000-0000-000000000001', 'Acme Corp', 'acme', 'Local', 1, SYSUTCDATETIME());
-            ");
+            //// Seed the default tenant so existing users can be assigned to it before the FK is enforced.
+            //migrationBuilder.Sql(@"
+            //    INSERT INTO [Tenant] ([Id], [Name], [Slug], [AuthMethod], [IsActive], [CreatedAt])
+            //    VALUES ('A1000000-0000-0000-0000-000000000001', 'Acme Corp', 'acme', 'Local', 1, SYSUTCDATETIME());
+            //");
 
-            migrationBuilder.Sql(@"
-                UPDATE [AspNetUsers] SET [TenantId] = 'A1000000-0000-0000-0000-000000000001'
-                WHERE [TenantId] = '00000000-0000-0000-0000-000000000000';
-            ");
+            //migrationBuilder.Sql(@"
+            //    UPDATE [AspNetUsers] SET [TenantId] = 'A1000000-0000-0000-0000-000000000001'
+            //    WHERE [TenantId] = '00000000-0000-0000-0000-000000000000';
+            //");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUsers_TenantId_Email",
@@ -54,16 +57,16 @@ namespace Dyvenix.App1.Auth.Data.Migrations
                 columns: new[] { "TenantId", "Email" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tenants_Slug",
-                table: "Tenants",
+                name: "IX_Tenant_Slug",
+                table: "Tenant",
                 column: "Slug",
                 unique: true);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_AspNetUsers_Tenants_TenantId",
+                name: "FK_AspNetUsers_Tenant_TenantId",
                 table: "AspNetUsers",
                 column: "TenantId",
-                principalTable: "Tenants",
+                principalTable: "Tenant",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
         }
@@ -72,11 +75,11 @@ namespace Dyvenix.App1.Auth.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_AspNetUsers_Tenants_TenantId",
+                name: "FK_AspNetUsers_Tenant_TenantId",
                 table: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Tenants");
+                name: "Tenant");
 
             migrationBuilder.DropIndex(
                 name: "IX_AspNetUsers_TenantId_Email",

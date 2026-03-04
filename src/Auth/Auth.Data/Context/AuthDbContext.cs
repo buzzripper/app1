@@ -1,10 +1,13 @@
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Dyvenix.App1.Auth.Data.Entities;
 
 namespace Dyvenix.App1.Auth.Data.Context;
 
-public partial class AuthDbContext : IdentityDbContext<ApplicationUser>
+public partial class AuthDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string,
+	IdentityUserClaim<string>, IdentityUserRole<string>, IdentityUserLogin<string>,
+	IdentityRoleClaim<string>, IdentityUserToken<string>>
 {
 	partial void OnModelCreatingExt(ModelBuilder builder);
 

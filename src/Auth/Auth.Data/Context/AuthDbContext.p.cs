@@ -33,5 +33,16 @@ public partial class AuthDbContext
 				|| _tenantContext.TenantId == Guid.Empty
 				|| u.TenantId == _tenantContext.TenantId);
 		});
+
+		builder.Entity<ApplicationRole>(b =>
+		{
+			b.HasOne<Tenant>().WithMany().HasForeignKey(r => r.TenantId).OnDelete(DeleteBehavior.Restrict);
+			b.HasIndex(r => new { r.TenantId, r.NormalizedName }).IsUnique();
+
+			// Global query filter: scope role queries to the current tenant
+			b.HasQueryFilter(r => _tenantContext == null
+				|| _tenantContext.TenantId == Guid.Empty
+				|| r.TenantId == _tenantContext.TenantId);
+		});
 	}
 }

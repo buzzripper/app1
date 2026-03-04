@@ -7,7 +7,7 @@ Add-Migration <migration name> -Project App.Api -StartupProject App.Server
 Update-Database -Project App.Api -StartupProject App.Server -Context App1Db -Connection "Data Source=localhost;Initial Catalog=App1;Integrated Security=True;Encrypt=False;"
 
 // Auth
-Add-Migration <migration name> -Project Auth.Data -StartupProject Auth.Server -Connection "Data Source=localhost;Initial Catalog=Auth;Integrated Security=True;Encrypt=False;"
+Add-Migration <migration name> -Project Auth.Data -StartupProject Auth.Server
 Update-Database -Project Auth.Data -StartupProject Auth.Server -Context AuthDbContext -Connection "Data Source=localhost;Initial Catalog=Auth;Integrated Security=True;Encrypt=False;"
 
 
