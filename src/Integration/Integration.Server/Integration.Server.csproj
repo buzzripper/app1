@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<AssemblyName>Dyvenix.App1.Integration.Server</AssemblyName>
+		<RootNamespace>Dyvenix.App1.Integration.Server</RootNamespace>
+		<Configurations>Debug;Release;Dbg-Ext</Configurations>
+		<UserSecretsId>7f3a1c9e-4b2d-4e8f-a015-6c3d9b2e7f4a</UserSecretsId>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Common\Common.Server\Common.Server.csproj" />
+	  <ProjectReference Include="..\Integration.Api\Integration.Api.csproj" />
+	</ItemGroup>
+
+</Project>

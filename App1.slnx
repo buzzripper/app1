@@ -66,6 +66,11 @@
       <BuildType Solution="Dbg-Ext|*" Project="Release" />
     </Project>
   </Folder>
+  <Folder Name="/src/Integration/">
+    <Project Path="src/Integration/Integration.Api/Integration.Api.csproj" />
+    <Project Path="src/Integration/Integration.Server/Integration.Server.csproj" />
+    <Project Path="src/Integration/Integration.Shared/Integration.Shared.csproj" />
+  </Folder>
   <Folder Name="/src/Portal/">
     <Project Path="src/Portal/Portal.Server/Portal.Server.csproj" />
   </Folder>
