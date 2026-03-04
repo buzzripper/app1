@@ -129,7 +129,7 @@ builder.Services.AddOpenIddict()
                .AllowClientCredentialsFlow()
                .AllowRefreshTokenFlow();
 
-        options.RegisterScopes(Scopes.Email, Scopes.Profile, Scopes.Roles, "app1-api");
+        options.RegisterScopes(Scopes.Email, Scopes.Profile, Scopes.Roles, "app1-api", "integration-api");
 
         options.AddDevelopmentEncryptionCertificate()
                .AddDevelopmentSigningCertificate();
