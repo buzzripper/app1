@@ -1,6 +1,9 @@
+using Dyvenix.App1.App.Api.Services.v1;
+using Dyvenix.App1.App.Endpoints.v1;
+using Dyvenix.App1.App.Shared.Contracts.v1;
+using Dyvenix.App1.Common.Shared.Contracts;
 using Dyvenix.App1.Integration.Api.Endpoints;
 using Dyvenix.App1.Integration.Api.Services;
-using Dyvenix.App1.Common.Shared.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,6 +25,7 @@ public static partial class IntegrationApiServiceCollExt
     {
         // Register business logic services
         services.AddScoped<ISystemService, IntegrationSystemService>();
+        services.AddScoped<IImportService, ImportService>();
 
         // Add code-generated services
         AddGeneratedServices(services);
@@ -41,7 +45,7 @@ public static partial class IntegrationApiServiceCollExt
     public static IEndpointRouteBuilder MapEndpoints(this IEndpointRouteBuilder app)
     {
         app.MapIntegrationSystemEndpoints();
-
+        app.MapImportEndpoints();
         MapGeneratedEndpoints(app);
 
         return app;

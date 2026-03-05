@@ -21,8 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ApiClients\v1\" />
-    <Folder Include="Contracts\v1\" />
     <Folder Include="DTOs\" />
     <Folder Include="Requests\" />
     <Folder Include="Requests\v1\" />

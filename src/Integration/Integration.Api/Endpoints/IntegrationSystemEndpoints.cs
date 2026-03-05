@@ -12,7 +12,7 @@ public static class IntegrationSystemEndpoints
     public static IEndpointRouteBuilder MapIntegrationSystemEndpoints(this IEndpointRouteBuilder app)
     {
         var group = app.MapGroup("api/integration/system")
-            .WithTags("System");
+            .WithTags("Import");
 
         group.MapGet("ping", Ping)
             .Produces<PingResult>(StatusCodes.Status200OK)
