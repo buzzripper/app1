@@ -1,16 +1,19 @@
 //------------------------------------------------------------------------------------------------------------
 // This file was auto-generated on 3/1/2026 10:25 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
+using Dyvenix.App1.App.Shared.Contracts.v1;
 using Dyvenix.App1.Common.Api.Extensions;
 using Dyvenix.App1.Common.Api.Filters;
-using Dyvenix.App1.Common.Shared.Requests;
 using Dyvenix.App1.Common.Shared.DTOs;
-using Dyvenix.App1.App.Shared.Contracts.v1;
+using Dyvenix.App1.Common.Shared.Requests;
+using Dyvenix.App1.Integration.Shared.Authorization;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
+using System.Security.Claims;
+using System.Text;
 
 namespace Dyvenix.App1.App.Endpoints.v1;
 
@@ -19,7 +22,8 @@ public static class ImportEndpoints
 	public static IEndpointRouteBuilder MapImportEndpoints(this IEndpointRouteBuilder app)
 	{
 		var group = app.MapGroup("api/integration/v1/import")
-			.WithTags("Import");
+			.WithTags("Import")
+			.RequireAuthorization(IntegrationPermissions.Read);
 		
 		group.MapGet("importmethod1", ImportMethod1)
 			.Produces<Guid>(StatusCodes.Status200OK);
@@ -33,8 +37,13 @@ public static class ImportEndpoints
 		return app;
 	}
 	
-	public static async Task<Result<string>> ImportMethod1(IImportService importService)
+	public static async Task<Result<string>> ImportMethod1(IImportService importService, ClaimsPrincipal user)
 	{
+        var sb = new StringBuilder();
+        foreach (var claim in user.Claims.Select(c => $"{c.Type} = {c.Value}"))
+            sb.AppendLine(claim);
+        File.WriteAllText(@"D:\Active\Claims.txt", sb.ToString());
+
 		var data = await importService.ImportMethod1();
 		return Result<string>.Ok(data);
 	}

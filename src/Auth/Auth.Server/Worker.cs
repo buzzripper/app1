@@ -3,6 +3,7 @@ using Dyvenix.App1.Auth.Data.Context;
 using Dyvenix.App1.Auth.Data.Entities;
 using Dyvenix.App1.Auth.Shared.DTOs;
 using Microsoft.AspNetCore.Authentication;
+using System.Text.Json;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -121,23 +122,28 @@ namespace Dyvenix.App1.Auth.Server
                 }
 
                 // ── Vendor clients (client credentials → integration-api scope) ──────────
-                // Add one entry per external vendor. Replace the placeholder values with
-                // real credentials before deploying.
-                if (await manager.FindByClientIdAsync("vendor-acme") is null)
+                // Delete and recreate on every startup so that permission changes in the
+                // Properties column take effect without a manual DB edit.
+                var vendorAcme = await manager.FindByClientIdAsync("vendor-acme");
+                if (vendorAcme != null)
+                    await manager.DeleteAsync(vendorAcme);
+
+                await manager.CreateAsync(new OpenIddictApplicationDescriptor
                 {
-                    await manager.CreateAsync(new OpenIddictApplicationDescriptor
+                    ClientId = "vendor-acme",
+                    ClientSecret = "vendor-acme-secret",
+                    DisplayName = "Acme Vendor",
+                    Permissions =
                     {
-                        ClientId = "vendor-acme",
-                        ClientSecret = "vendor-acme-secret",
-                        DisplayName = "Acme Vendor",
-                        Permissions =
-                        {
-                            Permissions.Endpoints.Token,
-                            Permissions.GrantTypes.ClientCredentials,
-                            Permissions.Prefixes.Scope + "integration-api"
-                        }
-                    });
-                }
+                        Permissions.Endpoints.Token,
+                        Permissions.GrantTypes.ClientCredentials,
+                        Permissions.Prefixes.Scope + "integration-api"
+                    },
+                    Properties =
+                    {
+                        ["perm"] = JsonSerializer.SerializeToElement(new[] { "integration:read" })
+                    }
+                });
             }
 
             static async Task RegisterScopesAsync(IServiceProvider provider)

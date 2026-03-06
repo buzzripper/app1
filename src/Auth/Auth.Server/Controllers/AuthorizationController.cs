@@ -332,8 +332,24 @@ public class AuthorizationController : Controller
 			roleType: Claims.Role);
 
 		// Add the claims that will be persisted in the tokens (use the client_id as the subject identifier).
-		identity.AddClaim(Claims.Subject, await _applicationManager.GetClientIdAsync(application));
+		var clientId = await _applicationManager.GetClientIdAsync(application);
+		identity.AddClaim(Claims.Subject, clientId);
 		identity.AddClaim(Claims.Name, await _applicationManager.GetDisplayNameAsync(application));
+
+		// Map client application → integration permissions so the PermissionAuthorizationHandler
+		// works identically for machine tokens and user tokens.
+		// Permissions are stored as a JSON string array in the OpenIddictApplications.Properties
+		// column under the key "perm", seeded by Worker.cs.
+		var properties = await _applicationManager.GetPropertiesAsync(application);
+		if (properties.TryGetValue("perm", out var permElement))
+		{
+			foreach (var perm in permElement.EnumerateArray())
+			{
+				var permValue = perm.GetString();
+				if (!string.IsNullOrEmpty(permValue))
+					identity.AddClaim("perm", permValue);
+			}
+		}
 
 		// Note: In the original OAuth 2.0 specification, the client credentials grant
 		// doesn't return an identity token, which is an OpenID Connect concept.
