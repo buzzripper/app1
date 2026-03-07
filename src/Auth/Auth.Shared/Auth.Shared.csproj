@@ -20,10 +20,4 @@
     <ProjectReference Include="..\..\Common\Common.Shared\Common.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ApiClients\v1\" />
-    <Folder Include="DTOs\" />
-    <Folder Include="Requests\v1\" />
-  </ItemGroup>
-
 </Project>

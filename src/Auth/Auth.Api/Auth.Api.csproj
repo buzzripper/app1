@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -19,7 +19,13 @@
     <Compile Include="Endpoints\BrandImgEndpoints.cs" />
     <Compile Include="Endpoints\IntTestSts.cs" />
     <Compile Include="Endpoints\AuthSystemEndpoints.cs" />
+    <Compile Include="Endpoints\v1\AppRegistrationEndpoints.cs" />
+    <Compile Include="Endpoints\v1\RoleClaimEndpoints.cs" />
+    <Compile Include="Endpoints\v1\RoleEndpoints.cs" />
+    <Compile Include="Endpoints\v1\ScopeEndpoints.cs" />
     <Compile Include="Endpoints\v1\TenantEndpoints.g.cs" />
+    <Compile Include="Endpoints\v1\UserClaimEndpoints.cs" />
+    <Compile Include="Endpoints\v1\UserEndpoints.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,6 +38,7 @@
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.2" />
+    <PackageReference Include="OpenIddict.Abstractions" Version="7.2.0" />
     <PackageReference Include="Scalar.AspNetCore" Version="2.11.6" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
   </ItemGroup>
@@ -41,10 +48,6 @@
     <ProjectReference Include="..\..\Common\Common.Shared\Common.Shared.csproj" />
     <ProjectReference Include="..\Auth.Data\Auth.Data.csproj" />
     <ProjectReference Include="..\Auth.Shared\Auth.Shared.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Services\v1\" />
   </ItemGroup>
 
 </Project>
