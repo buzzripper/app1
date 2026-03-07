@@ -1,8 +1,8 @@
 using Asp.Versioning;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Identity.Web;
 
 namespace Dyvenix.App1.Common.Server;
 
@@ -12,12 +12,21 @@ namespace Dyvenix.App1.Common.Server;
 public static class Extensions
 {
 	/// <summary>
-	/// Configures JWT Bearer authentication using Microsoft Entra ID token validation.
-	/// Reads settings from the "MicrosoftEntraID" configuration section.
+	/// Configures JWT Bearer authentication using the OpenIddict authority.
+	/// Reads settings from the "Authentication" configuration section.
 	/// </summary>
-	public static IServiceCollection AddEntraIdApiAuthentication(this IServiceCollection services, IConfiguration configuration)
+	public static IServiceCollection AddJwtBearerAuthentication(this IServiceCollection services, IConfiguration configuration)
 	{
-		services.AddMicrosoftIdentityWebApiAuthentication(configuration, "MicrosoftEntraID");
+		services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+			.AddJwtBearer(options =>
+			{
+				options.Authority = configuration["Authentication:Authority"];
+				options.Audience = configuration["Authentication:Audience"];
+
+				options.TokenValidationParameters.NameClaimType = "name";
+				options.TokenValidationParameters.RoleClaimType = "role";
+			});
+
 		services.AddAuthorization();
 
 		return services;

@@ -1,107 +1,120 @@
-﻿namespace App1.App1.Portal.Server.Controllers;
+﻿using Dyvenix.App1.Portal.Server.Services;
+
+namespace App1.App1.Portal.Server.Controllers;
 
 [Route("api/[controller]")]
 public class AccountController : ControllerBase
 {
-	private readonly ILogger<AccountController> _logger;
-	private readonly IConfiguration _configuration;
+    private readonly ILogger<AccountController> _logger;
+    private readonly IConfiguration _configuration;
+    private readonly ITokenCacheService _tokenCacheService;
 
-	public AccountController(ILogger<AccountController> logger, IConfiguration configuration)
-	{
-		_logger = logger;
-		_configuration = configuration;
-	}
+    public AccountController(
+        ILogger<AccountController> logger,
+        IConfiguration configuration,
+        ITokenCacheService tokenCacheService)
+    {
+        _logger = logger;
+        _configuration = configuration;
+        _tokenCacheService = tokenCacheService;
+    }
 
-	[HttpGet("Login")]
-	public ActionResult Login(string? returnUrl, string? claimsChallenge)
-	{
-		var properties = GetAuthProperties(returnUrl);
+    [HttpGet("Login")]
+    public ActionResult Login(string? returnUrl)
+    {
+        var properties = GetAuthProperties(returnUrl);
+        return Challenge(properties);
+    }
 
-		if (claimsChallenge != null)
-		{
-			string jsonString = claimsChallenge.Replace("\\", "").Trim('"');
-			properties.Items["claims"] = jsonString;
-		}
+    [Authorize]
+    [HttpGet("Logout")]
+    public async Task<IActionResult> Logout(string? returnUrl)
+    {
+        var redirectUri = GetSafeRedirectUri(returnUrl, "/");
+        var properties = new AuthenticationProperties { RedirectUri = redirectUri };
 
-		return Challenge(properties);
-	}
+        // Retrieve id_token from server-side cache for id_token_hint
+        var sessionId = User.FindFirst("token_session_id")?.Value;
+        if (!string.IsNullOrEmpty(sessionId))
+        {
+            var idToken = await _tokenCacheService.GetIdTokenAsync(sessionId);
+            if (!string.IsNullOrEmpty(idToken))
+            {
+                properties.Parameters["id_token_hint"] = idToken;
+                _logger.LogInformation("Logout with id_token_hint");
+            }
 
-	[Authorize]
-	[HttpGet("Logout")]
-	public async Task<IActionResult> Logout(string? returnUrl)
-	{
-		var redirectUri = GetSafeRedirectUri(returnUrl, "/");
+            // Clear cached tokens
+            await _tokenCacheService.RemoveTokensAsync(sessionId);
+        }
 
-		var properties = new AuthenticationProperties { RedirectUri = redirectUri };
+        return SignOut(
+            properties,
+            CookieAuthenticationDefaults.AuthenticationScheme,
+            OpenIdConnectDefaults.AuthenticationScheme);
+    }
 
-		// Get id_token from authentication properties to skip account selection prompt
-		var authenticateResult = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-		var idToken = authenticateResult?.Properties?.GetTokenValue("id_token");
+    private AuthenticationProperties GetAuthProperties(string? returnUrl)
+    {
+        var redirectUri = GetSafeRedirectUri(returnUrl, "/");
+        return new AuthenticationProperties { RedirectUri = redirectUri };
+    }
 
-		if (!string.IsNullOrEmpty(idToken))
-		{
-			properties.Parameters["id_token_hint"] = idToken;
-			_logger.LogInformation("Logout with id_token_hint");
+    /// <summary>
+    /// Validates and returns a safe redirect URI.
+    /// Allows redirects to configured allowed origins (CORS origins) or relative paths.
+    /// Supports wildcard subdomain patterns like "https://*.localhost:4201".
+    /// </summary>
+    private string GetSafeRedirectUri(string? returnUrl, string defaultPath)
+    {
+        if (string.IsNullOrEmpty(returnUrl))
+        {
+            return defaultPath;
+        }
 
-			// Also add logout_hint as a fallback/additional hint
-			var email = User.FindFirst("preferred_username")?.Value
-					 ?? User.FindFirst("email")?.Value
-					 ?? User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress")?.Value;
+        // Allow relative URLs
+        if (Uri.IsWellFormedUriString(returnUrl, UriKind.Relative))
+        {
+            return returnUrl.StartsWith('/') ? returnUrl : $"/{returnUrl}";
+        }
 
-			if (!string.IsNullOrEmpty(email))
-			{
-				properties.Parameters["logout_hint"] = email;
-				_logger.LogInformation("Also adding logout_hint: {Email}", email);
-			}
-		}
-		else
-		{
-			_logger.LogWarning("id_token not found in authentication properties");
-		}
+        // For absolute URLs, validate against allowed origins
+        if (Uri.TryCreate(returnUrl, UriKind.Absolute, out var uri))
+        {
+            var allowedOrigins = _configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
+            var origin = $"{uri.Scheme}://{uri.Authority}";
 
-		return SignOut(
-			properties,
-			CookieAuthenticationDefaults.AuthenticationScheme,
-			OpenIdConnectDefaults.AuthenticationScheme);
-	}
+            if (IsOriginAllowed(origin, allowedOrigins))
+            {
+                return returnUrl;
+            }
 
-	private AuthenticationProperties GetAuthProperties(string? returnUrl)
-	{
-		var redirectUri = GetSafeRedirectUri(returnUrl, "/");
-		return new AuthenticationProperties { RedirectUri = redirectUri };
-	}
+            _logger.LogWarning("Blocked redirect to non-allowed origin: {Origin}", origin);
+        }
 
-	/// <summary>
-	/// Validates and returns a safe redirect URI.
-	/// Allows redirects to configured allowed origins (CORS origins) or relative paths.
-	/// </summary>
-	private string GetSafeRedirectUri(string? returnUrl, string defaultPath)
-	{
-		if (string.IsNullOrEmpty(returnUrl))
-		{
-			return defaultPath;
-		}
+        return defaultPath;
+    }
 
-		// Allow relative URLs
-		if (Uri.IsWellFormedUriString(returnUrl, UriKind.Relative))
-		{
-			return returnUrl.StartsWith('/') ? returnUrl : $"/{returnUrl}";
-		}
+    private static bool IsOriginAllowed(string origin, string[] allowedOrigins)
+    {
+        foreach (var allowed in allowedOrigins)
+        {
+            if (string.Equals(origin, allowed, StringComparison.OrdinalIgnoreCase))
+                return true;
 
-		// For absolute URLs, validate against allowed origins
-		if (Uri.TryCreate(returnUrl, UriKind.Absolute, out var uri))
-		{
-			var allowedOrigins = _configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
-			var origin = $"{uri.Scheme}://{uri.Authority}";
+            // Support wildcard subdomain patterns like "https://*.localhost:4201"
+            if (allowed.Contains("*") && Uri.TryCreate(allowed.Replace("*", "wildcard"), UriKind.Absolute, out var pattern)
+                && Uri.TryCreate(origin, UriKind.Absolute, out var candidate))
+            {
+                if (string.Equals(pattern.Scheme, candidate.Scheme, StringComparison.OrdinalIgnoreCase)
+                    && pattern.Port == candidate.Port
+                    && candidate.Host.EndsWith($".{pattern.Host.Replace("wildcard.", "")}", StringComparison.OrdinalIgnoreCase))
+                {
+                    return true;
+                }
+            }
+        }
 
-			if (allowedOrigins.Contains(origin, StringComparer.OrdinalIgnoreCase))
-			{
-				return returnUrl;
-			}
-
-			_logger.LogWarning("Blocked redirect to non-allowed origin: {Origin}", origin);
-		}
-
-		return defaultPath;
-	}
+        return false;
+    }
 }

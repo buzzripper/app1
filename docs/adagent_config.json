@@ -1,0 +1,7 @@
+{
+	"AuthMode": "Ldap",
+	"DcHost": "adcorp1dc",
+	"Domain": "ADCORP1",
+	"LdapPort": 389,
+	"BaseDn": "DC=adcorp1,DC=local"
+}

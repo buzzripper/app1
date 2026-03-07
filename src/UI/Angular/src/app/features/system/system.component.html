@@ -26,13 +26,13 @@
                                 {{ tile.title }}
                             </div>
                         </div>
-                        
+
                         <!-- Status Indicators -->
                         <div class="mt-4 flex flex-col space-y-3">
                             <!-- Ping Status -->
                             <div class="flex items-center justify-between">
-                                <button 
-                                    mat-stroked-button 
+                                <button
+                                    mat-stroked-button
                                     class="flex-1"
                                     (click)="callPing(tile.module)">
                                     <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_outline:signal'"></mat-icon>
@@ -44,15 +44,15 @@
                                         'bg-green-100': tile.pingStatus === 'success',
                                         'bg-red-100': tile.pingStatus === 'error'
                                      }">
-                                    <mat-icon 
+                                    <mat-icon
                                         class="icon-size-5"
                                         [ngClass]="{
                                             'text-yellow-600': tile.pingStatus === 'unknown',
                                             'text-green-600': tile.pingStatus === 'success',
                                             'text-red-600': tile.pingStatus === 'error'
                                         }"
-                                        [svgIcon]="tile.pingStatus === 'success' ? 'heroicons_solid:check-circle' : 
-                                                   tile.pingStatus === 'error' ? 'heroicons_solid:x-circle' : 
+                                        [svgIcon]="tile.pingStatus === 'success' ? 'heroicons_solid:check-circle' :
+                                                   tile.pingStatus === 'error' ? 'heroicons_solid:x-circle' :
                                                    'heroicons_solid:question-mark-circle'">
                                     </mat-icon>
                                 </div>
@@ -60,28 +60,28 @@
 
                             <!-- Health Status -->
                             <div class="flex items-center justify-between">
-                                <button 
-                                    mat-stroked-button 
+                                <button
+                                    mat-stroked-button
                                     class="flex-1"
                                     (click)="callHealth(tile.module)">
                                     <mat-icon class="icon-size-5 mr-2" [svgIcon]="'heroicons_outline:heart'"></mat-icon>
-                                    Health
+                                    Health - {{tile.healthStatus}}
                                 </button>
                                 <div class="ml-3 flex h-8 w-8 items-center justify-center rounded-full"
                                      [ngClass]="{
                                         'bg-yellow-100': tile.healthStatus === 'unknown',
-                                        'bg-green-100': tile.healthStatus === 'success',
+                                        'bg-green-100': tile.healthStatus === 'ok',
                                         'bg-red-100': tile.healthStatus === 'error'
                                      }">
-                                    <mat-icon 
+                                    <mat-icon
                                         class="icon-size-5"
                                         [ngClass]="{
                                             'text-yellow-600': tile.healthStatus === 'unknown',
-                                            'text-green-600': tile.healthStatus === 'success',
+                                            'text-green-600': tile.healthStatus === 'ok',
                                             'text-red-600': tile.healthStatus === 'error'
                                         }"
-                                        [svgIcon]="tile.healthStatus === 'success' ? 'heroicons_solid:check-circle' : 
-                                                   tile.healthStatus === 'error' ? 'heroicons_solid:x-circle' : 
+                                        [svgIcon]="tile.healthStatus === 'ok' ? 'heroicons_solid:check-circle' :
+                                                   tile.healthStatus === 'error' ? 'heroicons_solid:x-circle' :
                                                    'heroicons_solid:question-mark-circle'">
                                     </mat-icon>
                                 </div>

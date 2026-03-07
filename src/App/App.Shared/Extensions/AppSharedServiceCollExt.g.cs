@@ -1,8 +1,9 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/18/2026 7:27 AM. Any changes made to it will be lost.
+// This file was auto-generated on 3/1/2026 10:25 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Microsoft.Extensions.DependencyInjection;
 using Dyvenix.App1.Common.Shared.ApiClients;
+using Dyvenix.App1.Common.Shared.Contracts;
 using Dyvenix.App1.App.Shared.ApiClients;
 using Dyvenix.App1.App.Shared.Contracts;
 using sv1 = Dyvenix.App1.App.Shared.ApiClients.v1;
@@ -14,11 +15,9 @@ public static partial class AppSharedServiceCollExt
 {
 	static partial void AddGeneratedServices(IServiceCollection services)
 	{
-		services.AddHttpClient<IAppSystemService, AppSystemApiClient>();
+		services.AddHttpClient<ISystemService, AppSystemApiClient>();
 		
-		// PatientService
-		services.AddHttpClient<cv1.IPatientService, sv1.PatientApiClient>();
-		// InvoiceService
-		services.AddHttpClient<cv1.IInvoiceService, sv1.InvoiceApiClient>();
+		// ClientService
+		services.AddHttpClient<cv1.IClientService, sv1.ClientApiClient>();
 	}
 }

@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<AssemblyName>Dyvenix.App1.AdAgent.Api</AssemblyName>
+		<RootNamespace>Dyvenix.App1.AdAgent.Api</RootNamespace>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Asp.Versioning.Mvc" Version="8.1.0" />
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.1" />
+		<PackageReference Include="Scalar.AspNetCore" Version="2.11.6" />
+		<PackageReference Include="System.DirectoryServices.Protocols" Version="10.0.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\Common\Common.Api\Common.Api.csproj" />
+		<ProjectReference Include="..\..\Common\Common.Shared\Common.Shared.csproj" />
+		<ProjectReference Include="..\AdAgent.Shared\AdAgent.Shared.csproj" />
+	</ItemGroup>
+
+</Project>

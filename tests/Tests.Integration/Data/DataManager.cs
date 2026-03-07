@@ -1,9 +1,9 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/18/2026 7:27 AM. Any changes made to it will be lost.
+// This file was auto-generated on 3/1/2026 10:25 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
-using Dyvenix.App1.Common.Data;
+using Dyvenix.App1.App.Api.Context;
 using Dyvenix.App1.Tests.Integration.DataSets;
 
 namespace Dyvenix.App1.Tests.Integration.Data;
@@ -75,24 +75,12 @@ public class DataManager : IDataManager
 
 	private async Task DeleteAllData()
 	{
-		await _db.Invoice.ExecuteDeleteAsync();
-		await _db.Patient.ExecuteDeleteAsync();
-		await _db.AppUser.ExecuteDeleteAsync();
-		await _db.Practice.ExecuteDeleteAsync();
-		await _db.Category.ExecuteDeleteAsync();
+		await _db.Client.ExecuteDeleteAsync();
 	}
 
 	private async Task InsertAllData(TestDataSet dataSet)
 	{
-		await _db.Category.AddRangeAsync(dataSet.CategoryList);
-		await _db.SaveChangesAsync();
-		await _db.Practice.AddRangeAsync(dataSet.PracticeList);
-		await _db.SaveChangesAsync();
-		await _db.AppUser.AddRangeAsync(dataSet.AppUserList);
-		await _db.SaveChangesAsync();
-		await _db.Patient.AddRangeAsync(dataSet.PatientList);
-		await _db.SaveChangesAsync();
-		await _db.Invoice.AddRangeAsync(dataSet.InvoiceList);
+		await _db.Client.AddRangeAsync(dataSet.ClientList);
 		await _db.SaveChangesAsync();
 	}
 }

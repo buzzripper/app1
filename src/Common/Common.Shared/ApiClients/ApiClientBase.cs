@@ -1,4 +1,4 @@
-﻿using Dyvenix.App1.Common.Shared.DTOs;
+using Dyvenix.App1.Common.Shared.DTOs;
 using Dyvenix.App1.Common.Shared.Exceptions;
 using System.Net;
 using System.Text;
@@ -7,7 +7,11 @@ using System.Text.Json.Serialization;
 
 namespace Dyvenix.App1.Common.Shared.ApiClients;
 
-public abstract class ApiClientBase
+public interface IApiClientBase
+{
+}
+
+public abstract class ApiClientBase : IApiClientBase
 {
 	#region Fields
 
@@ -170,7 +174,7 @@ public abstract class ApiClientBase
 		var json = JsonSerializer.Serialize(payload, _jsonSerializerOptionsPost);
 		using var stringContent = new StringContent(json, Encoding.UTF8, "application/json");
 
-		HttpResponseMessage httpResponse = null;
+		HttpResponseMessage httpResponse;
 
 		switch (methodType)
 		{

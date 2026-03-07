@@ -1,6 +1,3 @@
-//------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 2/18/2026 7:27 AM. Any changes made to it will be lost.
-//------------------------------------------------------------------------------------------------------------
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Routing;
@@ -15,13 +12,13 @@ public static partial class AuthApiServiceCollExt
 {
 	public static partial void AddGeneratedServices(IServiceCollection services)
 	{
-		// AppUserService
-		services.AddScoped<cv1.IAppUserService, sv1.AppUserService>();
-		services.AddScoped<ApiExceptionFilter<sv1.AppUserService>>();
+		// TenantService
+		services.AddScoped<cv1.ITenantService, sv1.TenantService>();
+		services.AddScoped<ApiExceptionFilter<sv1.TenantService>>();
 	}
 
 	public static partial void MapGeneratedEndpoints(IEndpointRouteBuilder app)
 	{
-		app.MapAppUserEndpoints();
+		app.MapTenantEndpoints();
 	}
 }

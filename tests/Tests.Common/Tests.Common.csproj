@@ -9,9 +9,4 @@
 		<IsTestProject>false</IsTestProject>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\..\src\Common\Common.Data.Shared\Common.Data.Shared.csproj" />
-		<ProjectReference Include="..\..\src\Common\Common.Data\Common.Data.csproj" />
-	</ItemGroup>
-
 </Project>
