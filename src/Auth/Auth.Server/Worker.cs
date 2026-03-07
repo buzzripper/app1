@@ -3,6 +3,7 @@ using Dyvenix.App1.Auth.Data.Context;
 using Dyvenix.App1.Auth.Data.Entities;
 using Dyvenix.App1.Auth.Shared.DTOs;
 using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
 using System.Text.Json;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Identity;
@@ -299,6 +300,23 @@ namespace Dyvenix.App1.Auth.Server
 
                     options.TokenValidationParameters.NameClaimType = "name";
                     options.TokenValidationParameters.RoleClaimType = "role";
+
+                    // MapInboundClaims = false keeps clean JWT claim names throughout the app,
+                    // but SignInManager.GetExternalLoginInfoAsync() requires ClaimTypes.NameIdentifier
+                    // to build the provider key. Bridge the gap by copying "sub" after token validation.
+                    options.Events = new OpenIdConnectEvents
+                    {
+                        OnTokenValidated = ctx =>
+                        {
+                            var sub = ctx.Principal?.FindFirst("sub")?.Value;
+                            if (sub is not null)
+                            {
+                                ((ClaimsIdentity)ctx.Principal!.Identity!).AddClaim(
+                                    new Claim(ClaimTypes.NameIdentifier, sub));
+                            }
+                            return Task.CompletedTask;
+                        }
+                    };
 
                     // Run ASP.NET Core's post-configuration (sets up backchannel handler, etc.)
                     foreach (var pc in postConfigures)
