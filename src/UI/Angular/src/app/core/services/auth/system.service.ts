@@ -7,7 +7,7 @@ import { HealthStatus, PingResult } from '../common/dtos';
 @Injectable({ providedIn: 'root' })
 export class AuthSystemService {
     private _httpClient = inject(HttpClient);
-    private readonly _baseUrl = `${environment.apiBaseUrl}/api/auth/system`;
+    private readonly _baseUrl = `${environment.authApiBaseUrl}/api/auth/system`;
 
     ping(): Observable<PingResult> {
         return this._httpClient.get<PingResult>(`${this._baseUrl}/ping`);
