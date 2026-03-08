@@ -86,15 +86,33 @@ builder.Services.Configure<IdentityOptions>(options =>
 //});
 //builder.Services.AddQuartzHostedService(options => options.WaitForJobsToComplete = true);
 
-// CORS
+// CORS — driven by AllowedHosts in appsettings.json
+var allowedHosts = builder.Configuration["AllowedHosts"] ?? "*";
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAllOrigins", policy =>
     {
         policy
             .AllowCredentials()
-            .WithOrigins("https://localhost:4200", "https://localhost:4204", "https://localhost:5001")
-            .SetIsOriginAllowedToAllowWildcardSubdomains()
+            .SetIsOriginAllowed(origin =>
+            {
+                if (allowedHosts == "*")
+                    return true;
+
+                if (!Uri.TryCreate(origin, UriKind.Absolute, out var uri))
+                    return false;
+
+                var host = uri.Host;
+                return allowedHosts
+                    .Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                    .Any(pattern =>
+                    {
+                        if (pattern.StartsWith("*."))
+                            return host.EndsWith(pattern[1..], StringComparison.OrdinalIgnoreCase);
+
+                        return string.Equals(host, pattern, StringComparison.OrdinalIgnoreCase);
+                    });
+            })
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
