@@ -1,0 +1,181 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<modelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="a05f92bc-4f04-4e80-b2f9-bcdc2d98c182" name="App1" entitiesOutputFolder="src\App\App.Api\Entities" entitiesNamespace="Dyvenix.App1.App.Api.Entities" dbContextOutputFolder="src\App\App.Api\Context" dbContextNamespace="Dyvenix.App1.App.Api.Context" enumsOutputFolder="src\App\App.Shared\Dtos" enumsNamespace="Dyvenix.App1.App.Shared.Dtos" editorSplitterPosition="577.00000000000034" permissions="Permission1|&#xA;Permission2|&#xA;Permission3|" dbContextName="App1Db" commonNamespace="Dyvenix.App1.Common" intTestsRootFolder="tests\Tests.Integration" intTestsNamespace="Dyvenix.App1.Tests.Integration" unitTestsRootFolder="tests\Tests.Unit" unitTestsNamespace="Dyvenix.App1.Tests.Unit" intTestsEnabled="true" unitTestsEnabled="false" dbContextBaseClass="DbContext" xmlns="http://schemas.microsoft.com/dsltools/GenIt">
+  <types>
+    <modelRootHasTypes Id="92d4d5b8-2bb5-4af1-a731-e2aa2d4c93d6">
+      <moduleModel Id="df3dc907-3fd4-4ce4-b560-883e96a3efbe" name="App" rootFolder="src\App" namespace="Dyvenix.App1.App" dtoNamespace="Dyvenix.App1.App.Shared.Dtos" requestNamespace="Dyvenix.App1.App.Shared.Requests" dtoOuputFolder="src\App\App.Shared\Dtos" />
+    </modelRootHasTypes>
+    <modelRootHasTypes Id="0e7bb869-870d-400b-9959-b6b5d7a04a69">
+      <entityModel Id="61c4b23e-f93a-4024-9b57-2b8090994991" name="Client" auditable="false" inclRowVersion="true" module="App" enabled="false" tableName="Client">
+        <properties>
+          <propertyModel Id="510c22d7-fa16-4b40-9c93-84469036a575" name="Id" description="Primary key" dataType="Guid" isPrimaryKey="true" isIndexed="true" isIndexUnique="true" isForeignKey="false" />
+          <propertyModel Id="b6121347-92e4-45b5-ad7f-b539b7d87a15" name="Key" length="50" isIndexed="true" isIndexUnique="true" isForeignKey="false" displayOrder="1" />
+          <propertyModel Id="ca1263a0-b664-4d54-bbd0-095740d9c426" name="Name" length="100" isIndexed="true" isIndexUnique="true" isForeignKey="false" displayOrder="2" />
+          <propertyModel Id="95fe27f4-31f9-4442-8728-752e19c2c6de" name="BaseUrl" length="300" isNullable="true" isForeignKey="false" displayOrder="3" />
+          <propertyModel Id="c1cf0549-9811-4f86-b940-fc18e303f957" name="RowVersion" description="Concurrency token for optimistic locking" dataType="ByteArray" isForeignKey="false" isRowVersion="true" />
+        </properties>
+        <serviceModels>
+          <entityModelHasServiceModels Id="07bba77d-49b5-4fea-bc8e-bea607016cf7">
+            <serviceModel Id="62c3d768-be39-4856-a31a-fac559e39c6a" name="ServiceModel1" inclCreate="false" inclUpdate="false" inclDelete="true" version="v1">
+              <readMethods>
+                <serviceModelHasReadMethodModels Id="5f8e2910-feb2-4d51-9083-75412c8521b7">
+                  <readMethodModel Id="26a97c8e-12a4-4144-b7ef-8a18a534ca0d" name="GetById" itemId="b119cd42-f1cb-4ac0-a488-7b8fa503ade7" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="0">
+                    <filterProperties>
+                      <readMethodModelHasFilterProperties Id="16a93b8c-9a4a-4cd0-9fb2-9f601b4c530f">
+                        <filterPropertyModel Id="310ba8e5-dbe1-4731-a589-2d409f964165" isOptional="false" isInternal="false" isPartialMatch="false">
+                          <propertyModel>
+                            <filterPropertyModelHasProperty Id="af82138b-6263-48e7-8b0d-5579c6f8d610">
+                              <propertyModelMoniker name="/App1/Client/Id" />
+                            </filterPropertyModelHasProperty>
+                          </propertyModel>
+                        </filterPropertyModel>
+                      </readMethodModelHasFilterProperties>
+                    </filterProperties>
+                    <returnDto>
+                      <readMethodModelReferencesReturnDto Id="ce89fc8a-9ebc-426c-bf26-d8f356420361">
+                        <dtoModelMoniker Id="2dfcf7e5-8271-4e45-8c08-33e88937d8b2" />
+                      </readMethodModelReferencesReturnDto>
+                    </returnDto>
+                  </readMethodModel>
+                </serviceModelHasReadMethodModels>
+                <serviceModelHasReadMethodModels Id="d7b1d9b5-48a7-4a2f-979a-cbcc0c72b48d">
+                  <readMethodModel Id="541137b4-dc5c-4acd-a433-aa722fd7efe5" name="GetByKey" itemId="1cade72d-c615-42b4-8bf3-827147451113" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="1">
+                    <filterProperties>
+                      <readMethodModelHasFilterProperties Id="a089be1a-e768-4be7-b1bb-14512a2a8f9b">
+                        <filterPropertyModel Id="6a02f19f-11fc-4ba5-ab99-11e1e360f3e5" isOptional="false" isInternal="false" isPartialMatch="false">
+                          <propertyModel>
+                            <filterPropertyModelHasProperty Id="41662eb0-34a2-4bad-97ee-951b3bbaf34d">
+                              <propertyModelMoniker name="/App1/Client/Key" />
+                            </filterPropertyModelHasProperty>
+                          </propertyModel>
+                        </filterPropertyModel>
+                      </readMethodModelHasFilterProperties>
+                    </filterProperties>
+                    <returnDto>
+                      <readMethodModelReferencesReturnDto Id="29212e6d-749d-479e-b7c5-840f72c6988e">
+                        <dtoModelMoniker Id="2dfcf7e5-8271-4e45-8c08-33e88937d8b2" />
+                      </readMethodModelReferencesReturnDto>
+                    </returnDto>
+                  </readMethodModel>
+                </serviceModelHasReadMethodModels>
+                <serviceModelHasReadMethodModels Id="7bb0ed38-5d8a-4ec8-9460-58d377ae1765">
+                  <readMethodModel Id="2da96a73-7aa3-4ffa-b6ce-f0d3485e0257" name="GetAllClientOptions" itemId="916ffc31-8ab6-42aa-83f5-4d47e96f929f" inclPaging="false" useRequest="true" inclSorting="true" displayOrder="2">
+                    <returnDto>
+                      <readMethodModelReferencesReturnDto Id="01bcc105-180b-47fd-8a05-c56d066d592f">
+                        <dtoModelMoniker Id="1737f403-2586-4176-b39f-2eaef5410ebc" />
+                      </readMethodModelReferencesReturnDto>
+                    </returnDto>
+                  </readMethodModel>
+                </serviceModelHasReadMethodModels>
+                <serviceModelHasReadMethodModels Id="50e2a76b-255e-4e5c-8a78-f9b7bbc35f7e">
+                  <readMethodModel Id="0afa8716-0c3c-4db3-85ee-4efefaa2fcbc" name="GetAllRoutes" itemId="6e08ce21-4ddb-407d-923f-ef9e33cc7593" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="3">
+                    <returnDto>
+                      <readMethodModelReferencesReturnDto Id="37a9b030-f52e-4d97-9839-3541dc71c8a7">
+                        <dtoModelMoniker Id="84b5130d-6ec9-4287-b3e4-6e20cd1dbd3d" />
+                      </readMethodModelReferencesReturnDto>
+                    </returnDto>
+                  </readMethodModel>
+                </serviceModelHasReadMethodModels>
+              </readMethods>
+              <updateMethods>
+                <serviceModelHasUpdateMethods Id="10657b7d-bfdf-4c7d-9d4b-76f7531bb7bb">
+                  <updateMethodModel Id="fda5cb1c-7126-4fb0-a878-fb82d3749fff" name="Create" itemId="16c63384-acfa-423b-bf66-3ac59630737d" isCreate="true">
+                    <updateProperties>
+                      <updateMethodModelHasUpdateProperties Id="b03bf83f-68e1-4f51-bd00-74df6c013fb8">
+                        <updatePropertyModel Id="8a4d1b22-6f06-4e33-928a-2115f811f0e5" isOptional="false">
+                          <propertyModel>
+                            <updatePropertyModelHasPropertyModel Id="d49545bd-67ef-4e22-a412-daeb83e6318b">
+                              <propertyModelMoniker name="/App1/Client/Key" />
+                            </updatePropertyModelHasPropertyModel>
+                          </propertyModel>
+                        </updatePropertyModel>
+                      </updateMethodModelHasUpdateProperties>
+                      <updateMethodModelHasUpdateProperties Id="245d053b-0682-431c-9545-4e20e42d0fe2">
+                        <updatePropertyModel Id="d4a72ec4-ae19-4113-a83e-8c3e6f8e0356" isOptional="false">
+                          <propertyModel>
+                            <updatePropertyModelHasPropertyModel Id="efe1f475-579e-41bc-af84-b3af6ebe33ae">
+                              <propertyModelMoniker name="/App1/Client/Name" />
+                            </updatePropertyModelHasPropertyModel>
+                          </propertyModel>
+                        </updatePropertyModel>
+                      </updateMethodModelHasUpdateProperties>
+                      <updateMethodModelHasUpdateProperties Id="b6be587b-794e-49f2-8443-8e61dc975ea3">
+                        <updatePropertyModel Id="b18985af-4cae-4850-b31c-a79a4ec6ced4" isOptional="false">
+                          <propertyModel>
+                            <updatePropertyModelHasPropertyModel Id="2be5721f-c982-423a-93f7-ab311d6ddd4d">
+                              <propertyModelMoniker name="/App1/Client/BaseUrl" />
+                            </updatePropertyModelHasPropertyModel>
+                          </propertyModel>
+                        </updatePropertyModel>
+                      </updateMethodModelHasUpdateProperties>
+                    </updateProperties>
+                  </updateMethodModel>
+                </serviceModelHasUpdateMethods>
+              </updateMethods>
+              <dtoModels>
+                <serviceModelHasDtoModels Id="e6ec76cf-59f5-4257-be72-680f5c110ae9">
+                  <dtoModel Id="2dfcf7e5-8271-4e45-8c08-33e88937d8b2" name="ClientDto">
+                    <propertyModels>
+                      <dtoModelReferencesPropertyModels Id="ca505e59-ab09-4374-a444-cef2dc8b4ab9">
+                        <propertyModelMoniker name="/App1/Client/Id" />
+                      </dtoModelReferencesPropertyModels>
+                      <dtoModelReferencesPropertyModels Id="6c0e2f39-0967-49ce-9a7e-7971f3d95d19">
+                        <propertyModelMoniker name="/App1/Client/Key" />
+                      </dtoModelReferencesPropertyModels>
+                      <dtoModelReferencesPropertyModels Id="88a8f11c-9239-462d-961a-2b891a1b7e2f">
+                        <propertyModelMoniker name="/App1/Client/Name" />
+                      </dtoModelReferencesPropertyModels>
+                      <dtoModelReferencesPropertyModels Id="10428ffc-e470-4ede-a09d-b13abb453e84">
+                        <propertyModelMoniker name="/App1/Client/BaseUrl" />
+                      </dtoModelReferencesPropertyModels>
+                    </propertyModels>
+                  </dtoModel>
+                </serviceModelHasDtoModels>
+                <serviceModelHasDtoModels Id="4ecbd674-be8e-4f6b-9bc1-95b0ea4fc205">
+                  <dtoModel Id="1737f403-2586-4176-b39f-2eaef5410ebc" name="ClientOptionDto">
+                    <propertyModels>
+                      <dtoModelReferencesPropertyModels Id="fb3ec447-c6cf-44ab-8690-d547110ad72a">
+                        <propertyModelMoniker name="/App1/Client/Id" />
+                      </dtoModelReferencesPropertyModels>
+                      <dtoModelReferencesPropertyModels Id="f5ee7bd0-74c1-4775-a648-c1a548dc632e">
+                        <propertyModelMoniker name="/App1/Client/Key" />
+                      </dtoModelReferencesPropertyModels>
+                      <dtoModelReferencesPropertyModels Id="a59035de-4f2a-49c0-a4b7-894398dfa574">
+                        <propertyModelMoniker name="/App1/Client/Name" />
+                      </dtoModelReferencesPropertyModels>
+                    </propertyModels>
+                  </dtoModel>
+                </serviceModelHasDtoModels>
+                <serviceModelHasDtoModels Id="3a9ff1e8-63cc-44ac-834c-8d4860d43baf">
+                  <dtoModel Id="84b5130d-6ec9-4287-b3e4-6e20cd1dbd3d" name="ClientRouteDto">
+                    <propertyModels>
+                      <dtoModelReferencesPropertyModels Id="8161fe2d-527f-4f39-8f16-028a3a2e972c">
+                        <propertyModelMoniker name="/App1/Client/Id" />
+                      </dtoModelReferencesPropertyModels>
+                      <dtoModelReferencesPropertyModels Id="b469f6d3-eb94-4c24-b7fd-cd4fd7fb7e7c">
+                        <propertyModelMoniker name="/App1/Client/Key" />
+                      </dtoModelReferencesPropertyModels>
+                      <dtoModelReferencesPropertyModels Id="9e242339-4599-4d6d-9946-0fb53a9ac20f">
+                        <propertyModelMoniker name="/App1/Client/BaseUrl" />
+                      </dtoModelReferencesPropertyModels>
+                    </propertyModels>
+                  </dtoModel>
+                </serviceModelHasDtoModels>
+              </dtoModels>
+            </serviceModel>
+          </entityModelHasServiceModels>
+        </serviceModels>
+        <dtoModels>
+          <entityModelReferencesDtoModels Id="d656d35c-c3e0-4c84-98ce-fd476c4e7a8f">
+            <dtoModelMoniker Id="2dfcf7e5-8271-4e45-8c08-33e88937d8b2" />
+          </entityModelReferencesDtoModels>
+          <entityModelReferencesDtoModels Id="d81f6f62-68b1-4a82-9a2a-2f4efcb1b2bb">
+            <dtoModelMoniker Id="1737f403-2586-4176-b39f-2eaef5410ebc" />
+          </entityModelReferencesDtoModels>
+          <entityModelReferencesDtoModels Id="e6951dd6-08fa-4f51-aa9f-a00a4665bdbf">
+            <dtoModelMoniker Id="84b5130d-6ec9-4287-b3e4-6e20cd1dbd3d" />
+          </entityModelReferencesDtoModels>
+        </dtoModels>
+      </entityModel>
+    </modelRootHasTypes>
+  </types>
+</modelRoot>
