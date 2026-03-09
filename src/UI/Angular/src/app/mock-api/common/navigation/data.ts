@@ -3,22 +3,6 @@ import { FuseNavigationItem } from '@fuse/components/navigation';
 
 export const defaultNavigation: FuseNavigationItem[] = [
     {
-        id: 'system',
-        title: 'System',
-        subtitle: 'System administration',
-        type: 'group',
-        icon: 'heroicons_outline:clipboard-document-check',
-        children: [
-            {
-                id: 'system.admin',
-                title: 'System Admin',
-                type: 'basic',
-                icon: 'heroicons_outline:clipboard-document-check',
-                link: '/system',
-            },
-        ],
-    },
-    {
         id: 'dashboards',
         title: 'Dashboards',
         subtitle: 'Unique dashboard designs',
@@ -53,6 +37,97 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 icon: 'heroicons_outline:currency-dollar',
                 link: '/dashboards/crypto',
             },
+        ],
+    },
+    {
+        id: 'admin',
+        title: 'Admin',
+        subtitle: 'Configure and administer your system',
+        type: 'group',
+        icon: 'heroicons_outline:clipboard-document-check',
+        children: [
+            {
+                id: 'admin.users',
+                title: 'Users',
+                type: 'basic',
+                icon: 'heroicons_outline:clipboard-document-check',
+                link: '/admin/users'
+            },
+            {
+                id: 'admin.components',
+                title: 'System Components',
+                type: 'collapsable',
+                icon: 'heroicons_outline:clipboard-document-check',
+                children: [
+                    {
+                        id: 'admin.services',
+                        title: 'Services',
+                        type: 'basic',
+                        icon: 'heroicons_outline:clipboard-document-check',
+                        link: '/admin/components/services',
+                    },
+                    {
+                        id: 'admin.workstations',
+                        title: 'Workstations',
+                        type: 'basic',
+                        icon: 'heroicons_outline:clipboard-document-check',
+                        link: '/admin/components/workstations',
+                    },
+                    {
+                        id: 'admin.printers',
+                        title: 'Printers',
+                        type: 'basic',
+                        icon: 'heroicons_outline:clipboard-document-check',
+                        link: '/admin/components/printers',
+                    }
+                ]
+            },
+        ],
+    },
+    {
+        id: 'system',
+        title: 'System Admin',
+        subtitle: 'System administration',
+        type: 'group',
+        icon: 'heroicons_outline:clipboard-document-check',
+        children: [
+            {
+                id: 'system.admin',
+                title: 'System Admin',
+                type: 'basic',
+                icon: 'heroicons_outline:clipboard-document-check',
+                link: '/system',
+            },
+        ],
+    },
+    {
+        id: 'security',
+        title: 'Security',
+        subtitle: 'Authentication & authorization',
+        type: 'group',
+        icon: 'heroicons_outline:clipboard-document-check',
+        children: [
+            {
+                id: 'security.app-registrations',
+                title: 'App Registrations',
+                type: 'collapsable',
+                icon: 'heroicons_outline:shopping-cart',
+                children: [
+                    {
+                        id: 'apps.ecommerce.inventory',
+                        title: 'Inventory',
+                        type: 'basic',
+                        link: '/apps/ecommerce/inventory',
+                    },
+                ]
+            },
+            {
+                id: 'security.users',
+                title: 'Users',
+                type: 'collapsable',
+                icon: 'heroicons_outline:shopping-cart',
+                link: '/system'
+            }
         ],
     },
     {

@@ -14,7 +14,7 @@
         <div class="flex w-full items-center p-4 pl-6">
             <!-- Logo -->
             <div class="flex items-center justify-center">
-                <img class="w-8" src="images/logo/logo.svg" />
+                <img class="w-24" src="images/logo/LogixPro_logo.png" />
             </div>
             <!-- Components -->
             <div class="ml-auto flex items-center">
@@ -25,19 +25,11 @@
         <!-- User -->
         <div class="flex w-full flex-col items-center p-4">
             <div class="relative h-24 w-24">
-                @if (user.avatar) {
-                    <img
-                        class="h-full w-full rounded-full"
-                        [src]="user.avatar"
-                        alt="User avatar"
-                    />
-                }
-                @if (!user.avatar) {
-                    <mat-icon
-                        class="icon-size-24"
-                        [svgIcon]="'heroicons_solid:user-circle'"
-                    ></mat-icon>
-                }
+                <img
+                    class="h-full w-full rounded-full"
+                    src="images/clients/sysadmin.png"
+                    alt="client"
+                />
             </div>
             <div class="mt-6 flex w-full flex-col items-center justify-center">
                 <div
