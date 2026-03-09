@@ -2,23 +2,15 @@
 // This file was auto-generated on 3/8/2026 11:54 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 
-namespace Dyvenix.App1.App.Shared.Dtos;
+namespace Dyvenix.App1.App.Shared.Requests.v1;
 
-public record ClientDto (
-	Guid Id,
-	string Key,
-	string Name,
-	string BaseUrl
-);
+public class UpdateClientBaseUrlReq
+{
+	public Guid Id { get; set; }
+	public byte[] RowVersion { get; set; }
 
-public record ClientOptionDto (
-	Guid Id,
-	string Key,
-	string Name
-);
-
-public record ClientRouteDto (
-	Guid Id,
-	string Key,
-	string BaseUrl
-);
+	// Required properties
+	public string BaseUrl { get; set; }
+	public string Key { get; set; }
+	public byte[] RowVersion { get; set; }
+}

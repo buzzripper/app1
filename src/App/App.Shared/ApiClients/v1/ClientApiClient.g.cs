@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 3/1/2026 10:25 PM. Any changes made to it will be lost.
+// This file was auto-generated on 3/8/2026 11:54 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Dyvenix.App1.Common.Shared.ApiClients;
 using Dyvenix.App1.Common.Shared.Requests;
@@ -30,37 +30,52 @@ public partial class ClientApiClient : ApiClientBase, IClientService
 
 	#region Updates
 	
-	public async Task<byte[]> Create(CreateReq request)
+	public async Task<byte[]> CreateClient(CreateClientReq request)
 	{
-		return await PatchAsync<byte[]>($"api/App/v1/Client/Create", request);
+		return await PatchAsync<byte[]>($"api/App/v1/Client/CreateClient", request);
+	}
+	
+	public async Task<byte[]> UpdateClient(UpdateClientReq request)
+	{
+		return await PatchAsync<byte[]>($"api/App/v1/Client/UpdateClient", request);
+	}
+	
+	public async Task<byte[]> UpdateClientBaseUrl(UpdateClientBaseUrlReq request)
+	{
+		return await PatchAsync<byte[]>($"api/App/v1/Client/UpdateClientBaseUrl", request);
 	}
 
 	#endregion
 
 	#region Read Methods - Single
 	
-	public async Task<ClientDto> GetById(Guid id)
+	public async Task<ClientDto> GetClientById(Guid id)
 	{
-		return await GetAsync<ClientDto>($"api/App/v1/Client/GetById/{id}");
+		return await GetAsync<ClientDto>($"api/App/v1/Client/GetClientById/{id}");
 	}
 	
-	public async Task<ClientDto> GetByKey(string key)
+	public async Task<ClientDto> GetClientByKey(string key)
 	{
-		return await GetAsync<ClientDto>($"api/App/v1/Client/GetByKey/{key}");
+		return await GetAsync<ClientDto>($"api/App/v1/Client/GetClientByKey/{key}");
 	}
 
 	#endregion
 
 	#region Read Methods - List
 	
-	public async Task<IReadOnlyList<ClientOptionDto>> GetAllClientOptions(GetAllClientOptionsReq request)
+	public async Task<IReadOnlyList<ClientOptionDto>> GetAllClientLookupItems(GetAllClientLookupItemsReq request)
 	{
-		return await PostAsync<IReadOnlyList<ClientOptionDto>>($"api/App/v1/Client/GetAllClientOptions", request);
+		return await PostAsync<IReadOnlyList<ClientOptionDto>>($"api/App/v1/Client/GetAllClientLookupItems", request);
 	}
 	
 	public async Task<IReadOnlyList<ClientRouteDto>> GetAllRoutes()
 	{
 		return await GetAsync<IReadOnlyList<ClientRouteDto>>($"api/App/v1/Client/GetAllRoutes");
+	}
+	
+	public async Task<IReadOnlyList<ClientDto>> GetAllClients(GetAllClientsReq request)
+	{
+		return await PostAsync<IReadOnlyList<ClientDto>>($"api/App/v1/Client/GetAllClients", request);
 	}
 
 	#endregion

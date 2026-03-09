@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 3/1/2026 10:25 PM. Any changes made to it will be lost.
+// This file was auto-generated on 3/8/2026 11:54 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
@@ -42,7 +42,7 @@ public partial class ClientService : IClientService
 
 	#region Update
 
-	public async Task<byte[]> Create(CreateReq request)
+	public async Task<byte[]> CreateClient(CreateClientReq request)
 	{
 		ArgumentNullException.ThrowIfNull(request);
 
@@ -53,9 +53,66 @@ public partial class ClientService : IClientService
 				Key = request.Key,
 				Name = request.Name,
 				BaseUrl = request.BaseUrl,
+				RowVersion = request.RowVersion,
 			};
 
 			_db.Add(client);
+			await _db.SaveChangesAsync();
+
+			return client.RowVersion;
+
+		} catch (DbUpdateConcurrencyException) {
+			throw new ConcurrencyException("The item was modified or deleted by another user.");
+		}
+	}
+
+	public async Task<byte[]> UpdateClient(UpdateClientReq request)
+	{
+		ArgumentNullException.ThrowIfNull(request);
+
+		try {
+			var client = new Client {
+				Id = request.Id,
+				RowVersion = request.RowVersion,
+				Name = request.Name,
+				BaseUrl = request.BaseUrl,
+				Key = request.Key,
+				RowVersion = request.RowVersion,
+			};
+
+			_db.Attach(client);
+			_db.Entry(client).Property(u => u.Name).IsModified = true;
+			_db.Entry(client).Property(u => u.BaseUrl).IsModified = true;
+			_db.Entry(client).Property(u => u.Key).IsModified = true;
+			_db.Entry(client).Property(u => u.RowVersion).IsModified = true;
+
+			await _db.SaveChangesAsync();
+
+			return client.RowVersion;
+
+		} catch (DbUpdateConcurrencyException) {
+			throw new ConcurrencyException("The item was modified or deleted by another user.");
+		}
+	}
+
+	public async Task<byte[]> UpdateClientBaseUrl(UpdateClientBaseUrlReq request)
+	{
+		ArgumentNullException.ThrowIfNull(request);
+
+		try {
+			var client = new Client {
+				Id = request.Id,
+				RowVersion = request.RowVersion,
+				BaseUrl = request.BaseUrl,
+				Key = request.Key,
+				RowVersion = request.RowVersion,
+			};
+
+			_db.Attach(client);
+			_db.Entry(client).Property(u => u.BaseUrl).IsModified = true;
+			_db.Entry(client).Property(u => u.Key).IsModified = true;
+			_db.Entry(client).Property(u => u.RowVersion).IsModified = true;
+
 			await _db.SaveChangesAsync();
 
 			return client.RowVersion;
@@ -69,7 +126,7 @@ public partial class ClientService : IClientService
 	
 	#region Read - Single
 	
-	public async Task<ClientDto> GetById(Guid id)
+	public async Task<ClientDto> GetClientById(Guid id)
 	{
 		var dbQuery = _db.Client.AsNoTracking();
 	
@@ -84,7 +141,7 @@ public partial class ClientService : IClientService
 		.SingleOrDefaultAsync();
 	}
 	
-	public async Task<ClientDto> GetByKey(string key)
+	public async Task<ClientDto> GetClientByKey(string key)
 	{
 		var dbQuery = _db.Client.AsNoTracking();
 	
@@ -104,7 +161,7 @@ public partial class ClientService : IClientService
 	
 	#region Read - List
 	
-	public async Task<IReadOnlyList<ClientOptionDto>> GetAllClientOptions(GetAllClientOptionsReq request)
+	public async Task<IReadOnlyList<ClientOptionDto>> GetAllClientLookupItems(GetAllClientLookupItemsReq request)
 	{
 		var dbQuery = _db.Client.AsNoTracking();
 	
@@ -127,6 +184,23 @@ public partial class ClientService : IClientService
 		return await dbQuery.Select(e => new ClientRouteDto(
 			e.Id,
 			e.Key,
+			e.BaseUrl
+		))
+		.ToListAsync();
+	}
+	
+	public async Task<IReadOnlyList<ClientDto>> GetAllClients(GetAllClientsReq request)
+	{
+		var dbQuery = _db.Client.AsNoTracking();
+	
+		// Sorting
+		if (!string.IsNullOrWhiteSpace(request.SortBy))
+			dbQuery = this.AddSorting(ref dbQuery, request);
+	
+		return await dbQuery.Select(e => new ClientDto(
+			e.Id,
+			e.Key,
+			e.Name,
 			e.BaseUrl
 		))
 		.ToListAsync();

@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 3/1/2026 10:25 PM. Any changes made to it will be lost.
+// This file was auto-generated on 3/8/2026 11:54 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
@@ -17,9 +17,12 @@ namespace Dyvenix.App1.App.Shared.Contracts.v1;
 public interface IClientService
 {
 	Task Delete(Guid id);
-	Task<byte[]> Create(CreateReq request);
-	Task<ClientDto> GetById(Guid id);
-	Task<ClientDto> GetByKey(string key);
-	Task<IReadOnlyList<ClientOptionDto>> GetAllClientOptions(GetAllClientOptionsReq request);
+	Task<byte[]> CreateClient(CreateClientReq request);
+	Task<byte[]> UpdateClient(UpdateClientReq request);
+	Task<byte[]> UpdateClientBaseUrl(UpdateClientBaseUrlReq request);
+	Task<ClientDto> GetClientById(Guid id);
+	Task<ClientDto> GetClientByKey(string key);
+	Task<IReadOnlyList<ClientOptionDto>> GetAllClientLookupItems(GetAllClientLookupItemsReq request);
 	Task<IReadOnlyList<ClientRouteDto>> GetAllRoutes();
+	Task<IReadOnlyList<ClientDto>> GetAllClients(GetAllClientsReq request);
 }

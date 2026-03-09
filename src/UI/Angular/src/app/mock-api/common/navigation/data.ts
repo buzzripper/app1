@@ -85,18 +85,18 @@ export const defaultNavigation: FuseNavigationItem[] = [
         ],
     },
     {
-        id: 'system',
+        id: 'sysadmin',
         title: 'System Admin',
         subtitle: 'System administration',
         type: 'group',
         icon: 'heroicons_outline:clipboard-document-check',
         children: [
             {
-                id: 'system.admin',
-                title: 'System Admin',
+                id: 'sysadmin.clients',
+                title: 'Clients',
                 type: 'basic',
-                icon: 'heroicons_outline:clipboard-document-check',
-                link: '/system',
+                icon: '',
+                link: '/sysadmin/clients',
             },
         ],
     },

@@ -71,6 +71,11 @@ export const appRoutes: Route[] = [
                 {path: 'services', loadChildren: () => import('@app/features/admin/services/services.routes')},
             ]},
 
+            // Sysadmin
+            {path: 'sysadmin', children: [
+                {path: 'clients', loadChildren: () => import('@app/features/sysadmin/clients/clients.routes')},
+            ]},
+
             // Dashboards
             {path: 'dashboards', children: [
                 {path: 'project', loadChildren: () => import('app/modules/admin/dashboards/project/project.routes')},

@@ -1,12 +1,17 @@
 //------------------------------------------------------------------------------------------------------------
 // This file was auto-generated on 3/8/2026 11:54 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
-using Dyvenix.App1.App.Api.Entities;
-using Dyvenix.App1.Tests.Integration.Data;
 
-namespace Dyvenix.App1.Tests.Integration.DataSets;
+namespace Dyvenix.App1.App.Shared.Requests.v1;
 
-public class TestDataSet
+public class UpdateClientReq
 {
-	public List<Client> ClientList { get; set; } = null!;
+	public Guid Id { get; set; }
+	public byte[] RowVersion { get; set; }
+
+	// Required properties
+	public string Name { get; set; }
+	public string BaseUrl { get; set; }
+	public string Key { get; set; }
+	public byte[] RowVersion { get; set; }
 }

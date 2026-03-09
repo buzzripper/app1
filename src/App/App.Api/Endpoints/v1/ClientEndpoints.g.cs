@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 3/1/2026 10:25 PM. Any changes made to it will be lost.
+// This file was auto-generated on 3/8/2026 11:54 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
@@ -13,6 +13,7 @@ using Dyvenix.App1.Common.Api.Filters;
 using Dyvenix.App1.Common.Shared.Requests;
 using Dyvenix.App1.Common.Shared.DTOs;
 using Dyvenix.App1.App.Shared.Contracts.v1;
+using Dyvenix.App1.App.Shared.Authorization;
 using Dyvenix.App1.App.Shared.Dtos;
 using Dyvenix.App1.App.Shared.Requests.v1;
 
@@ -33,29 +34,41 @@ public static class ClientEndpoints
 		
 		// Update
 		
-		group.MapPost("Create", Create)
+		group.MapPost("CreateClient", CreateClient)
+			.Produces<Guid>(StatusCodes.Status200OK)
+			.Produces(StatusCodes.Status409Conflict);
+		
+		group.MapPatch("UpdateClient", UpdateClient)
+			.Produces<Guid>(StatusCodes.Status200OK)
+			.Produces(StatusCodes.Status409Conflict);
+		
+		group.MapPatch("UpdateClientBaseUrl", UpdateClientBaseUrl)
 			.Produces<Guid>(StatusCodes.Status200OK)
 			.Produces(StatusCodes.Status409Conflict);
 		
 		// Read - Single
 		
-		group.MapGet("GetById/{id}", GetById)
+		group.MapGet("GetClientById/{id}", GetClientById)
 			.Produces<Guid>(StatusCodes.Status200OK)
 			.Produces(StatusCodes.Status404NotFound)
 			.Produces(StatusCodes.Status409Conflict);
 		
-		group.MapGet("GetByKey/{key}", GetByKey)
+		group.MapGet("GetClientByKey/{key}", GetClientByKey)
 			.Produces<Guid>(StatusCodes.Status200OK)
 			.Produces(StatusCodes.Status404NotFound)
 			.Produces(StatusCodes.Status409Conflict);
 		
 		// Read - List
 		
-		group.MapPost("GetAllClientOptions", GetAllClientOptions)
+		group.MapPost("GetAllClientLookupItems", GetAllClientLookupItems)
 			.Produces<Guid>(StatusCodes.Status200OK)
 			.Produces(StatusCodes.Status409Conflict);
 		
 		group.MapGet("GetAllRoutes", GetAllRoutes)
+			.Produces<Guid>(StatusCodes.Status200OK)
+			.Produces(StatusCodes.Status409Conflict);
+		
+		group.MapPost("GetAllClients", GetAllClients)
 			.Produces<Guid>(StatusCodes.Status200OK)
 			.Produces(StatusCodes.Status409Conflict);
 	
@@ -74,9 +87,23 @@ public static class ClientEndpoints
 
 	#region Updates
 	
-	public static async Task<Result<byte[]>> Create(IClientService clientService, [FromBody] CreateReq request)
+	public static async Task<Result<byte[]>> CreateClient(IClientService clientService, [FromBody] CreateClientReq request)
 	{
-		var rowVersion = await clientService.Create(request);
+		var rowVersion = await clientService.CreateClient(request);
+		return Result<byte[]>.Ok(rowVersion);
+	}
+	
+	
+	public static async Task<Result<byte[]>> UpdateClient(IClientService clientService, [FromBody] UpdateClientReq request)
+	{
+		var rowVersion = await clientService.UpdateClient(request);
+		return Result<byte[]>.Ok(rowVersion);
+	}
+	
+	
+	public static async Task<Result<byte[]>> UpdateClientBaseUrl(IClientService clientService, [FromBody] UpdateClientBaseUrlReq request)
+	{
+		var rowVersion = await clientService.UpdateClientBaseUrl(request);
 		return Result<byte[]>.Ok(rowVersion);
 	}
 
@@ -84,15 +111,15 @@ public static class ClientEndpoints
 
 	#region Read Methods - Single
 	
-	public static async Task<Result<ClientDto>> GetById(IClientService clientService, Guid id)
+	public static async Task<Result<ClientDto>> GetClientById(IClientService clientService, Guid id)
 	{
-		var clientDto = await clientService.GetById(id);
+		var clientDto = await clientService.GetClientById(id);
 		return Result<ClientDto>.Ok(clientDto);
 	}
 	
-	public static async Task<Result<ClientDto>> GetByKey(IClientService clientService, string key)
+	public static async Task<Result<ClientDto>> GetClientByKey(IClientService clientService, string key)
 	{
-		var clientDto = await clientService.GetByKey(key);
+		var clientDto = await clientService.GetClientByKey(key);
 		return Result<ClientDto>.Ok(clientDto);
 	}
 
@@ -100,9 +127,9 @@ public static class ClientEndpoints
 
 	#region Read Methods - List
 	
-	public static async Task<Result<IReadOnlyList<ClientOptionDto>>> GetAllClientOptions(IClientService clientService, GetAllClientOptionsReq getAllClientOptionsReq)
+	public static async Task<Result<IReadOnlyList<ClientOptionDto>>> GetAllClientLookupItems(IClientService clientService, GetAllClientLookupItemsReq getAllClientLookupItemsReq)
 	{
-		var data = await clientService.GetAllClientOptions(getAllClientOptionsReq);
+		var data = await clientService.GetAllClientLookupItems(getAllClientLookupItemsReq);
 		return Result<IReadOnlyList<ClientOptionDto>>.Ok(data);
 	}
 	
@@ -110,6 +137,12 @@ public static class ClientEndpoints
 	{
 		var data = await clientService.GetAllRoutes();
 		return Result<IReadOnlyList<ClientRouteDto>>.Ok(data);
+	}
+	
+	public static async Task<Result<IReadOnlyList<ClientDto>>> GetAllClients(IClientService clientService, GetAllClientsReq getAllClientsReq)
+	{
+		var data = await clientService.GetAllClients(getAllClientsReq);
+		return Result<IReadOnlyList<ClientDto>>.Ok(data);
 	}
 
 	#endregion

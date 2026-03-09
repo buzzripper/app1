@@ -18,7 +18,7 @@
             <serviceModel Id="62c3d768-be39-4856-a31a-fac559e39c6a" name="ServiceModel1" inclCreate="false" inclUpdate="false" inclDelete="true" version="v1">
               <readMethods>
                 <serviceModelHasReadMethodModels Id="5f8e2910-feb2-4d51-9083-75412c8521b7">
-                  <readMethodModel Id="26a97c8e-12a4-4144-b7ef-8a18a534ca0d" name="GetById" itemId="b119cd42-f1cb-4ac0-a488-7b8fa503ade7" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="0">
+                  <readMethodModel Id="26a97c8e-12a4-4144-b7ef-8a18a534ca0d" name="GetClientById" itemId="b119cd42-f1cb-4ac0-a488-7b8fa503ade7" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="1">
                     <filterProperties>
                       <readMethodModelHasFilterProperties Id="16a93b8c-9a4a-4cd0-9fb2-9f601b4c530f">
                         <filterPropertyModel Id="310ba8e5-dbe1-4731-a589-2d409f964165" isOptional="false" isInternal="false" isPartialMatch="false">
@@ -38,7 +38,7 @@
                   </readMethodModel>
                 </serviceModelHasReadMethodModels>
                 <serviceModelHasReadMethodModels Id="d7b1d9b5-48a7-4a2f-979a-cbcc0c72b48d">
-                  <readMethodModel Id="541137b4-dc5c-4acd-a433-aa722fd7efe5" name="GetByKey" itemId="1cade72d-c615-42b4-8bf3-827147451113" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="1">
+                  <readMethodModel Id="541137b4-dc5c-4acd-a433-aa722fd7efe5" name="GetClientByKey" itemId="1cade72d-c615-42b4-8bf3-827147451113" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="2">
                     <filterProperties>
                       <readMethodModelHasFilterProperties Id="a089be1a-e768-4be7-b1bb-14512a2a8f9b">
                         <filterPropertyModel Id="6a02f19f-11fc-4ba5-ab99-11e1e360f3e5" isOptional="false" isInternal="false" isPartialMatch="false">
@@ -58,7 +58,7 @@
                   </readMethodModel>
                 </serviceModelHasReadMethodModels>
                 <serviceModelHasReadMethodModels Id="7bb0ed38-5d8a-4ec8-9460-58d377ae1765">
-                  <readMethodModel Id="2da96a73-7aa3-4ffa-b6ce-f0d3485e0257" name="GetAllClientOptions" itemId="916ffc31-8ab6-42aa-83f5-4d47e96f929f" inclPaging="false" useRequest="true" inclSorting="true" displayOrder="2">
+                  <readMethodModel Id="2da96a73-7aa3-4ffa-b6ce-f0d3485e0257" name="GetAllClientLookupItems" itemId="916ffc31-8ab6-42aa-83f5-4d47e96f929f" inclPaging="false" useRequest="true" inclSorting="true" displayOrder="3">
                     <returnDto>
                       <readMethodModelReferencesReturnDto Id="01bcc105-180b-47fd-8a05-c56d066d592f">
                         <dtoModelMoniker Id="1737f403-2586-4176-b39f-2eaef5410ebc" />
@@ -67,7 +67,7 @@
                   </readMethodModel>
                 </serviceModelHasReadMethodModels>
                 <serviceModelHasReadMethodModels Id="50e2a76b-255e-4e5c-8a78-f9b7bbc35f7e">
-                  <readMethodModel Id="0afa8716-0c3c-4db3-85ee-4efefaa2fcbc" name="GetAllRoutes" itemId="6e08ce21-4ddb-407d-923f-ef9e33cc7593" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="3">
+                  <readMethodModel Id="0afa8716-0c3c-4db3-85ee-4efefaa2fcbc" name="GetAllRoutes" itemId="6e08ce21-4ddb-407d-923f-ef9e33cc7593" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="4">
                     <returnDto>
                       <readMethodModelReferencesReturnDto Id="37a9b030-f52e-4d97-9839-3541dc71c8a7">
                         <dtoModelMoniker Id="84b5130d-6ec9-4287-b3e4-6e20cd1dbd3d" />
@@ -75,10 +75,19 @@
                     </returnDto>
                   </readMethodModel>
                 </serviceModelHasReadMethodModels>
+                <serviceModelHasReadMethodModels Id="c54ce2ad-8824-4695-9399-1671257db13f">
+                  <readMethodModel Id="610ada9d-66c2-4841-a949-629d773f8cbe" name="GetAllClients" itemId="d368f02d-b7ce-4c61-9b76-c31f972448c2" inclPaging="false" useRequest="true" inclSorting="true" displayOrder="0">
+                    <returnDto>
+                      <readMethodModelReferencesReturnDto Id="0dbe94cf-e736-4967-bb69-aaffaba0b267">
+                        <dtoModelMoniker Id="2dfcf7e5-8271-4e45-8c08-33e88937d8b2" />
+                      </readMethodModelReferencesReturnDto>
+                    </returnDto>
+                  </readMethodModel>
+                </serviceModelHasReadMethodModels>
               </readMethods>
               <updateMethods>
                 <serviceModelHasUpdateMethods Id="10657b7d-bfdf-4c7d-9d4b-76f7531bb7bb">
-                  <updateMethodModel Id="fda5cb1c-7126-4fb0-a878-fb82d3749fff" name="Create" itemId="16c63384-acfa-423b-bf66-3ac59630737d" isCreate="true">
+                  <updateMethodModel Id="fda5cb1c-7126-4fb0-a878-fb82d3749fff" name="CreateClient" itemId="16c63384-acfa-423b-bf66-3ac59630737d" isCreate="true">
                     <updateProperties>
                       <updateMethodModelHasUpdateProperties Id="b03bf83f-68e1-4f51-bd00-74df6c013fb8">
                         <updatePropertyModel Id="8a4d1b22-6f06-4e33-928a-2115f811f0e5" isOptional="false">
@@ -89,20 +98,104 @@
                           </propertyModel>
                         </updatePropertyModel>
                       </updateMethodModelHasUpdateProperties>
-                      <updateMethodModelHasUpdateProperties Id="245d053b-0682-431c-9545-4e20e42d0fe2">
-                        <updatePropertyModel Id="d4a72ec4-ae19-4113-a83e-8c3e6f8e0356" isOptional="false">
+                      <updateMethodModelHasUpdateProperties Id="b8755945-4433-4d35-8056-8159cdce20b5">
+                        <updatePropertyModel Id="d9e7bf29-3234-499f-a5d0-73ac51c28662" isOptional="false">
                           <propertyModel>
-                            <updatePropertyModelHasPropertyModel Id="efe1f475-579e-41bc-af84-b3af6ebe33ae">
+                            <updatePropertyModelHasPropertyModel Id="7c8b377d-4ff6-4b35-8972-68100c15e927">
                               <propertyModelMoniker name="/App1/Client/Name" />
                             </updatePropertyModelHasPropertyModel>
                           </propertyModel>
                         </updatePropertyModel>
                       </updateMethodModelHasUpdateProperties>
-                      <updateMethodModelHasUpdateProperties Id="b6be587b-794e-49f2-8443-8e61dc975ea3">
-                        <updatePropertyModel Id="b18985af-4cae-4850-b31c-a79a4ec6ced4" isOptional="false">
+                      <updateMethodModelHasUpdateProperties Id="b63d7b1b-2015-4dee-b034-ff4c3ddb0214">
+                        <updatePropertyModel Id="4838eb66-f9a8-41c7-9c23-30ab1dd97468" isOptional="false">
                           <propertyModel>
-                            <updatePropertyModelHasPropertyModel Id="2be5721f-c982-423a-93f7-ab311d6ddd4d">
+                            <updatePropertyModelHasPropertyModel Id="fafc46f7-43a7-4746-bb3a-13f321e3d5bc">
                               <propertyModelMoniker name="/App1/Client/BaseUrl" />
+                            </updatePropertyModelHasPropertyModel>
+                          </propertyModel>
+                        </updatePropertyModel>
+                      </updateMethodModelHasUpdateProperties>
+                      <updateMethodModelHasUpdateProperties Id="f30170df-5618-44d8-8bee-40fb41840fab">
+                        <updatePropertyModel Id="e11a865d-253e-4597-89ed-95103c3063ff" isOptional="false">
+                          <propertyModel>
+                            <updatePropertyModelHasPropertyModel Id="eb19f8a6-7f04-49dc-907f-d01ed04f4962">
+                              <propertyModelMoniker name="/App1/Client/RowVersion" />
+                            </updatePropertyModelHasPropertyModel>
+                          </propertyModel>
+                        </updatePropertyModel>
+                      </updateMethodModelHasUpdateProperties>
+                    </updateProperties>
+                  </updateMethodModel>
+                </serviceModelHasUpdateMethods>
+                <serviceModelHasUpdateMethods Id="aa9a29e6-119c-466f-8248-f0d755d7a151">
+                  <updateMethodModel Id="acbc8426-1cf9-4161-bca7-586cecd3a0e5" name="UpdateClient" itemId="3410963e-f154-4f6c-bcdc-e05bc48ca93e" displayOrder="1" isCreate="false">
+                    <updateProperties>
+                      <updateMethodModelHasUpdateProperties Id="27907806-1709-4c15-a98c-b27f86700d28">
+                        <updatePropertyModel Id="1d7e2c88-77f7-4f53-b566-c4e2c210b347" isOptional="false">
+                          <propertyModel>
+                            <updatePropertyModelHasPropertyModel Id="6db29104-6ea5-4dd3-874d-4c8f312c3ce7">
+                              <propertyModelMoniker name="/App1/Client/Name" />
+                            </updatePropertyModelHasPropertyModel>
+                          </propertyModel>
+                        </updatePropertyModel>
+                      </updateMethodModelHasUpdateProperties>
+                      <updateMethodModelHasUpdateProperties Id="64e97867-61f9-487e-8864-4066578cf26b">
+                        <updatePropertyModel Id="4deff9ac-ea03-47e9-bbb4-436f833e3343" isOptional="false">
+                          <propertyModel>
+                            <updatePropertyModelHasPropertyModel Id="2ae41ad0-999a-4073-841c-12e05471622c">
+                              <propertyModelMoniker name="/App1/Client/BaseUrl" />
+                            </updatePropertyModelHasPropertyModel>
+                          </propertyModel>
+                        </updatePropertyModel>
+                      </updateMethodModelHasUpdateProperties>
+                      <updateMethodModelHasUpdateProperties Id="48d56e5a-94f3-4ce6-96a2-a3db4f537f99">
+                        <updatePropertyModel Id="82847618-ded1-4673-8e06-825f95b09e61" isOptional="false">
+                          <propertyModel>
+                            <updatePropertyModelHasPropertyModel Id="46d8b7c2-6373-477b-aeb6-e77167b034bb">
+                              <propertyModelMoniker name="/App1/Client/Key" />
+                            </updatePropertyModelHasPropertyModel>
+                          </propertyModel>
+                        </updatePropertyModel>
+                      </updateMethodModelHasUpdateProperties>
+                      <updateMethodModelHasUpdateProperties Id="2a855e81-f5c0-499c-a569-4d94c6f55b85">
+                        <updatePropertyModel Id="7f48f7e5-fe01-483f-bef6-923e697c0834" isOptional="false">
+                          <propertyModel>
+                            <updatePropertyModelHasPropertyModel Id="4021e10a-4169-4131-87f5-ea6574de7c1b">
+                              <propertyModelMoniker name="/App1/Client/RowVersion" />
+                            </updatePropertyModelHasPropertyModel>
+                          </propertyModel>
+                        </updatePropertyModel>
+                      </updateMethodModelHasUpdateProperties>
+                    </updateProperties>
+                  </updateMethodModel>
+                </serviceModelHasUpdateMethods>
+                <serviceModelHasUpdateMethods Id="89f64ea9-49e6-493a-aa8c-93aa2cdff3b8">
+                  <updateMethodModel Id="da491b8d-2a28-4351-90eb-5a51cf6f2996" name="UpdateClientBaseUrl" itemId="9340a2c8-05f2-4aca-8645-fa4e04af7179" displayOrder="2" isCreate="false">
+                    <updateProperties>
+                      <updateMethodModelHasUpdateProperties Id="2c9df6e9-e19c-4047-a135-912415f0d24e">
+                        <updatePropertyModel Id="4fae03ca-366c-4ee6-bbc6-8aa9fb11e1f2" isOptional="false">
+                          <propertyModel>
+                            <updatePropertyModelHasPropertyModel Id="6cb4ec59-4c22-4c49-ac97-86a0a2c6a6e7">
+                              <propertyModelMoniker name="/App1/Client/BaseUrl" />
+                            </updatePropertyModelHasPropertyModel>
+                          </propertyModel>
+                        </updatePropertyModel>
+                      </updateMethodModelHasUpdateProperties>
+                      <updateMethodModelHasUpdateProperties Id="88f32ab1-ce86-46bf-93c4-d9868fc16ed1">
+                        <updatePropertyModel Id="aa96201f-d20a-4373-a1a9-e226c76c33c5" isOptional="false">
+                          <propertyModel>
+                            <updatePropertyModelHasPropertyModel Id="3474f992-da1f-42d5-a930-470ce0d61258">
+                              <propertyModelMoniker name="/App1/Client/Key" />
+                            </updatePropertyModelHasPropertyModel>
+                          </propertyModel>
+                        </updatePropertyModel>
+                      </updateMethodModelHasUpdateProperties>
+                      <updateMethodModelHasUpdateProperties Id="2f56c902-3432-440e-916b-50e2b573234b">
+                        <updatePropertyModel Id="8a2fe543-a41c-4111-91e7-2dbd62bdc657" isOptional="false">
+                          <propertyModel>
+                            <updatePropertyModelHasPropertyModel Id="f3051f7a-1047-4e5e-93dc-71992d43fddf">
+                              <propertyModelMoniker name="/App1/Client/RowVersion" />
                             </updatePropertyModelHasPropertyModel>
                           </propertyModel>
                         </updatePropertyModel>

@@ -86,7 +86,7 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy {
         this.clientImage = `images/clients/${subdomain}.png`;
 
         // Subscribe to navigation data
-        const sysadminItemIds = ['system', 'security'];
+        const sysadminItemIds = ['sysadmin', 'security'];
         this._navigationService.navigation$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((navigation: Navigation) => {
