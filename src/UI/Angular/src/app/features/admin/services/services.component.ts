@@ -8,21 +8,21 @@ import {
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { SystemTileStatus } from './system.types';
+import { ServicesTileStatus } from './services.types';
 import { AuthSystemService } from 'app/core/services/auth/system.service';
 import { AppSystemService } from 'app/core/services/app/system.service';
 import { PortalSystemService } from 'app/core/services/portal/system.service';
 import {StatusLevel} from 'app/core/services/common/dtos';
 
 @Component({
-    selector: 'system',
-    templateUrl: './system.component.html',
+    selector: 'services',
+    templateUrl: './services.component.html',
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [MatIconModule, MatButtonModule, NgClass],
 })
-export class SystemComponent implements OnInit {
-    tiles = signal<SystemTileStatus[]>([
+export class ServicesComponent implements OnInit {
+    tiles = signal<ServicesTileStatus[]>([
         {
             module: 'auth',
             title: 'Auth',

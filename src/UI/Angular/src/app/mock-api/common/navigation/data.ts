@@ -64,21 +64,21 @@ export const defaultNavigation: FuseNavigationItem[] = [
                         title: 'Services',
                         type: 'basic',
                         icon: 'heroicons_outline:clipboard-document-check',
-                        link: '/admin/components/services',
+                        link: '/admin/services',
                     },
                     {
                         id: 'admin.workstations',
                         title: 'Workstations',
                         type: 'basic',
                         icon: 'heroicons_outline:clipboard-document-check',
-                        link: '/admin/components/workstations',
+                        link: '/admin/workstations',
                     },
                     {
                         id: 'admin.printers',
                         title: 'Printers',
                         type: 'basic',
                         icon: 'heroicons_outline:clipboard-document-check',
-                        link: '/admin/components/printers',
+                        link: '/admin/printers',
                     }
                 ]
             },

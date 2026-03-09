@@ -66,8 +66,10 @@ export const appRoutes: Route[] = [
         },
         children: [
 
-            // System
-            {path: 'system', loadChildren: () => import('app/features/system/system.routes')},
+            // Admin
+            {path: 'admin', children: [
+                {path: 'services', loadChildren: () => import('@app/features/admin/services/services.routes')},
+            ]},
 
             // Dashboards
             {path: 'dashboards', children: [

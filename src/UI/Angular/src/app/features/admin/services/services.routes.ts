@@ -1,10 +1,10 @@
 import { inject } from '@angular/core';
 import { Routes } from '@angular/router';
-import { SystemComponent } from './system.component';
+import { ServicesComponent } from './services.component';
 
 export default [
     {
         path: '',
-        component: SystemComponent,
+        component: ServicesComponent,
     },
 ] as Routes;

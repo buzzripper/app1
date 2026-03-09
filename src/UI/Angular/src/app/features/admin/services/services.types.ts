@@ -1,4 +1,4 @@
-export interface SystemTileStatus {
+export interface ServicesTileStatus {
     module: 'auth' | 'app' | 'portal' | 'adagent';
     title: string;
     pingStatus: string;
