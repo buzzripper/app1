@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 3/8/2026 11:54 PM. Any changes made to it will be lost.
+// This file was auto-generated on 3/10/2026 9:58:05 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
@@ -26,12 +26,6 @@ public static class ClientEndpoints
 		var group = app.MapGroup("api/app/v1/client")
 			.WithTags("Client");
 		
-		// Delete
-		
-		group.MapDelete("Delete", Delete)
-			.Produces<Guid>(StatusCodes.Status200OK)
-			.Produces(StatusCodes.Status409Conflict);
-		
 		// Update
 		
 		group.MapPost("CreateClient", CreateClient)
@@ -45,6 +39,11 @@ public static class ClientEndpoints
 		group.MapPatch("UpdateClientBaseUrl", UpdateClientBaseUrl)
 			.Produces<Guid>(StatusCodes.Status200OK)
 			.Produces(StatusCodes.Status409Conflict);
+		
+		// Delete
+		
+		group.MapDelete("DeleteClient", DeleteClient)
+			.Produces<Guid>(StatusCodes.Status200OK);
 		
 		// Read - Single
 		
@@ -64,11 +63,15 @@ public static class ClientEndpoints
 			.Produces<Guid>(StatusCodes.Status200OK)
 			.Produces(StatusCodes.Status409Conflict);
 		
-		group.MapGet("GetAllRoutes", GetAllRoutes)
+		group.MapGet("GetAllClientRoutes", GetAllClientRoutes)
 			.Produces<Guid>(StatusCodes.Status200OK)
 			.Produces(StatusCodes.Status409Conflict);
 		
 		group.MapPost("GetAllClients", GetAllClients)
+			.Produces<Guid>(StatusCodes.Status200OK)
+			.Produces(StatusCodes.Status409Conflict);
+		
+		group.MapPost("SearchClientsByName", SearchClientsByName)
 			.Produces<Guid>(StatusCodes.Status200OK)
 			.Produces(StatusCodes.Status409Conflict);
 	
@@ -77,9 +80,9 @@ public static class ClientEndpoints
 	
 	#region Delete
 	
-	public static async Task<Result> Delete(IClientService clientService, [FromBody] DeleteReq deleteReq)
+	public static async Task<Result> DeleteClient(IClientService clientService, [FromBody] DeleteReq deleteReq)
 	{
-		await clientService.Delete(deleteReq.Id);
+		await clientService.DeleteClient(deleteReq.Id);
 		return Result.Ok();
 	}
 	
@@ -127,15 +130,15 @@ public static class ClientEndpoints
 
 	#region Read Methods - List
 	
-	public static async Task<Result<IReadOnlyList<ClientOptionDto>>> GetAllClientLookupItems(IClientService clientService, GetAllClientLookupItemsReq getAllClientLookupItemsReq)
+	public static async Task<Result<IReadOnlyList<ClientLookupDto>>> GetAllClientLookupItems(IClientService clientService, GetAllClientLookupItemsReq getAllClientLookupItemsReq)
 	{
 		var data = await clientService.GetAllClientLookupItems(getAllClientLookupItemsReq);
-		return Result<IReadOnlyList<ClientOptionDto>>.Ok(data);
+		return Result<IReadOnlyList<ClientLookupDto>>.Ok(data);
 	}
 	
-	public static async Task<Result<IReadOnlyList<ClientRouteDto>>> GetAllRoutes(IClientService clientService)
+	public static async Task<Result<IReadOnlyList<ClientRouteDto>>> GetAllClientRoutes(IClientService clientService)
 	{
-		var data = await clientService.GetAllRoutes();
+		var data = await clientService.GetAllClientRoutes();
 		return Result<IReadOnlyList<ClientRouteDto>>.Ok(data);
 	}
 	
@@ -143,6 +146,12 @@ public static class ClientEndpoints
 	{
 		var data = await clientService.GetAllClients(getAllClientsReq);
 		return Result<IReadOnlyList<ClientDto>>.Ok(data);
+	}
+	
+	public static async Task<Result<ListPage<ClientLookupDto>>> SearchClientsByName(IClientService clientService, SearchClientsByNameReq searchClientsByNameReq)
+	{
+		var data = await clientService.SearchClientsByName(searchClientsByNameReq);
+		return Result<ListPage<ClientLookupDto>>.Ok(data);
 	}
 
 	#endregion

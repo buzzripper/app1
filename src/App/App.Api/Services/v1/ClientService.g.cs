@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 3/8/2026 11:54 PM. Any changes made to it will be lost.
+// This file was auto-generated on 3/10/2026 9:58:05 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
@@ -13,6 +13,8 @@ using Dyvenix.App1.App.Api.Entities;
 using Dyvenix.App1.Common.Shared.Exceptions;
 using Dyvenix.App1.App.Shared.Contracts.v1;
 using Dyvenix.App1.App.Shared.Requests.v1;
+using Dyvenix.App1.Common.Shared.Extensions;
+using Dyvenix.App1.Common.Shared.DTOs;
 using Dyvenix.App1.Common.Shared.Requests;
 
 namespace Dyvenix.App1.App.Api.Services.v1;
@@ -30,7 +32,7 @@ public partial class ClientService : IClientService
 
 	#region Delete
 
-	public async Task Delete(Guid id)
+	public async Task DeleteClient(Guid id)
 	{
 		var rowsAffected = await _db.Client.Where(a => a.Id == id).ExecuteDeleteAsync();
 
@@ -53,7 +55,6 @@ public partial class ClientService : IClientService
 				Key = request.Key,
 				Name = request.Name,
 				BaseUrl = request.BaseUrl,
-				RowVersion = request.RowVersion,
 			};
 
 			_db.Add(client);
@@ -77,7 +78,6 @@ public partial class ClientService : IClientService
 				Name = request.Name,
 				BaseUrl = request.BaseUrl,
 				Key = request.Key,
-				RowVersion = request.RowVersion,
 			};
 
 			_db.Attach(client);
@@ -105,7 +105,6 @@ public partial class ClientService : IClientService
 				RowVersion = request.RowVersion,
 				BaseUrl = request.BaseUrl,
 				Key = request.Key,
-				RowVersion = request.RowVersion,
 			};
 
 			_db.Attach(client);
@@ -161,7 +160,7 @@ public partial class ClientService : IClientService
 	
 	#region Read - List
 	
-	public async Task<IReadOnlyList<ClientOptionDto>> GetAllClientLookupItems(GetAllClientLookupItemsReq request)
+	public async Task<IReadOnlyList<ClientLookupDto>> GetAllClientLookupItems(GetAllClientLookupItemsReq request)
 	{
 		var dbQuery = _db.Client.AsNoTracking();
 	
@@ -169,7 +168,7 @@ public partial class ClientService : IClientService
 		if (!string.IsNullOrWhiteSpace(request.SortBy))
 			dbQuery = this.AddSorting(ref dbQuery, request);
 	
-		return await dbQuery.Select(e => new ClientOptionDto(
+		return await dbQuery.Select(e => new ClientLookupDto(
 			e.Id,
 			e.Key,
 			e.Name
@@ -177,14 +176,14 @@ public partial class ClientService : IClientService
 		.ToListAsync();
 	}
 	
-	public async Task<IReadOnlyList<ClientRouteDto>> GetAllRoutes()
+	public async Task<IReadOnlyList<ClientRouteDto>> GetAllClientRoutes()
 	{
 		var dbQuery = _db.Client.AsNoTracking();
 	
 		return await dbQuery.Select(e => new ClientRouteDto(
 			e.Id,
-			e.Key,
-			e.BaseUrl
+			e.BaseUrl,
+			e.Key
 		))
 		.ToListAsync();
 	}
@@ -204,6 +203,44 @@ public partial class ClientService : IClientService
 			e.BaseUrl
 		))
 		.ToListAsync();
+	}
+	
+	public async Task<ListPage<ClientLookupDto>> SearchClientsByName(SearchClientsByNameReq request)
+	{
+		var dbQuery = _db.Client.AsNoTracking();
+	
+		if (!string.IsNullOrWhiteSpace(request.Name))
+			dbQuery = dbQuery.Where(x => x.Name == request.Name);
+	
+		var listPage = new ListPage<ClientLookupDto>();
+	
+		// Count (if requested)
+		if (request.RecalcRowCount || request.GetRowCountOnly)
+		{
+			listPage.TotalRowCount = await dbQuery.CountAsync();
+			if (request.GetRowCountOnly)
+				return listPage;
+		}
+		else if (!request.RecalcRowCount && !request.GetRowCountOnly)
+		{
+			listPage.TotalRowCount = -1;  // Make it clear that row count was not calculated
+		}
+	
+		// Sorting
+		if (!string.IsNullOrWhiteSpace(request.SortBy))
+			dbQuery = this.AddSorting(ref dbQuery, request);
+	
+		if (request.PageSize > 0)
+			dbQuery = dbQuery.Skip(request.PageOffset * request.PageSize).Take(request.PageSize);
+	
+		listPage.Items = await dbQuery.Select(e => new ClientLookupDto(
+			e.Id,
+			e.Key,
+			e.Name
+		))
+		.ToListAsync();
+	
+		return listPage;
 	}
 	
 	#endregion

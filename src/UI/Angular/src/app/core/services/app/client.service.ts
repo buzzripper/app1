@@ -1,40 +1,64 @@
+//------------------------------------------------------------------------------------------------------------
+// This file was auto-generated on 3/10/2026 9:58:05 PM. Any changes made to it will be lost.
+//------------------------------------------------------------------------------------------------------------
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'environments/environment';
-import { ClientDto, ClientOptionDto, ClientRouteDto } from './dto';
-import { CreateClientReq, GetAllClientOptionsReq } from './req';
+import { ListPage } from '../common/dtos';
+import { ClientDto, ClientLookupDto, ClientRouteDto, Dto4 } from './dto';
+import { GetAllClientLookupItemsReq, GetAllClientsReq, SearchClientsByNameReq, CreateClientReq, UpdateClientReq, UpdateClientBaseUrlReq } from './req';
 
 @Injectable({ providedIn: 'root' })
 export class ClientService {
-    private _httpClient = inject(HttpClient);
-    private readonly _baseUrl = `${environment.apiBaseUrl}/api/App/v1/Client`;
+	private _httpClient = inject(HttpClient);
+	private readonly _baseUrl = `${environment.apiBaseUrl}/api/app/v1/client`;
 
-    getById(id: string): Observable<ClientDto> {
-        return this._httpClient.get<ClientDto>(`${this._baseUrl}/GetById/${id}`);
-    }
+	// Create/Update
+	
+	 createClient(request: CreateClientReq): Observable<Uint8Array> {
+		return this._httpClient.patch<Uint8Array>(`${this._baseUrl}/CreateClient`, request);
+	}
+	
+	 updateClient(request: UpdateClientReq): Observable<Uint8Array> {
+		return this._httpClient.patch<Uint8Array>(`${this._baseUrl}/UpdateClient`, request);
+	}
+	
+	 updateClientBaseUrl(request: UpdateClientBaseUrlReq): Observable<Uint8Array> {
+		return this._httpClient.patch<Uint8Array>(`${this._baseUrl}/UpdateClientBaseUrl`, request);
+	}
 
-    getByKey(key: string): Observable<ClientDto> {
-        return this._httpClient.get<ClientDto>(`${this._baseUrl}/GetByKey/${encodeURIComponent(key)}`);
-    }
+	// Delete
+	
+	delete(id: string): Observable<Uint8Array> {
+		return this._httpClient.delete<Uint8Array>(`${this._baseUrl}/DeleteClient`, { body: { id } });
+	}
 
-    getAllClientOptions(request: GetAllClientOptionsReq): Observable<ClientOptionDto[]> {
-        return this._httpClient.post<ClientOptionDto[]>(`${this._baseUrl}/GetAllClientOptions`, request);
-    }
+	// Read Single
+	
+	getClientById(id: string): Observable<ClientDto> {
+		return this._httpClient.get<ClientDto>(`${this._baseUrl}/GetClientById/${id}`);
+	}
+	
+	getClientByKey(key: string): Observable<ClientDto> {
+		return this._httpClient.get<ClientDto>(`${this._baseUrl}/GetClientByKey/${key}`);
+	}
 
-    getAllRoutes(): Observable<ClientRouteDto[]> {
-        return this._httpClient.get<ClientRouteDto[]>(`${this._baseUrl}/GetAllRoutes`);
-    }
-
-    create(request: CreateClientReq): Observable<string> {
-        return this._httpClient.patch<string>(`${this._baseUrl}/Create`, request);
-    }
-
-    update(id: string, client: { key: string; name: string; baseUrl: string }): Observable<void> {
-        return this._httpClient.put<void>(`${this._baseUrl}/Update/${encodeURIComponent(id)}`, client);
-    }
-
-    delete(id: string): Observable<void> {
-        return this._httpClient.delete<void>(`${this._baseUrl}/DeleteClient`, { body: { id } });
-    }
+	// Read List
+	
+	getAllClientLookupItems(request: GetAllClientLookupItemsReq): Observable<ClientLookupDto[]> {
+		return this._httpClient.post<ClientLookupDto[]>(`${this._baseUrl}/GetAllClientLookupItems`, request);
+	}
+	
+	getAllClientRoutes(): Observable<ClientRouteDto[]> {
+		return this._httpClient.get<ClientRouteDto[]>(`${this._baseUrl}/GetAllClientRoutes`);
+	}
+	
+	getAllClients(request: GetAllClientsReq): Observable<ClientDto[]> {
+		return this._httpClient.post<ClientDto[]>(`${this._baseUrl}/GetAllClients`, request);
+	}
+	
+	searchClientsByName(request: SearchClientsByNameReq): Observable<ListPage<ClientLookupDto>> {
+		return this._httpClient.post<ListPage<ClientLookupDto>>(`${this._baseUrl}/SearchClientsByName`, request);
+	}
 }

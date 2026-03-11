@@ -23,8 +23,9 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { ClientService } from '@app/core/services/app/client.service';
-import { ClientDto, ClientOptionDto } from '@app/core/services/app/dto';
-import { Subject, takeUntil } from 'rxjs';
+import { ClientDto } from '@app/core/services/app/dto';
+import { CreateClientReq } from '@app/core/services/app/req';
+import { Subject, map, takeUntil } from 'rxjs';
 
 @Component({
     selector: 'clients-list',
@@ -32,14 +33,14 @@ import { Subject, takeUntil } from 'rxjs';
     styles: [
         `
             .clients-grid {
-                grid-template-columns: auto 112px 72px;
+                grid-template-columns: auto 112px 150px;
 
                 @screen sm {
-                    grid-template-columns: auto 150px 200px 72px;
+                    grid-template-columns: auto 200px 200px 72px;
                 }
 
                 @screen md {
-                    grid-template-columns: auto 150px 250px 72px;
+                    grid-template-columns: auto 200px 500px 72px;
                 }
             }
         `,
@@ -60,8 +61,8 @@ import { Subject, takeUntil } from 'rxjs';
     ],
 })
 export class ClientsListComponent implements OnInit, OnDestroy {
-    clients: ClientOptionDto[] = [];
-    filteredClients: ClientOptionDto[] = [];
+    clients: ClientDto[] = [];
+    filteredClients: ClientDto[] = [];
     selectedClient: ClientDto | null = null;
     selectedClientForm: UntypedFormGroup;
     searchInputControl: UntypedFormControl = new UntypedFormControl();
@@ -86,11 +87,14 @@ export class ClientsListComponent implements OnInit, OnDestroy {
 
         // Load initial data
         this._clientService
-            .getAllClientOptions({ sortBy: 'name', sortDesc: false })
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((clients: ClientOptionDto[]) => {
-                this.clients = Array.isArray(clients) ? clients : [];
-                this.filteredClients = this.clients;
+            .getAllClients({ sortBy: 'name', sortDesc: false })
+            .pipe(
+                map((response: any) => Array.isArray(response) ? response : response?.data ?? []),
+                takeUntil(this._unsubscribeAll),
+            )
+            .subscribe((clients: ClientDto[]) => {
+                this.clients = clients;
+                this.filteredClients = clients;
                 this._changeDetectorRef.markForCheck();
             });
 
@@ -121,7 +125,7 @@ export class ClientsListComponent implements OnInit, OnDestroy {
         }
 
         this.isLoading = true;
-        this._clientService.getById(clientId).subscribe((client) => {
+        this._clientService.getClientById(clientId).subscribe((client) => {
             this.selectedClient = client;
             this.selectedClientForm.patchValue(client);
             this.isLoading = false;
@@ -134,16 +138,19 @@ export class ClientsListComponent implements OnInit, OnDestroy {
     }
 
     createClient(): void {
+        const newId = crypto.randomUUID().toString();
+        const newClient: CreateClientReq = {
+            id: newId,
+            rowVersion: new Uint8Array(),
+            key: `new-client-${newId.substring(0, 8)}`,
+            name: 'New Client',
+            baseUrl: 'https://',
+        };
+
         this._clientService
-            .create({
-                id: '',
-                rowVersion: null,
-                key: '',
-                name: 'New Client',
-                baseUrl: '',
-            })
-            .subscribe((newId) => {
-                this._clientService.getById(newId).subscribe((client) => {
+            .createClient(newClient)
+            .subscribe((rowVersion) => {
+                this._clientService.getClientById(newId).subscribe((client) => {
                     this.selectedClient = client;
                     this.selectedClientForm.patchValue(client);
                     this.refreshList();
@@ -155,7 +162,13 @@ export class ClientsListComponent implements OnInit, OnDestroy {
     updateSelectedClient(): void {
         const formValue = this.selectedClientForm.getRawValue();
         this._clientService
-            .update(formValue.id, formValue)
+            .updateClient({
+                id: formValue.id,
+                rowVersion: null,
+                key: formValue.key,
+                name: formValue.name,
+                baseUrl: formValue.baseUrl,
+            })
             .subscribe({
                 next: () => {
                     this.refreshList();
@@ -190,8 +203,11 @@ export class ClientsListComponent implements OnInit, OnDestroy {
 
     private refreshList(): void {
         this._clientService
-            .getAllClientOptions({ sortBy: 'name', sortDesc: false })
-            .subscribe((clients) => {
+            .getAllClients({ sortBy: 'name', sortDesc: false })
+            .pipe(
+                map((response: any) => Array.isArray(response) ? response : response?.data ?? []),
+            )
+            .subscribe((clients: ClientDto[]) => {
                 this.clients = clients;
                 const query = (this.searchInputControl.value || '').toLowerCase();
                 this.filteredClients = clients.filter(

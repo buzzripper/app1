@@ -2,10 +2,10 @@
 <modelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="a05f92bc-4f04-4e80-b2f9-bcdc2d98c182" name="App1" entitiesOutputFolder="src\App\App.Api\Entities" entitiesNamespace="Dyvenix.App1.App.Api.Entities" dbContextOutputFolder="src\App\App.Api\Context" dbContextNamespace="Dyvenix.App1.App.Api.Context" enumsOutputFolder="src\App\App.Shared\Dtos" enumsNamespace="Dyvenix.App1.App.Shared.Dtos" editorSplitterPosition="577.00000000000034" permissions="Permission1|&#xA;Permission2|&#xA;Permission3|" dbContextName="App1Db" commonNamespace="Dyvenix.App1.Common" intTestsRootFolder="tests\Tests.Integration" intTestsNamespace="Dyvenix.App1.Tests.Integration" unitTestsRootFolder="tests\Tests.Unit" unitTestsNamespace="Dyvenix.App1.Tests.Unit" intTestsEnabled="true" unitTestsEnabled="false" dbContextBaseClass="DbContext" xmlns="http://schemas.microsoft.com/dsltools/GenIt">
   <types>
     <modelRootHasTypes Id="92d4d5b8-2bb5-4af1-a731-e2aa2d4c93d6">
-      <moduleModel Id="df3dc907-3fd4-4ce4-b560-883e96a3efbe" name="App" rootFolder="src\App" namespace="Dyvenix.App1.App" dtoNamespace="Dyvenix.App1.App.Shared.Dtos" requestNamespace="Dyvenix.App1.App.Shared.Requests" dtoOuputFolder="src\App\App.Shared\Dtos" />
+      <moduleModel Id="df3dc907-3fd4-4ce4-b560-883e96a3efbe" name="App" rootFolder="src\App" namespace="Dyvenix.App1.App" dtoNamespace="Dyvenix.App1.App.Shared.Dtos" requestNamespace="Dyvenix.App1.App.Shared.Requests" dtoOuputFolder="src\App\App.Shared\Dtos" ngServiceOutputFolder="src\UI\Angular\src\app\core\services\app" />
     </modelRootHasTypes>
     <modelRootHasTypes Id="0e7bb869-870d-400b-9959-b6b5d7a04a69">
-      <entityModel Id="61c4b23e-f93a-4024-9b57-2b8090994991" name="Client" auditable="false" inclRowVersion="true" module="App" enabled="false" tableName="Client">
+      <entityModel Id="61c4b23e-f93a-4024-9b57-2b8090994991" name="Client" auditable="false" inclRowVersion="true" module="App" enabled="false" tableName="Client" inclAngDtos="true">
         <properties>
           <propertyModel Id="510c22d7-fa16-4b40-9c93-84469036a575" name="Id" description="Primary key" dataType="Guid" isPrimaryKey="true" isIndexed="true" isIndexUnique="true" isForeignKey="false" />
           <propertyModel Id="b6121347-92e4-45b5-ad7f-b539b7d87a15" name="Key" length="50" isIndexed="true" isIndexUnique="true" isForeignKey="false" displayOrder="1" />
@@ -15,7 +15,7 @@
         </properties>
         <serviceModels>
           <entityModelHasServiceModels Id="07bba77d-49b5-4fea-bc8e-bea607016cf7">
-            <serviceModel Id="62c3d768-be39-4856-a31a-fac559e39c6a" name="ServiceModel1" inclCreate="false" inclUpdate="false" inclDelete="true" version="v1">
+            <serviceModel Id="62c3d768-be39-4856-a31a-fac559e39c6a" name="ServiceModel1" inclCreate="false" inclUpdate="false" inclDelete="true" version="v1" inclAngService="true">
               <readMethods>
                 <serviceModelHasReadMethodModels Id="5f8e2910-feb2-4d51-9083-75412c8521b7">
                   <readMethodModel Id="26a97c8e-12a4-4144-b7ef-8a18a534ca0d" name="GetClientById" itemId="b119cd42-f1cb-4ac0-a488-7b8fa503ade7" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="1">
@@ -67,7 +67,7 @@
                   </readMethodModel>
                 </serviceModelHasReadMethodModels>
                 <serviceModelHasReadMethodModels Id="50e2a76b-255e-4e5c-8a78-f9b7bbc35f7e">
-                  <readMethodModel Id="0afa8716-0c3c-4db3-85ee-4efefaa2fcbc" name="GetAllRoutes" itemId="6e08ce21-4ddb-407d-923f-ef9e33cc7593" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="4">
+                  <readMethodModel Id="0afa8716-0c3c-4db3-85ee-4efefaa2fcbc" name="GetAllClientRoutes" itemId="6e08ce21-4ddb-407d-923f-ef9e33cc7593" inclPaging="false" useRequest="false" inclSorting="false" displayOrder="4">
                     <returnDto>
                       <readMethodModelReferencesReturnDto Id="37a9b030-f52e-4d97-9839-3541dc71c8a7">
                         <dtoModelMoniker Id="84b5130d-6ec9-4287-b3e4-6e20cd1dbd3d" />
@@ -80,6 +80,26 @@
                     <returnDto>
                       <readMethodModelReferencesReturnDto Id="0dbe94cf-e736-4967-bb69-aaffaba0b267">
                         <dtoModelMoniker Id="2dfcf7e5-8271-4e45-8c08-33e88937d8b2" />
+                      </readMethodModelReferencesReturnDto>
+                    </returnDto>
+                  </readMethodModel>
+                </serviceModelHasReadMethodModels>
+                <serviceModelHasReadMethodModels Id="1aa46750-5fbc-425c-9d55-f34aa8c0230f">
+                  <readMethodModel Id="dc33c2b5-4695-42df-8a4d-a5375b5a147d" name="SearchClientsByName" itemId="b368baef-5aee-4f3e-86a1-edb9559a3309" inclPaging="true" useRequest="true" inclSorting="true" displayOrder="5">
+                    <filterProperties>
+                      <readMethodModelHasFilterProperties Id="dfc67a56-58ef-4c23-9aba-cca72085a2dd">
+                        <filterPropertyModel Id="21e6dea3-edd0-477f-8e98-769ba5837328" isOptional="false" isInternal="false" isPartialMatch="false">
+                          <propertyModel>
+                            <filterPropertyModelHasProperty Id="5ec8d5f9-1f3d-43e0-88bd-ea38d74cbbf9">
+                              <propertyModelMoniker name="/App1/Client/Name" />
+                            </filterPropertyModelHasProperty>
+                          </propertyModel>
+                        </filterPropertyModel>
+                      </readMethodModelHasFilterProperties>
+                    </filterProperties>
+                    <returnDto>
+                      <readMethodModelReferencesReturnDto Id="706ea2de-eff1-4e1d-a9ba-d1d41746c630">
+                        <dtoModelMoniker Id="1737f403-2586-4176-b39f-2eaef5410ebc" />
                       </readMethodModelReferencesReturnDto>
                     </returnDto>
                   </readMethodModel>
@@ -98,28 +118,28 @@
                           </propertyModel>
                         </updatePropertyModel>
                       </updateMethodModelHasUpdateProperties>
-                      <updateMethodModelHasUpdateProperties Id="b8755945-4433-4d35-8056-8159cdce20b5">
-                        <updatePropertyModel Id="d9e7bf29-3234-499f-a5d0-73ac51c28662" isOptional="false">
+                      <updateMethodModelHasUpdateProperties Id="ba0548d2-cc99-4c05-b88d-43c39fa9c24d">
+                        <updatePropertyModel Id="38de2739-ba3c-4213-859b-33efba23ba8e" isOptional="false">
                           <propertyModel>
-                            <updatePropertyModelHasPropertyModel Id="7c8b377d-4ff6-4b35-8972-68100c15e927">
+                            <updatePropertyModelHasPropertyModel Id="be033d1d-140e-4675-ab82-64aaee179a33">
                               <propertyModelMoniker name="/App1/Client/Name" />
                             </updatePropertyModelHasPropertyModel>
                           </propertyModel>
                         </updatePropertyModel>
                       </updateMethodModelHasUpdateProperties>
-                      <updateMethodModelHasUpdateProperties Id="b63d7b1b-2015-4dee-b034-ff4c3ddb0214">
-                        <updatePropertyModel Id="4838eb66-f9a8-41c7-9c23-30ab1dd97468" isOptional="false">
+                      <updateMethodModelHasUpdateProperties Id="8f024521-69db-4366-b746-b97d029e1e3b">
+                        <updatePropertyModel Id="9a50d40b-7641-460d-a72b-e90794338f36" isOptional="false">
                           <propertyModel>
-                            <updatePropertyModelHasPropertyModel Id="fafc46f7-43a7-4746-bb3a-13f321e3d5bc">
+                            <updatePropertyModelHasPropertyModel Id="add8778a-ac02-4ff3-b3a6-30f1c09b172f">
                               <propertyModelMoniker name="/App1/Client/BaseUrl" />
                             </updatePropertyModelHasPropertyModel>
                           </propertyModel>
                         </updatePropertyModel>
                       </updateMethodModelHasUpdateProperties>
-                      <updateMethodModelHasUpdateProperties Id="f30170df-5618-44d8-8bee-40fb41840fab">
-                        <updatePropertyModel Id="e11a865d-253e-4597-89ed-95103c3063ff" isOptional="false">
+                      <updateMethodModelHasUpdateProperties Id="cecb8a6a-bd0a-4608-ba85-ee8fbf1ec32e">
+                        <updatePropertyModel Id="f466242d-c176-4d00-a737-2cc4a7c02942" isOptional="false">
                           <propertyModel>
-                            <updatePropertyModelHasPropertyModel Id="eb19f8a6-7f04-49dc-907f-d01ed04f4962">
+                            <updatePropertyModelHasPropertyModel Id="32de234f-a41e-49d7-91e3-e26a1f6036f3">
                               <propertyModelMoniker name="/App1/Client/RowVersion" />
                             </updatePropertyModelHasPropertyModel>
                           </propertyModel>
@@ -224,7 +244,7 @@
                   </dtoModel>
                 </serviceModelHasDtoModels>
                 <serviceModelHasDtoModels Id="4ecbd674-be8e-4f6b-9bc1-95b0ea4fc205">
-                  <dtoModel Id="1737f403-2586-4176-b39f-2eaef5410ebc" name="ClientOptionDto">
+                  <dtoModel Id="1737f403-2586-4176-b39f-2eaef5410ebc" name="ClientLookupDto">
                     <propertyModels>
                       <dtoModelReferencesPropertyModels Id="fb3ec447-c6cf-44ab-8690-d547110ad72a">
                         <propertyModelMoniker name="/App1/Client/Id" />
@@ -244,11 +264,26 @@
                       <dtoModelReferencesPropertyModels Id="8161fe2d-527f-4f39-8f16-028a3a2e972c">
                         <propertyModelMoniker name="/App1/Client/Id" />
                       </dtoModelReferencesPropertyModels>
-                      <dtoModelReferencesPropertyModels Id="b469f6d3-eb94-4c24-b7fd-cd4fd7fb7e7c">
-                        <propertyModelMoniker name="/App1/Client/Key" />
-                      </dtoModelReferencesPropertyModels>
                       <dtoModelReferencesPropertyModels Id="9e242339-4599-4d6d-9946-0fb53a9ac20f">
                         <propertyModelMoniker name="/App1/Client/BaseUrl" />
+                      </dtoModelReferencesPropertyModels>
+                      <dtoModelReferencesPropertyModels Id="48256e69-328d-47e4-a9b7-51e84b469622">
+                        <propertyModelMoniker name="/App1/Client/Key" />
+                      </dtoModelReferencesPropertyModels>
+                    </propertyModels>
+                  </dtoModel>
+                </serviceModelHasDtoModels>
+                <serviceModelHasDtoModels Id="ef7e64e1-f055-4e10-857d-e8e8f6161090">
+                  <dtoModel Id="d1984c89-efd1-485d-9aab-c7c9481482b5" name="Dto4">
+                    <propertyModels>
+                      <dtoModelReferencesPropertyModels Id="892059dc-a19a-4d67-a3e6-e7e310f8f323">
+                        <propertyModelMoniker name="/App1/Client/Key" />
+                      </dtoModelReferencesPropertyModels>
+                      <dtoModelReferencesPropertyModels Id="b71bcefc-654d-4803-8367-bc98ffa6ba76">
+                        <propertyModelMoniker name="/App1/Client/RowVersion" />
+                      </dtoModelReferencesPropertyModels>
+                      <dtoModelReferencesPropertyModels Id="9bd5d471-3e74-46ca-b77c-b6f766ea372c">
+                        <propertyModelMoniker name="/App1/Client/Name" />
                       </dtoModelReferencesPropertyModels>
                     </propertyModels>
                   </dtoModel>
@@ -266,6 +301,9 @@
           </entityModelReferencesDtoModels>
           <entityModelReferencesDtoModels Id="e6951dd6-08fa-4f51-aa9f-a00a4665bdbf">
             <dtoModelMoniker Id="84b5130d-6ec9-4287-b3e4-6e20cd1dbd3d" />
+          </entityModelReferencesDtoModels>
+          <entityModelReferencesDtoModels Id="a55402b2-05b3-4617-8500-530d2bc4e4fa">
+            <dtoModelMoniker Id="d1984c89-efd1-485d-9aab-c7c9481482b5" />
           </entityModelReferencesDtoModels>
         </dtoModels>
       </entityModel>

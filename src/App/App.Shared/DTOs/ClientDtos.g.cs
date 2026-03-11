@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 3/8/2026 11:54 PM. Any changes made to it will be lost.
+// This file was auto-generated on 3/10/2026 9:58:05 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 
 namespace Dyvenix.App1.App.Shared.Dtos;
@@ -11,7 +11,7 @@ public record ClientDto (
 	string BaseUrl
 );
 
-public record ClientOptionDto (
+public record ClientLookupDto (
 	Guid Id,
 	string Key,
 	string Name
@@ -19,6 +19,12 @@ public record ClientOptionDto (
 
 public record ClientRouteDto (
 	Guid Id,
+	string BaseUrl,
+	string Key
+);
+
+public record Dto4 (
 	string Key,
-	string BaseUrl
+	byte[] RowVersion,
+	string Name
 );

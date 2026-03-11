@@ -35,7 +35,7 @@ namespace Dyvenix.App1.Auth.Server.Services
 		{
 			_cache.Clear();
 
-			var clientRouteDtos = await _clientService.GetAllRoutes();
+			var clientRouteDtos = await _clientService.GetAllClientRoutes();
 			foreach (var clientRouteDto in clientRouteDtos)
 				_cache.Add(clientRouteDto.Key, clientRouteDto.BaseUrl);
 

@@ -1,20 +1,15 @@
-﻿namespace Dyvenix.App1.Common.Shared.DTOs
+namespace Dyvenix.App1.Common.Shared.DTOs;
+
+public class ListPage<T>
 {
-	public class ListPage<T> where T : new()
+	public ListPage()
+	{ }
+
+	public ListPage(IEnumerable<T> entityList)
 	{
-		#region  Constructors
-
-		public ListPage()
-		{ }
-
-		public ListPage(IEnumerable<T> entityList)
-		{
-			Items.AddRange(entityList);
-		}
-
-		#endregion
-
-		public List<T> Items { get; set; } = new List<T>();
-		public int TotalRowCount { get; set; }
+		Items.AddRange(entityList);
 	}
+
+	public List<T> Items { get; set; } = [];
+	public int TotalRowCount { get; set; }
 }

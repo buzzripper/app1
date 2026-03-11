@@ -1,10 +1,11 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 3/8/2026 11:54 PM. Any changes made to it will be lost.
+// This file was auto-generated on 3/10/2026 9:58:05 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using Dyvenix.App1.Common.Shared.ApiClients;
 using Dyvenix.App1.Common.Shared.Requests;
 using Dyvenix.App1.App.Shared.Contracts.v1;
 using Dyvenix.App1.App.Shared.Requests.v1;
+using Dyvenix.App1.Common.Shared.DTOs;
 using Dyvenix.App1.App.Shared.Dtos;
 
 namespace Dyvenix.App1.App.Shared.ApiClients.v1;
@@ -17,7 +18,7 @@ public partial class ClientApiClient : ApiClientBase, IClientService
 	
 	#region Delete
 	
-	public async Task Delete(Guid id)
+	public async Task DeleteClient(Guid id)
 	{
 		if (id == Guid.Empty)
 			throw new ArgumentNullException(nameof(id));
@@ -63,19 +64,24 @@ public partial class ClientApiClient : ApiClientBase, IClientService
 
 	#region Read Methods - List
 	
-	public async Task<IReadOnlyList<ClientOptionDto>> GetAllClientLookupItems(GetAllClientLookupItemsReq request)
+	public async Task<IReadOnlyList<ClientLookupDto>> GetAllClientLookupItems(GetAllClientLookupItemsReq request)
 	{
-		return await PostAsync<IReadOnlyList<ClientOptionDto>>($"api/App/v1/Client/GetAllClientLookupItems", request);
+		return await PostAsync<IReadOnlyList<ClientLookupDto>>($"api/App/v1/Client/GetAllClientLookupItems", request);
 	}
 	
-	public async Task<IReadOnlyList<ClientRouteDto>> GetAllRoutes()
+	public async Task<IReadOnlyList<ClientRouteDto>> GetAllClientRoutes()
 	{
-		return await GetAsync<IReadOnlyList<ClientRouteDto>>($"api/App/v1/Client/GetAllRoutes");
+		return await GetAsync<IReadOnlyList<ClientRouteDto>>($"api/App/v1/Client/GetAllClientRoutes");
 	}
 	
 	public async Task<IReadOnlyList<ClientDto>> GetAllClients(GetAllClientsReq request)
 	{
 		return await PostAsync<IReadOnlyList<ClientDto>>($"api/App/v1/Client/GetAllClients", request);
+	}
+	
+	public async Task<ListPage<ClientLookupDto>> SearchClientsByName(SearchClientsByNameReq request)
+	{
+		return await PostAsync<ListPage<ClientLookupDto>>($"api/App/v1/Client/SearchClientsByName", request);
 	}
 
 	#endregion

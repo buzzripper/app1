@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 3/8/2026 11:54 PM. Any changes made to it will be lost.
+// This file was auto-generated on 3/10/2026 9:58:05 PM. Any changes made to it will be lost.
 //------------------------------------------------------------------------------------------------------------
 using System;
 using System.Linq;
@@ -140,14 +140,14 @@ public class ClientReadTests : TestBase, IClassFixture<ClientReadTestFixture>
 	}
 
 	[Fact]
-	public async Task GetAllRoutes_Success()
+	public async Task GetAllClientRoutes_Success()
 	{
 		// Arrange
 		var clientSample = _db.Client.First();
 		var expectedList = _db.Client.ToList();
 
 		// Act
-		var result = await _clientService.GetAllRoutes();
+		var result = await _clientService.GetAllClientRoutes();
 
 		// Assert
 		Assert.Equal(expectedList.Count, result.Count);
@@ -187,5 +187,106 @@ public class ClientReadTests : TestBase, IClassFixture<ClientReadTestFixture>
 		// Assert
 		Assert.Equal(expectedAsc.Select(x => x.Id), ascResult.Select(x => x.Id));
 		Assert.Equal(expectedDesc.Select(x => x.Id), descResult.Select(x => x.Id));
+	}
+
+	[Fact]
+	public async Task SearchClientsByName_Success()
+	{
+		// Arrange
+		var clientSample = _db.Client.First(x => !string.IsNullOrWhiteSpace(x.Name));
+		var name = clientSample.Name;
+		var request = new SearchClientsByNameReq();
+		request.PageSize = 0;
+		request.PageOffset = 0;
+		request.RecalcRowCount = true;
+		request.GetRowCountOnly = false;
+		request.Name = name;
+		var expectedList = _db.Client.Where(x => x.Name == name).ToList();
+
+		// Act
+		var result = await _clientService.SearchClientsByName(request);
+
+		// Assert
+		Assert.Equal(expectedList.Count, result.Items.Count);
+		Assert.Equal(expectedList.Count, result.TotalRowCount);
+	}
+
+	[Fact]
+	public async Task SearchClientsByName_NoResults()
+	{
+		// Arrange
+		var clientSample = _db.Client.First(x => !string.IsNullOrWhiteSpace(x.Name));
+		var name = clientSample.Name;
+		var invalidName = "__invalid__";
+		var request = new SearchClientsByNameReq();
+		request.PageSize = 0;
+		request.PageOffset = 0;
+		request.RecalcRowCount = true;
+		request.GetRowCountOnly = false;
+		request.Name = invalidName;
+
+		// Act
+		var result = await _clientService.SearchClientsByName(request);
+
+		// Assert
+		Assert.Empty(result.Items);
+	}
+
+	[Fact]
+	public async Task SearchClientsByName_PagingSuccess()
+	{
+		// Arrange
+		var clientSample = _db.Client.First(x => !string.IsNullOrWhiteSpace(x.Name));
+		var name = clientSample.Name;
+		var request = new SearchClientsByNameReq();
+		request.Name = name;
+		request.PageSize = 3;
+		request.RecalcRowCount = true;
+		request.GetRowCountOnly = false;
+		var expectedList = _db.Client.Where(x => x.Name == name).ToList();
+		var totalCount = expectedList.Count;
+		var lastPgOffset = totalCount == 0 ? 0 : totalCount / request.PageSize;
+		if (totalCount % request.PageSize == 0 && totalCount > 0)
+			lastPgOffset -= 1;
+		var lastPgSize = totalCount == 0 ? 0 : totalCount - (lastPgOffset * request.PageSize);
+
+		// Act
+		request.PageOffset = 0;
+		var firstPgList = await _clientService.SearchClientsByName(request);
+		request.PageOffset = lastPgOffset;
+		var lastPgList = await _clientService.SearchClientsByName(request);
+
+		// Assert
+		Assert.True(totalCount == firstPgList.TotalRowCount, $"First total count s/b {totalCount} but was {firstPgList.TotalRowCount}");
+		Assert.True(request.PageSize == firstPgList.Items.Count, $"First page size s/b {request.PageSize} but was {firstPgList.Items.Count}");
+		Assert.True(totalCount == lastPgList.TotalRowCount, $"Last total count s/b {totalCount} but was {lastPgList.TotalRowCount}");
+		Assert.True(lastPgSize == lastPgList.Items.Count, $"Last page size s/b {lastPgSize} but was {lastPgList.Items.Count}");
+	}
+
+	[Fact]
+	public async Task SearchClientsByName_SortingSuccess()
+	{
+		// Arrange
+		var clientSample = _db.Client.First(x => !string.IsNullOrWhiteSpace(x.Name));
+		var name = clientSample.Name;
+		var request = new SearchClientsByNameReq();
+		request.PageSize = 0;
+		request.PageOffset = 0;
+		request.RecalcRowCount = true;
+		request.GetRowCountOnly = false;
+		request.Name = name;
+		request.SortBy = Client.PropNames.Key;
+		var expectedAsc = _db.Client.Where(x => x.Name == name).ToList().OrderBy(x => x.Key).ToList();
+		var expectedDesc = _db.Client.Where(x => x.Name == name).ToList().OrderByDescending(x => x.Key).ToList();
+
+		// Act
+		request.SortDesc = false;
+		var ascResult = await _clientService.SearchClientsByName(request);
+		request.SortDesc = true;
+		var descResult = await _clientService.SearchClientsByName(request);
+
+		// Assert
+		Assert.Equal(expectedAsc.Select(x => x.Id), ascResult.Items.Select(x => x.Id));
+		Assert.Equal(expectedDesc.Select(x => x.Id), descResult.Items.Select(x => x.Id));
 	}
 }

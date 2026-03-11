@@ -34,13 +34,13 @@
         @for (client of filteredClients; track trackByFn($index, client)) {
             <div class="clients-grid grid items-center gap-4 border-b px-6 py-3">
                 <!-- Name -->
-                <div class="truncate">{{ client.name }}</div>
+                <div class="hidden truncate sm:block">{{ client.name }}</div>
 
                 <!-- Key -->
                 <div class="hidden truncate sm:block">{{ client.key }}</div>
 
-                <!-- Base URL (from list we only have key/name, show key again or leave blank) -->
-                <div class="hidden truncate sm:block"></div>
+                <!-- Base URL -->
+                <div class="hidden truncate sm:block">{{ client.baseUrl }}</div>
 
                 <!-- Details button -->
                 <div>
