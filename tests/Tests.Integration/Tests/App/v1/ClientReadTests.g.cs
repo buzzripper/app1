@@ -1,6 +1,3 @@
-//------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 3/10/2026 9:58:05 PM. Any changes made to it will be lost.
-//------------------------------------------------------------------------------------------------------------
 using System;
 using System.Linq;
 using Dyvenix.App1.Common.Shared.Exceptions;

@@ -5,8 +5,6 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using OpenTelemetry;
-using OpenTelemetry.Metrics;
-using OpenTelemetry.Trace;
 
 namespace Dyvenix.App1.Common.Api.Extensions;
 
@@ -25,7 +23,7 @@ public static class BuilderExtensions
     /// </summary>
     public static TBuilder AddServiceDefaults<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
     {
-        //builder.ConfigureOpenTelemetry();
+        builder.ConfigureOpenTelemetry();
 
         builder.AddDefaultHealthChecks();
 
@@ -44,7 +42,7 @@ public static class BuilderExtensions
     }
 
     /// <summary>
-    /// Configures OpenTelemetry for logging, tracing, and metrics with OTLP export.
+    /// Configures OpenTelemetry for logging with OTLP export.
     /// </summary>
     public static TBuilder ConfigureOpenTelemetry<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
     {
@@ -55,22 +53,8 @@ public static class BuilderExtensions
             logging.IncludeScopes = true;
         });
 
-        // Configure OpenTelemetry tracing and metrics
-        builder.Services.AddOpenTelemetry()
-            .WithMetrics(metrics =>
-            {
-                metrics.AddAspNetCoreInstrumentation()
-                    .AddHttpClientInstrumentation()
-                    .AddRuntimeInstrumentation();
-            })
-            .WithTracing(tracing =>
-            {
-                tracing.AddAspNetCoreInstrumentation()
-                    .AddHttpClientInstrumentation();
-            });
-
         // Add OTLP exporter if endpoint is configured (Aspire Dashboard or external collector)
-        //builder.AddOpenTelemetryExporters();
+        builder.AddOpenTelemetryExporters();
 
         return builder;
     }
