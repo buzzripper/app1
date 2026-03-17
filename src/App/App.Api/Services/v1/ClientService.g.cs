@@ -273,6 +273,42 @@ public partial class ClientService : IClientService
 				return dbQuery.OrderByDescending(x => x.RowVersion);
 			else
 				return dbQuery.OrderBy(x => x.RowVersion);
+	
+		if (string.Equals(sortingRequest.SortBy, Client.PropNames.CreatedUtc, StringComparison.OrdinalIgnoreCase))
+			if (sortingRequest.SortDesc)
+				return dbQuery.OrderByDescending(x => x.CreatedUtc);
+			else
+				return dbQuery.OrderBy(x => x.CreatedUtc);
+	
+		if (string.Equals(sortingRequest.SortBy, Client.PropNames.CreatedByUserId, StringComparison.OrdinalIgnoreCase))
+			if (sortingRequest.SortDesc)
+				return dbQuery.OrderByDescending(x => x.CreatedByUserId);
+			else
+				return dbQuery.OrderBy(x => x.CreatedByUserId);
+	
+		if (string.Equals(sortingRequest.SortBy, Client.PropNames.ModifiedUtc, StringComparison.OrdinalIgnoreCase))
+			if (sortingRequest.SortDesc)
+				return dbQuery.OrderByDescending(x => x.ModifiedUtc);
+			else
+				return dbQuery.OrderBy(x => x.ModifiedUtc);
+	
+		if (string.Equals(sortingRequest.SortBy, Client.PropNames.ModifiedByUserId, StringComparison.OrdinalIgnoreCase))
+			if (sortingRequest.SortDesc)
+				return dbQuery.OrderByDescending(x => x.ModifiedByUserId);
+			else
+				return dbQuery.OrderBy(x => x.ModifiedByUserId);
+	
+		if (string.Equals(sortingRequest.SortBy, Client.PropNames.DeletedUtc, StringComparison.OrdinalIgnoreCase))
+			if (sortingRequest.SortDesc)
+				return dbQuery.OrderByDescending(x => x.DeletedUtc);
+			else
+				return dbQuery.OrderBy(x => x.DeletedUtc);
+	
+		if (string.Equals(sortingRequest.SortBy, Client.PropNames.DeletedByUserId, StringComparison.OrdinalIgnoreCase))
+			if (sortingRequest.SortDesc)
+				return dbQuery.OrderByDescending(x => x.DeletedByUserId);
+			else
+				return dbQuery.OrderBy(x => x.DeletedByUserId);
 		return dbQuery;
 	}
 	

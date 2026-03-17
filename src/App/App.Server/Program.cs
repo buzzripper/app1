@@ -1,4 +1,3 @@
-using Dyvenix.App1.App.Api.Config;
 using Dyvenix.App1.App.Api.Extensions;
 using Dyvenix.App1.App.Shared.Authorization;
 using Dyvenix.App1.Common.Api.Authorization;
@@ -10,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add service defaults (telemetry, health checks, resilience)
 builder.AddServiceDefaults();
 
-var dataConfig = DataConfigBuilder.Build(builder.Configuration);
+//var dataConfig = DataConfigBuilder.Build(builder.Configuration);
 
 // Add services to the container
 if (builder.Environment.IsEnvironment("Testing"))
@@ -19,9 +18,9 @@ else
 	builder.Services.AddJwtBearerAuthentication(builder.Configuration);
 
 builder.Services.AddPermissionAuthorization();
-builder.Services.AddAppApiServices(false);
+builder.Services.AddAppApiServices(builder.Configuration, false);
 builder.Services.AddStandardApiVersioning();
-builder.Services.AddDataServices(dataConfig);
+//builder.Services.AddDataServices(dataConfig);
 
 //----------------------------------------------------------------------------------------------
 

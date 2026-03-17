@@ -1,34 +1,64 @@
 {
 	"ClientList": [
 		{
-			"Id": "894ced80-dc73-4ed4-9445-947473d3689d",
-			"Key": "2Mkv4Qx0JkRP9ZtgKUVzh",
-			"Name": "HeZb8G3k83PujH4NgeNEvhxomSrgwqFmshfgG2R06ymX9PQVm6NQVMyzRKZqpXYRyDccCYhowXI7",
-			"BaseUrl": "oHbF4zNYBPSQz5dBKjKEzGMOtxYzt7eBEhwroU3zeJbwtVzmk5nzxAkR4xlGLnFDLqmrIVnZqkAZFquH8LoxUOed7Ow0IwY0eIUdJhNySxjmavmOdNH98hS6liu4zwq3wJU6Fq818ZPwF2dLBSX5YZ26ZY1BWT9vgpZBKqjWPQaiB"
+			"Id": "4e74aa00-0dec-4cce-84db-8935fd410be1",
+			"Key": "CIlJ3b264IQnom8gmJoSuEVSbHFjf5rqoBwa",
+			"Name": "XZDLX2rn2YABaodxWx8XCIwFT19rA8XZ8GzTUgHLDFiTfReQn2CdynhoD82",
+			"BaseUrl": "aX3aKDEZuMP0wt7zNzcWseHGUBUykqWoLSDSoSFnK13qXmb4jYZI0jK5qxpjSfOd0BpOZpk44YmAkrTHz0pvAoyChHC1CvFFnZzw7xe4N4Nc6kU8OSU10sMLcXGsXtBIsQnv1wJbWuRGKvF7WDmULNP4mYtk1VhuCeTq6zhriTeFKgbRsIFugR7ObsiddzjbnxdFMpaxv5L2JjtfWM2spWnVheoOqeoTJdsndFedHi8lfff28dqBH0VAjryHawgqQ2sF1gcqHZVh",
+			"CreatedUtc": "2026-10-28T17:36:25.6650362-04:00",
+			"CreatedByUserId": null,
+			"ModifiedUtc": "2026-07-25T17:36:25.6650362-04:00",
+			"ModifiedByUserId": null,
+			"DeletedUtc": "2025-12-03T17:36:25.6650362-05:00",
+			"DeletedByUserId": "b359dab5-e404-4f32-81b2-7b485b4dce0c"
 		},
 		{
-			"Id": "b2c33b46-e61b-46c8-bb0e-1575f96dd264",
-			"Key": "BtfSDQJveHRXgRyGep",
-			"Name": "tqqdLbkIaphYTFDxIvdpsWUkrUWjCxiMVsifkpDRsiIg7T7sNu0la9HGFfV1obgMhEcAwymt2w7koOnIWEGi",
-			"BaseUrl": "MWVLJfELDrc59CQG5piHtOcws12nfTF8fj2qPVYgYq2QitPV1pIqaaN8UytSnrGTVe0ZJA1kAbScVwo8lgvZlo7eF4FqBg3HUi4eD0lByxZ8sLmykuGg5QIHgVtP4LTuiksNBkFv54BXy8W4ShfhJWMdJx7RHFGWOF0hsI6aYllboUih8y7WFMVvIodemYYzxPj3iPLjlfsyLLZZp0TiITqcTFJeE2XawVNJLo9tWXLAtwU7zoYweP0OyhkNfHPssrbZ7pnb1AvVhZSxUMPpdA6R48lEevn"
+			"Id": "a7c8deab-71e7-4032-bb8a-0e2ad6beb8c0",
+			"Key": "YWlSs1dVhHc",
+			"Name": "cREmWKa2b94SfOMiLwI",
+			"BaseUrl": "2C4RKn9dqiaWJegGDpyvXmY2DNOp5kV8xEjpKFmxbYU045FJGLigkt3QNcn7IThfxbyf5067dbu8B87IheTtcPYeKDLIspYrRPD2GAOPOkdi85oPeP0EaYdRmuEBpyPYmcrWEebQzeO2LPfPo5DMztq2LVQm5mzqEp66NCl9Nje6jlgGoZnt4dy2WykTyZUmOyxwTjbVUE8pouTAP",
+			"CreatedUtc": "2025-07-07T17:36:25.6650362-04:00",
+			"CreatedByUserId": "e0054fea-088d-43d9-b456-522daa64c372",
+			"ModifiedUtc": "2025-06-03T17:36:25.6650362-04:00",
+			"ModifiedByUserId": "efa6d34e-569b-4db8-9279-5fbe3b809034",
+			"DeletedUtc": null,
+			"DeletedByUserId": "8edec2e4-1d6c-4a60-ab12-39c02e0f81b9"
 		},
 		{
-			"Id": "c33cd155-fda3-43fa-8fc6-483fd9b98997",
-			"Key": "itibu49jaXFOu",
-			"Name": "GIyW2D1zp1",
-			"BaseUrl": "58dT7FmfMYRRc0MFop5swYCMfrDTySerPa8agr0aBoDS1RTb0wl95d7gGBOPbCR3TAbc2Lz7z40ivTVyHC2cHfvMc2DOMk88HJ8B"
+			"Id": "95edef8f-9b88-4731-9253-a7986f3bd1dd",
+			"Key": "0djprCKYy2sUXTXeXCJAej",
+			"Name": "BOUdp1OnId6FQ9VDs3k0wc9M5w3sGG4wRzSKHyv7UOUR1nheb8rH4srzPih27vQbi",
+			"BaseUrl": "qrl63HnfSsrUSpZqIpxCyis4zqD9z7SJsy0W0cx9RmIhyxzNieiWUgAi8qHNenQVJSCtzcAG1xVlJlGb0Z0vZ6Yl8RXKEU5DGXHQ5gofOL4wvoIXTFWpwu6N3qvRoZbhCsPWN0fUKVRnbBZTia087Qgl14WOVG0YKX4dJWj3AbOLNSLBBLIo8cjWlD5TdB9e42MoHWjw17I5bEIisvnj7MZIOi1g1zZ9cKRUgx4OCmxbDnUR5XBSn0g",
+			"CreatedUtc": "2025-10-18T17:36:25.6650362-04:00",
+			"CreatedByUserId": null,
+			"ModifiedUtc": "2025-05-10T17:36:25.6650362-04:00",
+			"ModifiedByUserId": "a72339e5-668f-473e-a11c-8a41ef042a4a",
+			"DeletedUtc": "2027-01-16T17:36:25.6650362-05:00",
+			"DeletedByUserId": null
 		},
 		{
-			"Id": "784865e0-655a-47d3-a84f-bbb55814ab43",
-			"Key": "Rjp6nJbmZUXPphJJPwOeza9hUup62KWUuS",
-			"Name": "sNfuFuzmhQ9xczy2muwqQjhm2ueuo8cuGrq6JcjUaX2BU7mGDSJA8CjjG2Blpe8iNO0VjCsklMp3qPB5hI0GzM",
-			"BaseUrl": "hhzRK7E5ZTXghBxbAypvm"
+			"Id": "30c2da21-6eb2-4ce8-ae76-bec488060571",
+			"Key": "BhJ3BXXb4AIQVoXeAxkld8hVmE",
+			"Name": "RbXFTzR534us3hVGsPjudpajbU1BDaYQ7ygag4Yq",
+			"BaseUrl": null,
+			"CreatedUtc": "2025-10-26T17:36:25.6650362-04:00",
+			"CreatedByUserId": "71d08b25-d8db-410d-a9d8-3ddde2c387eb",
+			"ModifiedUtc": "2025-07-12T17:36:25.6650362-04:00",
+			"ModifiedByUserId": null,
+			"DeletedUtc": null,
+			"DeletedByUserId": null
 		},
 		{
-			"Id": "24cb9a1e-dad1-4848-bdda-aff712e60b33",
-			"Key": "20BGdQnBTasVOb",
-			"Name": "LKnht",
-			"BaseUrl": null
+			"Id": "ca63a3e0-ac4d-4822-a76e-583378a751e7",
+			"Key": "sBZ",
+			"Name": "cjvBbOD9IqC",
+			"BaseUrl": "NvEbUAx02rUv0c6EYiclRNYdO9BAZSX",
+			"CreatedUtc": "2026-11-26T17:36:25.6650362-05:00",
+			"CreatedByUserId": null,
+			"ModifiedUtc": "2025-04-29T17:36:25.6650362-04:00",
+			"ModifiedByUserId": "b41f8ab3-453d-4e28-a296-4826f14eed29",
+			"DeletedUtc": "2026-09-30T17:36:25.6650362-04:00",
+			"DeletedByUserId": null
 		}
 	]
 }
