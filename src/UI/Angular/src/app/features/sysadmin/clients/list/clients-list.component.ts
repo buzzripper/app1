@@ -25,7 +25,7 @@ import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { ClientService } from '@app/core/services/app/client.service';
 import { ClientDto } from '@app/core/services/app/dto';
 import { CreateClientReq } from '@app/core/services/app/req';
-import { Subject, map, takeUntil } from 'rxjs';
+import { Subject, firstValueFrom, map, takeUntil } from 'rxjs';
 
 @Component({
     selector: 'clients-list',
@@ -77,7 +77,7 @@ export class ClientsListComponent implements OnInit, OnDestroy {
         private _fuseConfirmationService: FuseConfirmationService
     ) {}
 
-    ngOnInit(): void {
+    async ngOnInit(): Promise<void> {
         this.selectedClientForm = this._formBuilder.group({
             id: [''],
             key: ['', [Validators.required]],
@@ -86,17 +86,16 @@ export class ClientsListComponent implements OnInit, OnDestroy {
         });
 
         // Load initial data
-        this._clientService
-            .getAllClients({ sortBy: 'name', sortDesc: false })
-            .pipe(
-                map((response: any) => Array.isArray(response) ? response : response?.data ?? []),
-                takeUntil(this._unsubscribeAll),
-            )
-            .subscribe((clients: ClientDto[]) => {
-                this.clients = clients;
-                this.filteredClients = clients;
-                this._changeDetectorRef.markForCheck();
-            });
+        const clients = await firstValueFrom(
+            this._clientService
+                .getAllClients({ sortBy: 'name', sortDesc: false })
+                .pipe(
+                    map((response: any) => Array.isArray(response) ? response : response?.data ?? []),
+                ),
+        );
+        this.clients = clients;
+        this.filteredClients = clients;
+        this._changeDetectorRef.markForCheck();
 
         // Search filter
         this.searchInputControl.valueChanges

@@ -1,6 +1,7 @@
 using Dyvenix.App1.App.Api.Services.v1;
 using Dyvenix.App1.App.Endpoints.v1;
 using Dyvenix.App1.App.Shared.Contracts.v1;
+using Dyvenix.App1.Common.Api.Extensions;
 using Dyvenix.App1.Common.Shared.Contracts;
 using Dyvenix.App1.Integration.Api.Endpoints;
 using Dyvenix.App1.Integration.Api.Services;
@@ -23,6 +24,8 @@ public static partial class IntegrationApiServiceCollExt
     /// </summary>
     public static IServiceCollection AddIntegrationApiServices(this IServiceCollection services, bool isInProcess)
     {
+        services.AddCurrentUserServices();
+
         // Register business logic services
         services.AddScoped<ISystemService, IntegrationSystemService>();
         services.AddScoped<IImportService, ImportService>();

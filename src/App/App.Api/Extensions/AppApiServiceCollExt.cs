@@ -1,8 +1,10 @@
 using Dyvenix.App1.App.Api.Endpoints;
 using Dyvenix.App1.App.Api.Services;
+using Dyvenix.App1.Common.Api.Extensions;
 using Dyvenix.App1.Common.Shared.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Scalar.AspNetCore;
@@ -22,12 +24,24 @@ public static partial class AppApiServiceCollExt
 	/// </summary>
 	public static IServiceCollection AddAppApiServices(this IServiceCollection services, IConfiguration configuration, bool isInProcess)
 	{
+		services.AddCurrentUserServices();
+
 		// Register business logic services
 		services.AddScoped<ISystemService, AppSystemService>();
 
 		// Add code-generated services
 		AddGeneratedServices(services);
 		AddDataServices(services, configuration);
+
+
+		//services.AddScoped(sp =>
+		//{
+		//	var dataConfig = DataConfigBuilder.Build(configuration);
+		//	var optionsBuilder = new DbContextOptionsBuilder<App1Db>();
+		//	optionsBuilder.UseSqlServer(dataConfig.ConnectionString);
+		//	optionsBuilder.AddInterceptors(sp.GetRequiredService<AuditingInterceptor>());
+		//	return optionsBuilder.Options;
+		//});
 
 		if (!isInProcess)
 		{

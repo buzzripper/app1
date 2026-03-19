@@ -4,15 +4,8 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Dyvenix.App1.Common.Data;
 
-public sealed class AuditingInterceptor : SaveChangesInterceptor
+public sealed class AuditingInterceptor(ICurrentUserService currentUser) : SaveChangesInterceptor
 {
-	//private readonly ICurrentUserService _currentUser;
-
-	//public AuditingInterceptor(ICurrentUserService currentUser)
-	//{
-	//	_currentUser = currentUser;
-	//}
-
 	public override InterceptionResult<int> SavingChanges(
 		DbContextEventData eventData,
 		InterceptionResult<int> result)
@@ -38,7 +31,7 @@ public sealed class AuditingInterceptor : SaveChangesInterceptor
 		dbContext.ChangeTracker.DetectChanges();
 
 		var utcNow = DateTime.UtcNow;
-		var userId = _currentUser.UserId;
+		var userId = currentUser.UserId;
 
 		foreach (var entry in dbContext.ChangeTracker.Entries<IAuditable>())
 		{

@@ -13,6 +13,7 @@ using Dyvenix.App1.App.Shared.Contracts.v1;
 using Dyvenix.App1.App.Shared.Authorization;
 using Dyvenix.App1.App.Shared.Dtos;
 using Dyvenix.App1.App.Shared.Requests.v1;
+using System.Security.Claims;
 
 namespace Dyvenix.App1.App.Endpoints.v1;
 
@@ -139,7 +140,7 @@ public static class ClientEndpoints
 		return Result<IReadOnlyList<ClientRouteDto>>.Ok(data);
 	}
 	
-	public static async Task<Result<IReadOnlyList<ClientDto>>> GetAllClients(IClientService clientService, GetAllClientsReq getAllClientsReq)
+	public static async Task<Result<IReadOnlyList<ClientDto>>> GetAllClients(IClientService clientService, ClaimsPrincipal user, GetAllClientsReq getAllClientsReq)
 	{
 		var data = await clientService.GetAllClients(getAllClientsReq);
 		return Result<IReadOnlyList<ClientDto>>.Ok(data);

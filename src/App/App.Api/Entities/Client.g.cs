@@ -1,8 +1,9 @@
 using Dyvenix.App1.App.Shared.Dtos;
+using Dyvenix.App1.Common.Shared.Contracts;
 
 namespace Dyvenix.App1.App.Api.Entities;
 
-public partial class Client
+public partial class Client : IAuditable
 {
 	// PK
 	public Guid Id { get; set; }

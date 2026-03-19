@@ -2,6 +2,7 @@ using Dyvenix.App1.Auth.Api.Config;
 using Dyvenix.App1.Auth.Api.Endpoints;
 using Dyvenix.App1.Auth.Api.Repositories;
 using Dyvenix.App1.Auth.Api.Services;
+using Dyvenix.App1.Common.Api.Extensions;
 using Dyvenix.App1.Auth.Shared.Contracts;
 using Dyvenix.App1.Common.Shared.Contracts;
 using Microsoft.AspNetCore.Builder;
@@ -24,6 +25,8 @@ public static partial class AuthApiServiceCollExt
     /// </summary>
     public static IServiceCollection AddAuthApiServices(this IServiceCollection services, bool isInProcess)
     {
+        services.AddCurrentUserServices();
+
         // Register business logic services
         services.AddScoped<ISystemService, AuthSystemService>();
         services.AddScoped<BrandImgService>();
