@@ -12,7 +12,7 @@
                 <span class="ml-1.5 font-medium">Back to clients</span>
             </a>
             <div class="mt-3 text-4xl font-extrabold tracking-tight">
-                {{ client?.name || 'Client details' }}
+                {{ isNew ? 'New client' : (client?.name || 'Client details') }}
             </div>
             @if (client) {
                 <div class="text-secondary mt-1 text-lg">{{ client.key }}</div>
@@ -30,7 +30,7 @@
                 <mat-expansion-panel-header>
                     <mat-panel-title>Client information</mat-panel-title>
                     <mat-panel-description>
-                        Edit the App database client entity.
+                        {{ isNew ? 'Create a new client entity.' : '' }}
                     </mat-panel-description>
                 </mat-expansion-panel-header>
 
@@ -60,9 +60,13 @@
                 </form>
 
                 <div class="mt-6 flex flex-wrap items-center justify-between gap-4 border-t pt-6">
-                    <button mat-button type="button" [color]="'warn'" (click)="deleteClient()">
-                        Delete
-                    </button>
+                    @if (!isNew) {
+                        <button mat-button type="button" [color]="'warn'" (click)="deleteClient()">
+                            Delete
+                        </button>
+                    } @else {
+                        <div></div>
+                    }
                     <div class="flex items-center gap-4">
                         @if (clientMessage) {
                             <div class="text-md" [class.text-green-600]="clientMessage.type === 'success'" [class.text-red-600]="clientMessage.type === 'error'">
@@ -76,17 +80,18 @@
                             [disabled]="isSavingClient"
                             (click)="saveClient()"
                         >
-                            Save client
+                            {{ isNew ? 'Create client' : 'Save client' }}
                         </button>
                     </div>
                 </div>
             </mat-expansion-panel>
 
+            @if (!isNew) {
             <mat-expansion-panel (opened)="loadTenantSection()">
                 <mat-expansion-panel-header>
-                    <mat-panel-title>OIDC Security</mat-panel-title>
+                    <mat-panel-title>Security</mat-panel-title>
                     <mat-panel-description>
-                        {{ hasTenant ? 'Edit the matching tenant configuration.' : 'Load or create the matching tenant configuration.' }}
+                        {{ hasTenant ? '' : 'Load or create the matching tenant configuration.' }}
                     </mat-panel-description>
                 </mat-expansion-panel-header>
 
@@ -225,7 +230,7 @@
                 <mat-expansion-panel-header>
                     <mat-panel-title>App Registrations</mat-panel-title>
                     <mat-panel-description>
-                        {{ hasOidcApp ? 'Edit the matching OpenIddict application.' : 'Load or create the matching OpenIddict application.' }}
+                        {{ hasOidcApp ? 'Edit the matching OpenIddict application.' : '' }}
                     </mat-panel-description>
                 </mat-expansion-panel-header>
 
@@ -324,6 +329,7 @@
                     </div>
                 </div>
             </mat-expansion-panel>
+            }
         </mat-accordion>
     </div>
 </div>

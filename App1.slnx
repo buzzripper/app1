@@ -16,6 +16,7 @@
     <File Path="docs/AzureDeploymentGuide.md" />
   </Folder>
   <Folder Name="/scripts/">
+    <File Path="scripts/App1_InsertData.sql" />
     <File Path="scripts/App1_Working1.sql" />
     <File Path="scripts/Auth_CreateSchema.sql" />
     <File Path="scripts/Auth_Wk1.sql" />

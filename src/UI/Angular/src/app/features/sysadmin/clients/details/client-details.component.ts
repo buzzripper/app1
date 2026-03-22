@@ -26,10 +26,12 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { ClientService } from '@app/core/services/app/client.service';
+import { ClientAuthService } from '@app/core/services/app/client-auth.service';
 import { ClientDto } from '@app/core/services/app/dto';
-import { AuthMode, OidcAppDto, TenantDto } from '@app/core/services/auth/dto';
+import { AuthMode, TenantDto } from '@app/core/services/app/dto';
+import { CreateClientReq } from '@app/core/services/app/req';
+import { OidcAppDto } from '@app/core/services/auth/dto';
 import { OidcAppService } from '@app/core/services/auth/oidc-app.service';
-import { TenantService } from '@app/core/services/auth/tenant.service';
 import { Subject, firstValueFrom, takeUntil } from 'rxjs';
 
 interface SectionMessage {
@@ -67,6 +69,7 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
     oidcAppForm: UntypedFormGroup;
 
     client: ClientDto | null = null;
+    isNew: boolean = false;
     hasTenant: boolean = false;
     hasOidcApp: boolean = false;
     isLoading: boolean = false;
@@ -89,11 +92,11 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
         private _activatedRoute: ActivatedRoute,
         private _changeDetectorRef: ChangeDetectorRef,
         private _clientService: ClientService,
+        private _clientAuthService: ClientAuthService,
         private _formBuilder: UntypedFormBuilder,
         private _fuseConfirmationService: FuseConfirmationService,
         private _oidcAppService: OidcAppService,
-        private _router: Router,
-        private _tenantService: TenantService
+        private _router: Router
     ) {}
 
     ngOnInit(): void {
@@ -141,7 +144,9 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((paramMap) => {
                 const id = paramMap.get('id');
-                if (id) {
+                if (id === 'new') {
+                    this.initNewClient();
+                } else if (id) {
                     void this.loadClientDetails(id);
                 }
             });
@@ -153,43 +158,15 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
     }
 
     async saveClient(): Promise<void> {
-        if (this.clientForm.invalid || !this.client) {
+        if (this.clientForm.invalid) {
             this.clientForm.markAllAsTouched();
             return;
         }
 
-        const confirmed = await this.confirmAction(
-            'Save client',
-            'Save changes to this client information?'
-        );
-
-        if (!confirmed) {
-            return;
-        }
-
-        const formValue = this.clientForm.getRawValue();
-        this.isSavingClient = true;
-        this.clientMessage = null;
-        this._changeDetectorRef.markForCheck();
-
-        try {
-            await firstValueFrom(
-                this._clientService.updateClient({
-                    id: formValue.id,
-                    rowVersion: null,
-                    key: formValue.key,
-                    name: formValue.name,
-                    baseUrl: formValue.baseUrl,
-                })
-            );
-
-            this.showMessage('client', 'success', 'Client saved.');
-            await this.loadClientDetails(this.client.id);
-        } catch {
-            this.showMessage('client', 'error', 'Unable to save client.');
-        } finally {
-            this.isSavingClient = false;
-            this._changeDetectorRef.markForCheck();
+        if (this.isNew) {
+            await this.createClient();
+        } else {
+            await this.updateClient();
         }
     }
 
@@ -208,7 +185,7 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
         }
 
         try {
-            await firstValueFrom(this._clientService.delete(this.client.id));
+            await this._clientService.delete(this.client.id);
             await this._router.navigate(['../'], {
                 relativeTo: this._activatedRoute,
             });
@@ -256,9 +233,9 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
 
         try {
             if (this.hasTenant) {
-                await firstValueFrom(this._tenantService.update(request));
+                await this._clientAuthService.updateTenant(request);
             } else {
-                await firstValueFrom(this._tenantService.create(request));
+                await this._clientAuthService.createTenant(request);
             }
 
             this.showMessage(
@@ -291,7 +268,7 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
         }
 
         try {
-            await firstValueFrom(this._tenantService.delete(id));
+            await this._clientAuthService.deleteTenant(id);
             this.hasTenant = false;
             this.patchTenantDefaults(this.client);
             this.showMessage('tenant', 'success', 'Tenant deleted.');
@@ -336,9 +313,9 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
 
         try {
             if (this.hasOidcApp) {
-                await firstValueFrom(this._oidcAppService.update(request));
+                await this._oidcAppService.update(request);
             } else {
-                await firstValueFrom(this._oidcAppService.create(request));
+                await this._oidcAppService.create(request);
             }
 
             this.showMessage(
@@ -377,7 +354,7 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
         }
 
         try {
-            await firstValueFrom(this._oidcAppService.delete(id));
+            await this._oidcAppService.delete(id);
             this.hasOidcApp = false;
             this.patchOidcAppDefaults(this.client);
             this.showMessage('oidcApp', 'success', 'OpenIddict application deleted.');
@@ -402,9 +379,7 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
         this._changeDetectorRef.markForCheck();
 
         try {
-            const tenant =
-                (await firstValueFrom(this._tenantService.getBySlug(this.client.key))) ??
-                (await firstValueFrom(this._tenantService.getById(this.client.id)));
+            const tenant = await this._clientAuthService.getTenantById(this.client.extAuthId);
 
             if (tenant) {
                 this.hasTenant = true;
@@ -431,9 +406,7 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
         this._changeDetectorRef.markForCheck();
 
         try {
-            const oidcApp = await firstValueFrom(
-                this._oidcAppService.getByClientId(this.client.key)
-            );
+            const oidcApp = await this._oidcAppService.getByClientId(this.client.key);
 
             if (oidcApp) {
                 this.hasOidcApp = true;
@@ -450,15 +423,99 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
         }
     }
 
+    private initNewClient(): void {
+        const newId = crypto.randomUUID().toString();
+        this.isNew = true;
+        this.client = null;
+        this.hasTenant = false;
+        this.hasOidcApp = false;
+        this.clientForm.reset({
+            id: newId,
+            key: '',
+            name: '',
+            baseUrl: 'https://',
+        });
+        this._changeDetectorRef.markForCheck();
+    }
+
+    private async createClient(): Promise<void> {
+        const formValue = this.clientForm.getRawValue();
+        const request: CreateClientReq = {
+            id: formValue.id,
+            rowVersion: new Uint8Array(),
+            key: formValue.key,
+            name: formValue.name,
+            baseUrl: formValue.baseUrl,
+        };
+
+        this.isSavingClient = true;
+        this.clientMessage = null;
+        this._changeDetectorRef.markForCheck();
+
+        try {
+            await this._clientService.createClient(request);
+            this.isNew = false;
+            this.showMessage('client', 'success', 'Client created.');
+            await this._router.navigate(['../', formValue.id], {
+                relativeTo: this._activatedRoute,
+                replaceUrl: true,
+            });
+        } catch {
+            this.showMessage('client', 'error', 'Unable to create client.');
+        } finally {
+            this.isSavingClient = false;
+            this._changeDetectorRef.markForCheck();
+        }
+    }
+
+    private async updateClient(): Promise<void> {
+        if (!this.client) {
+            return;
+        }
+
+        const confirmed = await this.confirmAction(
+            'Save client',
+            'Save changes to this client information?'
+        );
+
+        if (!confirmed) {
+            return;
+        }
+
+        const formValue = this.clientForm.getRawValue();
+        this.isSavingClient = true;
+        this.clientMessage = null;
+        this._changeDetectorRef.markForCheck();
+
+        try {
+            await this._clientService.updateClient({
+                id: formValue.id,
+                rowVersion: null,
+                key: formValue.key,
+                name: formValue.name,
+                baseUrl: formValue.baseUrl,
+            });
+
+            this.showMessage('client', 'success', 'Client saved.');
+            await this.loadClientDetails(this.client.id);
+        } catch {
+            this.showMessage('client', 'error', 'Unable to save client.');
+        } finally {
+            this.isSavingClient = false;
+            this._changeDetectorRef.markForCheck();
+        }
+    }
+
     private async loadClientDetails(id: string): Promise<void> {
         this.isLoading = true;
+        this.isNew = false;
         this.clientMessage = null;
         this.tenantMessage = null;
         this.oidcAppMessage = null;
         this._changeDetectorRef.markForCheck();
 
         try {
-            const client = await firstValueFrom(this._clientService.getClientById(id));
+            const client = await this._clientService.getClientById(id);
             this.client = client;
             this.clientForm.patchValue(client);
             this.hasTenant = false;

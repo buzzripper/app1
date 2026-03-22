@@ -44,6 +44,15 @@ namespace Dyvenix.App1.App.Api.Migrations
                     b.Property<DateTime?>("DeletedUtc")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("ExtAuthId")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("ExtClientId")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
                     b.Property<string>("Key")
                         .IsRequired()
                         .HasMaxLength(50)

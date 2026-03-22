@@ -33,6 +33,8 @@ public partial class App1Db : DbContext
 			entity.Property(e => e.Key).IsRequired().HasMaxLength(50);
 			entity.Property(e => e.Name).IsRequired().HasMaxLength(100);
 			entity.Property(e => e.BaseUrl).HasMaxLength(300);
+			entity.Property(e => e.ExtAuthId).IsRequired().HasMaxLength(200);
+			entity.Property(e => e.ExtClientId).HasMaxLength(200);
 
 			// Auditing
 			entity.Property(e => e.CreatedUtc).IsRequired();

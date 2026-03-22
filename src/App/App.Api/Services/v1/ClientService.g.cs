@@ -132,7 +132,10 @@ public partial class ClientService : IClientService
 			e.Id,
 			e.Key,
 			e.Name,
-			e.BaseUrl
+			e.BaseUrl,
+			e.ExtAuthId,
+			e.ExtClientId,
+			e.RowVersion
 		))
 		.SingleOrDefaultAsync();
 	}
@@ -148,7 +151,10 @@ public partial class ClientService : IClientService
 			e.Id,
 			e.Key,
 			e.Name,
-			e.BaseUrl
+			e.BaseUrl,
+			e.ExtAuthId,
+			e.ExtClientId,
+			e.RowVersion
 		))
 		.SingleOrDefaultAsync();
 	}
@@ -197,7 +203,10 @@ public partial class ClientService : IClientService
 			e.Id,
 			e.Key,
 			e.Name,
-			e.BaseUrl
+			e.BaseUrl,
+			e.ExtAuthId,
+			e.ExtClientId,
+			e.RowVersion
 		))
 		.ToListAsync();
 	}
@@ -309,6 +318,18 @@ public partial class ClientService : IClientService
 				return dbQuery.OrderByDescending(x => x.DeletedByUserId);
 			else
 				return dbQuery.OrderBy(x => x.DeletedByUserId);
+	
+		if (string.Equals(sortingRequest.SortBy, Client.PropNames.ExtAuthId, StringComparison.OrdinalIgnoreCase))
+			if (sortingRequest.SortDesc)
+				return dbQuery.OrderByDescending(x => x.ExtAuthId);
+			else
+				return dbQuery.OrderBy(x => x.ExtAuthId);
+	
+		if (string.Equals(sortingRequest.SortBy, Client.PropNames.ExtClientId, StringComparison.OrdinalIgnoreCase))
+			if (sortingRequest.SortDesc)
+				return dbQuery.OrderByDescending(x => x.ExtClientId);
+			else
+				return dbQuery.OrderBy(x => x.ExtClientId);
 		return dbQuery;
 	}
 	

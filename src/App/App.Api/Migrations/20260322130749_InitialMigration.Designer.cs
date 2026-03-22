@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dyvenix.App1.App.Api.Migrations
 {
     [DbContext(typeof(App1Db))]
-    [Migration("20260302021541_InitialMigration")]
+    [Migration("20260322130749_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace Dyvenix.App1.App.Api.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.3")
+                .HasAnnotation("ProductVersion", "10.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -35,10 +35,37 @@ namespace Dyvenix.App1.App.Api.Migrations
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
 
+                    b.Property<Guid?>("CreatedByUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("DeletedByUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DeletedUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ExtAuthId")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("ExtClientId")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
                     b.Property<string>("Key")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<Guid?>("ModifiedByUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("ModifiedUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -52,11 +79,15 @@ namespace Dyvenix.App1.App.Api.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex(new[] { "DeletedByUserId" }, "IX_Client_DeletedByUserId");
+
                     b.HasIndex(new[] { "Id" }, "IX_Client_Id")
                         .IsUnique();
 
                     b.HasIndex(new[] { "Key" }, "IX_Client_Key")
                         .IsUnique();
+
+                    b.HasIndex(new[] { "ModifiedByUserId" }, "IX_Client_ModifiedByUserId");
 
                     b.HasIndex(new[] { "Name" }, "IX_Client_Name")
                         .IsUnique();

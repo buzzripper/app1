@@ -5,7 +5,8 @@ var authServer = builder.AddProject<Projects.Auth_Server>("auth-server");
 //.WithHttpsEndpoint(port: 5002, name: "https");
 
 // App microservice  
-var appServer = builder.AddProject<Projects.App_Server>("app-server");
+var appServer = builder.AddProject<Projects.App_Server>("app-server")
+	.WithReference(authServer);
 //.WithHttpsEndpoint(port: 5003, name: "https");
 
 // Integration microservice

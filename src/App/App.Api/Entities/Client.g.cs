@@ -14,6 +14,8 @@ public partial class Client : IAuditable
 	// Properties
 	public string Key { get; set; } = null!;
 	public string Name { get; set; } = null!;
+	public string ExtAuthId { get; set; } = null!;
+	public string? ExtClientId { get; set; }
 	public string? BaseUrl { get; set; }
 	public DateTime CreatedUtc { get; set; }
 	public Guid? CreatedByUserId { get; set; }
@@ -37,6 +39,8 @@ public partial class Client : IAuditable
 		public const string ModifiedByUserId = "ModifiedByUserId";
 		public const string DeletedUtc = "DeletedUtc";
 		public const string DeletedByUserId = "DeletedByUserId";
+		public const string ExtAuthId = "ExtAuthId";
+		public const string ExtClientId = "ExtClientId";
 	}
 
 	#endregion

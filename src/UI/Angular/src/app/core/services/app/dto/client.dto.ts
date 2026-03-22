@@ -4,6 +4,9 @@ export interface ClientDto {
 	key: string;
 	name: string;
 	baseUrl: string;
+	extAuthId: string;
+	extClientId: string;
+	rowVersion: Uint8Array;
 }
 
 export interface ClientLookupDto {
@@ -16,10 +19,4 @@ export interface ClientRouteDto {
 	id: string;
 	baseUrl: string;
 	key: string;
-}
-
-export interface Dto4 {
-	key: string;
-	rowVersion: Uint8Array;
-	name: string;
 }

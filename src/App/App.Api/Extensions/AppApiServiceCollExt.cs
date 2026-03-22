@@ -1,5 +1,9 @@
+using Dyvenix.App1.App.Api.Contracts.v1;
 using Dyvenix.App1.App.Api.Endpoints;
 using Dyvenix.App1.App.Api.Services;
+using Dyvenix.App1.App.Api.Services.v1;
+using Dyvenix.App1.App.Endpoints.v1;
+using Dyvenix.App1.Auth.Shared.ApiClients.v1;
 using Dyvenix.App1.Common.Api.Extensions;
 using Dyvenix.App1.Common.Shared.Contracts;
 using Microsoft.AspNetCore.Builder;
@@ -33,15 +37,15 @@ public static partial class AppApiServiceCollExt
 		AddGeneratedServices(services);
 		AddDataServices(services, configuration);
 
-
-		//services.AddScoped(sp =>
-		//{
-		//	var dataConfig = DataConfigBuilder.Build(configuration);
-		//	var optionsBuilder = new DbContextOptionsBuilder<App1Db>();
-		//	optionsBuilder.UseSqlServer(dataConfig.ConnectionString);
-		//	optionsBuilder.AddInterceptors(sp.GetRequiredService<AuditingInterceptor>());
-		//	return optionsBuilder.Options;
-		//});
+		// ClientAuth proxy service (calls Auth.Api via TenantApiClient)
+		services.AddHttpContextAccessor();
+		services.AddTransient<TenantApiBearerTokenHandler>();
+		services.AddHttpClient<TenantApiClient>(client =>
+		{
+			client.BaseAddress = new Uri("https+http://auth-server");
+		})
+		.AddHttpMessageHandler<TenantApiBearerTokenHandler>();
+		services.AddScoped<IClientAuthService, ClientAuthService>();
 
 		if (!isInProcess)
 		{
@@ -58,6 +62,7 @@ public static partial class AppApiServiceCollExt
 	public static IEndpointRouteBuilder MapEndpoints(this IEndpointRouteBuilder app)
 	{
 		app.MapAppSystemEndpoints();
+		app.MapClientAuthEndpoints();
 
 		MapGeneratedEndpoints(app);
 

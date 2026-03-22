@@ -20,8 +20,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { ClientService } from '@app/core/services/app/client.service';
 import { ClientDto } from '@app/core/services/app/dto';
-import { CreateClientReq } from '@app/core/services/app/req';
-import { Subject, firstValueFrom, map, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
     selector: 'clients-list',
@@ -97,50 +96,29 @@ export class ClientsListComponent implements OnInit, OnDestroy {
         });
     }
 
-    async createClient(): Promise<void> {
-        const newId = crypto.randomUUID().toString();
-        const newClient: CreateClientReq = {
-            id: newId,
-            rowVersion: new Uint8Array(),
-            key: `new-client-${newId.substring(0, 8)}`,
-            name: 'New Client',
-            baseUrl: 'https://',
-        };
+    createClient(): void {
+        void this._router.navigate(['new'], {
+            relativeTo: this._activatedRoute,
+        });
+    }
 
+    private async refreshList(): Promise<void> {
         this.isLoading = true;
         this._changeDetectorRef.markForCheck();
 
         try {
-            await firstValueFrom(this._clientService.createClient(newClient));
-            await this.refreshList();
-            this.openClient(newId);
+            const clients = await this._clientService.getAllClients({ sortBy: 'name', sortDesc: false });
+            this.clients = clients;
+            const query = (this.searchInputControl.value || '').toLowerCase();
+            this.filteredClients = clients.filter(
+                (c) =>
+                    c.name.toLowerCase().includes(query) ||
+                    c.key.toLowerCase().includes(query)
+            );
         } finally {
             this.isLoading = false;
             this._changeDetectorRef.markForCheck();
         }
-    }
-
-    private async refreshList(): Promise<void> {
-        const clients = await firstValueFrom(
-            this._clientService
-                .getAllClients({ sortBy: 'name', sortDesc: false })
-                .pipe(
-                    map((response: any) =>
-                        Array.isArray(response)
-                            ? response
-                            : response?.data ?? []
-                    )
-                )
-        );
-
-        this.clients = clients;
-        const query = (this.searchInputControl.value || '').toLowerCase();
-        this.filteredClients = clients.filter(
-            (c) =>
-                c.name.toLowerCase().includes(query) ||
-                c.key.toLowerCase().includes(query)
-        );
-        this._changeDetectorRef.markForCheck();
     }
 
     trackByFn(index: number, item: any): any {
