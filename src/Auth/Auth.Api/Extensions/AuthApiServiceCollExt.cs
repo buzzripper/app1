@@ -2,8 +2,12 @@ using Dyvenix.App1.Auth.Api.Config;
 using Dyvenix.App1.Auth.Api.Endpoints;
 using Dyvenix.App1.Auth.Api.Repositories;
 using Dyvenix.App1.Auth.Api.Services;
+using Dyvenix.App1.Auth.Api.Services.v1;
+using Dyvenix.App1.Auth.Endpoints.v1;
 using Dyvenix.App1.Common.Api.Extensions;
+using Dyvenix.App1.Common.Api.Filters;
 using Dyvenix.App1.Auth.Shared.Contracts;
+using Dyvenix.App1.Auth.Shared.Contracts.v1;
 using Dyvenix.App1.Common.Shared.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
@@ -30,6 +34,8 @@ public static partial class AuthApiServiceCollExt
         // Register business logic services
         services.AddScoped<ISystemService, AuthSystemService>();
         services.AddScoped<BrandImgService>();
+        services.AddScoped<IOidcAppService, OidcAppService>();
+        services.AddScoped<ApiExceptionFilter<OidcAppService>>();
 
         if (!isInProcess)
         {
@@ -50,6 +56,7 @@ public static partial class AuthApiServiceCollExt
     {
         app.MapAuthSystemEndpoints();
         app.MapBrandImgEndpoints();
+        app.MapOidcAppEndpoints();
 
         MapGeneratedEndpoints(app);
 

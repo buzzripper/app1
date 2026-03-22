@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { ClientsComponent } from './clients.component';
+import { ClientDetailsComponent } from './details/client-details.component';
 import { ClientsListComponent } from './list/clients-list.component';
 
 export default [
@@ -10,6 +11,10 @@ export default [
             {
                 path: '',
                 component: ClientsListComponent,
+            },
+            {
+                path: ':id',
+                component: ClientDetailsComponent,
             },
         ],
     },

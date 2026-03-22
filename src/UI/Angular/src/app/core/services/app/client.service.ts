@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { environment } from 'environments/environment';
 import { ListPage } from '../common/dtos';
 import { ClientDto, ClientLookupDto, ClientRouteDto, Dto4 } from './dto';
@@ -34,11 +34,15 @@ export class ClientService {
 	// Read Single
 	
 	getClientById(id: string): Observable<ClientDto> {
-		return this._httpClient.get<ClientDto>(`${this._baseUrl}/GetClientById/${id}`);
+		return this._httpClient
+			.get<ClientDto>(`${this._baseUrl}/GetClientById/${id}`)
+			.pipe(map((response: any) => response?.data ?? response));
 	}
 	
 	getClientByKey(key: string): Observable<ClientDto> {
-		return this._httpClient.get<ClientDto>(`${this._baseUrl}/GetClientByKey/${key}`);
+		return this._httpClient
+			.get<ClientDto>(`${this._baseUrl}/GetClientByKey/${key}`)
+			.pipe(map((response: any) => response?.data ?? response));
 	}
 
 	// Read List

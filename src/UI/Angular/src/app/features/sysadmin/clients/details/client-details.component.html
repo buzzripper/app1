@@ -1,0 +1,329 @@
+<div class="flex flex-auto flex-col">
+    <div class="flex flex-col border-b px-6 py-8 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+            <a
+                class="inline-flex items-center leading-6 text-primary hover:underline"
+                [routerLink]="['../']"
+            >
+                <mat-icon
+                    class="icon-size-5"
+                    [svgIcon]="'heroicons_solid:arrow-small-left'"
+                ></mat-icon>
+                <span class="ml-1.5 font-medium">Back to clients</span>
+            </a>
+            <div class="mt-3 text-4xl font-extrabold tracking-tight">
+                {{ client?.name || 'Client details' }}
+            </div>
+            @if (client) {
+                <div class="text-secondary mt-1 text-lg">{{ client.key }}</div>
+            }
+        </div>
+    </div>
+
+    @if (isLoading) {
+        <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+    }
+
+    <div class="flex-auto overflow-y-auto p-6 sm:p-8">
+        <mat-accordion class="flex max-w-5xl flex-col gap-6" multi>
+            <mat-expansion-panel [expanded]="true">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>Client information</mat-panel-title>
+                    <mat-panel-description>
+                        Edit the App database client entity.
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <form class="grid gap-6 sm:grid-cols-2" [formGroup]="clientForm">
+                    <input type="hidden" [formControlName]="'id'" />
+
+                    <div class="sm:col-span-2">
+                        <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                            <mat-label>Name</mat-label>
+                            <input matInput [formControlName]="'name'" />
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                            <mat-label>Key</mat-label>
+                            <input matInput [formControlName]="'key'" />
+                        </mat-form-field>
+                    </div>
+
+                    <div class="sm:col-span-2">
+                        <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                            <mat-label>Base URL</mat-label>
+                            <input matInput [formControlName]="'baseUrl'" />
+                        </mat-form-field>
+                    </div>
+                </form>
+
+                <div class="mt-6 flex flex-wrap items-center justify-between gap-4 border-t pt-6">
+                    <button mat-button type="button" [color]="'warn'" (click)="deleteClient()">
+                        Delete
+                    </button>
+                    <div class="flex items-center gap-4">
+                        @if (clientMessage) {
+                            <div class="text-md" [class.text-green-600]="clientMessage.type === 'success'" [class.text-red-600]="clientMessage.type === 'error'">
+                                {{ clientMessage.text }}
+                            </div>
+                        }
+                        <button
+                            mat-flat-button
+                            type="button"
+                            [color]="'primary'"
+                            [disabled]="isSavingClient"
+                            (click)="saveClient()"
+                        >
+                            Save client
+                        </button>
+                    </div>
+                </div>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel (opened)="loadTenantSection()">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>OIDC Security</mat-panel-title>
+                    <mat-panel-description>
+                        {{ hasTenant ? 'Edit the matching tenant configuration.' : 'Load or create the matching tenant configuration.' }}
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                @if (isLoadingTenantSection) {
+                    <mat-progress-bar class="mb-6" [mode]="'indeterminate'"></mat-progress-bar>
+                }
+
+                <form class="grid gap-6 sm:grid-cols-2" [formGroup]="tenantForm">
+                    <div class="sm:col-span-2">
+                        <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                            <mat-label>Id</mat-label>
+                            <input matInput [formControlName]="'id'" readonly />
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                            <mat-label>Name</mat-label>
+                            <input matInput [formControlName]="'name'" />
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                            <mat-label>Slug</mat-label>
+                            <input matInput [formControlName]="'slug'" />
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                            <mat-label>Auth Mode</mat-label>
+                            <mat-select [formControlName]="'authMode'">
+                                @for (authMode of authModes; track authMode) {
+                                    <mat-option [value]="authMode">{{ authMode }}</mat-option>
+                                }
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="flex items-center pt-2">
+                        <mat-slide-toggle [formControlName]="'isActive'">Active</mat-slide-toggle>
+                    </div>
+
+                    <input type="hidden" [formControlName]="'createdAt'" />
+
+                    @if (selectedAuthMode === authModeEnum.ExternalOidc) {
+                        <div>
+                            <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                                <mat-label>External Authority</mat-label>
+                                <input matInput [formControlName]="'externalAuthority'" />
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                                <mat-label>External Client Id</mat-label>
+                                <input matInput [formControlName]="'externalClientId'" />
+                            </mat-form-field>
+                        </div>
+
+                        <div class="sm:col-span-2">
+                            <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                                <mat-label>External Client Secret</mat-label>
+                                <input matInput [formControlName]="'externalClientSecret'" />
+                            </mat-form-field>
+                        </div>
+                    }
+
+                    @if (selectedAuthMode === authModeEnum.AD) {
+                        <div>
+                            <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                                <mat-label>AD DC Host</mat-label>
+                                <input matInput [formControlName]="'adDcHost'" />
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                                <mat-label>AD Domain</mat-label>
+                                <input matInput [formControlName]="'adDomain'" />
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                                <mat-label>AD LDAP Port</mat-label>
+                                <input matInput type="number" [formControlName]="'adLdapPort'" />
+                            </mat-form-field>
+                        </div>
+
+                        <div class="sm:col-span-2">
+                            <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                                <mat-label>AD Base DN</mat-label>
+                                <textarea
+                                    matInput
+                                    cdkTextareaAutosize
+                                    [cdkAutosizeMinRows]="2"
+                                    [formControlName]="'adBaseDn'"
+                                ></textarea>
+                            </mat-form-field>
+                        </div>
+                    }
+                </form>
+
+                <div class="mt-6 flex flex-wrap items-center justify-between gap-4 border-t pt-6">
+                    <button
+                        mat-button
+                        type="button"
+                        [color]="'warn'"
+                        [disabled]="!hasTenant"
+                        (click)="deleteTenant()"
+                    >
+                        Delete
+                    </button>
+                    <div class="flex items-center gap-4">
+                        @if (tenantMessage) {
+                            <div class="text-md" [class.text-green-600]="tenantMessage.type === 'success'" [class.text-red-600]="tenantMessage.type === 'error'">
+                                {{ tenantMessage.text }}
+                            </div>
+                        }
+                        <button
+                            mat-flat-button
+                            type="button"
+                            [color]="'primary'"
+                            [disabled]="isSavingTenant"
+                            (click)="saveTenant()"
+                        >
+                            {{ hasTenant ? 'Save tenant' : 'Create tenant' }}
+                        </button>
+                    </div>
+                </div>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel (opened)="loadOidcAppSection()">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>App Registrations</mat-panel-title>
+                    <mat-panel-description>
+                        {{ hasOidcApp ? 'Edit the matching OpenIddict application.' : 'Load or create the matching OpenIddict application.' }}
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                @if (isLoadingOidcAppSection) {
+                    <mat-progress-bar class="mb-6" [mode]="'indeterminate'"></mat-progress-bar>
+                }
+
+                <form class="grid gap-6 sm:grid-cols-2" [formGroup]="oidcAppForm">
+                    <div class="sm:col-span-2">
+                        <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                            <mat-label>Id</mat-label>
+                            <input matInput [formControlName]="'id'" readonly />
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                            <mat-label>Application Type</mat-label>
+                            <input matInput [formControlName]="'applicationType'" />
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                            <mat-label>Client Id</mat-label>
+                            <input matInput [formControlName]="'clientId'" />
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                            <mat-label>Client Secret</mat-label>
+                            <input matInput [formControlName]="'clientSecret'" />
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                            <mat-label>Display Name</mat-label>
+                            <input matInput [formControlName]="'displayName'" />
+                        </mat-form-field>
+                    </div>
+
+                    <div class="sm:col-span-2">
+                        <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                            <mat-label>Redirect URIs</mat-label>
+                            <textarea
+                                matInput
+                                cdkTextareaAutosize
+                                [cdkAutosizeMinRows]="4"
+                                [formControlName]="'redirectUrisText'"
+                            ></textarea>
+                        </mat-form-field>
+                        <div class="text-hint text-md">One URI per line.</div>
+                    </div>
+
+                    <div class="sm:col-span-2">
+                        <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                            <mat-label>Post Logout Redirect URIs</mat-label>
+                            <textarea
+                                matInput
+                                cdkTextareaAutosize
+                                [cdkAutosizeMinRows]="4"
+                                [formControlName]="'postLogoutRedirectUrisText'"
+                            ></textarea>
+                        </mat-form-field>
+                        <div class="text-hint text-md">One URI per line.</div>
+                    </div>
+                </form>
+
+                <div class="mt-6 flex flex-wrap items-center justify-between gap-4 border-t pt-6">
+                    <button
+                        mat-button
+                        type="button"
+                        [color]="'warn'"
+                        [disabled]="!hasOidcApp"
+                        (click)="deleteOidcApp()"
+                    >
+                        Delete
+                    </button>
+                    <div class="flex items-center gap-4">
+                        @if (oidcAppMessage) {
+                            <div class="text-md" [class.text-green-600]="oidcAppMessage.type === 'success'" [class.text-red-600]="oidcAppMessage.type === 'error'">
+                                {{ oidcAppMessage.text }}
+                            </div>
+                        }
+                        <button
+                            mat-flat-button
+                            type="button"
+                            [color]="'primary'"
+                            [disabled]="isSavingOidcApp"
+                            (click)="saveOidcApp()"
+                        >
+                            {{ hasOidcApp ? 'Save OpenIddict application' : 'Create OpenIddict application' }}
+                        </button>
+                    </div>
+                </div>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+</div>
