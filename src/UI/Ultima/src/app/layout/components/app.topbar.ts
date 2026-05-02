@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, ViewChild } from '@angular/core';
+import { Component, computed, ElementRef, inject, ViewChild } from '@angular/core';
 import { MegaMenuItem } from 'primeng/api';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -11,6 +11,8 @@ import { FormsModule } from '@angular/forms';
 import { MegaMenuModule } from 'primeng/megamenu';
 import { BadgeModule } from 'primeng/badge';
 import { OverlayBadge } from 'primeng/overlaybadge';
+import { AuthService } from '@/app/core/auth/auth.service';
+import { UserService } from '@/app/core/user/user.service';
 
 @Component({
     selector: '[app-topbar]',
@@ -177,10 +179,14 @@ import { OverlayBadge } from 'primeng/overlaybadge';
                     </li>
                     <li>
                         <a pStyleClass="@next" enterFromClass="hidden" enterActiveClass="animate-scalein" leaveToClass="hidden" leaveActiveClass="animate-fadeout" [hideOnOutsideClick]="true">
-                            <img src="/demo/images/avatar/amyelsner.png" alt="avatar" class="w-8 h-8" />
+                            <img [src]="user()?.avatar || '/demo/images/avatar/amyelsner.png'" alt="avatar" class="w-8 h-8 rounded-full" />
                         </a>
                         <div class="hidden">
                             <ul class="list-none p-0 m-0">
+                                <li class="px-4 py-3 border-b border-surface">
+                                    <div class="font-semibold">{{ user()?.name || 'Guest user' }}</div>
+                                    <div class="text-sm text-muted-color">{{ user()?.email || 'Not signed in' }}</div>
+                                </li>
                                 <li>
                                     <a class="cursor-pointer flex items-center hover:bg-emphasis duration-150 transition-all px-4 py-2" pRipple>
                                         <i class="pi pi-cog mr-2"></i>
@@ -200,7 +206,7 @@ import { OverlayBadge } from 'primeng/overlaybadge';
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="cursor-pointer flex items-center hover:bg-emphasis duration-150 transition-all px-4 py-2" pRipple>
+                                    <a class="cursor-pointer flex items-center hover:bg-emphasis duration-150 transition-all px-4 py-2" pRipple (click)="signOut()">
                                         <i class="pi pi-power-off mr-2"></i>
                                         <span>Logout</span>
                                     </a>
@@ -228,12 +234,16 @@ import { OverlayBadge } from 'primeng/overlaybadge';
 })
 export class AppTopbar {
     layoutService = inject(LayoutService);
+    private readonly authService = inject(AuthService);
+    private readonly userService = inject(UserService);
 
     @ViewChild('searchInput') searchInput!: ElementRef<HTMLInputElement>;
 
     @ViewChild('menuButton') menuButton!: ElementRef<HTMLButtonElement>;
 
     @ViewChild('mobileMenuButton') mobileMenuButton!: ElementRef<HTMLButtonElement>;
+
+    user = computed(() => this.userService.user());
 
     model: MegaMenuItem[] = [
         {
@@ -332,5 +342,9 @@ export class AppTopbar {
 
     onTopbarMenuToggle() {
         this.layoutService.layoutState.update((val) => ({ ...val, topbarMenuActive: !val.topbarMenuActive }));
+    }
+
+    signOut(): void {
+        this.authService.signOut();
     }
 }

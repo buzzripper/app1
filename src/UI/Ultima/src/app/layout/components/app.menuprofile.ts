@@ -4,16 +4,18 @@ import { TooltipModule } from 'primeng/tooltip';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { AuthService } from '@/app/core/auth/auth.service';
+import { UserService } from '@/app/core/user/user.service';
 
 @Component({
     selector: '[app-menu-profile]',
     standalone: true,
     imports: [CommonModule, TooltipModule, ButtonModule, RouterModule],
     template: `<button (click)="toggleMenu()" pTooltip="Profile" [tooltipDisabled]="isTooltipDisabled()" class="cursor-pointer">
-            <img src="/demo/images/avatar/amyelsner.png" alt="avatar" style="width: 32px; height: 32px;" />
+            <img [src]="user()?.avatar || '/demo/images/avatar/amyelsner.png'" alt="avatar" style="width: 32px; height: 32px;" />
             <span class="text-start">
-                <strong>Amy Elsner</strong>
-                <small>Webmaster</small>
+                <strong>{{ user()?.name || 'Guest user' }}</strong>
+                <small>{{ user()?.email || 'Not signed in' }}</small>
             </span>
             <i class="layout-menu-profile-toggler pi pi-fw" [ngClass]="{ 'pi-angle-down': menuProfilePosition() === 'start' || isHorizontal(), 'pi-angle-up': menuProfilePosition() === 'end' && !isHorizontal() }"></i>
         </button>
@@ -38,8 +40,8 @@ import { RouterModule } from '@angular/router';
                         <span>Support</span>
                     </button>
                 </li>
-                <li pTooltip="Logout" [tooltipDisabled]="isTooltipDisabled()" [routerLink]="['/auth/login2']">
-                    <button class="cursor-pointer p-link">
+                <li pTooltip="Logout" [tooltipDisabled]="isTooltipDisabled()">
+                    <button class="cursor-pointer p-link" (click)="signOut()">
                         <i class="pi pi-power-off pi-fw"></i>
                         <span>Logout</span>
                     </button>
@@ -121,6 +123,8 @@ import { RouterModule } from '@angular/router';
 })
 export class AppMenuProfile {
     layoutService = inject(LayoutService);
+    private readonly authService = inject(AuthService);
+    private readonly userService = inject(UserService);
 
     isHorizontal = computed(() => this.layoutService.isHorizontal() && this.layoutService.isDesktop());
 
@@ -129,6 +133,8 @@ export class AppMenuProfile {
     menuProfilePosition = computed(() => this.layoutService.layoutConfig().menuProfilePosition);
 
     isTooltipDisabled = computed(() => !this.layoutService.isSlim());
+
+    user = computed(() => this.userService.user());
 
     toggleMenu() {
         if (this.isHorizontal() && this.layoutService.layoutState().activePath) {
@@ -139,5 +145,9 @@ export class AppMenuProfile {
             }));
         }
         this.layoutService.onMenuProfileToggle();
+    }
+
+    signOut(): void {
+        this.authService.signOut();
     }
 }

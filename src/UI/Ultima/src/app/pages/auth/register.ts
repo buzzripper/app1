@@ -51,11 +51,9 @@ import { InputNumberModule } from 'primeng/inputnumber';
                             </p-inputgroup-addon>
                             <input pInputText id="password2" type="password" [(ngModel)]="value2" placeholder="Password Again" />
                         </p-input-group>
+                        <div class="text-sm text-surface-700 dark:text-surface-100">Self-service registration is not available in this client. Use the shared sign-in flow.</div>
                         <div>
-                            <button pButton pRipple class="w-full" label="SIGN UP"></button>
-                        </div>
-                        <div>
-                            <button pButton pRipple class="w-full text-primary-500" text label="BACK TO LOGIN"></button>
+                            <button pButton pRipple class="w-full" label="BACK TO LOGIN" [routerLink]="['/auth/login']"></button>
                         </div>
                     </div>
                 </div>

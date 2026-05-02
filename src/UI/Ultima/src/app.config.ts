@@ -1,10 +1,10 @@
-import { provideHttpClient, withFetch } from '@angular/common/http';
 import { ApplicationConfig, provideZonelessChangeDetection } from '@angular/core';
 import { provideRouter, withEnabledBlockingInitialNavigation, withInMemoryScrolling } from '@angular/router';
 import { providePrimeNG } from 'primeng/config';
 import { appRoutes } from './app.routes';
 import Material from '@primeuix/themes/material';
 import { definePreset } from '@primeuix/themes';
+import { provideAuth } from '@/app/core/auth/auth.provider';
 
 const MyPreset = definePreset(Material, {
     semantic: {
@@ -34,7 +34,7 @@ export const appConfig: ApplicationConfig = {
             }),
             withEnabledBlockingInitialNavigation()
         ),
-        provideHttpClient(withFetch()),
+        provideAuth(),
         provideZonelessChangeDetection(),
         providePrimeNG({
             ripple: true,

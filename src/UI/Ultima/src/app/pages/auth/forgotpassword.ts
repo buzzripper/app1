@@ -30,11 +30,9 @@ import { AppConfigurator } from '@/app/layout/components/app.configurator';
                             </p-inputgroup-addon>
                             <input pInputText placeholder="Email" />
                         </p-input-group>
+                        <div class="text-sm text-surface-700 dark:text-surface-100">Password recovery is handled by the shared identity flow.</div>
                         <p-input-group>
-                            <button pButton class="w-full" label="SUBMIT EMAIL"></button>
-                        </p-input-group>
-                        <p-input-group>
-                            <button pButton class="w-full text-primary-500" text label="BACK TO LOGIN"></button>
+                            <button pButton class="w-full" label="BACK TO LOGIN" [routerLink]="['/auth/login']"></button>
                         </p-input-group>
                     </div>
                 </div>

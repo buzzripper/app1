@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { Ripple } from 'primeng/ripple';
 import { RouterModule } from '@angular/router';
@@ -7,6 +7,8 @@ import { Avatar } from 'primeng/avatar';
 import { InputGroup } from 'primeng/inputgroup';
 import { InputGroupAddon } from 'primeng/inputgroupaddon';
 import { InputText } from 'primeng/inputtext';
+import { AuthService } from '@/app/core/auth/auth.service';
+import { UserService } from '@/app/core/user/user.service';
 
 @Component({
     standalone: true,
@@ -27,13 +29,13 @@ import { InputText } from 'primeng/inputtext';
                     <div class="flex flex-col gap-4 mt-12">
                         <div class="flex justify-between items-center">
                             <div class="flex gap-4 items-center">
-                                <p-avatar image="/demo/images/avatar/annafali.png" shape="circle" size="large"> </p-avatar>
+                                <p-avatar [image]="user()?.avatar || '/demo/images/avatar/amyelsner.png'" shape="circle" size="large"> </p-avatar>
                                 <div class="flex flex-col gap-1">
-                                    <span class="text-color font-semibold text-lg">Amy Elsner</span>
-                                    <span class="text-muted-color text-sm">UX Designer</span>
+                                    <span class="text-color font-semibold text-lg">{{ user()?.name || 'Authenticated user' }}</span>
+                                    <span class="text-muted-color text-sm">{{ user()?.email || 'Shared account' }}</span>
                                 </div>
                             </div>
-                            <button pButton pRipple class="text-primary-500" text icon="pi pi-sign-out" label="Log out"></button>
+                            <button pButton pRipple class="text-primary-500" text icon="pi pi-sign-out" label="Log out" (click)="signOut()"></button>
                         </div>
                         <p-input-group>
                             <p-inputgroup-addon>
@@ -57,4 +59,13 @@ import { InputText } from 'primeng/inputtext';
 
         <app-configurator simple /> `
 })
-export class LockScreen {}
+export class LockScreen {
+    private readonly authService = inject(AuthService);
+    private readonly userService = inject(UserService);
+
+    readonly user = computed(() => this.userService.user());
+
+    signOut(): void {
+        this.authService.signOut();
+    }
+}

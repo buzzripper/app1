@@ -1,9 +1,13 @@
 import { Routes } from '@angular/router';
 import { AppLayout } from '@/app/layout/components/app.layout';
+import { authGuard } from '@/app/core/auth/guards/auth.guard';
+import { noAuthGuard } from '@/app/core/auth/guards/no-auth.guard';
 
 export const appRoutes: Routes = [
     {
         path: '',
+        canActivate: [authGuard],
+        canActivateChild: [authGuard],
         component: AppLayout,
         children: [
             { path: '', redirectTo: '/dashboards', pathMatch: 'full' },
@@ -49,7 +53,10 @@ export const appRoutes: Routes = [
             }
         ]
     },
-    { path: 'auth', loadChildren: () => import('@/app/pages/auth/auth.routes') },
+    {
+        path: 'auth',
+        loadChildren: () => import('@/app/pages/auth/auth.routes')
+    },
     {
         path: 'landing',
         loadComponent: () => import('@/app/pages/landing/landing').then((c) => c.Landing)
