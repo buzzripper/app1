@@ -84,6 +84,12 @@
       <Build />
       <Deploy />
     </Project>
+    <Project Path="src/UI/Ultima/Ultima.esproj">
+      <BuildType Solution="Dbg-Ext|*" Project="Release" />
+      <Platform Project="AnyCPU" />
+      <Build />
+      <Deploy />
+    </Project>
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/Tests.Common/Tests.Common.csproj">
