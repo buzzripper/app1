@@ -79,11 +79,6 @@
     <Project Path="src/Portal/Portal.Server/Portal.Server.csproj" />
   </Folder>
   <Folder Name="/src/UI/">
-    <Project Path="src/UI/Angular/Angular.esproj">
-      <Platform Project="AnyCPU" />
-      <Build />
-      <Deploy />
-    </Project>
     <Project Path="src/UI/Ultima/Ultima.esproj">
       <BuildType Solution="Dbg-Ext|*" Project="Release" />
       <Platform Project="AnyCPU" />
