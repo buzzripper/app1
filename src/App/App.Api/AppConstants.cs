@@ -1,7 +1,7 @@
 namespace Dyvenix.App1.App.Api
 {
-    public class AppConstants
-    {
-        public const string ModuleId = "app";
-    }
+	public class AppConstants
+	{
+		public const string ModuleId = "app";
+	}
 }

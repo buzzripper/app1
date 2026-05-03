@@ -1,5 +1,5 @@
-using Microsoft.EntityFrameworkCore;
 using Dyvenix.App1.App.Api.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Dyvenix.App1.App.Api.Context;
 
@@ -12,11 +12,11 @@ public partial class App1Db : DbContext
 	{
 	}
 
-	# region Properties
+	#region Properties
 
 	public DbSet<Client> Client { get; set; }
 
-	# endregion
+	#endregion
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{

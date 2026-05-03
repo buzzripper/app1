@@ -1,6 +1,7 @@
 using Dyvenix.App1.App.Shared.ApiClients.v1;
 using Dyvenix.App1.App.Shared.Contracts.v1;
 using Dyvenix.App1.Auth.Api.Extensions;
+using Dyvenix.App1.Auth.Api.Services;
 using Dyvenix.App1.Auth.Data;
 using Dyvenix.App1.Auth.Data.Context;
 using Dyvenix.App1.Auth.Data.Fido2;
@@ -88,6 +89,9 @@ builder.Services.Configure<IdentityOptions>(options =>
 //	options.UseInMemoryStore();
 //});
 //builder.Services.AddQuartzHostedService(options => options.WaitForJobsToComplete = true);
+
+builder.Services.AddHealthChecks()
+	.AddCheck<HealthService>("Auth Service Health");
 
 // CORS — driven by AllowedHosts in appsettings.json
 var allowedHosts = builder.Configuration["AllowedHosts"] ?? "*";

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 
-namespace Dyvenix.App1.App.Endpoints.v1;
+namespace Dyvenix.App1.App.Api.Endpoints.v1;
 
 public static class ClientAuthEndpoints
 {

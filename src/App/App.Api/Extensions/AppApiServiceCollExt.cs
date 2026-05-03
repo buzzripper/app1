@@ -1,14 +1,11 @@
 using Dyvenix.App1.App.Api.Contracts.v1;
-using Dyvenix.App1.App.Api.Endpoints;
+using Dyvenix.App1.App.Api.Endpoints.v1;
 using Dyvenix.App1.App.Api.Services;
 using Dyvenix.App1.App.Api.Services.v1;
-using Dyvenix.App1.App.Endpoints.v1;
 using Dyvenix.App1.Auth.Shared.ApiClients.v1;
 using Dyvenix.App1.Common.Api.Extensions;
-using Dyvenix.App1.Common.Shared.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Scalar.AspNetCore;
@@ -29,9 +26,11 @@ public static partial class AppApiServiceCollExt
 	public static IServiceCollection AddAppApiServices(this IServiceCollection services, IConfiguration configuration, bool isInProcess)
 	{
 		services.AddCurrentUserServices();
+		services.AddOpenApi();
+		services.AddHealthChecks()
+			.AddCheck<HealthService>("AD Agent Service Health");
 
 		// Register business logic services
-		services.AddScoped<ISystemService, AppSystemService>();
 
 		// Add code-generated services
 		AddGeneratedServices(services);
@@ -61,7 +60,6 @@ public static partial class AppApiServiceCollExt
 	/// </summary>
 	public static IEndpointRouteBuilder MapEndpoints(this IEndpointRouteBuilder app)
 	{
-		app.MapAppSystemEndpoints();
 		app.MapClientAuthEndpoints();
 
 		MapGeneratedEndpoints(app);

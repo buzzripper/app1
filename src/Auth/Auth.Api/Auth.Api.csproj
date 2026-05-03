@@ -18,7 +18,6 @@
   <ItemGroup>
     <Compile Include="Endpoints\BrandImgEndpoints.cs" />
     <Compile Include="Endpoints\IntTestSts.cs" />
-    <Compile Include="Endpoints\AuthSystemEndpoints.cs" />
     <Compile Include="Endpoints\v1\AppRegistrationEndpoints.cs" />
     <Compile Include="Endpoints\v1\OidcAppEndpoints.part.cs" />
     <Compile Include="Endpoints\v1\RoleClaimEndpoints.cs" />
