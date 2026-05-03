@@ -162,13 +162,13 @@ var authInProcess = false;
 var appInProcess = false;
 
 #if AUTH_INPROCESS
-authInProcess = true;
-services.AddAuthApiServices(isInProcess: true);
+	authInProcess = true;
+	services.AddAuthApiServices(isInProcess: true);
 #endif
 
 #if APP_INPROCESS
 appInProcess = true;
-services.AddAppApiServices(isInProcess: true);
+services.AddAppApiServices(configuration, isInProcess: true);
 #endif
 
 // Configure YARP for API proxying (Auth/App when running out-of-process)
@@ -207,10 +207,10 @@ services.AddReverseProxy()
 
 // Register service clients (proxies)
 #if AUTH_INPROCESS
-//services.AddAuthClients(configuration, authInProcess);
+	//services.AddAuthClients(configuration, authInProcess);
 #endif
 #if APP_INPROCESS
-//services.AddApp1Client(configuration, appInProcess);
+//services.AddAppClient(configuration, appInProcess);
 #endif
 
 builder.Services.AddApiVersioning(options =>
@@ -236,6 +236,10 @@ else
 {
 	app.UseExceptionHandler("/api/error");
 }
+
+#if APP_INPROCESS
+app.MapAppEndpoints();
+#endif
 
 app.UseSecurityHeaders();
 

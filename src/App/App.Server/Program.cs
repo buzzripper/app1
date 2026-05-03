@@ -29,7 +29,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline
 app.UseStandardApiPipeline();
 
-app.MapEndpoints();
+app.MapAppEndpoints();
 app.MapDefaultEndpoints();
 
 // Enable API documentation in development

@@ -26,9 +26,12 @@ public static partial class AppApiServiceCollExt
 	public static IServiceCollection AddAppApiServices(this IServiceCollection services, IConfiguration configuration, bool isInProcess)
 	{
 		services.AddCurrentUserServices();
-		services.AddOpenApi();
 		services.AddHealthChecks()
 			.AddCheck<HealthService>("AD Agent Service Health");
+		if (!isInProcess)
+		{
+			services.AddOpenApi();
+		}
 
 		// Register business logic services
 
@@ -46,19 +49,13 @@ public static partial class AppApiServiceCollExt
 		.AddHttpMessageHandler<TenantApiBearerTokenHandler>();
 		services.AddScoped<IClientAuthService, ClientAuthService>();
 
-		if (!isInProcess)
-		{
-			// Add OpenAPI support
-			services.AddOpenApi();
-		}
-
 		return services;
 	}
 
 	/// <summary> 
 	/// Maps endpoints
 	/// </summary>
-	public static IEndpointRouteBuilder MapEndpoints(this IEndpointRouteBuilder app)
+	public static IEndpointRouteBuilder MapAppEndpoints(this IEndpointRouteBuilder app)
 	{
 		app.MapClientAuthEndpoints();
 
