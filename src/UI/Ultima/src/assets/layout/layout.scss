@@ -16,3 +16,68 @@
 @use './config' as *;
 @use './breadcrumb' as *;
 @use './responsive' as *;
+
+.p-inputtext,
+.p-iconfield .p-inputtext,
+.p-inputwrapper .p-inputtext,
+.p-floatlabel input.p-inputtext,
+.p-floatlabel .p-inputtext,
+.p-autocomplete .p-inputtext,
+.p-autocomplete-input,
+.p-textarea,
+textarea[pTextarea],
+.p-select,
+.p-multiselect,
+.p-treeselect,
+.p-datepicker-input,
+input[pinputtext],
+input[pInputText] {
+    border-style: solid !important;
+    border-width: 1px !important;
+    border-top: 1px solid var(--surface-border) !important;
+    border-right: 1px solid var(--surface-border) !important;
+    border-bottom: 1px solid var(--surface-border) !important;
+    border-left: 1px solid var(--surface-border) !important;
+    border-radius: 6px !important;
+    box-shadow: none !important;
+    background: var(--surface-card);
+    appearance: none;
+    background-image: none !important;
+}
+
+    .p-inputtext:enabled:hover,
+    .p-iconfield .p-inputtext:enabled:hover,
+    .p-inputwrapper .p-inputtext:enabled:hover,
+    .p-floatlabel input.p-inputtext:enabled:hover,
+    .p-floatlabel .p-inputtext:enabled:hover,
+    .p-autocomplete .p-inputtext:enabled:hover,
+    .p-autocomplete-input:enabled:hover,
+    .p-textarea:enabled:hover,
+    textarea[pTextarea]:enabled:hover,
+    .p-select:hover,
+    .p-multiselect:hover,
+    .p-treeselect:hover,
+    .p-datepicker-input:enabled:hover,
+    input[pinputtext]:enabled:hover,
+    input[pInputText]:enabled:hover {
+        border-color: var(--primary-color) !important;
+    }
+
+    .p-inputtext:enabled:focus,
+    .p-iconfield .p-inputtext:enabled:focus,
+    .p-inputwrapper .p-inputtext:enabled:focus,
+    .p-floatlabel input.p-inputtext:enabled:focus,
+    .p-floatlabel .p-inputtext:enabled:focus,
+    .p-autocomplete .p-inputtext:enabled:focus,
+    .p-autocomplete-input:enabled:focus,
+    .p-textarea:enabled:focus,
+    textarea[pTextarea]:enabled:focus,
+    .p-select:focus-within,
+    .p-multiselect:focus-within,
+    .p-treeselect:focus-within,
+    .p-datepicker-input:enabled:focus,
+    input[pinputtext]:enabled:focus,
+    input[pInputText]:enabled:focus {
+        border-color: var(--primary-color) !important;
+        box-shadow: 0 0 0 1px var(--primary-color) !important;
+    }
