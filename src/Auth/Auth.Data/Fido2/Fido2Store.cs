@@ -1,5 +1,6 @@
 using Dyvenix.App1.Auth.Data.Context;
 using Fido2NetLib;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
 
@@ -36,11 +37,20 @@ public class Fido2Store
 
 	public async Task<FidoStoredCredential?> GetCredentialByIdAsync(byte[] id)
 	{
-		var credentialIdString = Base64Url.Encode(id);
+      var credentialIdString = WebEncoders.Base64UrlEncode(id);
 		//byte[] credentialIdStringByte = Base64Url.Decode(credentialIdString);
 
 		var cred = await _dbContext.FidoStoredCredential
 			.Where(c => c.DescriptorJson != null && c.DescriptorJson.Contains(credentialIdString))
+			.FirstOrDefaultAsync();
+
+		return cred;
+	}
+
+	public async Task<FidoStoredCredential?> GetCredentialByIdAsync(string id)
+	{
+		var cred = await _dbContext.FidoStoredCredential
+			.Where(c => c.DescriptorJson != null && c.DescriptorJson.Contains(id))
 			.FirstOrDefaultAsync();
 
 		return cred;
@@ -56,7 +66,7 @@ public class Fido2Store
 
 	public async Task UpdateCounterAsync(byte[] credentialId, uint counter)
 	{
-		var credentialIdString = Base64Url.Encode(credentialId);
+        var credentialIdString = WebEncoders.Base64UrlEncode(credentialId);
 		//byte[] credentialIdStringByte = Base64Url.Decode(credentialIdString);
 
 		var cred = await _dbContext.FidoStoredCredential
@@ -78,7 +88,7 @@ public class Fido2Store
 
 	public async Task<ICollection<Fido2User>> GetUsersByCredentialIdAsync(byte[] credentialId)
 	{
-		var credentialIdString = Base64Url.Encode(credentialId);
+        var credentialIdString = WebEncoders.Base64UrlEncode(credentialId);
 		//byte[] credentialIdStringByte = Base64Url.Decode(credentialIdString);
 
 		var cred = await _dbContext.FidoStoredCredential

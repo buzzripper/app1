@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\AdAgent\AdAgent.Shared\AdAgent.Shared.csproj" />
@@ -30,6 +30,7 @@
 		<PackageReference Include="OpenIddict.EntityFrameworkCore" Version="7.2.0" />
 		<PackageReference Include="OpenIddict.Quartz" Version="7.2.0" />
 		<PackageReference Include="Quartz.Extensions.Hosting" Version="3.15.1" />
+		<PackageReference Include="System.Security.Cryptography.Pkcs" Version="9.0.15" />
 	</ItemGroup>
 
 	<ItemGroup>

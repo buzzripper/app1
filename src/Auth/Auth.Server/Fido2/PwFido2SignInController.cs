@@ -92,8 +92,8 @@ public class PwFido2SignInController : Controller
 		}
 
 		catch (Exception e)
-		{
-			return Json(new AssertionOptions { Status = "error", ErrorMessage = FormatException(e) });
+       {
+			return Json(new { status = "error", errorMessage = FormatException(e) });
 		}
 	}
 
@@ -132,11 +132,17 @@ public class PwFido2SignInController : Controller
 			}
 
 			// 5. Make the assertion
-			var res = await _lib.MakeAssertionAsync(
-				clientResponse, options, creds.PublicKey, storedCounter, callback);
+            var res = await _lib.MakeAssertionAsync(new MakeAssertionParams
+			{
+				AssertionResponse = clientResponse,
+				OriginalOptions = options,
+				StoredPublicKey = creds.PublicKey,
+				StoredSignatureCounter = storedCounter,
+				IsUserHandleOwnerOfCredentialIdCallback = callback
+			});
 
 			// 6. Store the updated counter
-			await _fido2Store.UpdateCounterAsync(res.CredentialId, res.Counter);
+            await _fido2Store.UpdateCounterAsync(res.CredentialId, res.SignCount);
 
 			var ApplicationUser = await _userManager.FindByNameAsync(creds.UserName);
 			if (ApplicationUser == null)
@@ -147,11 +153,11 @@ public class PwFido2SignInController : Controller
 			await _signInManager.SignInAsync(ApplicationUser, isPersistent: false);
 
 			// 7. return OK to client
-			return Json(res);
+           return Json(new { status = "ok" });
 		}
 		catch (Exception e)
-		{
-			return Json(new AssertionVerificationResult { Status = "error", ErrorMessage = FormatException(e) });
+       {
+			return Json(new { status = "error", errorMessage = FormatException(e) });
 		}
 	}
 }
