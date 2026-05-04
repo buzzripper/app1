@@ -21,7 +21,7 @@
     <File Path="scripts/Auth_CreateSchema.sql" />
     <File Path="scripts/Auth_Wk1.sql" />
     <File Path="scripts/EF Commands.txt" />
-    <File Path="scripts/RunAngular.bat" />
+    <File Path="scripts/RunUI.bat" />
   </Folder>
   <Folder Name="/src/" />
   <Folder Name="/src/AdAgent/">

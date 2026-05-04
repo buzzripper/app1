@@ -86,7 +86,14 @@ public class PwFido2RegisterController : Controller
 				UserVerificationMethod = true,
 			};
 
-			var options = _lib.RequestNewCredential(user, existingKeys, authenticatorSelection, attType.ToEnum<AttestationConveyancePreference>(), exts);
+           var options = _lib.RequestNewCredential(new RequestNewCredentialParams
+			{
+				User = user,
+				ExcludeCredentials = existingKeys,
+				AuthenticatorSelection = authenticatorSelection,
+				AttestationPreference = attType.ToEnum<AttestationConveyancePreference>(),
+				Extensions = exts
+			});
 
 			// 4. Temporarily store options, session/in-memory cache/redis/db
 			HttpContext.Session.SetString("fido2.attestationOptions", options.ToJson());
@@ -95,8 +102,8 @@ public class PwFido2RegisterController : Controller
 			return Json(options);
 		}
 		catch (Exception e)
-		{
-			return Json(new CredentialCreateOptions { Status = "error", ErrorMessage = FormatException(e) });
+       {
+			return Json(new { status = "error", errorMessage = FormatException(e) });
 		}
 	}
 
@@ -121,21 +128,26 @@ public class PwFido2RegisterController : Controller
 			};
 
 			// 2. Verify and make the credentials
-			var success = await _lib.MakeNewCredentialAsync(attestationResponse, options, callback);
+            var success = await _lib.MakeNewCredentialAsync(new MakeNewCredentialParams
+			{
+				AttestationResponse = attestationResponse,
+				OriginalOptions = options,
+				IsCredentialIdUniqueToUserCallback = callback
+			});
 
-			if (success.Result != null)
+         if (success != null)
 			{
 				// 3. Store the credentials in db
 				await _fido2Store.AddCredentialToUserAsync(options.User, new FidoStoredCredential
 				{
 					UserName = options.User.Name,
-					Descriptor = new PublicKeyCredentialDescriptor(success.Result.CredentialId),
-					PublicKey = success.Result.PublicKey,
-					UserHandle = success.Result.User.Id,
-					SignatureCounter = success.Result.Counter,
-					CredType = success.Result.CredType,
+                    Descriptor = new PublicKeyCredentialDescriptor(success.Id),
+					PublicKey = success.PublicKey,
+					UserHandle = success.User.Id,
+					SignatureCounter = success.SignCount,
+					CredType = success.Type.ToString(),
 					RegDate = DateTime.Now,
-					AaGuid = success.Result.Aaguid
+                  AaGuid = success.AaGuid
 				});
 			}
 
@@ -145,20 +157,22 @@ public class PwFido2RegisterController : Controller
 			// await _userManager.GetUserAsync(User);
 
 			if (user == null)
-			{
-				return Json(new CredentialMakeResult("error",
-					$"Unable to load user with ID '{_userManager.GetUserId(User)}'.",
-					success.Result));
+           {
+				return Json(new
+				{
+					status = "error",
+					errorMessage = $"Unable to load user with ID '{_userManager.GetUserId(User)}'."
+				});
 			}
 
 			//await _userManager.SetTwoFactorEnabledAsync(user, true);
 			//var userId = await _userManager.FindByNameAsync(user);
 
-			return Json(success);
+           return Json(new { status = "ok" });
 		}
 		catch (Exception e)
-		{
-			return Json(new CredentialMakeResult("error", FormatException(e), null));
+       {
+			return Json(new { status = "error", errorMessage = FormatException(e) });
 		}
 	}
 
