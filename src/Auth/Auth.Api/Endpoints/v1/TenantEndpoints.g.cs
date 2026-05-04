@@ -11,6 +11,7 @@ using Dyvenix.App1.Common.Shared.Requests;
 using Dyvenix.App1.Common.Shared.DTOs;
 using Dyvenix.App1.Auth.Shared.Contracts.v1;
 using Dyvenix.App1.Auth.Shared.DTOs;
+using Dyvenix.App1.Auth.Shared.Requests.v1;
 
 namespace Dyvenix.App1.Auth.Endpoints.v1;
 
@@ -20,7 +21,65 @@ public static class TenantEndpoints
 	{
 		var group = app.MapGroup("api/auth/v1/tenant")
 			.WithTags("Tenant");
+
+		group.MapGet("GetById/{id}", GetById)
+			.Produces<TenantDto>(StatusCodes.Status200OK)
+			.Produces(StatusCodes.Status404NotFound);
+
+		group.MapGet("GetBySlug/{slug}", GetBySlug)
+			.Produces<TenantDto>(StatusCodes.Status200OK)
+			.Produces(StatusCodes.Status404NotFound);
+
+		group.MapGet("GetAll", GetAll)
+			.Produces<IReadOnlyList<TenantDto>>(StatusCodes.Status200OK);
+
+		group.MapPost("Create", Create)
+			.Produces<Guid>(StatusCodes.Status200OK);
+
+		group.MapPut("Update", Update)
+			.Produces(StatusCodes.Status200OK)
+			.Produces(StatusCodes.Status404NotFound);
+
+		group.MapDelete("Delete", Delete)
+			.Produces(StatusCodes.Status200OK)
+			.Produces(StatusCodes.Status404NotFound);
 	
 		return app;
+	}
+
+	public static async Task<Result<TenantDto?>> GetById(ITenantService tenantService, Guid id)
+	{
+		var dto = await tenantService.GetById(id);
+		return Result<TenantDto?>.Ok(dto);
+	}
+
+	public static async Task<Result<TenantDto?>> GetBySlug(ITenantService tenantService, string slug)
+	{
+		var dto = await tenantService.GetBySlug(Uri.UnescapeDataString(slug));
+		return Result<TenantDto?>.Ok(dto);
+	}
+
+	public static async Task<Result<IReadOnlyList<TenantDto>>> GetAll(ITenantService tenantService)
+	{
+		var data = await tenantService.GetAll();
+		return Result<IReadOnlyList<TenantDto>>.Ok(data);
+	}
+
+	public static async Task<Result<Guid>> Create(ITenantService tenantService, [FromBody] CreateTenantReq request)
+	{
+		var id = await tenantService.Create(request);
+		return Result<Guid>.Ok(id);
+	}
+
+	public static async Task<Result> Update(ITenantService tenantService, [FromBody] UpdateTenantReq request)
+	{
+		await tenantService.Update(request);
+		return Result.Ok();
+	}
+
+	public static async Task<Result> Delete(ITenantService tenantService, [FromBody] DeleteReq deleteReq)
+	{
+		await tenantService.Delete(deleteReq.Id);
+		return Result.Ok();
 	}
 }

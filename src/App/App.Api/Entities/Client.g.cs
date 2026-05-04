@@ -1,11 +1,9 @@
-//------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 3/1/2026 10:25 PM. Any changes made to it will be lost.
-//------------------------------------------------------------------------------------------------------------
 using Dyvenix.App1.App.Shared.Dtos;
+using Dyvenix.App1.Common.Shared.Contracts;
 
 namespace Dyvenix.App1.App.Api.Entities;
 
-public partial class Client
+public partial class Client : IAuditable
 {
 	// PK
 	public Guid Id { get; set; }
@@ -16,7 +14,15 @@ public partial class Client
 	// Properties
 	public string Key { get; set; } = null!;
 	public string Name { get; set; } = null!;
+	public string ExtAuthId { get; set; } = null!;
+	public string? ExtClientId { get; set; }
 	public string? BaseUrl { get; set; }
+	public DateTime CreatedUtc { get; set; }
+	public Guid? CreatedByUserId { get; set; }
+	public DateTime ModifiedUtc { get; set; }
+	public Guid? ModifiedByUserId { get; set; }
+	public DateTime? DeletedUtc { get; set; }
+	public Guid? DeletedByUserId { get; set; }
 
 	#region PropNames
 
@@ -27,6 +33,14 @@ public partial class Client
 		public const string Name = "Name";
 		public const string BaseUrl = "BaseUrl";
 		public const string RowVersion = "RowVersion";
+		public const string CreatedUtc = "CreatedUtc";
+		public const string CreatedByUserId = "CreatedByUserId";
+		public const string ModifiedUtc = "ModifiedUtc";
+		public const string ModifiedByUserId = "ModifiedByUserId";
+		public const string DeletedUtc = "DeletedUtc";
+		public const string DeletedByUserId = "DeletedByUserId";
+		public const string ExtAuthId = "ExtAuthId";
+		public const string ExtClientId = "ExtClientId";
 	}
 
 	#endregion

@@ -1,6 +1,3 @@
-//------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 3/1/2026 10:25 PM. Any changes made to it will be lost.
-//------------------------------------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +10,8 @@ using Dyvenix.App1.App.Api.Entities;
 using Dyvenix.App1.Common.Shared.Exceptions;
 using Dyvenix.App1.App.Shared.Contracts.v1;
 using Dyvenix.App1.App.Shared.Requests.v1;
+using Dyvenix.App1.Common.Shared.Extensions;
+using Dyvenix.App1.Common.Shared.DTOs;
 using Dyvenix.App1.Common.Shared.Requests;
 
 namespace Dyvenix.App1.App.Api.Services.v1;
@@ -30,7 +29,7 @@ public partial class ClientService : IClientService
 
 	#region Delete
 
-	public async Task Delete(Guid id)
+	public async Task DeleteClient(Guid id)
 	{
 		var rowsAffected = await _db.Client.Where(a => a.Id == id).ExecuteDeleteAsync();
 
@@ -42,7 +41,7 @@ public partial class ClientService : IClientService
 
 	#region Update
 
-	public async Task<byte[]> Create(CreateReq request)
+	public async Task<byte[]> CreateClient(CreateClientReq request)
 	{
 		ArgumentNullException.ThrowIfNull(request);
 
@@ -65,11 +64,65 @@ public partial class ClientService : IClientService
 		}
 	}
 
+	public async Task<byte[]> UpdateClient(UpdateClientReq request)
+	{
+		ArgumentNullException.ThrowIfNull(request);
+
+		try {
+			var client = new Client {
+				Id = request.Id,
+				RowVersion = request.RowVersion,
+				Name = request.Name,
+				BaseUrl = request.BaseUrl,
+				Key = request.Key,
+			};
+
+			_db.Attach(client);
+			_db.Entry(client).Property(u => u.Name).IsModified = true;
+			_db.Entry(client).Property(u => u.BaseUrl).IsModified = true;
+			_db.Entry(client).Property(u => u.Key).IsModified = true;
+			_db.Entry(client).Property(u => u.RowVersion).IsModified = true;
+
+			await _db.SaveChangesAsync();
+
+			return client.RowVersion;
+
+		} catch (DbUpdateConcurrencyException) {
+			throw new ConcurrencyException("The item was modified or deleted by another user.");
+		}
+	}
+
+	public async Task<byte[]> UpdateClientBaseUrl(UpdateClientBaseUrlReq request)
+	{
+		ArgumentNullException.ThrowIfNull(request);
+
+		try {
+			var client = new Client {
+				Id = request.Id,
+				RowVersion = request.RowVersion,
+				BaseUrl = request.BaseUrl,
+				Key = request.Key,
+			};
+
+			_db.Attach(client);
+			_db.Entry(client).Property(u => u.BaseUrl).IsModified = true;
+			_db.Entry(client).Property(u => u.Key).IsModified = true;
+			_db.Entry(client).Property(u => u.RowVersion).IsModified = true;
+
+			await _db.SaveChangesAsync();
+
+			return client.RowVersion;
+
+		} catch (DbUpdateConcurrencyException) {
+			throw new ConcurrencyException("The item was modified or deleted by another user.");
+		}
+	}
+
 	#endregion
 	
 	#region Read - Single
 	
-	public async Task<ClientDto> GetById(Guid id)
+	public async Task<ClientDto> GetClientById(Guid id)
 	{
 		var dbQuery = _db.Client.AsNoTracking();
 	
@@ -79,12 +132,15 @@ public partial class ClientService : IClientService
 			e.Id,
 			e.Key,
 			e.Name,
-			e.BaseUrl
+			e.BaseUrl,
+			e.ExtAuthId,
+			e.ExtClientId,
+			e.RowVersion
 		))
 		.SingleOrDefaultAsync();
 	}
 	
-	public async Task<ClientDto> GetByKey(string key)
+	public async Task<ClientDto> GetClientByKey(string key)
 	{
 		var dbQuery = _db.Client.AsNoTracking();
 	
@@ -95,7 +151,10 @@ public partial class ClientService : IClientService
 			e.Id,
 			e.Key,
 			e.Name,
-			e.BaseUrl
+			e.BaseUrl,
+			e.ExtAuthId,
+			e.ExtClientId,
+			e.RowVersion
 		))
 		.SingleOrDefaultAsync();
 	}
@@ -104,7 +163,7 @@ public partial class ClientService : IClientService
 	
 	#region Read - List
 	
-	public async Task<IReadOnlyList<ClientOptionDto>> GetAllClientOptions(GetAllClientOptionsReq request)
+	public async Task<IReadOnlyList<ClientLookupDto>> GetAllClientLookupItems(GetAllClientLookupItemsReq request)
 	{
 		var dbQuery = _db.Client.AsNoTracking();
 	
@@ -112,7 +171,7 @@ public partial class ClientService : IClientService
 		if (!string.IsNullOrWhiteSpace(request.SortBy))
 			dbQuery = this.AddSorting(ref dbQuery, request);
 	
-		return await dbQuery.Select(e => new ClientOptionDto(
+		return await dbQuery.Select(e => new ClientLookupDto(
 			e.Id,
 			e.Key,
 			e.Name
@@ -120,16 +179,74 @@ public partial class ClientService : IClientService
 		.ToListAsync();
 	}
 	
-	public async Task<IReadOnlyList<ClientRouteDto>> GetAllRoutes()
+	public async Task<IReadOnlyList<ClientRouteDto>> GetAllClientRoutes()
 	{
 		var dbQuery = _db.Client.AsNoTracking();
 	
 		return await dbQuery.Select(e => new ClientRouteDto(
 			e.Id,
-			e.Key,
-			e.BaseUrl
+			e.BaseUrl,
+			e.Key
 		))
 		.ToListAsync();
+	}
+	
+	public async Task<IReadOnlyList<ClientDto>> GetAllClients(GetAllClientsReq request)
+	{
+		var dbQuery = _db.Client.AsNoTracking();
+	
+		// Sorting
+		if (!string.IsNullOrWhiteSpace(request.SortBy))
+			dbQuery = this.AddSorting(ref dbQuery, request);
+	
+		return await dbQuery.Select(e => new ClientDto(
+			e.Id,
+			e.Key,
+			e.Name,
+			e.BaseUrl,
+			e.ExtAuthId,
+			e.ExtClientId,
+			e.RowVersion
+		))
+		.ToListAsync();
+	}
+	
+	public async Task<ListPage<ClientLookupDto>> SearchClientsByName(SearchClientsByNameReq request)
+	{
+		var dbQuery = _db.Client.AsNoTracking();
+	
+		if (!string.IsNullOrWhiteSpace(request.Name))
+			dbQuery = dbQuery.Where(x => x.Name == request.Name);
+	
+		var listPage = new ListPage<ClientLookupDto>();
+	
+		// Count (if requested)
+		if (request.RecalcRowCount || request.GetRowCountOnly)
+		{
+			listPage.TotalRowCount = await dbQuery.CountAsync();
+			if (request.GetRowCountOnly)
+				return listPage;
+		}
+		else if (!request.RecalcRowCount && !request.GetRowCountOnly)
+		{
+			listPage.TotalRowCount = -1;  // Make it clear that row count was not calculated
+		}
+	
+		// Sorting
+		if (!string.IsNullOrWhiteSpace(request.SortBy))
+			dbQuery = this.AddSorting(ref dbQuery, request);
+	
+		if (request.PageSize > 0)
+			dbQuery = dbQuery.Skip(request.PageOffset * request.PageSize).Take(request.PageSize);
+	
+		listPage.Items = await dbQuery.Select(e => new ClientLookupDto(
+			e.Id,
+			e.Key,
+			e.Name
+		))
+		.ToListAsync();
+	
+		return listPage;
 	}
 	
 	#endregion
@@ -165,6 +282,54 @@ public partial class ClientService : IClientService
 				return dbQuery.OrderByDescending(x => x.RowVersion);
 			else
 				return dbQuery.OrderBy(x => x.RowVersion);
+	
+		if (string.Equals(sortingRequest.SortBy, Client.PropNames.CreatedUtc, StringComparison.OrdinalIgnoreCase))
+			if (sortingRequest.SortDesc)
+				return dbQuery.OrderByDescending(x => x.CreatedUtc);
+			else
+				return dbQuery.OrderBy(x => x.CreatedUtc);
+	
+		if (string.Equals(sortingRequest.SortBy, Client.PropNames.CreatedByUserId, StringComparison.OrdinalIgnoreCase))
+			if (sortingRequest.SortDesc)
+				return dbQuery.OrderByDescending(x => x.CreatedByUserId);
+			else
+				return dbQuery.OrderBy(x => x.CreatedByUserId);
+	
+		if (string.Equals(sortingRequest.SortBy, Client.PropNames.ModifiedUtc, StringComparison.OrdinalIgnoreCase))
+			if (sortingRequest.SortDesc)
+				return dbQuery.OrderByDescending(x => x.ModifiedUtc);
+			else
+				return dbQuery.OrderBy(x => x.ModifiedUtc);
+	
+		if (string.Equals(sortingRequest.SortBy, Client.PropNames.ModifiedByUserId, StringComparison.OrdinalIgnoreCase))
+			if (sortingRequest.SortDesc)
+				return dbQuery.OrderByDescending(x => x.ModifiedByUserId);
+			else
+				return dbQuery.OrderBy(x => x.ModifiedByUserId);
+	
+		if (string.Equals(sortingRequest.SortBy, Client.PropNames.DeletedUtc, StringComparison.OrdinalIgnoreCase))
+			if (sortingRequest.SortDesc)
+				return dbQuery.OrderByDescending(x => x.DeletedUtc);
+			else
+				return dbQuery.OrderBy(x => x.DeletedUtc);
+	
+		if (string.Equals(sortingRequest.SortBy, Client.PropNames.DeletedByUserId, StringComparison.OrdinalIgnoreCase))
+			if (sortingRequest.SortDesc)
+				return dbQuery.OrderByDescending(x => x.DeletedByUserId);
+			else
+				return dbQuery.OrderBy(x => x.DeletedByUserId);
+	
+		if (string.Equals(sortingRequest.SortBy, Client.PropNames.ExtAuthId, StringComparison.OrdinalIgnoreCase))
+			if (sortingRequest.SortDesc)
+				return dbQuery.OrderByDescending(x => x.ExtAuthId);
+			else
+				return dbQuery.OrderBy(x => x.ExtAuthId);
+	
+		if (string.Equals(sortingRequest.SortBy, Client.PropNames.ExtClientId, StringComparison.OrdinalIgnoreCase))
+			if (sortingRequest.SortDesc)
+				return dbQuery.OrderByDescending(x => x.ExtClientId);
+			else
+				return dbQuery.OrderBy(x => x.ExtClientId);
 		return dbQuery;
 	}
 	

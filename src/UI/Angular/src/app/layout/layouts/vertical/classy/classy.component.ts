@@ -46,6 +46,7 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy {
     isScreenSmall: boolean;
     navigation: Navigation;
     user: User;
+    clientImage: string;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -79,10 +80,21 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
+        // Derive client image from the first subdomain segment
+        const hostname = window.location.hostname;
+        const subdomain = hostname.split('.')[0];
+        this.clientImage = `images/clients/${subdomain}.png`;
+
         // Subscribe to navigation data
+        const sysadminItemIds = ['sysadmin', 'security'];
         this._navigationService.navigation$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((navigation: Navigation) => {
+                if (subdomain === 'sysadmin') {
+                    navigation.default = navigation.default.filter(item => sysadminItemIds.includes(item.id));
+                } else {
+                    navigation.default = navigation.default.filter(item => !sysadminItemIds.includes(item.id));
+                }
                 this.navigation = navigation;
             });
 

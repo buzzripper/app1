@@ -1,34 +1,74 @@
 {
 	"ClientList": [
 		{
-			"Id": "daaa12ac-4929-43ec-aeb9-8c95bdaca1f9",
-			"Key": "aROihEB4AaPFP",
-			"Name": "KIOnI5tHzlh4qaz7Lsh7eCbqghhzd",
-			"BaseUrl": "WlISMOkl95DrDbmoBFCyxxRnhGxhBY4DHBvTRsXtBhhcLkIp33P4LCwyDvKfqdUlb9UcPDGjRj7ppOM68hoHi92ee7pwRRcxw6bMAFJzwGmBFgiYSOhiZncbgP7SokCagJ3tNaFCHYkMXBJ7YANcJ4Ij4aFVI1kmelu5nYlSiPKacAnOf93XGzAmbTyNET4QO8HLgOU9p434tHhDW0QI7wPPVh3DAI"
+			"Id": "a7f203dd-0e12-4826-a239-75a30245af3c",
+			"Key": "KbofYBElNOkXIZMS1VtcUaHh",
+			"Name": "68XTFpO6GPRZYywXvgmsZCWd0sjiQTJEgO2DQCiyG1ck4",
+			"BaseUrl": "w6pz4uZMDlT3ngFpXf",
+			"CreatedUtc": "2025-08-20T11:04:53.6382465-04:00",
+			"CreatedByUserId": "1c379124-c138-41dd-a7cd-d3c326d4629b",
+			"ModifiedUtc": "2025-07-15T11:04:53.6382465-04:00",
+			"ModifiedByUserId": "aae69761-738b-40f6-b51b-b26e476fc4c0",
+			"DeletedUtc": "2025-06-07T11:04:53.6382465-04:00",
+			"DeletedByUserId": "8b4ab887-3102-49c2-8dd8-52bb0633343b",
+			"ExtAuthId": "XV7AMj7oWmBtPkrcys6J5raMofRj3ZeiG5GdOdJK68ttYEzcBhhJjtdFUvlHBXu7hsWUNnxvTwN68RYUPORWSE9n1ass1ciiNwlFRPyoTW0XQgHdHB1WfIoMtJ2N5fERnEsLFsc9qDc6NlGUCpVAkvdfhImiXVtOsjKlY5Hoy2GLFs9hchkPteH1BnE7f4mEkxNE",
+			"ExtClientId": "6HRGbrZBJYJegPLNvoMSUKBKjEPbAhOEFRkN7Wcpc9OPxaYG3Hcz13KwfhxHMXaBjeIz"
 		},
 		{
-			"Id": "db967a3d-2d13-4b8d-83bc-53433c8a0a27",
-			"Key": "yU3wd3MIBp3I",
-			"Name": "FG3DM50NdvTrs208UqJRPEjzldKjsoteYdjooz1FRLuzkfVaWJR8t16awDsIuQ",
-			"BaseUrl": "cOCpSLTuyeaejUogsJxTHuU7gj2VhtkarFxFMFslZwKo020LomqUtKsR4FiJS8mf39XOxSEWrm4kUFgosqH5cAQQnPLgwTC1kEv1emoFSDCgQh7zz3qBBrdDtgAShxzIUcapkpjgcbnI7K9fRlRDCaA2B1H8VGxue4wNhSpjUkzzeEFSgub5P6fTMiXsRluFO2Ednv886HSrKaX7wZ1AEBPhZNb956CI03VmaCFVwc9inXjLu052t3bmm"
+			"Id": "c6274805-d05d-4004-95d7-415bc2b59635",
+			"Key": "8PIlxQV5VmiQii3foMMgYH0zF",
+			"Name": "o8nFsBzc52EoEmYAu5p1DPhw4C6sQAYjQUBWSp4QqgmaKaiAsxn4kOjJ01L0Fhv",
+			"BaseUrl": "vIUUbRebJKwChV4tF9",
+			"CreatedUtc": "2025-10-27T11:04:53.6382465-04:00",
+			"CreatedByUserId": null,
+			"ModifiedUtc": "2027-01-11T11:04:53.6382465-05:00",
+			"ModifiedByUserId": "2a5b8741-d328-46cd-be43-36bdfebdd454",
+			"DeletedUtc": null,
+			"DeletedByUserId": "fcddc799-d03a-407d-b594-ec7ad54f55c7",
+			"ExtAuthId": "61OdkjUS6pCxPqPi3LeXhTgRG9hdqjwGj2f0z7yALUkFB60TMeax7XVmV7HkcRBX35nXkZT5mNlwJKpKjxAlj8Iwh3eCAox3swMGSdJXveluLyMkS6aPrpO4x0PrUqF8qrem8T2gXM0eXoVTq4UEnSMdSRi1xsdfJmettzm8e31OzJh",
+			"ExtClientId": null
 		},
 		{
-			"Id": "d69e0994-d502-46b6-b3ff-fc6df3c0cdca",
-			"Key": "oKu9d9ekBQpL64tgeCC",
-			"Name": "4bEzPeaKo62J9Nn5Aw99ddwCvS3bInZITPCmg4u88E5FXQMtQyPRCD",
-			"BaseUrl": "Pbe6l9bbhtZtlbZGcbaIh0OPgKvkHigqmLHe0yX9C3yD1siPJjPBC4SYwyZLO1D9nIhJEUPOoagoCkXXBPLyCPXr3SRBIlvLAzqslJlYDamBYEvmKbj8pfGHUZPVcogcPEXd4FM2EW4CCwDyxF0Gcwvu3SHv3zWp4kWtQrrfzqDCldfywqyHxJ9siDkl7r9faPHrJjSfnVhV33jZNi8Mbo1ulDkmhgiiryBFFXYmIttMCnzpuvHYswdVXngg9F8"
+			"Id": "f6312695-08b7-4343-8ff1-8f6ed1fdfe20",
+			"Key": "6a0Gb",
+			"Name": "HPbEqKaTFJUEKjBz0RVzt07NiK9VArmIICGOs55ydkwfOfG9NGjiVLBRSxwQLosnwm6iNXg5Wwvi",
+			"BaseUrl": "9dd9h4ieX7aZ55JoWY2iSCiyv0zovypsm0ysNMhyfrz9hY1lvHKHqviG4PNrE3SzRSMfGqLkRDdAdjqH8o3XXSb0R1y88Z4mJ9rzmWOe6zZXsRDUygsp95L9RVxP2Nm1J11d21vmJY1x2nI9yNK1HOmNyrSAy9mtn7oBZA2GVfQldnhDnyrpduu4PoOKj4YJMIk49gj7UdgB8aJlkpmaS7p3NtWLWrw1rgJFdmDhotE9o25OOCA4RX1PsqqQtIlDRpk2B",
+			"CreatedUtc": "2025-05-10T11:04:53.6382465-04:00",
+			"CreatedByUserId": null,
+			"ModifiedUtc": "2027-02-16T11:04:53.6382465-05:00",
+			"ModifiedByUserId": "3c559321-8f41-4272-9aa2-7b536cb24d51",
+			"DeletedUtc": null,
+			"DeletedByUserId": "62520497-a9e0-4bda-a6f4-ced1a98be868",
+			"ExtAuthId": "DqPVxi7t0CjDo3nW6XXQias8RdmJuDiLbCmbLFslK2MofRNH0va8sgqC8Qdu5x8xtHBWRlkAFLfpyd3az",
+			"ExtClientId": "8Ckt5lTd5C7qm3p5Hp1ZOlKDRaad4Wd4qOa4joFK7ip8Hu3wihvUIZeX2QM5kQjizdaH3uWtUr1G5L6wgO5WBswAKmcCMKzr9hJDuvCYvcaq7H1qUqYGVwQgRJ7QsuQj2KHYcCbUmgAzsfDcuV"
 		},
 		{
-			"Id": "fe423600-9cdf-45d1-8a11-bfeb950fb7ae",
-			"Key": "N8EEBNt",
-			"Name": "tWdS5p27d42VIt05uQSsQSndul9DT4YRbREFsvZIvjdeMmJtiJkV4akLIaxUqyoiglT1YuM80k7GPjAiLPvjU",
-			"BaseUrl": null
+			"Id": "84bf04e3-44f5-4a05-9260-b4675782bc5c",
+			"Key": "wV3GMADWUyVFbv0yxadorodtO5rYLg5vGMuy",
+			"Name": "d4xJQqwALzeBRfbrHAiRJ2QjOlOCz8zaCzufPOL7Q3cGnx4a3e9lmRzkno4EM4aMad9rV5L3ZkaQ0k5rrNIu9nYVaj1BTguW2z",
+			"BaseUrl": "yMo8DgwcQSudsNn8vPNWpnqMdjjSZnXAOV3OzK131VerZYig",
+			"CreatedUtc": "2026-12-28T11:04:53.6382465-05:00",
+			"CreatedByUserId": "87cb11ba-ac19-4565-abc3-2414fc770784",
+			"ModifiedUtc": "2026-02-01T11:04:53.6382465-05:00",
+			"ModifiedByUserId": null,
+			"DeletedUtc": "2026-09-12T11:04:53.6382465-04:00",
+			"DeletedByUserId": "7c0c335a-b107-42be-831f-1d4db5b3b55a",
+			"ExtAuthId": "wM4t6NmC53yGUIJVYT4Dj8Xpac0DWLN51",
+			"ExtClientId": "WQH6oJLw5AMwuWPydZBaxZOs4XTPtqDPaqWeqWP3HM1YyQFQhnKfAS57bocB0"
 		},
 		{
-			"Id": "3d1472fe-f430-4e5a-903f-7cbef059bb1a",
-			"Key": "bG27s8fr6547BDSEY6l4UdN6zJoiKdexdySu5wua",
-			"Name": "2aLUl8P3kGmJib836IST6Q30G4dUyIBMkk2cblnKJoAG1Y5wUA9YLqYlhVnq54FLfKy8j52VuikR",
-			"BaseUrl": null
+			"Id": "51de0d1c-bc05-4969-a3ee-725e10406d5e",
+			"Key": "dP76ve9KhqjHDU703orcIgPxosuZdbUodLJm1CuBQGfu53o",
+			"Name": "9lvYkXx6aJRcTkHfF5",
+			"BaseUrl": "lV8B3ZwcauBvej02Q6eqnMmsUrSG9aZazw8om34uBv6Phw8JtPzJ1mOJIQQMhZdaFB5SlLPWcTZ2QGkysimtKpjnRzPGmsnLs5kQAqyS9MGhxW2cFst8MTzpsSaV6iJUGnKUwE8cUEt7TbZ5GNb48o8IF4xRqMV1cWKkmiPaurnizBGq3fpshPVrobpBgqViSC56AOTy7aKRb0jdyhYkwDTxbt6k2n4dFfz6GJZow1uheeqx1lc9CLVpSH5hSIFTgGl5AnGY",
+			"CreatedUtc": "2025-10-16T11:04:53.6382465-04:00",
+			"CreatedByUserId": "5aa7ff31-f98a-4502-bdbc-d6b7349dc6b9",
+			"ModifiedUtc": "2026-10-31T11:04:53.6382465-04:00",
+			"ModifiedByUserId": "0bd7fd29-8df4-4e63-b97b-b93c5a675fac",
+			"DeletedUtc": null,
+			"DeletedByUserId": "3e67eaeb-1ed0-485d-8a84-df3e21c5103b",
+			"ExtAuthId": "6cItRl4L3ukn9ORGYvKbH2u7OOoR2Xpggo8ekpYIl5rLp9HkJd9kHLVdSKOc6m",
+			"ExtClientId": "edhVPNvJHbZLLTRPhdiZX"
 		}
 	]
 }

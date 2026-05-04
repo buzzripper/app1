@@ -1,6 +1,3 @@
-//------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 3/1/2026 10:25 PM. Any changes made to it will be lost.
-//------------------------------------------------------------------------------------------------------------
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using Dyvenix.App1.App.Api.Context;

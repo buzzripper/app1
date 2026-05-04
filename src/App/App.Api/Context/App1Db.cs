@@ -1,8 +1,5 @@
-//------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 3/1/2026 10:25 PM. Any changes made to it will be lost.
-//------------------------------------------------------------------------------------------------------------
-using Microsoft.EntityFrameworkCore;
 using Dyvenix.App1.App.Api.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Dyvenix.App1.App.Api.Context;
 
@@ -15,11 +12,11 @@ public partial class App1Db : DbContext
 	{
 	}
 
-	# region Properties
+	#region Properties
 
 	public DbSet<Client> Client { get; set; }
 
-	# endregion
+	#endregion
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
@@ -36,10 +33,25 @@ public partial class App1Db : DbContext
 			entity.Property(e => e.Key).IsRequired().HasMaxLength(50);
 			entity.Property(e => e.Name).IsRequired().HasMaxLength(100);
 			entity.Property(e => e.BaseUrl).HasMaxLength(300);
+			entity.Property(e => e.ExtAuthId).IsRequired().HasMaxLength(200);
+			entity.Property(e => e.ExtClientId).HasMaxLength(200);
+
+			// Auditing
+			entity.Property(e => e.CreatedUtc).IsRequired();
+			entity.Property(e => e.CreatedByUserId);
+			entity.Property(e => e.ModifiedUtc).IsRequired();
+			entity.Property(e => e.ModifiedByUserId);
+
+			// Soft delete
+			modelBuilder.Entity<Client>().HasQueryFilter(x => x.DeletedUtc == null);
+			entity.Property(e => e.DeletedUtc);
+			entity.Property(e => e.DeletedByUserId);
 
 			entity.HasIndex(e => e.Id, "IX_Client_Id").IsUnique();
 			entity.HasIndex(e => e.Key, "IX_Client_Key").IsUnique();
 			entity.HasIndex(e => e.Name, "IX_Client_Name").IsUnique();
+			entity.HasIndex(e => e.ModifiedByUserId, "IX_Client_ModifiedByUserId");
+			entity.HasIndex(e => e.DeletedByUserId, "IX_Client_DeletedByUserId");
 		});
 
 		#endregion

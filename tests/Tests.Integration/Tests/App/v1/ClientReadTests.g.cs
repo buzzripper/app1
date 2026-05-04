@@ -1,6 +1,3 @@
-//------------------------------------------------------------------------------------------------------------
-// This file was auto-generated on 3/1/2026 10:25 PM. Any changes made to it will be lost.
-//------------------------------------------------------------------------------------------------------------
 using System;
 using System.Linq;
 using Dyvenix.App1.Common.Shared.Exceptions;
@@ -46,21 +43,21 @@ public class ClientReadTests : TestBase, IClassFixture<ClientReadTestFixture>
 	}
 
 	[Fact]
-	public async Task GetById_Success()
+	public async Task GetClientById_Success()
 	{
 		// Arrange
 		var clientSample = _db.Client.First();
 		var id = clientSample.Id;
 
 		// Act
-		var result = await _clientService.GetById(id);
+		var result = await _clientService.GetClientById(id);
 
 		// Assert
 		Assert.Equal(clientSample.Id, result.Id);
 	}
 
 	[Fact]
-	public async Task GetById_NotFound()
+	public async Task GetClientById_NotFound()
 	{
 		// Arrange
 		var clientSample = _db.Client.First();
@@ -68,28 +65,28 @@ public class ClientReadTests : TestBase, IClassFixture<ClientReadTestFixture>
 		var invalidId = Guid.NewGuid();
 
 		// Act
-		var result = await _clientService.GetById(invalidId);
+		var result = await _clientService.GetClientById(invalidId);
 
 		// Assert
 		Assert.Null(result);
 	}
 
 	[Fact]
-	public async Task GetByKey_Success()
+	public async Task GetClientByKey_Success()
 	{
 		// Arrange
 		var clientSample = _db.Client.First(x => !string.IsNullOrWhiteSpace(x.Key));
 		var key = clientSample.Key;
 
 		// Act
-		var result = await _clientService.GetByKey(key);
+		var result = await _clientService.GetClientByKey(key);
 
 		// Assert
 		Assert.Equal(clientSample.Id, result.Id);
 	}
 
 	[Fact]
-	public async Task GetByKey_NotFound()
+	public async Task GetClientByKey_NotFound()
 	{
 		// Arrange
 		var clientSample = _db.Client.First(x => !string.IsNullOrWhiteSpace(x.Key));
@@ -97,42 +94,42 @@ public class ClientReadTests : TestBase, IClassFixture<ClientReadTestFixture>
 		var invalidKey = "__invalid__";
 
 		// Act
-		var result = await _clientService.GetByKey(invalidKey);
+		var result = await _clientService.GetClientByKey(invalidKey);
 
 		// Assert
 		Assert.Null(result);
 	}
 
 	[Fact]
-	public async Task GetAllClientOptions_Success()
+	public async Task GetAllClientLookupItems_Success()
 	{
 		// Arrange
 		var clientSample = _db.Client.First();
-		var request = new GetAllClientOptionsReq();
+		var request = new GetAllClientLookupItemsReq();
 		var expectedList = _db.Client.ToList();
 
 		// Act
-		var result = await _clientService.GetAllClientOptions(request);
+		var result = await _clientService.GetAllClientLookupItems(request);
 
 		// Assert
 		Assert.Equal(expectedList.Count, result.Count);
 	}
 
 	[Fact]
-	public async Task GetAllClientOptions_SortingSuccess()
+	public async Task GetAllClientLookupItems_SortingSuccess()
 	{
 		// Arrange
 		var clientSample = _db.Client.First();
-		var request = new GetAllClientOptionsReq();
+		var request = new GetAllClientLookupItemsReq();
 		request.SortBy = Client.PropNames.Key;
 		var expectedAsc = _db.Client.ToList().OrderBy(x => x.Key).ToList();
 		var expectedDesc = _db.Client.ToList().OrderByDescending(x => x.Key).ToList();
 
 		// Act
 		request.SortDesc = false;
-		var ascResult = await _clientService.GetAllClientOptions(request);
+		var ascResult = await _clientService.GetAllClientLookupItems(request);
 		request.SortDesc = true;
-		var descResult = await _clientService.GetAllClientOptions(request);
+		var descResult = await _clientService.GetAllClientLookupItems(request);
 
 		// Assert
 		Assert.Equal(expectedAsc.Select(x => x.Id), ascResult.Select(x => x.Id));
@@ -140,16 +137,153 @@ public class ClientReadTests : TestBase, IClassFixture<ClientReadTestFixture>
 	}
 
 	[Fact]
-	public async Task GetAllRoutes_Success()
+	public async Task GetAllClientRoutes_Success()
 	{
 		// Arrange
 		var clientSample = _db.Client.First();
 		var expectedList = _db.Client.ToList();
 
 		// Act
-		var result = await _clientService.GetAllRoutes();
+		var result = await _clientService.GetAllClientRoutes();
 
 		// Assert
 		Assert.Equal(expectedList.Count, result.Count);
+	}
+
+	[Fact]
+	public async Task GetAllClients_Success()
+	{
+		// Arrange
+		var clientSample = _db.Client.First();
+		var request = new GetAllClientsReq();
+		var expectedList = _db.Client.ToList();
+
+		// Act
+		var result = await _clientService.GetAllClients(request);
+
+		// Assert
+		Assert.Equal(expectedList.Count, result.Count);
+	}
+
+	[Fact]
+	public async Task GetAllClients_SortingSuccess()
+	{
+		// Arrange
+		var clientSample = _db.Client.First();
+		var request = new GetAllClientsReq();
+		request.SortBy = Client.PropNames.Key;
+		var expectedAsc = _db.Client.ToList().OrderBy(x => x.Key).ToList();
+		var expectedDesc = _db.Client.ToList().OrderByDescending(x => x.Key).ToList();
+
+		// Act
+		request.SortDesc = false;
+		var ascResult = await _clientService.GetAllClients(request);
+		request.SortDesc = true;
+		var descResult = await _clientService.GetAllClients(request);
+
+		// Assert
+		Assert.Equal(expectedAsc.Select(x => x.Id), ascResult.Select(x => x.Id));
+		Assert.Equal(expectedDesc.Select(x => x.Id), descResult.Select(x => x.Id));
+	}
+
+	[Fact]
+	public async Task SearchClientsByName_Success()
+	{
+		// Arrange
+		var clientSample = _db.Client.First(x => !string.IsNullOrWhiteSpace(x.Name));
+		var name = clientSample.Name;
+		var request = new SearchClientsByNameReq();
+		request.PageSize = 0;
+		request.PageOffset = 0;
+		request.RecalcRowCount = true;
+		request.GetRowCountOnly = false;
+		request.Name = name;
+		var expectedList = _db.Client.Where(x => x.Name == name).ToList();
+
+		// Act
+		var result = await _clientService.SearchClientsByName(request);
+
+		// Assert
+		Assert.Equal(expectedList.Count, result.Items.Count);
+		Assert.Equal(expectedList.Count, result.TotalRowCount);
+	}
+
+	[Fact]
+	public async Task SearchClientsByName_NoResults()
+	{
+		// Arrange
+		var clientSample = _db.Client.First(x => !string.IsNullOrWhiteSpace(x.Name));
+		var name = clientSample.Name;
+		var invalidName = "__invalid__";
+		var request = new SearchClientsByNameReq();
+		request.PageSize = 0;
+		request.PageOffset = 0;
+		request.RecalcRowCount = true;
+		request.GetRowCountOnly = false;
+		request.Name = invalidName;
+
+		// Act
+		var result = await _clientService.SearchClientsByName(request);
+
+		// Assert
+		Assert.Empty(result.Items);
+	}
+
+	[Fact]
+	public async Task SearchClientsByName_PagingSuccess()
+	{
+		// Arrange
+		var clientSample = _db.Client.First(x => !string.IsNullOrWhiteSpace(x.Name));
+		var name = clientSample.Name;
+		var request = new SearchClientsByNameReq();
+		request.Name = name;
+		request.PageSize = 3;
+		request.RecalcRowCount = true;
+		request.GetRowCountOnly = false;
+		var expectedList = _db.Client.Where(x => x.Name == name).ToList();
+		var totalCount = expectedList.Count;
+		var lastPgOffset = totalCount == 0 ? 0 : totalCount / request.PageSize;
+		if (totalCount % request.PageSize == 0 && totalCount > 0)
+			lastPgOffset -= 1;
+		var lastPgSize = totalCount == 0 ? 0 : totalCount - (lastPgOffset * request.PageSize);
+
+		// Act
+		request.PageOffset = 0;
+		var firstPgList = await _clientService.SearchClientsByName(request);
+		request.PageOffset = lastPgOffset;
+		var lastPgList = await _clientService.SearchClientsByName(request);
+
+		// Assert
+		Assert.True(totalCount == firstPgList.TotalRowCount, $"First total count s/b {totalCount} but was {firstPgList.TotalRowCount}");
+		Assert.True(request.PageSize == firstPgList.Items.Count, $"First page size s/b {request.PageSize} but was {firstPgList.Items.Count}");
+		Assert.True(totalCount == lastPgList.TotalRowCount, $"Last total count s/b {totalCount} but was {lastPgList.TotalRowCount}");
+		Assert.True(lastPgSize == lastPgList.Items.Count, $"Last page size s/b {lastPgSize} but was {lastPgList.Items.Count}");
+	}
+
+	[Fact]
+	public async Task SearchClientsByName_SortingSuccess()
+	{
+		// Arrange
+		var clientSample = _db.Client.First(x => !string.IsNullOrWhiteSpace(x.Name));
+		var name = clientSample.Name;
+		var request = new SearchClientsByNameReq();
+		request.PageSize = 0;
+		request.PageOffset = 0;
+		request.RecalcRowCount = true;
+		request.GetRowCountOnly = false;
+		request.Name = name;
+		request.SortBy = Client.PropNames.Key;
+		var expectedAsc = _db.Client.Where(x => x.Name == name).ToList().OrderBy(x => x.Key).ToList();
+		var expectedDesc = _db.Client.Where(x => x.Name == name).ToList().OrderByDescending(x => x.Key).ToList();
+
+		// Act
+		request.SortDesc = false;
+		var ascResult = await _clientService.SearchClientsByName(request);
+		request.SortDesc = true;
+		var descResult = await _clientService.SearchClientsByName(request);
+
+		// Assert
+		Assert.Equal(expectedAsc.Select(x => x.Id), ascResult.Items.Select(x => x.Id));
+		Assert.Equal(expectedDesc.Select(x => x.Id), descResult.Items.Select(x => x.Id));
 	}
 }

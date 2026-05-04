@@ -1,4 +1,6 @@
 using Dyvenix.App1.Auth.Shared.ApiClients;
+using Dyvenix.App1.Auth.Shared.ApiClients.v1;
+using Dyvenix.App1.Auth.Shared.Contracts.v1;
 using Dyvenix.App1.Common.Shared.Config;
 using Dyvenix.App1.Common.Shared.Contracts;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,8 +28,17 @@ public static partial class AuthSharedServiceCollExt
                 client.BaseAddress = new Uri(baseUrl);
             });
 
+            services.AddHttpContextAccessor();
+            services.AddTransient<TenantApiBearerTokenHandler>();
+
             // Add code-generated services
             AddGeneratedServices(services);
+
+            services.AddHttpClient<ITenantService, TenantApiClient>(client =>
+            {
+                client.BaseAddress = new Uri(baseUrl);
+            })
+            .AddHttpMessageHandler<TenantApiBearerTokenHandler>();
         }
 
         return services;

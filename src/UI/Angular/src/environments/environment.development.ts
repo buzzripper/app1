@@ -10,5 +10,6 @@ function getBffBaseUrl(): string {
 
 export const environment = {
     production: false,
-    apiBaseUrl: getBffBaseUrl()
+    apiBaseUrl: getBffBaseUrl(),
+    authApiBaseUrl: 'https://localhost:44395'
 };

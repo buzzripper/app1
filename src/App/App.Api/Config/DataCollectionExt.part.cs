@@ -1,12 +1,12 @@
-using Dyvenix.App1.App.Api.Context;
-using Microsoft.Extensions.DependencyInjection;
+//using Dyvenix.App1.App.Api.Context;
+//using Microsoft.Extensions.DependencyInjection;
 
-namespace Dyvenix.App1.App.Api.Config;
+//namespace Dyvenix.App1.App.Api.Config;
 
-public static partial class DataCollectionExt
-{
-    static partial void AddDbServices(IServiceCollection services)
-    {
-        services.AddScoped<App1Db>();
-    }
-}
+//public static partial class DataCollectionExt
+//{
+//    static partial void AddDbServices(IServiceCollection services)
+//    {
+//        services.AddScoped<App1Db>();
+//    }
+//}

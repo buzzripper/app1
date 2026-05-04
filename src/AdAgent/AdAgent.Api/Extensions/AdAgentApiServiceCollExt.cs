@@ -1,7 +1,7 @@
 using Dyvenix.App1.AdAgent.Api.Config;
-using Dyvenix.App1.AdAgent.Api.Endpoints;
-using Dyvenix.App1.App.Api.Services;
-using Dyvenix.App1.Common.Shared.Contracts;
+using Dyvenix.App1.AdAgent.Api.Endpoints.v1;
+using Dyvenix.App1.AdAgent.Api.Services;
+using Dyvenix.App1.Common.Api.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,58 +11,58 @@ namespace Dyvenix.App1.AdAgent.Api.Extensions;
 
 public static partial class AdAgentApiServiceCollExt
 {
-    // Declaration of partial methods for code-generated services
-    public static partial void AddGeneratedServices(IServiceCollection services);
-    public static partial void MapGeneratedEndpoints(IEndpointRouteBuilder app);
+	// Declaration of partial methods for code-generated services
+	public static partial void AddGeneratedServices(IServiceCollection services);
+	public static partial void MapGeneratedEndpoints(IEndpointRouteBuilder app);
 
-    /// <summary>
-    /// Registers App API services.
-    /// Call this when hosting App services (standalone or in-process).
-    /// </summary>
-    public static IServiceCollection AddAdAgentApiServices(this IServiceCollection services, AdAgentConfig adAgentConfig)
-    {
-        // Register business logic services
-        services.AddScoped<ISystemService, AdAgentSystemService>();
-        services.AddScoped<IConfigRepository, ConfigRepository>();
-        services.AddSingleton(adAgentConfig);
+	/// <summary>
+	/// Registers App API services.
+	/// Call this when hosting App services (standalone or in-process).
+	/// </summary>
+	public static IServiceCollection AddAdAgentApiServices(this IServiceCollection services, AdAgentConfig adAgentConfig)
+	{
+		services.AddCurrentUserServices();
+		services.AddOpenApi();
+		services.AddHealthChecks()
+			.AddCheck<HealthService>("AD Agent Service Health");
 
-        // Add code-generated services
-        AddGeneratedServices(services);
+		// Register business logic services
+		services.AddScoped<IConfigRepository, ConfigRepository>();
+		services.AddSingleton(adAgentConfig);
 
-        // Add OpenAPI support
-        services.AddOpenApi();
+		// Add code-generated services
+		AddGeneratedServices(services);
 
-        return services;
-    }
+		return services;
+	}
 
-    /// <summary> 
-    /// Maps endpoints
-    /// </summary>
-    public static IEndpointRouteBuilder MapEndpoints(this IEndpointRouteBuilder app)
-    {
-        app.MapAdAgentSystemEndpoints();
+	/// <summary> 
+	/// Maps endpoints
+	/// </summary>
+	public static IEndpointRouteBuilder MapEndpoints(this IEndpointRouteBuilder app)
+	{
+		app.MapAdEndpoints();
+		MapGeneratedEndpoints(app);
 
-        MapGeneratedEndpoints(app);
+		return app;
+	}
 
-        return app;
-    }
+	/// <summary> 
+	/// Maps OpenAPI and Scalar API documentation endpoints for Auth API.
+	/// Call this in development or when you want to expose API documentation.
+	/// </summary>
+	public static IEndpointRouteBuilder MapAdAgentApiDocumentation(this IEndpointRouteBuilder app)
+	{
+		app.MapOpenApi();
+		app.MapScalarApiReference(options =>
+		{
+			options
+				.WithTitle("Auth API")
+				.WithTheme(ScalarTheme.DeepSpace);
+		});
 
-    /// <summary> 
-    /// Maps OpenAPI and Scalar API documentation endpoints for Auth API.
-    /// Call this in development or when you want to expose API documentation.
-    /// </summary>
-    public static IEndpointRouteBuilder MapAdAgentApiDocumentation(this IEndpointRouteBuilder app)
-    {
-        app.MapOpenApi();
-        app.MapScalarApiReference(options =>
-        {
-            options
-                .WithTitle("Auth API")
-                .WithTheme(ScalarTheme.DeepSpace);
-        });
-
-        return app;
-    }
+		return app;
+	}
 
 
 }

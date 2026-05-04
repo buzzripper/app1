@@ -11,10 +11,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Config\**" />
 	  <Compile Remove="Entities\**" />
 	  <Compile Remove="Migrations\**" />
+	  <EmbeddedResource Remove="Config\**" />
 	  <EmbeddedResource Remove="Entities\**" />
 	  <EmbeddedResource Remove="Migrations\**" />
+	  <None Remove="Config\**" />
 	  <None Remove="Entities\**" />
 	  <None Remove="Migrations\**" />
 	</ItemGroup>
@@ -36,10 +39,6 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\Common\Common.Api\Common.Api.csproj" />
 		<ProjectReference Include="..\Integration.Shared\Integration.Shared.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Folder Include="Config\" />
 	</ItemGroup>
 
 </Project>

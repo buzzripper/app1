@@ -1,0 +1,16 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+        "name": "Angular: Chrome SSL",
+        "type": "chrome",
+        "request": "launch",
+        "url": "https://localhost:4202",
+        "webRoot": "${workspaceFolder}",
+        // "preLaunchTask": "ng serve ssl",
+        "runtimeArgs": [
+            "--user-data-dir=D:\\OneDrive\\Chrome Profiles\\Dev"
+        ]
+    }
+  ]
+}

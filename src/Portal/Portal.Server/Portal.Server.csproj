@@ -13,14 +13,14 @@
 	<!-- Define constants for external service mode -->
 	<PropertyGroup>
 		<!-- Uncomment the lines below to run in external mode -->
-		 <!--<DefineConstants>$(DefineConstants);AUTH_INPROCESS</DefineConstants>--> 
-		 <!--<DefineConstants>$(DefineConstants);APP_INPROCESS</DefineConstants>--> 
+		<!--<DefineConstants>$(DefineConstants);AUTH_INPROCESS</DefineConstants>-->
+		<DefineConstants>$(DefineConstants);APP_INPROCESS</DefineConstants>
 	</PropertyGroup>
 	<ItemGroup>
-	  <Compile Remove="Pages\**" />
-	  <Content Remove="Pages\**" />
-	  <EmbeddedResource Remove="Pages\**" />
-	  <None Remove="Pages\**" />
+		<Compile Remove="Pages\**" />
+		<Content Remove="Pages\**" />
+		<EmbeddedResource Remove="Pages\**" />
+		<None Remove="Pages\**" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -34,10 +34,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\App\App.Server\App.Server.csproj" Condition="$(DefineConstants.Contains('APP_INPROCESS'))" />
-	  <ProjectReference Include="..\..\Auth\Auth.Server\Auth.Server.csproj" Condition="$(DefineConstants.Contains('AUTH_INPROCESS'))" />
-	  <ProjectReference Include="..\..\Common\Common.Api\Common.Api.csproj" />
-	  <ProjectReference Include="..\..\Common\Common.Shared\Common.Shared.csproj" />
+		<!--<ProjectReference Include="..\..\App\App.Server\App.Server.csproj" Condition="$(DefineConstants.Contains('APP_INPROCESS'))" />-->
+		<ProjectReference Include="..\..\App\App.Api\App.Api.csproj" Condition="$(DefineConstants.Contains('APP_INPROCESS'))" />
+		<ProjectReference Include="..\..\Auth\Auth.Server\Auth.Server.csproj" Condition="$(DefineConstants.Contains('AUTH_INPROCESS'))" />
+		<ProjectReference Include="..\..\Common\Common.Api\Common.Api.csproj" />
+		<ProjectReference Include="..\..\Common\Common.Shared\Common.Shared.csproj" />
 	</ItemGroup>
 
 </Project>

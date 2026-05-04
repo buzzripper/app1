@@ -58,7 +58,7 @@ public class ExternalLoginCallbackModel(
         logger.LogInformation("ExternalLoginSignInAsync result: Succeeded={S}, IsLockedOut={L}, IsNotAllowed={N}",
             signInResult.Succeeded, signInResult.IsLockedOut, signInResult.IsNotAllowed);
 
-        // No linked account � create a new user for this tenant.
+        // No linked account — create a new user for this tenant.
         // Entra CIAM may use "preferred_username" or "emails" instead of "email".
         var email = info.Principal.FindFirstValue("email")
             ?? info.Principal.FindFirstValue(ClaimTypes.Email)
@@ -88,6 +88,27 @@ public class ExternalLoginCallbackModel(
         var createResult = await userManager.CreateAsync(user);
         if (!createResult.Succeeded)
         {
+            // If the only failure is a duplicate username, the user already exists — just link
+            // the external login to the existing account and sign in.
+            var duplicateUserName = createResult.Errors.All(e => e.Code == "DuplicateUserName");
+            if (duplicateUserName)
+            {
+                var existingUser = await userManager.FindByEmailAsync(email);
+                if (existingUser is not null)
+                {
+                    var linkLoginResult = await userManager.AddLoginAsync(existingUser, info);
+                    if (linkLoginResult.Succeeded)
+                    {
+                        await signInManager.SignInAsync(existingUser, isPersistent: false);
+                        logger.LogInformation("Linked external login and signed in existing user {Email} via {Provider}.",
+                            email, info.LoginProvider);
+                        return LocalRedirect(returnUrl);
+                    }
+                    logger.LogError("Failed to link external login to existing user: {Errors}",
+                        string.Join(", ", linkLoginResult.Errors.Select(e => e.Description)));
+                }
+            }
+
             logger.LogError("Failed to create user: {Errors}",
                 string.Join(", ", createResult.Errors.Select(e => e.Description)));
             return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
