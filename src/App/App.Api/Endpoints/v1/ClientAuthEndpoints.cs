@@ -1,5 +1,4 @@
 using Dyvenix.App1.App.Api.Contracts.v1;
-using Dyvenix.App1.App.Shared.Authorization;
 using Dyvenix.App1.Auth.Shared.DTOs;
 using Dyvenix.App1.Auth.Shared.Requests.v1;
 using Dyvenix.App1.Common.Shared.DTOs;
@@ -20,31 +19,25 @@ public static class ClientAuthEndpoints
 
 		group.MapGet("GetTenantById/{id}", GetTenantById)
 			.Produces<TenantDto>(StatusCodes.Status200OK)
-			.Produces(StatusCodes.Status404NotFound)
-			.RequireAuthorization(AppPermissions.Read);
+			.Produces(StatusCodes.Status404NotFound);
 
 		group.MapGet("GetTenantBySlug/{slug}", GetTenantBySlug)
 			.Produces<TenantDto>(StatusCodes.Status200OK)
-			.Produces(StatusCodes.Status404NotFound)
-			.RequireAuthorization(AppPermissions.Read);
+			.Produces(StatusCodes.Status404NotFound);
 
 		group.MapGet("GetAllTenants", GetAllTenants)
-			.Produces<IReadOnlyList<TenantDto>>(StatusCodes.Status200OK)
-			.RequireAuthorization(AppPermissions.Read);
+			.Produces<IReadOnlyList<TenantDto>>(StatusCodes.Status200OK);
 
 		group.MapPost("CreateTenant", CreateTenant)
-			.Produces<Guid>(StatusCodes.Status200OK)
-			.RequireAuthorization(AppPermissions.Write);
+			.Produces<Guid>(StatusCodes.Status200OK);
 
 		group.MapPut("UpdateTenant", UpdateTenant)
 			.Produces(StatusCodes.Status200OK)
-			.Produces(StatusCodes.Status404NotFound)
-			.RequireAuthorization(AppPermissions.Write);
+			.Produces(StatusCodes.Status404NotFound);
 
 		group.MapDelete("DeleteTenant", DeleteTenant)
 			.Produces(StatusCodes.Status200OK)
-			.Produces(StatusCodes.Status404NotFound)
-			.RequireAuthorization(AppPermissions.Admin);
+			.Produces(StatusCodes.Status404NotFound);
 
 		return app;
 	}
