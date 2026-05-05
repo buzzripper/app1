@@ -8,29 +8,25 @@ public class UserController : ControllerBase
 {
 	[HttpGet]
 	[AllowAnonymous]
-	public IActionResult GetCurrentUser() => Ok(CreateUserInfo(User));
+	public IActionResult GetCurrentUser() => Ok(BuildDto(User));
 
-	private static UserInfo CreateUserInfo(ClaimsPrincipal claimsPrincipal)
+	private static LoggedInUserDto BuildDto(ClaimsPrincipal principal)
 	{
-		if (claimsPrincipal == null || claimsPrincipal.Identity == null || !claimsPrincipal.Identity.IsAuthenticated)
-			return UserInfo.Anonymous;
+		if (principal?.Identity?.IsAuthenticated != true)
+			return LoggedInUserDto.Anonymous;
 
-		var userInfo = new UserInfo { IsAuthenticated = true };
+		var tenantIdStr = principal.FindFirstValue("tenant_id");
+		var tenantId = Guid.TryParse(tenantIdStr, out var parsed) ? parsed : (Guid?)null;
 
-		if (claimsPrincipal.Identity is ClaimsIdentity claimsIdentity)
+		return new LoggedInUserDto
 		{
-			userInfo.NameClaimType = claimsIdentity.NameClaimType;
-			userInfo.RoleClaimType = claimsIdentity.RoleClaimType;
-		}
-		else
-		{
-			userInfo.NameClaimType = ClaimTypes.Name;
-			userInfo.RoleClaimType = ClaimTypes.Role;
-		}
-
-		if (claimsPrincipal.Claims?.Any() ?? false)
-			userInfo.Claims = claimsPrincipal.Claims.Select(u => new ClaimValue(u.Type, u.Value)).ToList();
-
-		return userInfo;
+			IsAuthenticated = true,
+			UserId = principal.FindFirstValue("sub") ?? string.Empty,
+			UserName = principal.FindFirstValue("name") ?? string.Empty,
+			Email = principal.FindFirstValue("email") ?? string.Empty,
+			TenantId = tenantId,
+			Roles = principal.FindAll("role").Select(c => c.Value).ToList(),
+			Permissions = principal.FindAll("perm").Select(c => c.Value).ToList(),
+		};
 	}
 }

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Dyvenix.App1.Auth.Shared.Authorization;
 using Dyvenix.App1.Auth.Shared.Contracts.v1;
 using Dyvenix.App1.Auth.Shared.DTOs;
 using Dyvenix.App1.Auth.Shared.Requests.v1;
@@ -18,26 +19,32 @@ public static class ScopeEndpoints
 
         group.MapGet("GetById/{id}", GetById)
             .Produces<ScopeDto>(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status404NotFound);
+            .Produces(StatusCodes.Status404NotFound)
+            .RequireAuthorization(AuthPermissions.Read);
 
         group.MapGet("GetByName/{name}", GetByName)
             .Produces<ScopeDto>(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status404NotFound);
+            .Produces(StatusCodes.Status404NotFound)
+            .RequireAuthorization(AuthPermissions.Read);
 
         group.MapGet("GetAll", GetAll)
-            .Produces<IReadOnlyList<ScopeDto>>(StatusCodes.Status200OK);
+            .Produces<IReadOnlyList<ScopeDto>>(StatusCodes.Status200OK)
+            .RequireAuthorization(AuthPermissions.Read);
 
         group.MapPost("Create", Create)
             .Produces<string>(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status400BadRequest);
+            .Produces(StatusCodes.Status400BadRequest)
+            .RequireAuthorization(AuthPermissions.Write);
 
         group.MapPut("Update", Update)
             .Produces(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status404NotFound);
+            .Produces(StatusCodes.Status404NotFound)
+            .RequireAuthorization(AuthPermissions.Write);
 
         group.MapDelete("Delete/{id}", Delete)
             .Produces(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status404NotFound);
+            .Produces(StatusCodes.Status404NotFound)
+            .RequireAuthorization(AuthPermissions.Admin);
 
         return app;
     }
