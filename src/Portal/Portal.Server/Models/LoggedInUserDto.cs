@@ -8,7 +8,7 @@ public class LoggedInUserDto
 	public string UserId { get; set; } = string.Empty;
 	public string UserName { get; set; } = string.Empty;
 	public string Email { get; set; } = string.Empty;
-	public Guid TenantId { get; set; }
+	public Guid? TenantId { get; set; }
 	public IReadOnlyList<string> Roles { get; set; } = [];
 	public IReadOnlyList<string> Permissions { get; set; } = [];
 }

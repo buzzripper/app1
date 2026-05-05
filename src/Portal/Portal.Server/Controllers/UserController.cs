@@ -16,7 +16,7 @@ public class UserController : ControllerBase
 			return LoggedInUserDto.Anonymous;
 
 		var tenantIdStr = principal.FindFirstValue("tenant_id");
-		Guid.TryParse(tenantIdStr, out var tenantId);
+		var tenantId = Guid.TryParse(tenantIdStr, out var parsed) ? parsed : (Guid?)null;
 
 		return new LoggedInUserDto
 		{

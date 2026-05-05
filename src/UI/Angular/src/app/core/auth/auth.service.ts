@@ -9,7 +9,7 @@ interface UserProfile {
     userId: string;
     userName: string;
     email: string;
-    tenantId: string;
+    tenantId: string | null;
     roles: string[];
     permissions: string[];
 }
