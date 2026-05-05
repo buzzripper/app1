@@ -8,25 +8,29 @@ public class UserController : ControllerBase
 {
 	[HttpGet]
 	[AllowAnonymous]
-	public IActionResult GetCurrentUser() => Ok(BuildDto(User));
+	public IActionResult GetCurrentUser() => Ok(CreateUserInfo(User));
 
-	private static LoggedInUserDto BuildDto(ClaimsPrincipal principal)
+	private static UserInfo CreateUserInfo(ClaimsPrincipal claimsPrincipal)
 	{
-		if (principal?.Identity?.IsAuthenticated != true)
-			return LoggedInUserDto.Anonymous;
+		if (claimsPrincipal == null || claimsPrincipal.Identity == null || !claimsPrincipal.Identity.IsAuthenticated)
+			return UserInfo.Anonymous;
 
-		var tenantIdStr = principal.FindFirstValue("tenant_id");
-		var tenantId = Guid.TryParse(tenantIdStr, out var parsed) ? parsed : (Guid?)null;
+		var userInfo = new UserInfo { IsAuthenticated = true };
 
-		return new LoggedInUserDto
+		if (claimsPrincipal.Identity is ClaimsIdentity claimsIdentity)
 		{
-			IsAuthenticated = true,
-			UserId = principal.FindFirstValue("sub") ?? string.Empty,
-			UserName = principal.FindFirstValue("name") ?? string.Empty,
-			Email = principal.FindFirstValue("email") ?? string.Empty,
-			TenantId = tenantId,
-			Roles = principal.FindAll("role").Select(c => c.Value).ToList(),
-			Permissions = principal.FindAll("perm").Select(c => c.Value).ToList(),
-		};
+			userInfo.NameClaimType = claimsIdentity.NameClaimType;
+			userInfo.RoleClaimType = claimsIdentity.RoleClaimType;
+		}
+		else
+		{
+			userInfo.NameClaimType = ClaimTypes.Name;
+			userInfo.RoleClaimType = ClaimTypes.Role;
+		}
+
+		if (claimsPrincipal.Claims?.Any() ?? false)
+			userInfo.Claims = claimsPrincipal.Claims.Select(u => new ClaimValue(u.Type, u.Value)).ToList();
+
+		return userInfo;
 	}
 }
