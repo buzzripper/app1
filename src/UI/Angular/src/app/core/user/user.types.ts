@@ -4,4 +4,7 @@ export interface User {
     email: string;
     avatar?: string;
     status?: string;
+    tenantId?: string;
+    roles?: string[];
+    permissions?: string[];
 }

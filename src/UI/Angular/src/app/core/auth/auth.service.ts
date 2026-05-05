@@ -4,16 +4,14 @@ import { UserService } from 'app/core/user/user.service';
 import { catchError, Observable, of, map, BehaviorSubject, interval, shareReplay } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
-interface Claim {
-    type: string;
-    value: string;
-}
-
 interface UserProfile {
     isAuthenticated: boolean;
-    nameClaimType: string;
-    roleClaimType: string;
-    claims: Claim[];
+    userId: string;
+    userName: string;
+    email: string;
+    tenantId: string;
+    roles: string[];
+    permissions: string[];
 }
 
 @Injectable({ providedIn: 'root' })
@@ -92,22 +90,15 @@ export class AuthService {
                 this._authenticatedSubject.next(profile.isAuthenticated);
 
                 if (profile.isAuthenticated) {
-                    // Update user info...
-                    const userName = profile.claims?.find(
-                        c => c.type === profile.nameClaimType
-                    )?.value || 'User';
-
-                    const email = profile.claims?.find(
-                        c => c.type === 'email'
-                            || c.type === 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'
-                    )?.value || '';
-
                     this._userService.user = {
-                        id: email || userName,
-                        name: userName,
-                        email: email,
+                        id: profile.userId,
+                        name: profile.userName,
+                        email: profile.email,
                         avatar: 'assets/images/avatars/brian-hughes.jpg',
-                        status: 'online'
+                        status: 'online',
+                        tenantId: profile.tenantId,
+                        roles: profile.roles,
+                        permissions: profile.permissions,
                     };
                 } else {
                     this._userService.user = null;
