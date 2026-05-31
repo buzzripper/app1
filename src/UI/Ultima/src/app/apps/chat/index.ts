@@ -44,7 +44,7 @@ interface ChatRoom {
     messages: Message[];
 }
 
-interface CurrentUser {
+interface CurrentChatUser {
     id: string;
     name: string;
     avatar?: string;
@@ -127,7 +127,7 @@ interface Contact {
                 </div>
 
                 <div class="flex-1 flex relative overflow-hidden min-h-0">
-                    <app-chat-box [activeChat]="activeChat()" [currentUser]="currentUser()" (openUserProfileEvent)="openUserProfile($event)" (sendMessageEvent)="handleSendMessage($event)" />
+                    <app-chat-box [activeChat]="activeChat()" [currentChatUser]="currentChatUser()" (openUserProfileEvent)="openUserProfile($event)" (sendMessageEvent)="handleSendMessage($event)" />
 
                     <app-chat-sidebar
                         [showContactInfo]="showContactInfo"
@@ -149,7 +149,7 @@ export class Chat implements OnInit {
     @ViewChild('menu') menu!: Menu;
 
     chatRooms = signal<ChatRoom[]>([]);
-    currentUser = signal<CurrentUser>({ id: 'me', name: 'You' });
+    currentChatUser = signal<CurrentChatUser>({ id: 'me', name: 'You' });
     userData = signal<Record<number, SelectedUser>>({});
     activeChatId = signal<number | null>(1);
     showContactInfo = false;
@@ -194,7 +194,7 @@ export class Chat implements OnInit {
         const response = await fetch('/demo/data/chatData.json');
         const data = await response.json();
         this.chatRooms.set(data.chatRooms);
-        this.currentUser.set(data.currentUser);
+        this.currentChatUser.set(data.currentUser);
         this.userData.set(data.userData);
     }
 

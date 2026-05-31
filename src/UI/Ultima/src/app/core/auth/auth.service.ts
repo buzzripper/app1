@@ -1,20 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject, signal } from '@angular/core';
 import { UserService } from '@/app/core/user/user.service';
+import { LoggedInUserDto } from '@/app/core/user/user.types';
 import { catchError, interval, map, Observable, of, shareReplay, tap } from 'rxjs';
 import { environment } from '@/environments/environment';
-
-interface Claim {
-    type: string;
-    value: string;
-}
-
-interface UserProfile {
-    isAuthenticated: boolean;
-    nameClaimType: string;
-    roleClaimType: string;
-    claims: Claim[];
-}
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -64,10 +53,10 @@ export class AuthService {
     forceRefresh(): Observable<boolean> {
         this.lastCheckTime = Date.now();
 
-        this.authCheckCache$ = this.httpClient.get<UserProfile>(`${this.apiBaseUrl}/api/User`).pipe(
-            tap((profile) => {
-                this.authenticatedState.set(profile.isAuthenticated);
-                this.userService.setUser(profile.isAuthenticated ? this.mapUser(profile) : null);
+        this.authCheckCache$ = this.httpClient.get<LoggedInUserDto>(`${this.apiBaseUrl}/api/User`).pipe(
+            tap((loggedInUserDto) => {
+                this.authenticatedState.set(loggedInUserDto.isAuthenticated);
+                this.userService.setUser(loggedInUserDto.isAuthenticated ? loggedInUserDto : null);
             }),
             map((profile) => profile.isAuthenticated),
             catchError(() => {
@@ -81,20 +70,20 @@ export class AuthService {
         return this.authCheckCache$;
     }
 
-    private mapUser(profile: UserProfile) {
-        const name = profile.claims?.find((claim) => claim.type === profile.nameClaimType)?.value || 'User';
-        const email =
-            profile.claims?.find(
-                (claim) =>
-                    claim.type === 'email' || claim.type === 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'
-            )?.value || '';
+    //private mapUser(loggedInUser: LoggedInUserDto): User {
+    //    const name = loggedInUser.claims?.find((claim) => claim.type === loggedInUser.nameClaimType)?.value || 'User';
+    //    const email =
+    //        loggedInUser.claims?.find(
+    //            (claim) =>
+    //                claim.type === 'email' || claim.type === 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'
+    //        )?.value || '';
 
-        return {
-            id: email || name,
-            name,
-            email,
-            avatar: '/demo/images/avatar/amyelsner.png',
-            status: 'Authenticated'
-        };
-    }
+    //    return {
+    //        id: email || name,
+    //        name,
+    //        email,
+    //        avatar: '/demo/images/avatar/amyelsner.png',
+    //        status: 'Authenticated'
+    //    };
+    //}
 }

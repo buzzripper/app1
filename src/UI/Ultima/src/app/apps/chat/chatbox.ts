@@ -40,7 +40,7 @@ interface ChatRoom {
     messages: Message[];
 }
 
-interface CurrentUser {
+interface CurrentChatUser {
     id: string;
     name: string;
     avatar?: string;
@@ -118,7 +118,7 @@ interface CurrentUser {
 })
 export class ChatBox implements AfterViewChecked {
     @Input() activeChat: ChatRoom | null = null;
-    @Input() currentUser: CurrentUser = { id: 'me', name: 'You' };
+    @Input() currentChatUser: CurrentChatUser = { id: 'me', name: 'You' };
     @Output() openUserProfileEvent = new EventEmitter<string | number>();
     @Output() sendMessageEvent = new EventEmitter<Message>();
 
@@ -145,8 +145,8 @@ export class ChatBox implements AfterViewChecked {
 
         const message: Message = {
             id: Date.now(),
-            senderId: this.currentUser.id,
-            senderName: this.currentUser.name,
+            senderId: this.currentChatUser.id,
+            senderName: this.currentChatUser.name,
             content: this.newMessage().trim(),
             timestamp: new Date().toISOString(),
             time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),

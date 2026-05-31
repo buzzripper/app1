@@ -307,5 +307,28 @@
         </dtoModels>
       </entityModel>
     </modelRootHasTypes>
+    <modelRootHasTypes Id="324d2f19-237f-4304-84e6-53013fad3c37">
+      <entityModel Id="4533b807-c09b-46c3-81d0-a4cff93c8928" name="AppUser" auditable="false" inclRowVersion="true" module="App" enabled="false" inclAngDtos="true" softDelete="false">
+        <properties>
+          <propertyModel Id="97eed0c0-0799-4e8b-8dd0-cb1c2fdfc746" name="Id" description="Primary key" dataType="Guid" isPrimaryKey="true" isIndexed="true" isIndexUnique="true" isForeignKey="false" isAuditable="false" isSoftDelete="false" />
+          <propertyModel Id="fde6a84a-b4e7-4a38-8f68-eae5305dd3d2" name="ExtId" length="100" isIndexed="true" isForeignKey="false" displayOrder="1" isAuditable="false" isSoftDelete="false" />
+          <propertyModel Id="37060113-7b51-4dfd-b38d-12717ef6d144" name="DisplayName" length="200" isIndexed="true" isForeignKey="false" displayOrder="2" isAuditable="false" isSoftDelete="false" />
+          <propertyModel Id="b4d60b06-bba0-4a1a-a389-d93f3c750f2d" name="RowVersion" description="Concurrency token for optimistic locking" dataType="ByteArray" isForeignKey="false" isRowVersion="true" isAuditable="false" isSoftDelete="false" />
+          <propertyModel Id="36df086a-e87d-4db2-9889-579b360f7cd8" name="FirstName" length="100" isForeignKey="false" displayOrder="3" isAuditable="false" isSoftDelete="false" />
+          <propertyModel Id="a3129505-e28b-4191-ae8d-e85ffbbbc1b5" name="LastName" length="100" isIndexed="true" isForeignKey="false" displayOrder="4" isAuditable="false" isSoftDelete="false" />
+          <propertyModel Id="e1e6b44b-f22a-40bb-b3b1-bb740c8d6962" name="JobTitle" length="100" isForeignKey="false" displayOrder="7" isAuditable="false" isSoftDelete="false" />
+          <propertyModel Id="eb5f06df-cbb3-483a-8442-71288342e83f" name="PreferredLanguage" length="100" isForeignKey="false" displayOrder="8" isAuditable="false" isSoftDelete="false" />
+          <propertyModel Id="2a16ab61-a3e7-44fb-b776-9c988c751bdb" name="TimeZone" length="100" isIndexed="true" isForeignKey="false" displayOrder="9" isAuditable="false" isSoftDelete="false" />
+          <propertyModel Id="2910090d-8905-4748-a7b0-6bc14df90c4e" name="PhoneNumber" length="50" isForeignKey="false" displayOrder="6" isAuditable="false" isSoftDelete="false" />
+        </properties>
+      </entityModel>
+    </modelRootHasTypes>
+    <modelRootHasTypes Id="b560aebd-3988-452a-bb7f-7d4fe5e8b5db">
+      <entityModel Id="6142f47a-c4e3-4772-a57e-e247561fa5b6" name="EntityModel1" auditable="false" inclRowVersion="false" enabled="false" inclAngDtos="false" softDelete="false">
+        <properties>
+          <propertyModel Id="d7cff9e9-4a24-406d-b218-3caeade65cdf" name="Id" description="Primary key" dataType="Guid" isPrimaryKey="true" isIndexed="true" isIndexUnique="true" isForeignKey="false" isAuditable="false" isSoftDelete="false" />
+        </properties>
+      </entityModel>
+    </modelRootHasTypes>
   </types>
 </modelRoot>
