@@ -6,13 +6,10 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<UserSecretsId>aspire-apphost-app1</UserSecretsId>
+		<Configurations>Debug;Release;Debug-Local</Configurations>
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\AdAgent\AdAgent.Server\AdAgent.Server.csproj" />
-	  <ProjectReference Include="..\..\App\App.Server\App.Server.csproj" />
-	  <ProjectReference Include="..\..\Auth\Auth.Server\Auth.Server.csproj" />
-	  <ProjectReference Include="..\..\Integration\Integration.Server\Integration.Server.csproj" />
 	  <ProjectReference Include="..\..\Portal\Portal.Server\Portal.Server.csproj" />
 	</ItemGroup>
 

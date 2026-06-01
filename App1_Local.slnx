@@ -1,5 +1,6 @@
 <Solution>
   <Configurations>
+    <BuildType Name="Debug-Local" />
     <Platform Name="Any CPU" />
     <Platform Name="x64" />
     <Platform Name="x86" />
@@ -12,6 +13,14 @@
     <File Path="docs/AuthTest.gmdl.diagram" />
     <File Path="docs/AzureDeploymentGuide.md" />
   </Folder>
+  <Folder Name="/ext/">
+    <Project Path="../app1-common/src/Common.Api/Common.Api.csproj" />
+    <Project Path="../app1-common/src/Common.Data/Common.Data.csproj">
+      <BuildType Project="Debug" />
+    </Project>
+    <Project Path="../app1-common/src/Common.Shared/Common.Shared.csproj" />
+    <Project Path="../dyvenix-core/src/Dyvenix.Core/Dyvenix.Core.csproj" />
+  </Folder>
   <Folder Name="/scripts/">
     <File Path="scripts/App1_InsertData.sql" />
     <File Path="scripts/App1_Working1.sql" />
@@ -23,7 +32,6 @@
   <Folder Name="/src/" />
   <Folder Name="/src/App/">
     <Project Path="src/App/App.Api/App.Api.csproj" />
-    <Project Path="src/App/App.Server/App.Server.csproj" />
     <Project Path="src/App/App.Shared/App.Shared.csproj" />
   </Folder>
   <Folder Name="/src/Aspire/">
@@ -38,19 +46,20 @@
   <Folder Name="/src/UI/">
     <Project Path="src/UI/Ultima/Ultima.esproj">
       <Platform Project="AnyCPU" />
-      <Build />
+      <Build Solution="*|x64" />
+      <Build Solution="*|x86" />
       <Deploy />
     </Project>
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/Tests.Common/Tests.Common.csproj">
-      <Build Solution="Debug|Any CPU" Project="false" />
+      <Build Solution="*|Any CPU" Project="false" />
     </Project>
     <Project Path="tests/Tests.Integration/Tests.Integration.csproj">
-      <Build Solution="Debug|Any CPU" Project="false" />
+      <Build Solution="*|Any CPU" Project="false" />
     </Project>
     <Project Path="tests/Tests.Unit/Tests.Unit.csproj" Id="77c35258-707f-4b22-a708-b6f4d788c639">
-      <Build Solution="Debug|Any CPU" Project="false" />
+      <Build Solution="*|Any CPU" Project="false" />
     </Project>
   </Folder>
 </Solution>

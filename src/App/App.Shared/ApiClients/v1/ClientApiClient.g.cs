@@ -1,9 +1,9 @@
-using Dyvenix.App1.Common.Shared.ApiClients;
 using Dyvenix.App1.Common.Shared.Requests;
 using Dyvenix.App1.App.Shared.Contracts.v1;
 using Dyvenix.App1.App.Shared.Requests.v1;
-using Dyvenix.App1.Common.Shared.DTOs;
 using Dyvenix.App1.App.Shared.Dtos;
+using Dyvenix.Core.ApiClients;
+using Dyvenix.Core.DTOs;
 
 namespace Dyvenix.App1.App.Shared.ApiClients.v1;
 

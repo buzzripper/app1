@@ -8,11 +8,11 @@ using Dyvenix.App1.App.Api.Services.v1;
 using Dyvenix.App1.Common.Api.Extensions;
 using Dyvenix.App1.Common.Api.Filters;
 using Dyvenix.App1.Common.Shared.Requests;
-using Dyvenix.App1.Common.Shared.DTOs;
 using Dyvenix.App1.App.Shared.Contracts.v1;
 using Dyvenix.App1.App.Shared.Authorization;
 using Dyvenix.App1.App.Shared.Dtos;
 using Dyvenix.App1.App.Shared.Requests.v1;
+using Dyvenix.Core.DTOs;
 
 namespace Dyvenix.App1.App.Endpoints.v1;
 

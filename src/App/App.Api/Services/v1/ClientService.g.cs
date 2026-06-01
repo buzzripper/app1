@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 using Dyvenix.App1.App.Api.Context;
 using Dyvenix.App1.App.Shared.Dtos;
 using Dyvenix.App1.App.Api.Entities;
-using Dyvenix.App1.Common.Shared.Exceptions;
+using Dyvenix.Core.Exceptions;
 using Dyvenix.App1.App.Shared.Contracts.v1;
 using Dyvenix.App1.App.Shared.Requests.v1;
 using Dyvenix.App1.Common.Shared.Extensions;
-using Dyvenix.App1.Common.Shared.DTOs;
+using Dyvenix.Core.DTOs;
 using Dyvenix.App1.Common.Shared.Requests;
 
 namespace Dyvenix.App1.App.Api.Services.v1;
