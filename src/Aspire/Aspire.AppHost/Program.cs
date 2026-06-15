@@ -4,8 +4,7 @@ var builder = DistributedApplication.CreateBuilder(args);
 //var authServer = builder.AddProject<Projects.Auth_Server>("auth-server");
 
 // App microservice  
-//var appServer = builder.AddProject<Projects.App_Server>("app-server")
-//	.WithReference(authServer);
+var appServer = builder.AddProject<Projects.App_Api>("app-server");
 
 // Portal BFF - references Auth, App, and AdAgent for service discovery
 var portalServer = builder.AddProject<Projects.Portal_Server>("portal-server");

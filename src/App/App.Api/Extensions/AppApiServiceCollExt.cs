@@ -1,4 +1,4 @@
-using Dyvenix.App1.Common.Api.Extensions.SvcCollExtensions;
+using Dyvenix.Core.Api.Extensions.SvcCollExtensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;

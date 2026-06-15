@@ -1,9 +1,7 @@
 using Dyvenix.App1.App.Api.Extensions;
-using Dyvenix.App1.App.Shared.Authorization;
-using Dyvenix.App1.Common.Api.Authorization;
-using Dyvenix.App1.Common.Api.Extensions.BuilderExtensions;
-using Dyvenix.App1.Common.Api.Extensions.SvcCollExtensions;
-using Dyvenix.App1.Common.Api.Extensions.WebAppExtensions;
+using Dyvenix.Core.Api.Extensions.BuilderExtensions;
+using Dyvenix.Core.Api.Extensions.SvcCollExtensions;
+using Dyvenix.Core.Api.Extensions.WebAppExtensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.OpenApi.Generated;
 using Microsoft.Extensions.DependencyInjection;
@@ -45,8 +43,8 @@ app.UseAuthorization();
 app.MapHealthEndpoints();
 
 // Register permissions for this service
-app.Services.GetRequiredService<PermissionRegistry>()
-	.Register(AppPermissions.Hierarchy);
+//app.Services.GetRequiredService<PermissionRegistry>()
+//	.Register(AppPermissions.Hierarchy);
 
 // Map endpoints for this service
 app.MapAppEndpoints();

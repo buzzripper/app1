@@ -1,10 +1,10 @@
 using App1.App1.Portal.Server;
 using App1.App1.Portal.Server.Services;
-using Dyvenix.App1.Common.Api.Extensions.BuilderExtensions;
-using Dyvenix.App1.Common.Api.Extensions.SvcCollExtensions;
-using Dyvenix.App1.Common.Api.Extensions.WebAppExtensions;
 using Dyvenix.App1.Portal.Server.Middleware;
 using Dyvenix.App1.Portal.Server.Services;
+using Dyvenix.Core.Api.Extensions.BuilderExtensions;
+using Dyvenix.Core.Api.Extensions.SvcCollExtensions;
+using Dyvenix.Core.Api.Extensions.WebAppExtensions;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Yarp.ReverseProxy.Configuration;
 using Yarp.ReverseProxy.Transforms;

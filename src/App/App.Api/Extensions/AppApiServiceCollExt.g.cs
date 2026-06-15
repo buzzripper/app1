@@ -1,7 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Routing;
-using Dyvenix.App1.Common.Api.Filters;
 using sv1 = Dyvenix.App1.App.Api.Services.v1;
 using cv1 = Dyvenix.App1.App.Shared.Contracts.v1;
 using Dyvenix.App1.App.Endpoints.v1;
@@ -14,7 +13,6 @@ public static partial class AppApiServiceCollExt
 	{
 		// ClientService
 		services.AddScoped<cv1.IClientService, sv1.ClientService>();
-		services.AddScoped<ApiExceptionFilter<sv1.ClientService>>();
 	}
 
 	static partial void MapGeneratedEndpoints(IEndpointRouteBuilder app)
