@@ -1,34 +1,29 @@
-#if AUTH_INPROCESS
-#endif
-#if APP_INPROCESS
-using Dyvenix.App1.App.Api.Extensions;
-#endif
 using App1.App1.Portal.Server;
-using App1.App1.Portal.Server.Interfaces;
 using App1.App1.Portal.Server.Services;
-using Dyvenix.App1.Common.Api.Extensions;
-using Dyvenix.App1.Common.Api.Filters;
-using Dyvenix.App1.Portal.Server.Logging;
 using Dyvenix.App1.Portal.Server.Middleware;
 using Dyvenix.App1.Portal.Server.Services;
+using Dyvenix.Core.Api.Extensions.BuilderExtensions;
+using Dyvenix.Core.Api.Extensions.SvcCollExtensions;
+using Dyvenix.Core.Api.Extensions.WebAppExtensions;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Yarp.ReverseProxy.Configuration;
 using Yarp.ReverseProxy.Transforms;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add Aspire service defaults (OpenTelemetry, health checks, service discovery, resilience)
-builder.AddServiceDefaults();
+builder.ConfigureOpenTelemetry();
 
 builder.WebHost.ConfigureKestrel(serverOptions =>
 {
 	serverOptions.AddServerHeader = false;
 });
 
-builder.Services.AddOpenApi();
-
 var services = builder.Services;
 var configuration = builder.Configuration;
+
+services.AddDefaultHealthChecks();
+services.AddOpenApi();
+services.AddServiceDiscovery();
 
 // Configure CORS for cross-origin Angular app
 var allowedOrigins = configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
@@ -57,9 +52,6 @@ services.AddAntiforgery(options =>
 	options.Cookie.SameSite = SameSiteMode.Lax;
 	options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
 });
-
-services.AddScoped<IPortalSystemService, PortalSystemService>();
-services.AddScoped<ApiExceptionFilter<PortalSystemService>>();
 
 services.AddHttpClient();
 services.AddOptions();
@@ -152,8 +144,6 @@ services.AddAuthentication(options =>
 });
 
 services.AddControllers();
-
-services.AddTransient<IPortalModuleLogger>(sp => new PortalModuleLogger(sp.GetRequiredService<ILoggerFactory>()));
 
 services.AddHealthChecks()
 	.AddCheck<HealthService>("Portal Service Health");
@@ -262,7 +252,7 @@ app.MapReverseProxy();
 app.MapNotFound("/api/{**segment}");
 
 // Map health check endpoints (in development only)
-app.MapDefaultEndpoints();
+app.MapHealthEndpoints();
 
 app.UseWhen(
 	ctx => ctx.Request.Path.StartsWithSegments("/api/auth")

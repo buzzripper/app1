@@ -5,14 +5,12 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Dyvenix.App1.App.Api.Entities;
 using Dyvenix.App1.App.Api.Services.v1;
-using Dyvenix.App1.Common.Api.Extensions;
-using Dyvenix.App1.Common.Api.Filters;
 using Dyvenix.App1.Common.Shared.Requests;
-using Dyvenix.App1.Common.Shared.DTOs;
 using Dyvenix.App1.App.Shared.Contracts.v1;
 using Dyvenix.App1.App.Shared.Authorization;
 using Dyvenix.App1.App.Shared.Dtos;
 using Dyvenix.App1.App.Shared.Requests.v1;
+using Dyvenix.Core.DTOs;
 
 namespace Dyvenix.App1.App.Endpoints.v1;
 
@@ -20,7 +18,7 @@ public static class ClientEndpoints
 {
 	public static IEndpointRouteBuilder MapClientEndpoints(this IEndpointRouteBuilder app)
 	{
-		var group = app.MapGroup("api/app/v1/client")
+		var group = app.MapGroup("api/v1/client")
 			.WithTags("Client");
 		
 		// Update

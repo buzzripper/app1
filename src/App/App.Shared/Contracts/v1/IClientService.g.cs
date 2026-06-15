@@ -4,12 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Dyvenix.App1.App.Shared.Dtos;
-using Dyvenix.App1.Common.Shared.Exceptions;
+using Dyvenix.Core.Exceptions;
 using Dyvenix.App1.App.Shared.Contracts.v1;
 using Dyvenix.App1.App.Shared.Requests.v1;
 using Dyvenix.App1.Common.Shared.Extensions;
-using Dyvenix.App1.Common.Shared.DTOs;
 using Dyvenix.App1.Common.Shared.Requests;
+using Dyvenix.Core.DTOs;
 
 namespace Dyvenix.App1.App.Shared.Contracts.v1;
 

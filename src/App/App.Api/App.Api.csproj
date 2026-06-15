@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>net10.0</TargetFramework>
@@ -6,28 +6,71 @@
 		<Nullable>disable</Nullable>
 		<AssemblyName>Dyvenix.App1.App.Api</AssemblyName>
 		<RootNamespace>Dyvenix.App1.App.Api</RootNamespace>
-		<Configurations>Debug;Release;Dbg-Ext</Configurations>
+		<Configurations>Debug;Release;Debug-Local</Configurations>
 		<UserSecretsId>ba532265-0b6a-444e-8fe2-306559de634a</UserSecretsId>
 	</PropertyGroup>
+
+	<!-- Make Debug-Local behave like a Debug build -->
+	<PropertyGroup Condition="'$(Configuration)' == 'Debug-Local'">
+		<DefineConstants>$(DefineConstants);DEBUG;TRACE</DefineConstants>
+		<Optimize>false</Optimize>
+		<DebugSymbols>true</DebugSymbols>
+		<DebugType>full</DebugType>
+	</PropertyGroup>
+
+	<!-- **************  START: Build configurations  **************** -->
+
+	<PropertyGroup>
+		<UseProjectRefs Condition="'$(Configuration)' == 'Debug-Local'">true</UseProjectRefs>
+		<UseProjectRefs Condition="'$(UseProjectRefs)' == ''">false</UseProjectRefs>
+		<OutputType>Exe</OutputType>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(UseProjectRefs)' == 'true'">
+		<ProjectReference Include="..\..\..\..\app1-common\src\Common.Shared\Common.Shared.csproj" />
+		<ProjectReference Include="..\..\..\..\app1-common\src\Common.Api\Common.Api.csproj" />
+		<ProjectReference Include="..\..\..\..\app1-common\src\Common.Data\Common.Data.csproj" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(UseProjectRefs)' == 'false'">
+		<PackageReference Include="Dyvenix.App1.Common.Shared" Version="1.0.6" />
+		<PackageReference Include="Dyvenix.App1.Common.Api" Version="1.0.6" />
+		<PackageReference Include="Dyvenix.App1.Common.Data" Version="1.0.6" />
+	</ItemGroup>
+
+	<!-- **************  END: Build configurations  **************** -->
+
+	<ItemGroup>
+	  <Content Include="appsettings.Development.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  </Content>
+	  <Content Include="appsettings.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  </Content>
+	</ItemGroup>
 
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Asp.Versioning.Mvc" Version="8.1.0" />
-		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.1" />
-		<PackageReference Include="Scalar.AspNetCore" Version="2.11.6" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.5" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.5" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.5" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.5" />
+		<PackageReference Include="Asp.Versioning.Mvc" Version="10.0.0" />
+		<PackageReference Include="Dyvenix.Core.Api" Version="1.0.4" />
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.9" />
+		<PackageReference Include="Scalar.AspNetCore" Version="2.16.3" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.9" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.9">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.9" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.9" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\Auth\Auth.Shared\Auth.Shared.csproj" />
-		<ProjectReference Include="..\..\Common\Common.Api\Common.Api.csproj" />
-		<ProjectReference Include="..\..\Common\Common.Data\Common.Data.csproj" />
 		<ProjectReference Include="..\App.Shared\App.Shared.csproj" />
 	</ItemGroup>
 
@@ -36,4 +79,11 @@
 		<Folder Include="Migrations\" />
 	</ItemGroup>
 
+	<ItemGroup>
+		<None Update="Properties\launchSettings.json">
+			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
+		</None>
+	</ItemGroup>
+	
 </Project>

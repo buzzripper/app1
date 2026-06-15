@@ -1,5 +1,4 @@
 using Microsoft.Extensions.DependencyInjection;
-using Dyvenix.App1.Common.Shared.ApiClients;
 using Dyvenix.App1.Common.Shared.Contracts;
 using Dyvenix.App1.App.Shared.ApiClients;
 using Dyvenix.App1.App.Shared.Contracts;
@@ -12,8 +11,6 @@ public static partial class AppSharedServiceCollExt
 {
 	static partial void AddGeneratedServices(IServiceCollection services)
 	{
-		services.AddHttpClient<ISystemService, AppSystemApiClient>();
-		
 		// ClientService
 		services.AddHttpClient<cv1.IClientService, sv1.ClientApiClient>();
 	}

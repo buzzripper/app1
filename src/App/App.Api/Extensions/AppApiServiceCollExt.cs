@@ -1,9 +1,4 @@
-using Dyvenix.App1.App.Api.Contracts.v1;
-using Dyvenix.App1.App.Api.Endpoints.v1;
-using Dyvenix.App1.App.Api.Services;
-using Dyvenix.App1.App.Api.Services.v1;
-using Dyvenix.App1.Auth.Shared.ApiClients.v1;
-using Dyvenix.App1.Common.Api.Extensions;
+using Dyvenix.Core.Api.Extensions.SvcCollExtensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
@@ -23,15 +18,9 @@ public static partial class AppApiServiceCollExt
 	/// Registers App API services.
 	/// Call this when hosting App services (standalone or in-process).
 	/// </summary>
-	public static IServiceCollection AddAppApiServices(this IServiceCollection services, IConfiguration configuration, bool isInProcess)
+	public static IServiceCollection AddAppApiServices(this IServiceCollection services, IConfiguration configuration)
 	{
 		services.AddCurrentUserServices();
-		services.AddHealthChecks()
-			.AddCheck<HealthService>("AD Agent Service Health");
-		if (!isInProcess)
-		{
-			services.AddOpenApi();
-		}
 
 		// Register business logic services
 
@@ -39,15 +28,15 @@ public static partial class AppApiServiceCollExt
 		AddGeneratedServices(services);
 		AddDataServices(services, configuration);
 
-		// ClientAuth proxy service (calls Auth.Api via TenantApiClient)
-		services.AddHttpContextAccessor();
-		services.AddTransient<TenantApiBearerTokenHandler>();
-		services.AddHttpClient<TenantApiClient>(client =>
-		{
-			client.BaseAddress = new Uri("https+http://auth-server");
-		})
-		.AddHttpMessageHandler<TenantApiBearerTokenHandler>();
-		services.AddScoped<IClientAuthService, ClientAuthService>();
+		//// ClientAuth proxy service (calls Auth.Api via TenantApiClient)
+		//services.AddHttpContextAccessor();
+		//services.AddTransient<TenantApiBearerTokenHandler>();
+		//services.AddHttpClient<TenantApiClient>(client =>
+		//{
+		//	client.BaseAddress = new Uri("https+http://auth-server");
+		//})
+		//.AddHttpMessageHandler<TenantApiBearerTokenHandler>();
+		//services.AddScoped<IClientAuthService, ClientAuthService>();
 
 		return services;
 	}
@@ -57,8 +46,6 @@ public static partial class AppApiServiceCollExt
 	/// </summary>
 	public static IEndpointRouteBuilder MapAppEndpoints(this IEndpointRouteBuilder app)
 	{
-		app.MapClientAuthEndpoints();
-
 		MapGeneratedEndpoints(app);
 
 		return app;

@@ -7,6 +7,7 @@
 		<AssemblyName>Dyvenix.App1.Tests.Common</AssemblyName>
 		<RootNamespace>Dyvenix.App1.Tests.Common</RootNamespace>
 		<IsTestProject>false</IsTestProject>
+		<Configurations>Debug;Release;Debug-Local</Configurations>
 	</PropertyGroup>
 
 </Project>
