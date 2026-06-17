@@ -10,8 +10,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\App\App.Api\App.Api.csproj" />
-	  <ProjectReference Include="..\..\Portal\Portal.Server\Portal.Server.csproj" />
+		<ProjectReference Include="..\..\App\App.Api\App.Api.csproj" />
+		<ProjectReference Include="..\..\Portal\Portal.Server\Portal.Server.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\..\dyvenix-auth\src\Auth\Auth.Server\Auth.Server.csproj" />
 	</ItemGroup>
 
 </Project>
