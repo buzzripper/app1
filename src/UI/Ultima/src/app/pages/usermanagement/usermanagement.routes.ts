@@ -1,12 +1,12 @@
-import { Routes } from '@angular/router';
-import { UserList } from './user-list';
-import { UserCreate } from './user-create';
-import { CreateLayout } from './create/create-layout';
-import { BasicInformation } from './create/basic-information';
-import { BusinessInformation } from './create/business-information';
-import { LocationInformation } from './create/location-information';
-import { Authorization } from './create/authorization';
-import { AccountStatus } from './create/account-status';
+﻿import { Routes } from '@angular/router';
+import { UserList } from './user-list/user-list';
+import { UserCreate } from './user-create/user-create';
+import { CreateLayout } from './create/create-layout/create-layout';
+import { BasicInformation } from './create/basic-information/basic-information';
+import { BusinessInformation } from './create/business-information/business-information';
+import { LocationInformation } from './create/location-information/location-information';
+import { Authorization } from './create/authorization/authorization';
+import { AccountStatus } from './create/account-status/account-status';
 
 export default [
     { path: 'list', component: UserList },

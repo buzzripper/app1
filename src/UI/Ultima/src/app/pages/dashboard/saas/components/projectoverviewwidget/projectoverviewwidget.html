@@ -1,0 +1,15 @@
+﻿<div class="card flex justify-between items-center">
+        <div class="p-2 h-full w-full flex flex-col justify-between">
+            <div class="flex items-center justify-between mb-4">
+                <span class="font-semibold text-lg text-surface-900 dark:text-surface-0">Projects Overview</span>
+                <div class="flex items-center gap-2">
+                    <button pButton pRipple label="Organize Teams" icon="pi pi-sliders-h" outlined></button>
+                    <button pButton pRipple label="New Project" icon="pi pi-plus-circle"></button>
+                </div>
+            </div>
+            <div class="grid grid-cols-12 gap-8">
+                <teams-widget [selectedTeam]="selectedTeam" (onTeamFilter)="teamFilter($event)" />
+                <saas-table-widget [filteredTeamMembers]="filteredTeamMembers" />
+            </div>
+        </div>
+    </div>

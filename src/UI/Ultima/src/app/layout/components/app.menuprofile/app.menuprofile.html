@@ -1,0 +1,37 @@
+﻿<button (click)="toggleMenu()" pTooltip="Profile" [tooltipDisabled]="isTooltipDisabled()" class="cursor-pointer">
+            <img [src]="user()?.avatar || '/demo/images/avatar/amyelsner.png'" alt="avatar" style="width: 32px; height: 32px;" />
+            <span class="text-start">
+                <strong>{{ user()?.name || 'Guest user' }}</strong>
+                <small>{{ user()?.email || 'Not signed in' }}</small>
+            </span>
+            <i class="layout-menu-profile-toggler pi pi-fw" [ngClass]="{ 'pi-angle-down': menuProfilePosition() === 'start' || isHorizontal(), 'pi-angle-up': menuProfilePosition() === 'end' && !isHorizontal() }"></i>
+        </button>
+
+        @if (menuProfileActive()) {
+            <ul [animate.enter]="'p-menuprofile-enter'" [animate.leave]="'p-menuprofile-leave'" [class.overlay-menu]="isHorizontal()">
+                <li pTooltip="Settings" [tooltipDisabled]="isTooltipDisabled()" [routerLink]="['/profile/create']">
+                    <button class="cursor-pointer" [routerLink]="['/documentation']">
+                        <i class="pi pi-cog pi-fw"></i>
+                        <span>Settings</span>
+                    </button>
+                </li>
+                <li pTooltip="Profile" [tooltipDisabled]="isTooltipDisabled()">
+                    <button class="cursor-pointer" [routerLink]="['/documentation']">
+                        <i class="pi pi-file-o pi-fw"></i>
+                        <span>Profile</span>
+                    </button>
+                </li>
+                <li pTooltip="Support" [tooltipDisabled]="isTooltipDisabled()">
+                    <button class="cursor-pointer" [routerLink]="['/documentation']">
+                        <i class="pi pi-compass pi-fw"></i>
+                        <span>Support</span>
+                    </button>
+                </li>
+                <li pTooltip="Logout" [tooltipDisabled]="isTooltipDisabled()">
+                    <button class="cursor-pointer p-link" (click)="signOut()">
+                        <i class="pi pi-power-off pi-fw"></i>
+                        <span>Logout</span>
+                    </button>
+                </li>
+            </ul>
+        }

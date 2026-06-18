@@ -1,0 +1,23 @@
+﻿@for (stat of stats; track stat.title; let i = $index) {
+        <div class="col-span-12 md:col-span-6 lg:col-span-3">
+            <div class="card flex flex-col">
+                <div class="flex items-center text-gray-700">
+                    <i [ngClass]="stat.icon" class="text-color"></i>
+                    <span class="font-semibold m-0 text-color pl-2">{{ stat.title }}</span>
+                    <div class="ml-auto">
+                        <button pButton pRipple icon="pi pi-ellipsis-h" rounded text (click)="toggleMenu($event, i)"></button>
+                        <p-menu #menu popup [model]="items"></p-menu>
+                    </div>
+                </div>
+                <div class="flex justify-between mt-4 flex-wrap">
+                    <div class="flex flex-col" style="width: 80px">
+                        <span class="mb-1 text-4xl">{{ stat.value }}</span>
+                        <span class="font-medium rounded-sm p-1 text-sm" [ngClass]="stat.colorClass">{{ stat.subValue }}</span>
+                    </div>
+                    <div class="flex items-end">
+                        <p-chart type="line" [data]="i === 0 ? overviewChartData1() : i === 1 ? overviewChartData2() : i === 2 ? overviewChartData3() : overviewChartData4()" [options]="chartOptions" height="60" width="160"> </p-chart>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }

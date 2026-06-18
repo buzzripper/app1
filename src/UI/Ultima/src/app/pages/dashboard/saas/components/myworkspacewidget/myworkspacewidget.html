@@ -1,0 +1,12 @@
+﻿<div class="card flex justify-between items-center">
+        <div class="p-2 h-full w-full flex flex-col justify-between">
+            <div class="flex items-center justify-between mb-4">
+                <span class="font-semibold text-lg text-surface-900 dark:text-surface-0">My Workspace</span>
+            </div>
+            <div class="grid grid-cols-12 gap-8">
+                <daily-task-widget [dailyTasks]="dailyTasks" />
+                <performance-widget />
+                <calendar-widget [dailyTasks]="dailyTasks" />
+            </div>
+        </div>
+    </div>

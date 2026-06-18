@@ -1,0 +1,8 @@
+<div class="card h-full">
+        <div class="flex items-center justify-between mb-4">
+            <span class="text-xl font-semibold m-0">Monthly Comparison</span>
+            <button pButton pRipple label="Vertical/Stacked Data" class="ml-auto" text (click)="changeMonthlyDataView()"></button>
+        </div>
+
+        <p-chart #monthlyChart type="bar" [data]="chartMonthlyData()" [options]="chartMonthlyOptions()" height="400" />
+    </div>

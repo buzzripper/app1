@@ -1,0 +1,39 @@
+﻿<div class="card h-full">
+        <div class="flex flex-col gap-4">
+            <div class="flex flex-col p-4 gap-4 w-full justify-between rounded-md">
+                <div class="flex justify-between items-center">
+                    <span class="text-xl font-semibold m-0">Ratings</span>
+                    <p-select-button [(ngModel)]="optionValue" [options]="stateOptions" optionLabel="label"></p-select-button>
+                </div>
+                <div>
+                    <p-chart type="line" [data]="expensesData()" [options]="expensesOptions()"></p-chart>
+                </div>
+            </div>
+            <div class="flex flex-col lg:flex-row gap-4 justify-between flex-1">
+                @for (rating of ratings; track rating.title) {
+                    <div class="flex flex-col p-4 w-full border border-surface rounded-xl gap-4">
+                        <div class="flex justify-between">
+                            <div class="flex flex-col gap-1">
+                                <span class="text-surface-900 dark:text-surface-0 text-4xl">{{ rating.value }}</span>
+                                <span class="text-surface-700 dark:text-surface-100">{{ rating.title }}</span>
+                            </div>
+                            <a [routerLink]="['/dashboard-analytics']">
+                                <i [ngClass]="[rating.icon, 'text-surface-900 dark:text-surface-0 text-2xl']"></i>
+                            </a>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            @for (item of rating.items; track item.title) {
+                                <div class="flex gap-2 p-2 bg-surface-0 dark:bg-surface-900 shadow-sm rounded-md">
+                                    <img [src]="item.image" class="w-8 h-8 rounded-full" />
+                                    <div class="flex flex-col gap-1">
+                                        <span class="text-sm font-medium text-surface-900 dark:text-surface-0">{{ item.title }}</span>
+                                        <span class="text-sm text-surface-900 dark:text-surface-0">{{ item.description }}</span>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>

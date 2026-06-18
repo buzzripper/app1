@@ -1,8 +1,7 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
 // Auth microservice
-//var authServer = builder.AddProject<Projects.Auth_Server>("auth-server");
-builder.AddProject<Projects.Auth_Server>("auth");
+//builder.AddProject<Projects.Auth_Server>("auth");
 
 // App microservice  
 var appServer = builder.AddProject<Projects.App_Api>("app-server");

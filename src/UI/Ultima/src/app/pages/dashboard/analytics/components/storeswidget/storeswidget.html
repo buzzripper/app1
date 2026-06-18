@@ -1,0 +1,63 @@
+﻿<div class="card grid grid-cols-12 gap-4 grid-nogutter flex-wrap">
+        <div class="lg:col-span-3 md:col-span-6 sm:col-span-12 col-span-12 p-0">
+            <div class="flex flex-col p-6">
+                <div class="text-muted-color mb-2">Store A Sales</div>
+                <div class="flex items-center mb-3">
+                    @if (storeADiff() !== 0) {
+                        <i class="font-bold text-2xl! pi pr-1" [ngClass]="{ 'pi-arrow-up text-green-500': storeADiff() > 0, 'pi-arrow-down text-red-500': storeADiff() < 0 }"></i>
+                    }
+                    <div class="text-2xl">{{ storeATotalValue() }}</div>
+                    @if (storeADiff() !== 0) {
+                        <span class="font-medium text-base ml-2" [ngClass]="{ 'text-green-500': storeADiff() > 0, 'text-red-500': storeADiff() < 0 }"> {{ storeADiff() > 0 ? '+' : '' }}{{ storeADiff() }} </span>
+                    }
+                </div>
+            </div>
+            <p-chart #storeA type="line" [data]="storeAData()" [options]="chartOptions" [responsive]="true"></p-chart>
+        </div>
+
+        <div class="lg:col-span-3 md:col-span-6 sm:col-span-12 col-span-12 p-0">
+            <div class="flex flex-col p-6">
+                <span class="text-muted-color mb-2">Store B Sales</span>
+                <span class="flex items-center mb-3">
+                    @if (storeBDiff() !== 0) {
+                        <i class="font-bold text-2xl! pi pr-1" [ngClass]="{ 'pi-arrow-up text-green-500': storeBDiff() > 0, 'pi-arrow-down text-red-500': storeBDiff() < 0 }"></i>
+                    }
+                    <div class="text-2xl">{{ storeBTotalValue() }}</div>
+                    @if (storeBDiff() !== 0) {
+                        <span class="font-medium text-base ml-2" [ngClass]="{ 'text-green-500': storeBDiff() > 0, 'text-red-500': storeBDiff() < 0 }"> {{ storeBDiff() > 0 ? '+' : '' }}{{ storeBDiff() }} </span>
+                    }
+                </span>
+            </div>
+            <p-chart #storeB type="line" [data]="storeBData()" [options]="chartOptions" [responsive]="true"></p-chart>
+        </div>
+        <div class="lg:col-span-3 md:col-span-6 sm:col-span-12 col-span-12 p-0">
+            <div class="flex flex-col p-6">
+                <span class="text-muted-color mb-2">Store C Sales</span>
+                <span class="flex items-center mb-3">
+                    @if (storeCDiff() !== 0) {
+                        <i class="font-bold text-2xl! pi pr-1" [ngClass]="{ 'pi-arrow-up text-green-500': storeCDiff() > 0, 'pi-arrow-down text-red-500': storeCDiff() < 0 }"></i>
+                    }
+                    <div class="text-2xl">{{ storeCTotalValue() }}</div>
+                    @if (storeCDiff() !== 0) {
+                        <span class="font-medium text-base ml-2" [ngClass]="{ 'text-green-500': storeCDiff() > 0, 'text-red-500': storeCDiff() < 0 }"> {{ storeCDiff() > 0 ? '+' : '' }}{{ storeCDiff() }} </span>
+                    }
+                </span>
+            </div>
+            <p-chart #storeC type="line" [data]="storeCData()" [options]="chartOptions" [responsive]="true"></p-chart>
+        </div>
+        <div class="lg:col-span-3 md:col-span-6 sm:col-span-12 col-span-12 p-0">
+            <div class="flex flex-col p-6">
+                <span class="text-muted-color mb-2">Store D Sales</span>
+                <span class="flex items-center mb-3">
+                    @if (storeDDiff() !== 0) {
+                        <i class="font-bold text-2xl! pi pr-1" [ngClass]="{ 'pi-arrow-up text-green-500': storeDDiff() > 0, 'pi-arrow-down text-red-500': storeDDiff() < 0 }"></i>
+                    }
+                    <div class="text-2xl">{{ storeDTotalValue() }}</div>
+                    @if (storeDDiff() !== 0) {
+                        <span class="font-medium text-base ml-2" [ngClass]="{ 'text-green-500': storeDDiff() > 0, 'text-red-500': storeDDiff() < 0 }"> {{ storeDDiff() > 0 ? '+' : '' }}{{ storeDDiff() }} </span>
+                    }
+                </span>
+            </div>
+            <p-chart #storeD type="line" [data]="storeDData()" [options]="chartOptions" [responsive]="true"></p-chart>
+        </div>
+    </div> 

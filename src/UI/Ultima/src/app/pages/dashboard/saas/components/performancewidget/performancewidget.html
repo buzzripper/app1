@@ -1,0 +1,21 @@
+﻿<div class="flex flex-col gap-4 rounded-md border h-full border-surface p-6">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <div>
+                    <i class="pi pi-chart-bar text-primary text-3xl"></i>
+                </div>
+                <div class="flex flex-col justify-between gap-1">
+                    <span class="font-bold text-surface-900 dark:text-surface-0">My Performance</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-1">
+                <div class="flex items-center justify-center gap-1 rounded-md p-2 bg-red-100 text-red-400">
+                    <i class="pi pi-arrow-down-right"></i>
+                    <span>-13%</span>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col gap-2 h-84 -mb-6 relative">
+            <p-chart height="300" type="line" [data]="basicData()" [options]="basicOptions()"></p-chart>
+        </div>
+    </div>

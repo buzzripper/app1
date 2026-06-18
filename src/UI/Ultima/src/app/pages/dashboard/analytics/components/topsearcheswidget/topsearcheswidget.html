@@ -1,0 +1,15 @@
+﻿<div class="card h-full">
+        <div class="flex items-center justify-between mb-4">
+            <span class="text-xl font-semibold m-0">Top Searches</span>
+            <div>
+                <button pButton pRipple icon="pi pi-ellipsis-h" rounded text (click)="menu.toggle($event)"></button>
+                <p-menu #menu popup [model]="items" />
+            </div>
+        </div>
+        <ng-container *ngFor="let search of searches; let i = index">
+            <div [ngClass]="{ 'flex justify-between p-4': true, 'bg-surface-50 dark:bg-surface-800': i % 2 === 0 }">
+                <span>{{ search.name }}</span>
+                <span [ngClass]="{ 'font-medium': true, 'text-green-500': search.rate >= 60, 'text-orange-500': search.rate >= 40, 'text-pink-500': search.rate < 40 }">{{ search.rate }}% CONV RATE</span>
+            </div>
+        </ng-container>
+    </div>

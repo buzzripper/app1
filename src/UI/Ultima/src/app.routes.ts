@@ -1,5 +1,5 @@
-import { Routes } from '@angular/router';
-import { AppLayout } from '@/app/layout/components/app.layout';
+﻿import { Routes } from '@angular/router';
+import { AppLayout } from '@/app/layout/components/app.layout/app.layout';
 import { authGuard } from '@/app/core/auth/guards/auth.guard';
 import { noAuthGuard } from '@/app/core/auth/guards/no-auth.guard';
 

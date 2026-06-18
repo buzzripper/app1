@@ -1,4 +1,4 @@
-import { inject } from '@angular/core';
+﻿import { inject } from '@angular/core';
 import { CanActivateChildFn, CanActivateFn, Router } from '@angular/router';
 import { map } from 'rxjs';
 import { AuthService } from '../auth.service';
@@ -9,7 +9,7 @@ export const authGuard: CanActivateFn | CanActivateChildFn = (_route, state) => 
     const router = inject(Router);
 
     if (!getTenantSlug()) {
-        return router.parseUrl('/auth/login');
+        return router.parseUrl('/auth/login/login');
     }
 
     return authService.check().pipe(

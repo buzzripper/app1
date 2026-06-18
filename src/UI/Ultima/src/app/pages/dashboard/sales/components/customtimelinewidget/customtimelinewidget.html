@@ -1,0 +1,23 @@
+﻿<div class="card h-full">
+        <div class="flex items-center justify-between mb-4">
+            <span class="font-semibold text-xl m-0">Timeline</span>
+            <div>
+                <button pButton pRipple icon="pi pi-ellipsis-h" rounded text (click)="menu.toggle($event)"></button>
+                <p-menu #menu popup [model]="items"></p-menu>
+            </div>
+        </div>
+
+        <p-timeline [value]="timelineEvents" align="left">
+            <ng-template #marker let-event>
+                <span class="shadow w-8 h-8 rounded-full flex justify-center items-center" [style.backgroundColor]="event.color">
+                    <i class="text-white" [ngClass]="event.icon"></i>
+                </span>
+            </ng-template>
+            <ng-template #content let-event>
+                <p-card styleClass="mb-4 shadow-none! border border-surface rounded-xl!" [header]="event.status" [subheader]="event.date">
+                    <img *ngIf="event.image" [src]="'/demo/images/product/' + event.image" [alt]="event.name" width="200" class="shadow-2" />
+                    <p>{{ event.description }}</p>
+                </p-card>
+            </ng-template>
+        </p-timeline>
+    </div>

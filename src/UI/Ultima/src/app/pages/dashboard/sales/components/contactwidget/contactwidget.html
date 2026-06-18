@@ -1,0 +1,23 @@
+﻿<div class="card h-full">
+        <div class="flex items-center justify-between mb-4">
+            <span class="font-semibold text-xl m-0">Contact</span>
+            <div>
+                <button pButton pRipple icon="pi pi-ellipsis-h" rounded text (click)="menu.toggle($event)"></button>
+                <p-menu #menu popup [model]="items"> </p-menu>
+            </div>
+        </div>
+        <ul class="p-0 m-0 border-0 list-none">
+            <li *ngFor="let contact of contacts" class="flex items-center py-4 justify-between">
+                <div class="flex items-center">
+                    <img [src]="contact.avatar" alt="avatar" />
+                    <div class="ml-2">
+                        <div>{{ contact.name }}</div>
+                        <small class="text-muted-color">{{ contact.email }}</small>
+                    </div>
+                </div>
+                <div class="flex gap-2">
+                    <p-tag *ngFor="let tag of contact.tags" severity="secondary">{{ tag }}</p-tag>
+                </div>
+            </li>
+        </ul>
+    </div>
