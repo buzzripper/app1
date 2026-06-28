@@ -30,29 +30,6 @@
 		<PackageReference Include="Microsoft.Extensions.ServiceDiscovery.Yarp" Version="10.7.0" />
 	</ItemGroup>
 
-	<!-- **************  START: Build configurations  **************** -->
-
-	<PropertyGroup>
-		<UseProjectRefs Condition="'$(Configuration)' == 'Debug-Local'">true</UseProjectRefs>
-		<UseProjectRefs Condition="'$(UseProjectRefs)' == ''">false</UseProjectRefs>
-		<OutputType>Exe</OutputType>
-	</PropertyGroup>
-
-	<ItemGroup Condition="'$(UseProjectRefs)' == 'true'">
-		<ProjectReference Include="..\..\..\..\app1-common\src\Common.Shared\Common.Shared.csproj" />
-		<ProjectReference Include="..\..\..\..\app1-common\src\Common.Api\Common.Api.csproj" />
-	</ItemGroup>
-	<ItemGroup Condition="'$(UseProjectRefs)' == 'false'">
-		<PackageReference Include="Dyvenix.App1.Common.Shared" Version="1.0.6" />
-		<PackageReference Include="Dyvenix.App1.Common.Api" Version="1.0.6" />
-	</ItemGroup>
-	<ItemGroup>
-		<None Update="Properties\launchSettings.json">
-			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
-		</None>
-	</ItemGroup>
-
-	<!-- **************  END: Build configurations  **************** -->
+	
 	
 </Project>

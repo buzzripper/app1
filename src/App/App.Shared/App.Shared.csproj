@@ -23,20 +23,4 @@
     <Folder Include="Requests\v1\" />
   </ItemGroup>
 
-	<!-- **************  START: Build configurations  **************** -->
-
-	<PropertyGroup>
-		<UseProjectRefs Condition="'$(Configuration)' == 'Debug-Local'">true</UseProjectRefs>
-		<UseProjectRefs Condition="'$(UseProjectRefs)' == ''">false</UseProjectRefs>
-	</PropertyGroup>
-
-	<ItemGroup Condition="'$(UseProjectRefs)' == 'true'">
-		<ProjectReference Include="..\..\..\..\app1-common\src\Common.Shared\Common.Shared.csproj" />
-	</ItemGroup>
-	<ItemGroup Condition="'$(UseProjectRefs)' == 'false'">
-		<PackageReference Include="Dyvenix.App1.Common.Shared" Version="1.0.6" />
-	</ItemGroup>
-
-	<!-- **************  END: Build configurations  **************** -->
-	
 </Project>

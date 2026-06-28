@@ -1,0 +1,26 @@
+<Project>
+	<!-- Make Debug-Local behave like a Debug build -->
+	<PropertyGroup Condition="'$(Configuration)' == 'Debug-Local'">
+		<DefineConstants>$(DefineConstants);DEBUG;TRACE</DefineConstants>
+		<Optimize>false</Optimize>
+		<DebugSymbols>true</DebugSymbols>
+		<DebugType>full</DebugType>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<UseProjectRefs Condition="'$(Configuration)' == 'Debug-Local'">true</UseProjectRefs>
+		<UseProjectRefs Condition="'$(UseProjectRefs)' == ''">false</UseProjectRefs>
+		<OutputType>Exe</OutputType>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(UseProjectRefs)' == 'true'">
+		<ProjectReference Include="..\..\..\..\app1-common\src\Common.Shared\Common.Shared.csproj" />
+		<ProjectReference Include="..\..\..\..\app1-common\src\Common.Api\Common.Api.csproj" />
+		<ProjectReference Include="..\..\..\..\app1-common\src\Common.Data\Common.Data.csproj" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(UseProjectRefs)' == 'false'">
+		<PackageReference Include="Dyvenix.App1.Common.Shared" Version="1.0.6" />
+		<PackageReference Include="Dyvenix.App1.Common.Api" Version="1.0.6" />
+		<PackageReference Include="Dyvenix.App1.Common.Data" Version="1.0.6" />
+	</ItemGroup>
+</Project>
