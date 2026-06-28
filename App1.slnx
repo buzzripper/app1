@@ -4,7 +4,6 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Folder Name="/design/" />
   <Folder Name="/docs/">
     <File Path="docs/adagent_auth.json" />
     <File Path="docs/adagent_config.json" />
