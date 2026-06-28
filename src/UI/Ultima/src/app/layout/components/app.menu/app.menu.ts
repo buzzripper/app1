@@ -1,4 +1,4 @@
-﻿import { Component, ElementRef, inject, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AppMenuitem } from '../app.menuitem/app.menuitem';
@@ -49,22 +49,22 @@ export class AppMenu {
                         {
                             label: 'Detail',
                             icon: 'pi pi-fw pi-list',
-                            routerLink: ['/apps/cms/detail/detail']
+                            routerLink: ['/apps/cms/detail']
                         },
                         {
                             label: 'Detail-2',
                             icon: 'pi pi-fw pi-list',
-                            routerLink: ['/apps/cms/detail2/detail2']
+                            routerLink: ['/apps/cms/detail2']
                         },
                         {
                             label: 'List',
                             icon: 'pi pi-fw pi-image',
-                            routerLink: ['/apps/cms/list/list']
+                            routerLink: ['/apps/cms/list']
                         },
                         {
                             label: 'Edit',
                             icon: 'pi pi-fw pi-pencil',
-                            routerLink: ['/apps/cms/edit/edit']
+                            routerLink: ['/apps/cms/edit']
                         }
                     ]
                 },
@@ -223,22 +223,22 @@ export class AppMenu {
                         {
                             label: 'Login',
                             icon: 'pi pi-fw pi-sign-in',
-                            routerLink: ['/auth/login/login']
+                            routerLink: ['/auth/login']
                         },
                         {
                             label: 'Login 2',
                             icon: 'pi pi-fw pi-sign-in',
-                            routerLink: ['/auth/login2/login2']
+                            routerLink: ['/auth/login2']
                         },
                         {
                             label: 'Error',
                             icon: 'pi pi-fw pi-times-circle',
-                            routerLink: ['/auth/error/error']
+                            routerLink: ['/auth/error']
                         },
                         {
                             label: 'Error 2',
                             icon: 'pi pi-fw pi-times-circle',
-                            routerLink: ['/auth/error2/error2']
+                            routerLink: ['/auth/error2']
                         },
                         {
                             label: 'Access Denied',
@@ -253,27 +253,27 @@ export class AppMenu {
                         {
                             label: 'Register',
                             icon: 'pi pi-fw pi-user-plus',
-                            routerLink: ['/auth/register/register']
+                            routerLink: ['/auth/register']
                         },
                         {
                             label: 'Forgot Password',
                             icon: 'pi pi-fw pi-question',
-                            routerLink: ['/auth/forgotpassword/forgotpassword']
+                            routerLink: ['/auth/forgotpassword']
                         },
                         {
                             label: 'New Password',
                             icon: 'pi pi-fw pi-cog',
-                            routerLink: ['/auth/newpassword/newpassword']
+                            routerLink: ['/auth/newpassword']
                         },
                         {
                             label: 'Verification',
                             icon: 'pi pi-fw pi-envelope',
-                            routerLink: ['/auth/verification/verification']
+                            routerLink: ['/auth/verification']
                         },
                         {
                             label: 'Lock Screen',
                             icon: 'pi pi-fw pi-eye-slash',
-                            routerLink: ['/auth/lockscreen/lockscreen']
+                            routerLink: ['/auth/lockscreen']
                         }
                     ]
                 },
