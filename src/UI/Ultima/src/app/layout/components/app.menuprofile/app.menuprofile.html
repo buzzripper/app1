@@ -1,4 +1,4 @@
-﻿<button (click)="toggleMenu()" pTooltip="Profile" [tooltipDisabled]="isTooltipDisabled()" class="cursor-pointer">
+<button (click)="toggleMenu()" pTooltip="Profile" [tooltipDisabled]="isTooltipDisabled()" class="cursor-pointer">
             <img [src]="user()?.avatar || '/demo/images/avatar/amyelsner.png'" alt="avatar" style="width: 32px; height: 32px;" />
             <span class="text-start">
                 <strong>{{ user()?.name || 'Guest user' }}</strong>
@@ -28,10 +28,12 @@
                     </button>
                 </li>
                 <li pTooltip="Logout" [tooltipDisabled]="isTooltipDisabled()">
-                    <button class="cursor-pointer p-link" (click)="signOut()">
+                    <button class="cursor-pointer p-link" (click)="confirmSignOut($event)">
                         <i class="pi pi-power-off pi-fw"></i>
                         <span>Logout</span>
                     </button>
                 </li>
             </ul>
         }
+
+        <p-confirmpopup key="menuprofile-signout"></p-confirmpopup>

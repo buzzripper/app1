@@ -1,20 +1,23 @@
-﻿import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { LayoutService } from '@/app/layout/service/layout.service';
+import { ConfirmationService } from 'primeng/api';
 import { TooltipModule } from 'primeng/tooltip';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { AuthService } from '@/app/core/auth/auth.service';
 import { UserService } from '@/app/core/user/user.service';
 
 @Component({
     selector: '[app-menu-profile]',
     standalone: true,
-    imports: [CommonModule, TooltipModule, ButtonModule, RouterModule],
+    imports: [CommonModule, TooltipModule, ButtonModule, RouterModule, ConfirmPopupModule],
     templateUrl: './app.menuprofile.html',
     host: {
         class: 'layout-menu-profile'
     },
+    providers: [ConfirmationService],
     styles: [
         `
             /* Menu Profile Enter Animation */
@@ -89,6 +92,7 @@ export class AppMenuProfile {
     layoutService = inject(LayoutService);
     private readonly authService = inject(AuthService);
     private readonly userService = inject(UserService);
+    private readonly confirmationService = inject(ConfirmationService);
 
     isHorizontal = computed(() => this.layoutService.isHorizontal() && this.layoutService.isDesktop());
 
@@ -111,7 +115,23 @@ export class AppMenuProfile {
         this.layoutService.onMenuProfileToggle();
     }
 
-    signOut(): void {
-        this.authService.signOut();
+    confirmSignOut(event: Event): void {
+        this.confirmationService.confirm({
+            key: 'menuprofile-signout',
+            target: event.target as EventTarget,
+            message: 'Are you sure you want to log out of the program?',
+            rejectButtonProps: {
+                label: 'Cancel',
+                severity: 'secondary',
+                outlined: true
+            },
+            acceptButtonProps: {
+                label: 'Log Out',
+                severity: 'danger'
+            },
+            accept: () => {
+                this.authService.signOut();
+            }
+        });
     }
 }
