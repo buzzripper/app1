@@ -1,5 +1,5 @@
-﻿import { Component, computed, ElementRef, inject, ViewChild } from '@angular/core';
-import { MegaMenuItem } from 'primeng/api';
+import { Component, computed, ElementRef, inject, ViewChild } from '@angular/core';
+import { ConfirmationService, MegaMenuItem } from 'primeng/api';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { StyleClassModule } from 'primeng/styleclass';
@@ -11,13 +11,14 @@ import { FormsModule } from '@angular/forms';
 import { MegaMenuModule } from 'primeng/megamenu';
 import { BadgeModule } from 'primeng/badge';
 import { OverlayBadge } from 'primeng/overlaybadge';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { AuthService } from '@/app/core/auth/auth.service';
 import { UserService } from '@/app/core/user/user.service';
 
 @Component({
     selector: '[app-topbar]',
     standalone: true,
-    imports: [RouterModule, CommonModule, StyleClassModule, FormsModule, Ripple, InputText, ButtonModule, MegaMenuModule, BadgeModule, OverlayBadge],
+    imports: [RouterModule, CommonModule, StyleClassModule, FormsModule, Ripple, InputText, ButtonModule, MegaMenuModule, BadgeModule, OverlayBadge, ConfirmPopupModule],
     templateUrl: './app.topbar.html',
     host: {
         class: 'layout-topbar'
@@ -26,12 +27,14 @@ import { UserService } from '@/app/core/user/user.service';
         :host ::ng-deep .p-overlaybadge .p-badge {
             outline-width: 0px;
         }
-    `
+    `,
+    providers: [ConfirmationService]
 })
 export class AppTopbar {
     layoutService = inject(LayoutService);
     private readonly authService = inject(AuthService);
     private readonly userService = inject(UserService);
+    private readonly confirmationService = inject(ConfirmationService);
 
     @ViewChild('searchInput') searchInput!: ElementRef<HTMLInputElement>;
 
@@ -140,7 +143,23 @@ export class AppTopbar {
         this.layoutService.layoutState.update((val) => ({ ...val, topbarMenuActive: !val.topbarMenuActive }));
     }
 
-    signOut(): void {
-        this.authService.signOut();
+    confirmSignOut(event: Event): void {
+        this.confirmationService.confirm({
+            key: 'topbar-signout',
+            target: event.target as EventTarget,
+            message: 'Are you sure you want to log out of the program?',
+            rejectButtonProps: {
+                label: 'Cancel',
+                severity: 'secondary',
+                outlined: true
+            },
+            acceptButtonProps: {
+                label: 'Log Out',
+                severity: 'danger'
+            },
+            accept: () => {
+                this.authService.signOut();
+            }
+        });
     }
 }

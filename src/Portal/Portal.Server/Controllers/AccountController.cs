@@ -1,4 +1,4 @@
-﻿using Dyvenix.App1.Portal.Server.Services;
+using Dyvenix.App1.Portal.Server.Services;
 
 namespace App1.App1.Portal.Server.Controllers;
 
@@ -35,13 +35,19 @@ public class AccountController : ControllerBase
 
         // Retrieve id_token from server-side cache for id_token_hint
         var sessionId = User.FindFirst("token_session_id")?.Value;
+        _logger.LogDebug("Logout: sessionId={SessionId}", sessionId ?? "(null — token_session_id claim missing from cookie)");
         if (!string.IsNullOrEmpty(sessionId))
         {
             var idToken = await _tokenCacheService.GetIdTokenAsync(sessionId);
+            _logger.LogDebug("Logout: idToken={IdTokenStatus}", string.IsNullOrEmpty(idToken) ? "null/empty (cache miss or stored as null)" : "present");
             if (!string.IsNullOrEmpty(idToken))
             {
                 properties.Parameters["id_token_hint"] = idToken;
-                _logger.LogInformation("Logout with id_token_hint");
+                _logger.LogInformation("Logout: id_token_hint set, auth server will auto-proceed");
+            }
+            else
+            {
+                _logger.LogWarning("Logout: id_token not found in cache for session {SessionId} — confirmation page will be shown", sessionId);
             }
 
             // Clear cached tokens

@@ -107,6 +107,14 @@ services.AddAuthentication(options =>
 
 			return Task.CompletedTask;
 		},
+		OnRedirectToIdentityProviderForSignOut = context =>
+		{
+			var idTokenHint = context.Properties.GetParameter<string>("id_token_hint");
+			if (!string.IsNullOrEmpty(idTokenHint))
+				context.ProtocolMessage.IdTokenHint = idTokenHint;
+
+			return Task.CompletedTask;
+		},
 		OnTokenValidated = async context =>
 		{
 			var tokenResponse = context.TokenEndpointResponse;
